@@ -11,7 +11,7 @@ namespace MainMikitani.Domain.Models.Restaurant
     {
         public DateTime DateJoined { get; set; }
         public string Location { get; set; }
-        public string Adress { get; set; }
+        public string Address { get; set; }
         public int ManagerId { get; set; }
         public string ManagerPhone { get; set; }
         public int BusinessTypeId { get; set; }
