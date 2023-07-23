@@ -6,7 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MainMikitani.Domain.Models {
-    internal class RestaurantModel : IdentityUser<int> {
+namespace MainMikitani.Domain.Models.Restaurant
+{
+    public class Restaurant : IdentityUser<int>
+    {
+
     }
 }
