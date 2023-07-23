@@ -7,6 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Restaurant\Registration\Models\" />
+    <Folder Include="Features\Restaurant\Registration\Commands\" />
+    <Folder Include="Features\Restaurant\Registration\Queries\" />
     <Folder Include="Features\Customer\Registration\Models\" />
     <Folder Include="Features\Customer\Registration\Commands\" />
     <Folder Include="Features\Customer\Registration\Queries\" />
