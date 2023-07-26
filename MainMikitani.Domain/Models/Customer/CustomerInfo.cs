@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MainMikitani.Domain.Models.Customer
+namespace MainMikitan.Domain.Models.Customer
 {
     public class CustomerInfo
     {

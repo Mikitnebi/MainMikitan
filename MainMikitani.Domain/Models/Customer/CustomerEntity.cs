@@ -1,15 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MainMikitani.Domain.Models.Restaurant
+namespace MainMikitan.Domain.Models.Customer
 {
-    public class Restaurant : IdentityUser<int>
+    public class CustomerEntity : IdentityUser<int>
     {
-
     }
 }

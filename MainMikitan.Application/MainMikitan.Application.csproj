@@ -7,13 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Customer\Queries\" />
     <Folder Include="Features\Restaurant\Registration\Models\" />
     <Folder Include="Features\Restaurant\Registration\Commands\" />
     <Folder Include="Features\Restaurant\Registration\Queries\" />
-    <Folder Include="Features\Customer\Registration\Models\" />
-    <Folder Include="Features\Customer\Registration\Commands\" />
-    <Folder Include="Features\Customer\Registration\Queries\" />
     <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MainMikitani.Domain\MainMikitan.Domain.csproj" />
   </ItemGroup>
 
 </Project>

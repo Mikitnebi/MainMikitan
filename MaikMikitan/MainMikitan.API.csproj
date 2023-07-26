@@ -7,12 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Cqrs" Version="4.4.1.24" />
+    <PackageReference Include="MediatR" Version="12.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="MidleWearHandler\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MainMikitan.Application\MainMikitan.Application.csproj" />
+    <ProjectReference Include="..\MainMikitani.Domain\MainMikitan.Domain.csproj" />
   </ItemGroup>
 
 </Project>

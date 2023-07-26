@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MainMikitani.Domain.Models.Restaurant
+namespace MainMikitan.Domain.Models.Restaurant
 {
     public class RestaurantAnalytics
     {
