@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MainMikitan.Domain.Models.Restaurant
 {
-    public class Restaurant : IdentityUser<int>
+    public class RestaurantEntity
     {
 
     }

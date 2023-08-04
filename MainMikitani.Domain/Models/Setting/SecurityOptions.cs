@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace MainMikitan.Domain.Models.Setting
 {
-    public class ConnectionStringsOptions
+    public class SecurityOptions
     {
-        public string MainMik { get; set; }
-        public string ExternalServicesLog { get; set; }
+        public string Key { get; set; }
     }
 }

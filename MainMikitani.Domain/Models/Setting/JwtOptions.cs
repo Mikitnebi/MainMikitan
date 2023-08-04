@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace MainMikitan.Domain.Models.Setting
 {
-    public class ConnectionStringsOptions
+    public class JwtOptions
     {
-        public string MainMik { get; set; }
-        public string ExternalServicesLog { get; set; }
     }
 }

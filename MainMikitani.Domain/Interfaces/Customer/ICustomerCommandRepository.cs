@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace MainMikitan.Domain.Interfaces.Customer
 {
-    public interface ICustomerQueryRepository
+    public interface ICustomerCommandRepository
     {
-        Task<CustomerEntity> GetByEmail(string email);
+        Task<int> Create(CustomerEntity entity);
     }
 }

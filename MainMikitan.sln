@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MainMikitan.Cache", "MainMi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MainMikitan.Common", "MainMikitan.Common\MainMikitan.Common.csproj", "{1E1FEB70-66CA-4993-A268-33F6E9931CED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainMikitan.ExternalServicesAdapter", "MainMikitan.ExternalServicesAdapter\MainMikitan.ExternalServicesAdapter.csproj", "{CA237206-DFC8-489D-8855-682E154601F0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{1E1FEB70-66CA-4993-A268-33F6E9931CED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E1FEB70-66CA-4993-A268-33F6E9931CED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E1FEB70-66CA-4993-A268-33F6E9931CED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA237206-DFC8-489D-8855-682E154601F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA237206-DFC8-489D-8855-682E154601F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA237206-DFC8-489D-8855-682E154601F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA237206-DFC8-489D-8855-682E154601F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,6 +75,7 @@ Global
 		{8ED7B002-8E99-483A-A2E9-0A54BA2AB00E} = {6A8B255A-2481-4CC5-8F86-2F1C382ABD60}
 		{F1795133-2F3C-4C84-8B9B-49F9BC6DAD48} = {6A8B255A-2481-4CC5-8F86-2F1C382ABD60}
 		{1E1FEB70-66CA-4993-A268-33F6E9931CED} = {6A8B255A-2481-4CC5-8F86-2F1C382ABD60}
+		{CA237206-DFC8-489D-8855-682E154601F0} = {6A8B255A-2481-4CC5-8F86-2F1C382ABD60}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D2A0970-1C41-4948-8CC2-CC14836E014C}

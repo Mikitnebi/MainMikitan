@@ -13,6 +13,7 @@ namespace MainMikitan.Domain.Requests
         public DateTime BirthDate { get; set; }
         [EmailAddress]
         public string Email { get; set; }
+        public int GenderId { get; set; }
         public string MobileNumber { get; set; }
         public string Password { get; set; }
     }
