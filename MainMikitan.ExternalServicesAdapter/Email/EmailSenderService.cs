@@ -43,7 +43,7 @@ namespace MainMikitan.ExternalServicesAdapter.Email
                 var body = email.Body;
                 if (emailBuilder.Count() != email.ReplacementQuantity)
                 {
-                    throw new Exception("არა საკმარისი ჩასანაცვნელებელი მნიშვნელობები ემაილის ასაწყობად.");
+                    throw new Exception("არა საკმარისი ჩასანაცვნელებელი მნიშვნელობები ემაილის ასაწყობად");
                 }
                 foreach (var replace in emailBuilder.Get())
                 {

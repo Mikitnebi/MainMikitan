@@ -23,7 +23,7 @@ namespace MainMikitan.API.Controllers {
             //???
             if(ModelState.IsValid)
             {
-                var result = await _mediator.Send(new CustomerEmailSenderRegistrationCommand(email));
+                var result = await _mediator.Send(new CustomerIntroRegistrationCommand(email));
                 if (result.HasError) return BadRequest(result);
                 return Ok(result);
             }

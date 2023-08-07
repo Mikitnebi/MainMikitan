@@ -15,14 +15,14 @@ using static MainMikitan.ExternalServicesAdapter.Email.EmailSenderService;
 
 namespace MainMikitan.Application.Features.Customer.Commands
 {
-    public class CustomerEmailSenderRegistrationCommand : IRequest<ResponseModel<bool>>
+    public class CustomerIntroRegistrationCommand : IRequest<ResponseModel<bool>>
     {
         public string _email { get; set; }
-        public CustomerEmailSenderRegistrationCommand(string email)
+        public CustomerIntroRegistrationCommand(string email)
         {
             _email = email;
         }
-        public class CustomerEmailSenderRegistrationCommandHandler : IRequestHandler<CustomerEmailSenderRegistrationCommand, ResponseModel<bool>>
+        public class CustomerEmailSenderRegistrationCommandHandler : IRequestHandler<CustomerIntroRegistrationCommand, ResponseModel<bool>>
         {
             private readonly IEmailSenderService _emailSenderService;
             private readonly ICustomerQueryRepository _customerQueryRepository;
@@ -39,7 +39,7 @@ namespace MainMikitan.Application.Features.Customer.Commands
             }
 
 
-            public async Task<ResponseModel<bool>> Handle(CustomerEmailSenderRegistrationCommand request, CancellationToken cancellationToken)
+            public async Task<ResponseModel<bool>> Handle(CustomerIntroRegistrationCommand request, CancellationToken cancellationToken)
             {
                 var response = new ResponseModel<bool>();
                 var email = request._email;

@@ -25,7 +25,7 @@ builder.Services.AddSwaggerGen();
 //builder.Services.AddMediatR(typeof(CustomerRegistrationCommand).GetTypeInfo().Assembly);
 //builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
 //builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly(), typeof(CustomerEmailSenderRegistrationCommand).Assembly));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly(), typeof(CustomerIntroRegistrationCommand).Assembly));
 builder.Services.AddScoped<ICustomerQueryRepository, CustomerQueryRepository>();
 builder.Services.AddScoped<ICustomerCommandRepository, CustomerCommandRepository>();
 builder.Services.AddScoped<IEmailSenderCommandRepository, EmailSenderCommandRepository>(); 
