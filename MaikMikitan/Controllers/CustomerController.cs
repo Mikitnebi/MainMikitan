@@ -3,6 +3,7 @@ using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using MainMikitan.Application.Features.Customer.Commands;
 
 namespace MainMikitan.API.Controllers {
     [ApiController]
@@ -23,7 +24,7 @@ namespace MainMikitan.API.Controllers {
             //???
             if(ModelState.IsValid)
             {
-                var result = await _mediator.Send(new CustomerIntroRegistrationCommand(email));
+                var result = await _mediator.Send(new CustomerEmailSenderRegistrationCommand(email));
                 if (result.HasError) return BadRequest(result);
                 return Ok(result);
             }
