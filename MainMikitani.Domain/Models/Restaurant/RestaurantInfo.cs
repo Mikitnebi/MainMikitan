@@ -35,8 +35,5 @@ namespace MainMikitan.Domain.Models.Restaurant
         public bool SmokingSpace { get; set; }
         public bool SmokingInTheHall { get; set; }
 
-
-
-
     }
 }

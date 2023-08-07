@@ -29,6 +29,9 @@ namespace MainMikitan.Domain
             Female = 0,
             Male = 1
         }
+        public enum RegionId { 
+            Tbilisi = 1
+        }
     }
     public class ErrorType
     {

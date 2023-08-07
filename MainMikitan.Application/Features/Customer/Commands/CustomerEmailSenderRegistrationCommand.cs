@@ -13,43 +13,37 @@ using System.Text;
 using System.Threading.Tasks;
 using static MainMikitan.ExternalServicesAdapter.Email.EmailSenderService;
 
-namespace MainMikitan.Application.Features.Customer.Commands
-{
-    public class CustomerEmailSenderRegistrationCommand : IRequest<ResponseModel<bool>>
-    {
+namespace MainMikitan.Application.Features.Customer.Commands {
+    public class CustomerEmailSenderRegistrationCommand : IRequest<ResponseModel<bool>> {
         public string _email { get; set; }
-        public CustomerEmailSenderRegistrationCommand(string email)
-        {
+        public CustomerEmailSenderRegistrationCommand(string email) {
             _email = email;
         }
-        public class CustomerEmailSenderRegistrationCommandHandler : IRequestHandler<CustomerEmailSenderRegistrationCommand, ResponseModel<bool>>
-        {
-            private readonly IEmailSenderService _emailSenderService;
-            private readonly ICustomerQueryRepository _customerQueryRepository;
-            private readonly ICustomerCommandRepository _customerCommandRepository;
-            public CustomerEmailSenderRegistrationCommandHandler(
-                IEmailSenderService emailSenderService,
-                ICustomerQueryRepository customerQueryRepository,
-                ICustomerCommandRepository customerCommandRepository
-                )
-            {
-                _emailSenderService = emailSenderService;
-                _customerCommandRepository = customerCommandRepository;
-                _customerQueryRepository = customerQueryRepository;
-            }
+    }
+    public class CustomerEmailSenderRegistrationCommandHandler : IRequestHandler<CustomerEmailSenderRegistrationCommand, ResponseModel<bool>> {
+        private readonly IEmailSenderService _emailSenderService;
+        private readonly ICustomerQueryRepository _customerQueryRepository;
+        private readonly ICustomerCommandRepository _customerCommandRepository;
+        public CustomerEmailSenderRegistrationCommandHandler(
+            IEmailSenderService emailSenderService,
+            ICustomerQueryRepository customerQueryRepository,
+            ICustomerCommandRepository customerCommandRepository
+            ) {
+            _emailSenderService = emailSenderService;
+            _customerCommandRepository = customerCommandRepository;
+            _customerQueryRepository = customerQueryRepository;
+        }
 
 
-            public async Task<ResponseModel<bool>> Handle(CustomerEmailSenderRegistrationCommand request, CancellationToken cancellationToken)
-            {
-                var response = new ResponseModel<bool>();
-                var email = request._email;
-                var link = "...";
-                var emailBuilder = new EmailBuilder();
-                emailBuilder.AddReplacement("{{link}}", link);
-                var emailSenderResult = await _emailSenderService.SendEmailAsync(email, emailBuilder, EmailType.CustomerRegistrationEmail);
-                response.Result = true;
-                return response;
-            }
+        public async Task<ResponseModel<bool>> Handle(CustomerEmailSenderRegistrationCommand request, CancellationToken cancellationToken) {
+            var response = new ResponseModel<bool>();
+            var email = request._email;
+            var link = "...";
+            var emailBuilder = new EmailBuilder();
+            emailBuilder.AddReplacement("{{link}}", link);
+            var emailSenderResult = await _emailSenderService.SendEmailAsync(email, emailBuilder, EmailType.CustomerRegistrationEmail);
+            response.Result = true;
+            return response;
         }
     }
 }

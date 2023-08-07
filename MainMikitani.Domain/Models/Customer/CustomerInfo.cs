@@ -8,7 +8,7 @@ namespace MainMikitan.Domain.Models.Customer
 {
     public class CustomerInfo
     {
-        public bool Gender { get;set; }
+        public bool GenderId { get; set; }
         public DateTime BirthDate { get; set; }
         public int NationalityId { get; set; }
         public int InterestCuisineId { get; set; }
