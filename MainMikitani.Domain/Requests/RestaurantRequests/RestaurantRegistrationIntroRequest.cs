@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MainMikitan.Domain.Models.Restaurant
-{
-    public class RestaurantIntro
-    {
+namespace MainMikitan.Domain.Requests.RestaurantRequests {
+    public class RestaurantRegistrationIntroRequest {
         public int Id { get; set; }
         public bool Verification { get; set; }
         public string BusinessName { get; set; }
