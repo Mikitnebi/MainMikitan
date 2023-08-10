@@ -15,6 +15,7 @@ namespace MainMikitan.API.Controllers {
         public RestaurantController(IMediator mediator) {
             _mediator = mediator;
         }
+        #region Registration
         [HttpPost]
         [Route("registration")]
         public async Task<IActionResult> RestaurantRegistration(RestaurantRegistrationIntroRequest request) {
@@ -34,5 +35,6 @@ namespace MainMikitan.API.Controllers {
             }
             return BadRequest(ModelState);
         }
+        #endregion
     }
 }

@@ -1,5 +1,6 @@
 ﻿using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Requests.RestaurantRequests;
+using MainMikitan.Application.Features.Customer.Commands;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -10,12 +11,14 @@ using System.Threading.Tasks;
 
 namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
     public class RestaurantRegistrationIntroCommand : IRequest<ResponseModel<bool>> {
-        public RestaurantRegistrationIntroRequest _restaurantRegistrationIntroRequest { get; set; }     
+        public RestaurantRegistrationIntroRequest _restaurantRegistrationIntroRequest { get; set; } 
+        
         public RestaurantRegistrationIntroCommand(RestaurantRegistrationIntroRequest request) {
             _restaurantRegistrationIntroRequest = request;
         }
     }
     public class RestaurantRegistrationIntroCommandHandler : IRequestHandler<RestaurantRegistrationIntroCommand, ResponseModel<bool>> {
+        
         public RestaurantRegistrationIntroCommandHandler()
         {
             
