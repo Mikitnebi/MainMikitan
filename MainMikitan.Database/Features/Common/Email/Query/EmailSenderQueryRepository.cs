@@ -22,11 +22,11 @@ namespace MainMikitan.Database.Features.Common.Query
         {
             _connectionStrings = connectionStrings.Value;
         }
-        public async Task<EmailEntity> GetEmailById(int emailTypeId)
+        public async Task<EmailDictionaryEntity> GetEmailById(int emailTypeId)
         {
             using var connection = new SqlConnection(_connectionStrings.MainMik);
-            var sqlCommand = "SELEFT * FROM [dbo].[EmailDictionary] WHERE [Id] = @emailTypeId";
-            var result = await connection.QuerySingleOrDefaultAsync<EmailEntity>(sqlCommand, emailTypeId);
+            var sqlCommand = "SELECT * FROM [dbo].[EmailDictionary] WHERE [Id] = @id";
+            var result = await connection.QuerySingleOrDefaultAsync<EmailDictionaryEntity>(sqlCommand, new { id = emailTypeId });
             return result;
         }
     }

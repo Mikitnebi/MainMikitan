@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using MainMikitan.Domain.Models.Setting;
 using Microsoft.Extensions.Options;
 using MainMikitan.Domain.Interfaces.Common;
+using System.Text.Json;
 
 namespace MainMikitan.ExternalServicesAdapter.Email
 {
@@ -49,13 +50,18 @@ namespace MainMikitan.ExternalServicesAdapter.Email
                 {
                     if (email.Body.IndexOf(replace.Key) < 0)
                         throw new Exception("არსწორი ჩასანაცვნელებელი მნიშვნელობები ემაილის ასაწყობად.");
-                    email.Body = email.Body.Replace(replace.Key, replace.Value);
+                    body = body.Replace(replace.Key, replace.Value);
                 }
                 using (var mailMessage = new MailMessage(_emailSenderConfig.SenderEmail, recipientEmail, subject, body))
                 {
                     await smtpClient.SendMailAsync(mailMessage);
                 }
-                var log = await _emailLogCommandRepository.Create(email.Id, userId, userTypeId);
+                string data = JsonSerializer.Serialize(emailBuilder.Get(), new JsonSerializerOptions
+                {
+                    WriteIndented = true
+                });
+
+                var log = await _emailLogCommandRepository.Create(email.Id, userId, userTypeId, data);
                 return true;
             }
         }

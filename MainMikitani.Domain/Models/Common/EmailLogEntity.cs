@@ -12,6 +12,7 @@ namespace MainMikitan.Domain.Models.Common
         public int UserId { get; set; }
         public int UserTypeId { get; set; }
         public int EmailTypeId { get; set; }
-        public DateTime CreateAt { get; set; }
+        public string Data { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

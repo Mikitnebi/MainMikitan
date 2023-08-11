@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace MainMikitan.Domain.Requests
 {
-    public class CustomerRegistrationRequest
+    public record CustomerRegistrationRequest
     {
         public string FullName { get; set; }
         public DateTime BirthDate { get; set; }
         [EmailAddress]
         public string Email { get; set; }
-        public int GenderId { get; set; }
         public string MobileNumber { get; set; }
         public string Password { get; set; }
+        public bool RequiredOptions { get; set; }
     }
 }

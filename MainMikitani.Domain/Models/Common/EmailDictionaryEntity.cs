@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MainMikitan.Domain.Models.Common
 {
-    public class EmailEntity
+    public class EmailDictionaryEntity
     {
         public int Id { get; set; }
         public string Body { get; set; }

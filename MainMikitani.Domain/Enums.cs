@@ -22,7 +22,9 @@ namespace MainMikitan.Domain
             NoneVerified = 0,
             Verified = 1,
             Blocked = 2,
-            Paused = 3
+            Paused = 3,
+            OnlyEmailVerified = 4,
+            OnlyMobileVerified = 5
         }
         public enum GenderId
         {

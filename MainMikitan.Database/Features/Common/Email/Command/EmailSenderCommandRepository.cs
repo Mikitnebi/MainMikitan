@@ -10,14 +10,14 @@ using System.Text;
 using System.Threading.Tasks;
 using static MainMikitan.Domain.Enums;
 
-namespace MainMikitan.Database.Features.Common.Command
+namespace MainMikitan.Database.Features.Common.Email.Command
 {
     public class EmailSenderCommandRepository : IEmailSenderCommandRepository
     {
         public readonly ConnectionStringsOptions _emailSenderConfig;
         public EmailSenderCommandRepository(
             IOptions<ConnectionStringsOptions> emailSenderConfig
-            ) 
+            )
         {
             _emailSenderConfig = emailSenderConfig.Value;
         }
