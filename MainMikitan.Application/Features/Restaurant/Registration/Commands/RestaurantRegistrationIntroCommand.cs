@@ -10,6 +10,11 @@ using System.Text;
 using System.Threading.Tasks;
 using MainMikitan.Common.Validations;
 using FluentEmail.Core;
+using MainMikitan.Database.Features.Restaurant.Command;
+using MainMikitan.Domain.Models.Customer;
+using System.Threading.Tasks.Sources;
+using MainMikitan.Domain.Models.Restaurant;
+using MainMikitan.Domain;
 
 namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
     public class RestaurantRegistrationIntroCommand : IRequest<ResponseModel<bool>> {
@@ -20,10 +25,10 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
         }
     }
     public class RestaurantRegistrationIntroCommandHandler : IRequestHandler<RestaurantRegistrationIntroCommand, ResponseModel<bool>> {
-        
-        public RestaurantRegistrationIntroCommandHandler()
-        {
+        private readonly IRestaurantIntroCommandRepository _restaurantIntroCommandRepository;
 
+        public RestaurantRegistrationIntroCommandHandler(IRestaurantIntroCommandRepository restaurantIntroCommandRepository) {
+            _restaurantIntroCommandRepository = restaurantIntroCommandRepository;
         }
 
         public async Task<ResponseModel<bool>> Handle(RestaurantRegistrationIntroCommand command, CancellationToken cancellationToken) {
@@ -32,11 +37,21 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
             try {
                 var validation = RestaurantIntroRequestsValidation.Registration(registrtationRequest);
                 if (validation.HasError) return validation;
-                
-            } catch (Exception ex) { 
-            
+
+                var createRestaurantResult = await _restaurantIntroCommandRepository.Create(new RestaurantIntroEntity {
+                    PhoneNumber = registrtationRequest.PhoneNumber,
+                    RegionId = registrtationRequest.RegionId,
+                    EmailAdress = registrtationRequest.EmailAdress,
+                    BusinessName = registrtationRequest.PhoneNumber,
+                    
+                });
+                response.Result = true;
+                return response;
+            } catch (Exception ex) {
+                response.ErrorType = ErrorType.UnExpectedException;
+                response.ErrorMessage = ex.Message;
+                return response;
             }
-            throw new NotImplementedException();
         }
     }
 }
