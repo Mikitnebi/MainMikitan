@@ -28,7 +28,7 @@ namespace MainMikitan.API.Controllers {
         }
 
         [HttpPost]
-        [Route("email-validation")]
+        [Route("intro-validation")]
         public async Task<IActionResult> RestaurantValidation(string email) {
             if (ModelState.IsValid) {
 
