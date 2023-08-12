@@ -21,6 +21,7 @@ using MainMikitan.ExternalServicesAdapter.Email;
 using MainMikitan.Database.Features.Common.Otp.Interfaces;
 using MainMikitan.Domain.Models.Setting;
 using Microsoft.Extensions.Options;
+using static MainMikitan.Domain.Enums;
 
 namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
     public class RestaurantRegistrationIntroCommand : IRequest<ResponseModel<bool>> {
@@ -59,6 +60,8 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
                 emailBuilder.AddReplacement("{OTP}", otp);
                 var emailSenderResult = await _emailSenderService.SendEmailAsync(email, emailBuilder, EmailType.CustomerRegistrationEmail);
                 var otpLogResult = await _otpLogCommandRepository.Create(new Domain.Models.Common.OtpLogIntroEntity {
+                    UserTypeId = (int)UserTypeId.RestaurantIntro,
+                    Otp = otp,
                     EmailAddress = email,
                     NumberOfTrialsIsRequired = false,
                     ValidationTime = _otpConfig.IntroValidationTime

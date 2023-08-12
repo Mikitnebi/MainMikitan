@@ -35,7 +35,7 @@ namespace MainMikitan.Domain
         public enum UserTypeId
         {
             CustomerIntro = 0,
-            customer = 1,
+            Customer = 1,
             CompanyIntro = 2,
             Company = 3,
             RestaurantIntro = 4, 
