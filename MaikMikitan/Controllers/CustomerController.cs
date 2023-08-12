@@ -4,6 +4,7 @@ using MainMikitan.Domain.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MainMikitan.Application.Features.Customer.Commands;
+using MainMikitan.Domain.Requests.Customer;
 
 namespace MainMikitan.API.Controllers {
     [ApiController]
@@ -37,12 +38,16 @@ namespace MainMikitan.API.Controllers {
 
         [HttpPost]
         [Route("customer-email-validation")]
-        public async Task<IActionResult> CustomerEmailValidation(string email)
+        public async Task<IActionResult> CustomerRegistationVerifyOtp(CustomerRegistrationVerifyOtpRequest model)
         {
             //???
             if(ModelState.IsValid)
             {
-                var result = await _mediator.Send(new CustomerEmailSenderRegistrationCommand(email));
+                var result = await _mediator.Send(new CustomerRegistrationVerifyOtpCommand(new Domain.Requests.Customer.CustomerRegistrationVerifyOtpRequest
+                {
+                    Email = model.Email,
+                    Otp = model.Otp
+                }));
                 if (result.HasError) return BadRequest(result);
                 return Ok(result);
             }

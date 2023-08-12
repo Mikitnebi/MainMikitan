@@ -21,7 +21,8 @@ namespace MainMikitan.Domain
         {
             NoneVerified = 0,
             WrongAttempt = 1,
-            Success = 2
+            NotValid = 2,
+            Success = 3
         }
         public enum CustomerStatusId
         {
@@ -60,6 +61,13 @@ namespace MainMikitan.Domain
         public static readonly string UnExpectedException = "EXCEPTION";
         public static readonly string AlreadyUsedEmail = "ALREADY_USED_EMAILADDRESS";
         public static readonly string AlreadyUsedMobileNumber = "ALREADY_USED_MOBILENUMBER";
+
+        public static readonly string EmailNotFound = "EMAIL_NOT_FOUND";
+        public static readonly string AlreadyUsedOtp = "ALREADY_USED_OTP";
+        public static readonly string NotValidOtp = "NOT_VALID_OTP";
+        public static readonly string NotCorrectOtp = "NOT_CORRECT_OTP";
+        public static readonly string CustomerNotUpdated = "CUSTOMER_NOT_UPDATED";
+        public static readonly string OtpNotUpdated = "OTP_NOT_UPDATED";
     }
     public class EmailType {
         public static readonly int CustomerRegistrationEmail = 1;

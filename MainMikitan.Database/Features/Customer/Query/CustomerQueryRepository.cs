@@ -40,7 +40,7 @@ namespace MainMikitan.Database.Features.Customer
         {
             using var connection = new SqlConnection(_connectionString.MainMik);
 
-            var sqlCommand = "SELECT * FROM [dbo].[Customers] WHERE [EmailAddress] = @email AND [StatusId] = '0'";
+            var sqlCommand = "SELECT * FROM [dbo].[Customers] WHERE [EmailAddress] = @email AND [StatusId] = '0' ORDER BY [CreatedAt] DESC";
             return await connection.QueryFirstOrDefaultAsync<CustomerEntity>(sqlCommand, new { email });
         }
     }
