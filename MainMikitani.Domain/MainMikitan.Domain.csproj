@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\Restaurant\" />
     <Folder Include="Models\Company\" />
   </ItemGroup>
 

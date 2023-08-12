@@ -5,7 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace MainMikitan.Database.Features.Restaurant.Command {
-    public class RestaurantIntroCommandRepository {
+    public class RestaurantIntroCommandRepository : IRestaurantIntroCommandRepository {
+
 
     }
 }

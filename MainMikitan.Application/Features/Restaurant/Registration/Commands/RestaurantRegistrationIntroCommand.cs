@@ -21,10 +21,17 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
         
         public RestaurantRegistrationIntroCommandHandler()
         {
-            
+
         }
 
-        public Task<ResponseModel<bool>> Handle(RestaurantRegistrationIntroCommand request, CancellationToken cancellationToken) {
+        public Task<ResponseModel<bool>> Handle(RestaurantRegistrationIntroCommand command, CancellationToken cancellationToken) {
+            var response = new ResponseModel<bool>;
+            var registrtationRequest = command._restaurantRegistrationIntroRequest;
+            try {
+                
+            } catch (Exception ex) { 
+            
+            }
             throw new NotImplementedException();
         }
     }

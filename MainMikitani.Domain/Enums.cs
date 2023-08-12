@@ -35,6 +35,7 @@ namespace MainMikitan.Domain
     }
     public class ErrorType
     {
+        //Customers
         public static readonly string NotCorrectMobileNumberType = "NOT_CORRECT_MODILE_NUMBER_TYPE";
         public static readonly string NotCorrectPasswordType = "NOT_CORRECT_PASSWORD_TYPE";
         public static readonly string NotCorrectGenderIdType = "NOT_CORRECT_GENDERID_TYPE";
@@ -42,6 +43,10 @@ namespace MainMikitan.Domain
         public static readonly string UserIsNotAdult = "USER_IS_NOT_ADULT";
         public static readonly string UnExpectedException = "Exception";
         public static readonly string AlreadyUsedEmail = "Already_Used_Email";
+
+        //Restaurants
+
+
     }
     public class EmailType {
         public static readonly int CustomerRegistrationEmail = 1;
