@@ -31,7 +31,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly(), typeof(CustomerEmailSenderRegistrationCommand).Assembly));
 builder.Services.AddScoped<ICustomerQueryRepository, CustomerQueryRepository>();
 builder.Services.AddScoped<ICustomerCommandRepository, CustomerCommandRepository>();
-builder.Services.AddScoped<IEmailSenderCommandRepository, EmailSenderCommandRepository>(); 
 builder.Services.AddScoped<IEmailSenderQueryRepository, EmailSenderQueryRepository>();
 builder.Services.AddScoped<IEmailLogCommandRepository, EmailLogCommandRepository>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
