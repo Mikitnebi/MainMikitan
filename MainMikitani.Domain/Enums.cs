@@ -17,6 +17,12 @@ namespace MainMikitan.Domain
             Strong = 4,
             VeryStrong = 5
         }
+        public enum OtpStatusId
+        {
+            NoneVerified = 0,
+            WrongAttempt = 1,
+            Success = 2
+        }
         public enum CustomerStatusId
         {
             NoneVerified = 0,

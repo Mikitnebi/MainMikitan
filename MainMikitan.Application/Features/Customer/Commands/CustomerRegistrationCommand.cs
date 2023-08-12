@@ -70,17 +70,18 @@ namespace MainMikitan.Application.Features.Customer.Commands {
 
                 var otpLogResult = await _otpLogCommandRepository.Create(new Domain.Models.Common.OtpLogIntroEntity
                 {
-                    EmailAdress = email,
-                    NumberOfTrialsIsRequeired = false,
+                    EmailAddress = email,
+                    NumberOfTrialsIsRequired = false,
                     ValidationTime = _otpConfig.IntroValidationTime
                 });
 
-                var createCustomerResult = await _customerCommandRepository.Create(new CustomerEntity {
+                var createCustomerResult = await _customerCommandRepository.CreateOrUpdate(new CustomerEntity {
                     EmailAddress = email,
                     FullName = registrationRequest.FullName,
                     MobileNumber = registrationRequest.MobileNumber,
                     HashPassWord = registrationRequest.Password
                 });
+                response.Result = true;
                 return response;
             } catch (Exception ex) {
                 response.ErrorType = ErrorType.UnExpectedException;

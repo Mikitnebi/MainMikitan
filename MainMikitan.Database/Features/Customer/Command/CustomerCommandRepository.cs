@@ -31,28 +31,49 @@ namespace MainMikitan.Database.Features.Customer.Command
             _connectionStrings = connectionStrings.Value;
             _customerQueryRepository = customerQueryRepository;
         }
-        public async Task<int?> Create(CustomerEntity entity)
+        public async Task<int?> CreateOrUpdate(CustomerEntity entity)
         {
             using var connection = new SqlConnection(_connectionStrings.MainMik);
-            entity.CreatedAt = DateTime.Now;
-            entity.StatusId = (int)CustomerStatusId.NoneVerified;
-            entity.HashPassWord = _passwordHasher.HashPassword(entity.HashPassWord);
+            if (await _customerQueryRepository.GetNonVerifiedByEmail(entity.EmailAddress) != null)
+            {
+                entity.CreatedAt = DateTime.Now;
+                entity.StatusId = (int)CustomerStatusId.NoneVerified;
+                entity.HashPassWord = _passwordHasher.HashPassword(entity.HashPassWord);
 
-            var sqlCommand = "INSERT INTO [dbo].[Customers] " +
-                "([FullName]," +
-                "[Email]," +
-                "[EmailConfirmation]," +
-                "[MobileNumber]," +
-                "[MobileNumberConfirmation]," +
-                "[HashPassWord]," +
-                "[StatusId]," +
-                "[CreatedAt])" +
-                " OUTPUT INSERTED.Id" +
-                " VALUES (@FullName,@Email,@EmailConfirmation," +
-                "@MobileNumber, @MobileNumberConfirmation, @HashPassWord," +
-                "@StatusId, @CreatedAt)";
-            var result = await connection.QueryFirstOrDefaultAsync<int?>(sqlCommand, entity);
-            return result;
+                var sqlCommand = "UPDATE [dbo].[Customers] " +
+                    "SET [FullName] = @FullName, " +
+                    "[EmailConfirmation] = @EmailConfirmation, " +
+                    "[MobileNumber] = @MobileNumber, " +
+                    "[MobileNumberConfirmation] = @MobileNumberConfirmation," +
+                    "[HashPassWord] = @HashPassWord, " +
+                    "[StatusId] = @StatusId," +
+                    "[CreatedAt] = @CreatedAt " +
+                    " WHERE [EmailAddress] = @EmailAddress";
+                var result = await connection.ExecuteAsync( sqlCommand, entity );
+                return result;
+            }
+            else
+            {
+                entity.CreatedAt = DateTime.Now;
+                entity.StatusId = (int)CustomerStatusId.NoneVerified;
+                entity.HashPassWord = _passwordHasher.HashPassword(entity.HashPassWord);
+
+                var sqlCommand = "INSERT INTO [dbo].[Customers] " +
+                    "([FullName]," +
+                    "[EmailAddress]," +
+                    "[EmailConfirmation]," +
+                    "[MobileNumber]," +
+                    "[MobileNumberConfirmation]," +
+                    "[HashPassWord]," +
+                    "[StatusId]," +
+                    "[CreatedAt])" +
+                    " OUTPUT INSERTED.Id" +
+                    " VALUES (@FullName,@EmailAddress,@EmailConfirmation," +
+                    "@MobileNumber, @MobileNumberConfirmation, @HashPassWord," +
+                    "@StatusId, @CreatedAt)";
+                var result = await connection.QueryFirstOrDefaultAsync<int?>(sqlCommand, entity);
+                return result;
+            }
         }
     }
 }

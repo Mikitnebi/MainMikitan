@@ -40,6 +40,7 @@ builder.Services.AddScoped<IEmailSenderService, EmailSenderService>();
 builder.Services.Configure<OtpOptions>(builder.Configuration.GetSection("OtpOptions"));
 builder.Services.Configure<ConnectionStringsOptions>(builder.Configuration.GetSection("ConnectionStringsOptions"));
 builder.Services.Configure<EmailSenderOptions>(builder.Configuration.GetSection("EmailSenderOptions"));
+builder.Services.Configure<SecurityOptions>(builder.Configuration.GetSection("SecurityOptions"));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
