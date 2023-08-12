@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MainMikitan.Domain.Models.Commons
 {
-    public class ResponseModel<T>
+    public record ResponseModel<T>
     {
         public string? ErrorType { get; set; }
         public string? ErrorMessage { get; set;}

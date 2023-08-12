@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MainMikitan.Domain.Responses
+namespace MainMikitan.Database.Features.Common.Otp.Interfaces
 {
-    public record CustomerRegistrationResponse
+    public interface IOtpLogQueryRepository
     {
-        public bool Success { get; set; }
     }
 }

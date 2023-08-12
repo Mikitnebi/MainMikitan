@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MainMikitan.Domain.Models.Customer
 {
-    public class CustomerAnalytics
+    public record CustomerAnalytics
     {
         public int TotalOrderQuantity { get; set; }
         public int AvarageMonthlyOrderQuantity { get; set; }

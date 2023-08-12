@@ -31,11 +31,11 @@ namespace MainMikitan.Database.Features.Customer.Command
             _connectionStrings = connectionStrings.Value;
             _customerQueryRepository = customerQueryRepository;
         }
-        public async Task<int> Create(CustomerEntity entity)
+        public async Task<int?> Create(CustomerEntity entity)
         {
             using var connection = new SqlConnection(_connectionStrings.MainMik);
             entity.CreatedAt = DateTime.Now;
-            entity.StatusId = (int)CustomerStatusId.Verified;
+            entity.StatusId = (int)CustomerStatusId.NoneVerified;
             entity.HashPassWord = _passwordHasher.HashPassword(entity.HashPassWord);
 
             var sqlCommand = "INSERT INTO [dbo].[Customers] " +
@@ -45,15 +45,14 @@ namespace MainMikitan.Database.Features.Customer.Command
                 "[MobileNumber]," +
                 "[MobileNumberConfirmation]," +
                 "[HashPassWord]," +
-                "[GenderId]," +
                 "[StatusId]," +
-                "[CreatedAt]," +
+                "[CreatedAt])" +
                 " OUTPUT INSERTED.Id" +
                 " VALUES (@FullName,@Email,@EmailConfirmation," +
                 "@MobileNumber, @MobileNumberConfirmation, @HashPassWord," +
-                "@GenderId, @StatusId, @CreatedAt)";
-            var result = await connection.QuerySingleOrDefaultAsync<int>(sqlCommand, entity);
-                return result;
+                "@StatusId, @CreatedAt)";
+            var result = await connection.QueryFirstOrDefaultAsync<int?>(sqlCommand, entity);
+            return result;
         }
     }
 }

@@ -26,11 +26,6 @@ namespace MainMikitan.Common.Validations
                 response.ErrorType = ErrorType.UserIsNotAdult;
                 return response;
             }
-            if(model.GenderId != 0 || model.GenderId != 1)
-            {
-                response.ErrorType = ErrorType.NotCorrectGenderIdType;
-                return response;
-            }
             var passwordCheckResult = PasswordCheck(model.Password);
             if((short)passwordCheckResult < 3)
             {
@@ -48,16 +43,17 @@ namespace MainMikitan.Common.Validations
                 return Enums.PasswordScore.Blank;
             if (password.Length < 4)
                 return Enums.PasswordScore.VeryWeak;
+            score++;
             if (password.Length >= 8)
                 score++;
             if (password.Length >= 12)
                 score++;
-            if (Regex.Match(password, @"/\d+/", RegexOptions.ECMAScript).Success)
+            if (Regex.Match(password, @"[0-9]", RegexOptions.ECMAScript).Success)
                 score++;
-            if (Regex.Match(password, @"/[a-z]/", RegexOptions.ECMAScript).Success &&
-              Regex.Match(password, @"/[A-Z]/", RegexOptions.ECMAScript).Success)
+            if (Regex.Match(password, @"[a-z]", RegexOptions.ECMAScript).Success &&
+              Regex.Match(password, @"[A-Z]", RegexOptions.ECMAScript).Success)
                 score++;
-            if (Regex.Match(password, @"/.[!,@,#,$,%,^,&,*,?,_,~,-,£,(,)]/", RegexOptions.ECMAScript).Success)
+            if (Regex.Match(password, @"[!,@,#,$,%,^,&,*,?,_,~,-,£,(,)]", RegexOptions.ECMAScript).Success)
                 score++;
 
             return (Enums.PasswordScore)score;

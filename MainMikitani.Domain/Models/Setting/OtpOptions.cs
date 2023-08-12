@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MainMikitan.Domain.Responses
+namespace MainMikitan.Domain.Models.Setting
 {
-    public record CustomerRegistrationResponse
+    public class OtpOptions
     {
-        public bool Success { get; set; }
+        public int IntroValidationTime { get; set; }
     }
 }

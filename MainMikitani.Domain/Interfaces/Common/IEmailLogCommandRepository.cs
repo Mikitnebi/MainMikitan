@@ -8,6 +8,6 @@ namespace MainMikitan.Domain.Interfaces.Common
 {
     public interface IEmailLogCommandRepository
     {
-        Task<int> Create(int EmailTypeId, int userId, int userTypeId);
+        Task<int?> Create(int EmailTypeId, int userId, int userTypeId, string data);
     }
 }

@@ -26,7 +26,7 @@ namespace MainMikitan.Database.Features.Customer
         {
             using var connection = new SqlConnection(_connectionString.MainMik);
 
-            var sqlCommand = "SELECT * FROM [dbo].[Customer] WHERE [Email] = @email";
+            var sqlCommand = "SELECT * FROM [dbo].[Customers] WHERE [EmailAddress] = @email";
             return await connection.QueryFirstOrDefaultAsync<CustomerEntity>(sqlCommand, new { email });
         }
     }

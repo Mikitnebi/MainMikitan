@@ -1,9 +1,17 @@
-﻿using MainMikitan.Common.Validations;
+﻿using MainMikitan.Common.OtpGenerator;
+using MainMikitan.Common.Validations;
+using MainMikitan.Database.Features.Common.Otp.Command;
+using MainMikitan.Database.Features.Common.Otp.Interfaces;
 using MainMikitan.Domain;
+using MainMikitan.Domain.Interfaces.Common;
 using MainMikitan.Domain.Interfaces.Customer;
 using MainMikitan.Domain.Models.Commons;
+using MainMikitan.Domain.Models.Customer;
+using MainMikitan.Domain.Models.Setting;
 using MainMikitan.Domain.Requests;
+using MainMikitan.ExternalServicesAdapter.Email;
 using MediatR;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,39 +19,66 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using static MainMikitan.Domain.Enums;
+using static MainMikitan.ExternalServicesAdapter.Email.EmailSenderService;
 
 namespace MainMikitan.Application.Features.Customer.Commands {
     public class CustomerRegistrationCommand : IRequest<ResponseModel<bool>> {
         public CustomerRegistrationRequest _registrationRequest { get; set; }
-        public CustomerRegistrationCommand(CustomerRegistrationRequest model) {
-            _registrationRequest = model;
+        public CustomerRegistrationCommand(CustomerRegistrationRequest request) {
+            _registrationRequest = request;
         }
     }
     public class CustomorRegistrationCommandHandler : IRequestHandler<CustomerRegistrationCommand, ResponseModel<bool>> {
         private readonly ICustomerQueryRepository _customerQueryRepository;
         private readonly ICustomerCommandRepository _customerCommandRepository;
+        private readonly IOtpLogCommandRepository _otpLogCommandRepository;
+        private readonly IEmailSenderService _emailSenderService;
+        private readonly OtpOptions _otpConfig; 
         public CustomorRegistrationCommandHandler(
             ICustomerQueryRepository customerQueryRepository,
-            ICustomerCommandRepository customerCommandRepository
-            ) {
+            ICustomerCommandRepository customerCommandRepository,
+            IEmailSenderService emailSenderService,
+            IOptions<OtpOptions> otpConfig,
+            IOtpLogCommandRepository otpLogCommandRepository)
+        {
+            _otpConfig = otpConfig.Value;
+            _emailSenderService = emailSenderService;
             _customerCommandRepository = customerCommandRepository;
             _customerQueryRepository = customerQueryRepository;
+            _otpLogCommandRepository = otpLogCommandRepository;
         }
 
 
-        public async Task<ResponseModel<bool>> Handle(CustomerRegistrationCommand request, CancellationToken cancellationToken) {
+        public async Task<ResponseModel<bool>> Handle(CustomerRegistrationCommand command, CancellationToken cancellationToken) {
             var response = new ResponseModel<bool>();
-            var registrationRequest = request._registrationRequest;
+            var registrationRequest = command._registrationRequest;
             try {
                 var email = registrationRequest.Email;
                 var validation = CustomerRequestsValidation.Registration(registrationRequest);
                 if (validation.HasError) return validation;
 
-                var createCustomerResult = await _customerCommandRepository.Create(new Domain.Models.Customer.CustomerEntity {
-                    Email = email,
+                var emailValidation = await _customerQueryRepository.GetByEmail(email);
+                if(emailValidation != null)
+                {
+                    response.ErrorType = ErrorType.AlreadyUsedEmail;
+                    return response;
+                }
+                var emailBuilder = new EmailBuilder();
+                var otp = OtpGenerator.OtpGenerate();
+                emailBuilder.AddReplacement("{OTP}", otp);
+                var emailSenderResult = await _emailSenderService.SendEmailAsync(email, emailBuilder, EmailType.CustomerRegistrationEmail);
+
+                var otpLogResult = await _otpLogCommandRepository.Create(new Domain.Models.Common.OtpLogIntroEntity
+                {
+                    EmailAdress = email,
+                    NumberOfTrialsIsRequeired = false,
+                    ValidationTime = _otpConfig.IntroValidationTime
+                });
+
+                var createCustomerResult = await _customerCommandRepository.Create(new CustomerEntity {
+                    EmailAddress = email,
                     FullName = registrationRequest.FullName,
                     MobileNumber = registrationRequest.MobileNumber,
-                    GenderId = registrationRequest.GenderId,
                     HashPassWord = registrationRequest.Password
                 });
                 return response;

@@ -1,6 +1,8 @@
 using MainMikitan.Application.Features.Customer.Commands;
 using MainMikitan.Common.Hasher;
-using MainMikitan.Database.Features.Common.Command;
+using MainMikitan.Database.Features.Common.Email.Command;
+using MainMikitan.Database.Features.Common.Otp.Command;
+using MainMikitan.Database.Features.Common.Otp.Interfaces;
 using MainMikitan.Database.Features.Common.Query;
 using MainMikitan.Database.Features.Customer;
 using MainMikitan.Database.Features.Customer.Command;
@@ -33,7 +35,9 @@ builder.Services.AddScoped<IEmailSenderCommandRepository, EmailSenderCommandRepo
 builder.Services.AddScoped<IEmailSenderQueryRepository, EmailSenderQueryRepository>();
 builder.Services.AddScoped<IEmailLogCommandRepository, EmailLogCommandRepository>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddScoped<IOtpLogCommandRepository, OtpLogCommandRepository>();
 builder.Services.AddScoped<IEmailSenderService, EmailSenderService>();
+builder.Services.Configure<OtpOptions>(builder.Configuration.GetSection("OtpOptions"));
 builder.Services.Configure<ConnectionStringsOptions>(builder.Configuration.GetSection("ConnectionStringsOptions"));
 builder.Services.Configure<EmailSenderOptions>(builder.Configuration.GetSection("EmailSenderOptions"));
 var app = builder.Build();
