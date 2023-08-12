@@ -32,6 +32,15 @@ namespace MainMikitan.Domain
             OnlyEmailVerified = 4,
             OnlyMobileVerified = 5
         }
+        public enum UserTypeId
+        {
+            CustomerIntro = 0,
+            customer = 1,
+            CompanyIntro = 2,
+            Company = 3,
+            RestaurantIntro = 4, 
+            Restaurant = 5
+        }
         public enum GenderId
         {
             Female = 0,
@@ -43,13 +52,14 @@ namespace MainMikitan.Domain
     }
     public class ErrorType
     {
-        public static readonly string NotCorrectMobileNumberType = "NOT_CORRECT_MODILE_NUMBER_TYPE";
+        public static readonly string NotCorrectMobileNumberType = "NOT_CORRECT_MOBILE_NUMBER_TYPE";
         public static readonly string NotCorrectPasswordType = "NOT_CORRECT_PASSWORD_TYPE";
         public static readonly string NotCorrectGenderIdType = "NOT_CORRECT_GENDERID_TYPE";
 
         public static readonly string UserIsNotAdult = "USER_IS_NOT_ADULT";
-        public static readonly string UnExpectedException = "Exception";
-        public static readonly string AlreadyUsedEmail = "Already_Used_Email";
+        public static readonly string UnExpectedException = "EXCEPTION";
+        public static readonly string AlreadyUsedEmail = "ALREADY_USED_EMAILADDRESS";
+        public static readonly string AlreadyUsedMobileNumber = "ALREADY_USED_MOBILENUMBER";
     }
     public class EmailType {
         public static readonly int CustomerRegistrationEmail = 1;

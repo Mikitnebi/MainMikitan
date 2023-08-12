@@ -13,6 +13,7 @@ namespace MainMikitan.Domain.Models.Common
         public string EmailAddress { get; set; }
         public string MobileNumber { get; set; }
         public DateTime CreatedAt { get; set; }
+        public int UserStatusId { get; set; }
         public int StatusId { get; set; }
         public int ValidationTime { get; set; }
         public int NumberOfTrials { get; set; }

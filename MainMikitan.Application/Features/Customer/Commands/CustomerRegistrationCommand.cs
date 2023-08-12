@@ -63,6 +63,12 @@ namespace MainMikitan.Application.Features.Customer.Commands {
                     response.ErrorType = ErrorType.AlreadyUsedEmail;
                     return response;
                 }
+                var mobileNumberValidation = await _customerQueryRepository.GetByMobileNumber(registrationRequest.MobileNumber);
+                if(mobileNumberValidation != null)
+                {
+                    response.ErrorType = ErrorType.AlreadyUsedMobileNumber;
+                    return response;
+                }
                 var emailBuilder = new EmailBuilder();
                 var otp = OtpGenerator.OtpGenerate();
                 emailBuilder.AddReplacement("{OTP}", otp);
@@ -72,6 +78,8 @@ namespace MainMikitan.Application.Features.Customer.Commands {
                 {
                     EmailAddress = email,
                     NumberOfTrialsIsRequired = false,
+                    Otp = otp,
+                    UserStatusId = (int)UserTypeId.CustomerIntro,
                     ValidationTime = _otpConfig.IntroValidationTime
                 });
 
