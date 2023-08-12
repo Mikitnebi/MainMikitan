@@ -33,9 +33,11 @@ namespace MainMikitan.Database.Features.Common.Otp.Command
               "[EmailAddress], " +
               "[NumberOfTrials], " +
               "[NumberOfTrialsIsRequired]," +
-              "[StatusId]) " +
+              "[StatusId]," +
+              "[ValidationTime]," +
+              "[UserTypeId]) " +
               " OUTPUT INSERTED.Id" +
-              " VALUES (@CreatedAt, @Otp, @MobileNumber, @EmailAddress, @NumberOfTrials, @NumberOfTrialsIsRequired, @StatusId)";
+              " VALUES (@CreatedAt, @Otp, @MobileNumber, @EmailAddress, @NumberOfTrials, @NumberOfTrialsIsRequired, @StatusId, @ValidationTime, @UserTypeId)";
             var result = await connection.QuerySingleOrDefaultAsync<int?>(sqlCommand, model);
             return result;
         }
