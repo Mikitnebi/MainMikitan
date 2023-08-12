@@ -62,9 +62,13 @@ namespace MainMikitan.Domain
 
     }
     public class EmailType {
+        //
         public static readonly int CustomerRegistrationEmail = 1;
         public static readonly int customerPasswordResetEmail = 2;
         public static readonly int CustomerAccountClose = 3;
         public static readonly int CustomerAccountUpdate = 4;
+        //
+        public static readonly int RestaurantRegistrationEmail = 6;
+
     }
 }

@@ -15,6 +15,12 @@ using MainMikitan.Domain.Models.Customer;
 using System.Threading.Tasks.Sources;
 using MainMikitan.Domain.Models.Restaurant;
 using MainMikitan.Domain;
+using MainMikitan.Common.OtpGenerator;
+using static MainMikitan.ExternalServicesAdapter.Email.EmailSenderService;
+using MainMikitan.ExternalServicesAdapter.Email;
+using MainMikitan.Database.Features.Common.Otp.Interfaces;
+using MainMikitan.Domain.Models.Setting;
+using Microsoft.Extensions.Options;
 
 namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
     public class RestaurantRegistrationIntroCommand : IRequest<ResponseModel<bool>> {
@@ -26,9 +32,19 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
     }
     public class RestaurantRegistrationIntroCommandHandler : IRequestHandler<RestaurantRegistrationIntroCommand, ResponseModel<bool>> {
         private readonly IRestaurantIntroCommandRepository _restaurantIntroCommandRepository;
+        private readonly IEmailSenderService _emailSenderService;
+        private readonly IOtpLogCommandRepository _otpLogCommandRepository;
+        private readonly OtpOptions _otpConfig;
 
-        public RestaurantRegistrationIntroCommandHandler(IRestaurantIntroCommandRepository restaurantIntroCommandRepository) {
+        public RestaurantRegistrationIntroCommandHandler(
+            IRestaurantIntroCommandRepository restaurantIntroCommandRepository,
+            IEmailSenderService emailSenderService,
+            IOtpLogCommandRepository otpLogCommandRepository,
+            IOptions<OtpOptions> otpConfig) {
             _restaurantIntroCommandRepository = restaurantIntroCommandRepository;
+            _emailSenderService = emailSenderService;
+            _otpLogCommandRepository = otpLogCommandRepository;
+            _otpConfig = otpConfig.Value;
         }
 
         public async Task<ResponseModel<bool>> Handle(RestaurantRegistrationIntroCommand command, CancellationToken cancellationToken) {
@@ -37,13 +53,22 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
             try {
                 var validation = RestaurantIntroRequestsValidation.Registration(registrtationRequest);
                 if (validation.HasError) return validation;
-
+                var email = registrtationRequest.EmailAdress;
+                var emailBuilder = new EmailBuilder();
+                var otp = OtpGenerator.OtpGenerate();
+                emailBuilder.AddReplacement("{OTP}", otp);
+                var emailSenderResult = await _emailSenderService.SendEmailAsync(email, emailBuilder, EmailType.CustomerRegistrationEmail);
+                var otpLogResult = await _otpLogCommandRepository.Create(new Domain.Models.Common.OtpLogIntroEntity {
+                    EmailAddress = email,
+                    NumberOfTrialsIsRequired = false,
+                    ValidationTime = _otpConfig.IntroValidationTime
+                });
                 var createRestaurantResult = await _restaurantIntroCommandRepository.Create(new RestaurantIntroEntity {
                     PhoneNumber = registrtationRequest.PhoneNumber,
                     RegionId = registrtationRequest.RegionId,
                     EmailAdress = registrtationRequest.EmailAdress,
                     BusinessName = registrtationRequest.PhoneNumber,
-                    
+
                 });
                 response.Result = true;
                 return response;
