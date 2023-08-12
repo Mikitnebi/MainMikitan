@@ -30,6 +30,7 @@ namespace MainMikitan.API.Controllers {
                 {
                     return BadRequest(result);
                 }
+                return Ok(result);
             }
             return BadRequest(ModelState);
         }

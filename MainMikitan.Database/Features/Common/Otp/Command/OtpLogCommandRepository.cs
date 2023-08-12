@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static MainMikitan.Domain.Enums;
 
 namespace MainMikitan.Database.Features.Common.Otp.Command
 {
@@ -23,16 +24,18 @@ namespace MainMikitan.Database.Features.Common.Otp.Command
         public async Task<int?> Create(OtpLogIntroEntity model)
         {
             using var connection = new SqlConnection(_connectionStrings.MainMik);
-            model.CreateAt = DateTime.Now; 
+            model.CreatedAt = DateTime.Now;
+            model.StatusId = (int)OtpStatusId.NoneVerified;
             var sqlCommand = "INSERT INTO [dbo].[OtpLogIntro] " +
-              "[CreatedAt], " +
+              "([CreatedAt], " +
               "[Otp]," +
               "[MobileNumber], " +
               "[EmailAddress], " +
               "[NumberOfTrials], " +
-              "[NumberOfTrialsIsRequired]) " +
+              "[NumberOfTrialsIsRequired]," +
+              "[StatusId]) " +
               " OUTPUT INSERTED.Id" +
-              " VALUES (@CreatedAt, @Otp, @MobileNumber, @NumberOfTrials, @NumberOfTrialsIsRequired)";
+              " VALUES (@CreatedAt, @Otp, @MobileNumber, @EmailAddress, @NumberOfTrials, @NumberOfTrialsIsRequired, @StatusId)";
             var result = await connection.QuerySingleOrDefaultAsync<int?>(sqlCommand, model);
             return result;
         }

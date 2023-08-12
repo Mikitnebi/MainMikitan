@@ -9,6 +9,6 @@ namespace MainMikitan.Domain.Interfaces.Customer
 {
     public interface ICustomerCommandRepository
     {
-        Task<int> Create(CustomerEntity entity);
+        Task<int?> CreateOrUpdate(CustomerEntity entity);
     }
 }

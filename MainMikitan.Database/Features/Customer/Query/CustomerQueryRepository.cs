@@ -26,7 +26,14 @@ namespace MainMikitan.Database.Features.Customer
         {
             using var connection = new SqlConnection(_connectionString.MainMik);
 
-            var sqlCommand = "SELECT * FROM [dbo].[Customers] WHERE [EmailAddress] = @email";
+            var sqlCommand = "SELECT * FROM [dbo].[Customers] WHERE [EmailAddress] = @email AND [StatusId] != '0'";
+            return await connection.QueryFirstOrDefaultAsync<CustomerEntity>(sqlCommand, new { email });
+        }
+        public async Task<CustomerEntity> GetNonVerifiedByEmail(string email)
+        {
+            using var connection = new SqlConnection(_connectionString.MainMik);
+
+            var sqlCommand = "SELECT * FROM [dbo].[Customers] WHERE [EmailAddress] = @email AND [StatusId] = '0'";
             return await connection.QueryFirstOrDefaultAsync<CustomerEntity>(sqlCommand, new { email });
         }
     }
