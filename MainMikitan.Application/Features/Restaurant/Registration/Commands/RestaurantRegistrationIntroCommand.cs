@@ -8,6 +8,8 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using MainMikitan.Common.Validations;
+using FluentEmail.Core;
 
 namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
     public class RestaurantRegistrationIntroCommand : IRequest<ResponseModel<bool>> {
@@ -24,10 +26,12 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
 
         }
 
-        public Task<ResponseModel<bool>> Handle(RestaurantRegistrationIntroCommand command, CancellationToken cancellationToken) {
-            var response = new ResponseModel<bool>;
+        public async Task<ResponseModel<bool>> Handle(RestaurantRegistrationIntroCommand command, CancellationToken cancellationToken) {
+            var response = new ResponseModel<bool>();
             var registrtationRequest = command._restaurantRegistrationIntroRequest;
             try {
+                var validation = RestaurantIntroRequestsValidation.Registration(registrtationRequest);
+                if (validation.HasError) return validation;
                 
             } catch (Exception ex) { 
             

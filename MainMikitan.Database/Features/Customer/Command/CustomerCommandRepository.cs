@@ -31,7 +31,7 @@ namespace MainMikitan.Database.Features.Customer.Command
             _connectionStrings = connectionStrings.Value;
             _customerQueryRepository = customerQueryRepository;
         }
-        public async Task<int?> Create(CustomerEntity entity)
+        public async Task<int> Create(CustomerEntity entity)
         {
             using var connection = new SqlConnection(_connectionStrings.MainMik);
             entity.CreatedAt = DateTime.Now;
@@ -51,7 +51,7 @@ namespace MainMikitan.Database.Features.Customer.Command
                 " VALUES (@FullName,@Email,@EmailConfirmation," +
                 "@MobileNumber, @MobileNumberConfirmation, @HashPassWord," +
                 "@StatusId, @CreatedAt)";
-            var result = await connection.QueryFirstOrDefaultAsync<int?>(sqlCommand, entity);
+            var result = await connection.QueryFirstOrDefaultAsync<int>(sqlCommand, entity);
             return result;
         }
     }

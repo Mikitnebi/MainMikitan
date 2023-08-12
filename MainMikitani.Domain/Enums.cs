@@ -34,6 +34,10 @@ namespace MainMikitan.Domain
         public enum RegionId { 
             Tbilisi = 1
         }
+        public enum RestaurantStatusId {
+            NonVerified = 0,
+            Verified = 1
+        }
     }
     public class ErrorType
     {
@@ -47,7 +51,8 @@ namespace MainMikitan.Domain
         public static readonly string AlreadyUsedEmail = "Already_Used_Email";
 
         //Restaurants
-
+        public static readonly string NotCorrectRegionId = "NOT_CORRECT_REGION_ID";
+        public static readonly string NotAppropriateBusinessName = "NOT_APPROPRIATE_BUSINESS_NAME";
 
     }
     public class EmailType {

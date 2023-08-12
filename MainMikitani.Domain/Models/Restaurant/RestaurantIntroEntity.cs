@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace MainMikitan.Domain.Models.Restaurant
 {
-    public class RestaurantIntro
+    public class RestaurantIntroEntity
     {
         public int Id { get; set; }
-        public bool Verification { get; set; }
+        public int StatusId { get; set; }
         public string BusinessName { get; set; }
 
         [Phone]
@@ -19,6 +19,8 @@ namespace MainMikitan.Domain.Models.Restaurant
 
         [EmailAddress]
         public string EmailAdress { get; set; }
+        public bool EmailConfirmation { get; set; }
         public int RegionId { get; set; }
+        public DateTime JoinedAt { get; set; }     
     }
 }

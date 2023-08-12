@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MainMikitan.Domain.Models.Restaurant
 {
-    public class RestaurantInfo
+    public class RestaurantInfoEntity
     {
         public DateTime DateJoined { get; set; }
         public string Location { get; set; }

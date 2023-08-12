@@ -7,8 +7,6 @@ using System.Threading.Tasks;
 
 namespace MainMikitan.Domain.Requests.RestaurantRequests {
     public class RestaurantRegistrationIntroRequest {
-        public int Id { get; set; }
-        public bool Verification { get; set; }
         public string BusinessName { get; set; }
 
         [Phone]
