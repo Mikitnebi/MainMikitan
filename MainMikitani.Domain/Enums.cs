@@ -17,6 +17,13 @@ namespace MainMikitan.Domain
             Strong = 4,
             VeryStrong = 5
         }
+        public enum RoleId
+        {
+            Customer = 0,
+            Company = 1,
+            Restaurant = 2,
+            Admin = 3
+        }
         public enum OtpStatusId
         {
             NoneVerified = 0,
@@ -68,6 +75,8 @@ namespace MainMikitan.Domain
         public static readonly string NotCorrectOtp = "NOT_CORRECT_OTP";
         public static readonly string CustomerNotUpdated = "CUSTOMER_NOT_UPDATED";
         public static readonly string OtpNotUpdated = "OTP_NOT_UPDATED";
+
+        public static readonly string NotCorrectEmailOrPassword = "NOT_CORRECT_EMAIL_OR_PASSWORD";
     }
     public class EmailType {
         public static readonly int CustomerRegistrationEmail = 1;

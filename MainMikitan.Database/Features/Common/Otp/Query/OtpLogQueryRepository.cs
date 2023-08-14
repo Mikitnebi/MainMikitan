@@ -28,7 +28,7 @@ namespace MainMikitan.Database.Features.Common.Otp.Query
             using var connection = new SqlConnection(_connectionStrings.MainMik);
             var sqlCommand = "SELECT * FROM [dbo].[OtpLogIntro] WHERE [EmailAddress] = @email " +
                 "ORDER BY [CreatedAt] DESC";
-            var result = await connection.QuerySingleOrDefaultAsync<OtpLogIntroEntity>(sqlCommand, new { email });
+            var result = await connection.QueryFirstOrDefaultAsync<OtpLogIntroEntity>(sqlCommand, new { email });
             return result;
         }
 

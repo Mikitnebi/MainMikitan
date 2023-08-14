@@ -37,7 +37,7 @@ namespace MainMikitan.API.Controllers {
         }
 
         [HttpPost]
-        [Route("customer-email-validation")]
+        [Route("email-validation")]
         public async Task<IActionResult> CustomerRegistationVerifyOtp(CustomerRegistrationVerifyOtpRequest model)
         {
             //???

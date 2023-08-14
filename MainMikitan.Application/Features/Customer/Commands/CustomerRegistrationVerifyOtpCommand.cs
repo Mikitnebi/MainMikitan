@@ -68,7 +68,7 @@ namespace MainMikitan.Application.Features.Customer.Commands
                 response.ErrorType = ErrorType.OtpNotUpdated;
                 return response;
             }
-            var customerUpdate = await _customerCommandRepository.UpdateStatus(model._otp, true, CustomerStatusId.Verified);
+            var customerUpdate = await _customerCommandRepository.UpdateStatus(model._email, true, CustomerStatusId.Verified);
             if (customerUpdate == null || customerUpdate == 0)
             {
                 response.ErrorType = ErrorType.CustomerNotUpdated;
