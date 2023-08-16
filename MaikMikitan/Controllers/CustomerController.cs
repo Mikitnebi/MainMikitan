@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MainMikitan.Application.Features.Customer.Commands;
 using MainMikitan.Domain.Requests.Customer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MainMikitan.API.Controllers {
     [ApiController]
@@ -35,7 +36,6 @@ namespace MainMikitan.API.Controllers {
             }
             return BadRequest(ModelState);
         }
-
         [HttpPost]
         [Route("email-validation")]
         public async Task<IActionResult> CustomerRegistationVerifyOtp(CustomerRegistrationVerifyOtpRequest model)
