@@ -21,14 +21,14 @@ namespace MainMikitan.Database.Features.Restaurant.Command {
             using var connection = new SqlConnection(_connectionStrings.MainMik);
             entity.StatusId = (int)RestaurantStatusId.NonVerified;
             entity.JoinedAt = DateTime.Now;
-            var sqlCommand = "INSERT INTO [dbo].RestaurantIntro" +
+            var sqlCommand = "INSERT INTO [dbo].[RestaurantIntro]" +
                 "([StatusId]," +
                 "[EmailAdress]," +
                 "[EmailConfirmation]," +
                 "[PhoneNumber]," +
                 "[BusinessName]," +
                 "[RegionId]," +
-                "[CreatedAt]," +
+                "[CreatedAt])" +
                 " OUTPUT INSERTED.Id" +
                 " VALUES (@StatusId,@EmailAdress,@EmailConfirmation," +
                 "@PhoneNumber, @BusinessName, @RegionId, @JoinedAt)";

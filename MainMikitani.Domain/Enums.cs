@@ -60,7 +60,7 @@ namespace MainMikitan.Domain
         public static readonly string NotCorrectMobileNumberType = "NOT_CORRECT_MOBILE_NUMBER_TYPE";
         public static readonly string NotCorrectPasswordType = "NOT_CORRECT_PASSWORD_TYPE";
         public static readonly string NotCorrectGenderIdType = "NOT_CORRECT_GENDERID_TYPE";
-
+        public static readonly string UserIsNotAdult = "USER_IS_NOT_ADULT";
 
         //Restaurants
         public static readonly string NotCorrectRegionId = "NOT_CORRECT_REGION_ID";
@@ -77,7 +77,7 @@ namespace MainMikitan.Domain
         public static readonly int CustomerAccountClose = 3;
         public static readonly int CustomerAccountUpdate = 4;
         //
-        public static readonly int RestaurantRegistrationEmail = 6;
+        public static readonly int RestaurantRegistrationEmail = 5;
 
     }
 }
