@@ -16,11 +16,13 @@ namespace MainMikitan.Common.Validations
         public static ResponseModel<bool> Registration (CustomerRegistrationRequest model)
         {
             var response = new ResponseModel<bool> ();
+            /*
             if(model.MobileNumber == null || model.MobileNumber.Length != 9 || model.MobileNumber[0] != '5')
             {
                 response.ErrorType = ErrorType.NotCorrectMobileNumberType;
                 return response;
             }
+            */
             if(model.BirthDate.AddYears(18) > DateTime.UtcNow)
             {
                 response.ErrorType = ErrorType.UserIsNotAdult;

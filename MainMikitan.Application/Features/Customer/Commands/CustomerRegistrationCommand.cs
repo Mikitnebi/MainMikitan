@@ -53,7 +53,7 @@ namespace MainMikitan.Application.Features.Customer.Commands {
             var response = new ResponseModel<bool>();
             var registrationRequest = command._registrationRequest;
             try {
-                var email = registrationRequest.Email;
+                var email = registrationRequest.Email.ToUpper();
                 var validation = CustomerRequestsValidation.Registration(registrationRequest);
                 if (validation.HasError) return validation;
 
@@ -79,7 +79,7 @@ namespace MainMikitan.Application.Features.Customer.Commands {
                     EmailAddress = email,
                     NumberOfTrialsIsRequired = false,
                     Otp = otp,
-                    UserStatusId = (int)UserTypeId.CustomerIntro,
+                    UserTypeId = (int)UserTypeId.CustomerIntro,
                     ValidationTime = _otpConfig.IntroValidationTime
                 });
 

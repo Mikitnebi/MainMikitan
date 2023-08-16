@@ -22,11 +22,12 @@ namespace MainMikitan.Database.Features.Common.Email.Command
         {
             _connectionStrings = connectionStrings.Value;
         }
-        public async Task<int?> Create(int typeId, int userId, int userTypeId, string data)
+        public async Task<int?> Create(string email, int typeId, int userId, int userTypeId, string data)
         {
             using var connection = new SqlConnection(_connectionStrings.MainMik);
             var emailLogEntity = new EmailLogEntity
             {
+                EmailAddress = email,
                 UserId = userId,
                 UserTypeId = userTypeId,
                 EmailTypeId = typeId,
@@ -38,9 +39,10 @@ namespace MainMikitan.Database.Features.Common.Email.Command
               "[UserTypeId]," +
               "[EmailTypeId]," +
               "[CreatedAt]," +
+              "[EmailAddress]," +
               "[Data])" +
               " OUTPUT INSERTED.Id" +
-              " VALUES (@UserId,@UserTypeId,@EmailTypeId, @CreatedAt, @Data)";
+              " VALUES ( @UserId,@UserTypeId,@EmailTypeId, @CreatedAt, @EmailAddress, @Data)";
             var result = await connection.QuerySingleOrDefaultAsync<int?>(sqlCommand, emailLogEntity);
             return result;
         }

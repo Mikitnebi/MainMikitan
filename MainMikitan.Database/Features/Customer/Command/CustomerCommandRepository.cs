@@ -31,6 +31,24 @@ namespace MainMikitan.Database.Features.Customer.Command
             _connectionStrings = connectionStrings.Value;
             _customerQueryRepository = customerQueryRepository;
         }
+        public async Task<int?> UpdateStatus(string email, bool emailConfrmation, CustomerStatusId status)
+        {
+            int statusId = (int)status;
+            int confirmation = emailConfrmation == true ? 1 : 0;
+            using var connection = new SqlConnection(_connectionStrings.MainMik);
+            var customer = await _customerQueryRepository.GetNonVerifiedByEmail(email);
+            if (customer != null)
+            {
+
+                var sqlCommand = "UPDATE [dbo].[Customers] " +
+                    "SET [StatusId] = @statusId, " +
+                    "[EmailConfirmation] = @confirmation " +
+                    "WHERE [Id] = @id";
+                var result = await connection.ExecuteAsync(sqlCommand, new { statusId, confirmation, id = customer.Id});
+                return result;
+            }
+            return customer== null ? 0 : customer.Id;
+        }
         public async Task<int?> CreateOrUpdate(CustomerEntity entity)
         {
             using var connection = new SqlConnection(_connectionStrings.MainMik);

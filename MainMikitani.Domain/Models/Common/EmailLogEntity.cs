@@ -9,6 +9,7 @@ namespace MainMikitan.Domain.Models.Common
     public class EmailLogEntity
     {
         public int Id { get; set; }
+        public string EmailAddress { get; set; }
         public int UserId { get; set; }
         public int UserTypeId { get; set; }
         public int EmailTypeId { get; set; }

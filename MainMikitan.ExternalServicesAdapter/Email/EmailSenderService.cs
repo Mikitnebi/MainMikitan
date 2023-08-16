@@ -61,7 +61,7 @@ namespace MainMikitan.ExternalServicesAdapter.Email
                     WriteIndented = true
                 });
 
-                var log = await _emailLogCommandRepository.Create(email.Id, userId, userTypeId, data);
+                var log = await _emailLogCommandRepository.Create(recipientEmail, email.Id, userId, userTypeId, data);
                 return true;
             }
         }

@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MainMikitan.Database.Features.Common.Otp.Interfaces
+namespace MainMikitan.Database.Features.Common.Email.Interfaces
 {
-    public interface IOtpLogQueryRepository
+    public interface IEmailSenderQueryRepository
     {
-        Task<OtpLogIntroEntity> GetOtpbyEmail(string email);
+        Task<EmailDictionaryEntity> GetEmailById(int emailId);
     }
 }
