@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MainMikitan.Common.OtpGenerator
+namespace MainMikitan.InternalServiceAdapter.OtpGenerator
 {
     public class OtpGenerator
     {

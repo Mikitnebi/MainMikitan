@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using MainMikitan.Domain.Interfaces.Common;
+using MainMikitan.Database.Features.Common.Email.Interfaces;
 using MainMikitan.Domain.Models.Common;
 using MainMikitan.Domain.Models.Setting;
 using Microsoft.Extensions.Options;

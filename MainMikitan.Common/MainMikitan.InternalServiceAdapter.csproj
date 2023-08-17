@@ -8,10 +8,10 @@
 
   <ItemGroup>
     <PackageReference Include="FluentEmail.Smtp" Version="3.0.2" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MainMikitan.Database\MainMikitan.Database.csproj" />
     <ProjectReference Include="..\MainMikitani.Domain\MainMikitan.Domain.csproj" />
   </ItemGroup>
 

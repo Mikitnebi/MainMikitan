@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MainMikitan.Application.Services.Auth
+namespace MainMikitan.InternalServiceAdapter.Auth
 {
     public interface IAuthService 
     {

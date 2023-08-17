@@ -9,20 +9,23 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using static MainMikitan.Domain.Enums;
 
-namespace MainMikitan.Common.Validations
+namespace MainMikitan.InternalServiceAdapter.Validations
 {
     public class CustomerRequestsValidation
     {
-        public static ResponseModel<bool> Registration (CustomerRegistrationRequest model)
+        public static ResponseModel<bool> Registration(CustomerRegistrationRequest model)
         {
-            var response = new ResponseModel<bool> ();
-            /*
-            if(model.MobileNumber == null || model.MobileNumber.Length != 9 || model.MobileNumber[0] != '5')
+            var response = new ResponseModel<bool>();
+            if (model.RequiredOptions == false && (model.MobileNumber == null || model.MobileNumber.Length != 9 || model.MobileNumber[0] != '5'))
             {
                 response.ErrorType = ErrorType.NotCorrectMobileNumberType;
                 return response;
             }
-            */
+            if (model.RequiredOptions && (model.Email == null || model.Email.Length < 5))
+            {
+                response.ErrorType = ErrorType.NoTcorrectEmailAddressType;
+                return response;
+            }
             if(model.BirthDate.AddYears(18) > DateTime.UtcNow)
             {
                 response.ErrorType = ErrorType.UserIsNotAdult;

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static MainMikitan.Domain.Enums;
 
-namespace MainMikitan.Domain.Interfaces.Customer
+namespace MainMikitan.Database.Features.Customer.Interface
 {
     public interface ICustomerCommandRepository
     {

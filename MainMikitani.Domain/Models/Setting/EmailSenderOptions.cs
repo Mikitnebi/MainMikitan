@@ -8,10 +8,10 @@ namespace MainMikitan.Domain.Models.Setting
 {
     public class EmailSenderOptions
     {
-        public string SmtpServer { get; set; }
+        public string SmtpServer { get; set; } = null!;
         public int SmtpPort { get; set; }
-        public string SenderEmail { get; set; }
-        public string SenderPassword { get; set; }
+        public string SenderEmail { get; set; } = null!;
+        public string SenderPassword { get; set; } = null!;
 
     }
 }

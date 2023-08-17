@@ -1,11 +1,11 @@
-﻿using MainMikitan.Application.Services.Auth;
+﻿using MainMikitan.InternalServiceAdapter.Hasher;
+using MainMikitan.Database.Features.Customer.Interface;
 using MainMikitan.Domain;
-using MainMikitan.Domain.Interfaces.Common;
-using MainMikitan.Domain.Interfaces.Customer;
 using MainMikitan.Domain.Models.Common;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Requests.Customer;
 using MainMikitan.Domain.Requests.Customer.Auth;
+using MainMikitan.InternalServiceAdapter.Auth;
 using MediatR;
 using System;
 using System.Collections.Generic;

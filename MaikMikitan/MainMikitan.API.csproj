@@ -22,7 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MainMikitan.Application\MainMikitan.Application.csproj" />
     <ProjectReference Include="..\MainMikitan.Cache\MainMikitan.Cache.csproj" />
-    <ProjectReference Include="..\MainMikitan.Common\MainMikitan.Common.csproj" />
+    <ProjectReference Include="..\MainMikitan.InternalServiceAdapter\MainMikitan.InternalServiceAdapter.csproj" />
     <ProjectReference Include="..\MainMikitan.Database\MainMikitan.Database.csproj" />
     <ProjectReference Include="..\MainMikitan.ExternalServicesAdapter\MainMikitan.ExternalServicesAdapter.csproj" />
     <ProjectReference Include="..\MainMikitani.Domain\MainMikitan.Domain.csproj" />

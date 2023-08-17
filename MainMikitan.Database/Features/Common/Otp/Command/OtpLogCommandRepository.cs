@@ -1,6 +1,5 @@
 ﻿using Dapper;
 using MainMikitan.Database.Features.Common.Otp.Interfaces;
-using MainMikitan.Domain.Interfaces.Common;
 using MainMikitan.Domain.Models.Common;
 using MainMikitan.Domain.Models.Setting;
 using Microsoft.Extensions.Options;

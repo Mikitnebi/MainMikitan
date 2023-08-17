@@ -1,5 +1,4 @@
-﻿using MainMikitan.Domain.Interfaces.Common;
-using MainMikitan.Domain.Models.Setting;
+﻿using MainMikitan.Domain.Models.Setting;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -9,7 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MainMikitan.Common.Hasher
+namespace MainMikitan.InternalServiceAdapter.Hasher
 {
     public class PasswordHasher : IPasswordHasher
     {

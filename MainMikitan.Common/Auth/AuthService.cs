@@ -14,7 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static MainMikitan.Domain.Enums;
 
-namespace MainMikitan.Application.Services.Auth
+namespace MainMikitan.InternalServiceAdapter.Auth
 {
     public class AuthService : IAuthService
     {

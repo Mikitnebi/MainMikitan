@@ -1,26 +1,16 @@
 using MainMikitan.Application.Features.Customer.Commands;
-using MainMikitan.Application.Services.Auth;
-using MainMikitan.Common.Hasher;
-using MainMikitan.Database.Features.Common.Email.Command;
-using MainMikitan.Database.Features.Common.Otp.Command;
-using MainMikitan.Database.Features.Common.Otp.Interfaces;
-using MainMikitan.Database.Features.Common.Otp.Query;
-using MainMikitan.Database.Features.Common.Query;
-using MainMikitan.Database.Features.Customer;
-using MainMikitan.Database.Features.Customer.Command;
-using MainMikitan.Domain.Interfaces.Common;
-using MainMikitan.Domain.Interfaces.Customer;
+using MainMikitan.InternalServiceAdapterService;
+using MainMikitan.Database;
 using MainMikitan.Domain.Models.Setting;
-using MainMikitan.ExternalServicesAdapter.Email;
+using MainMikitan.ExternalServicesAdapter;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System;
 using System.Reflection;
 using System.Text;
+using MainMikitan.Application;
+using MainMikitan.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -86,24 +76,12 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
-//builder.Services.AddMediatR(typeof(CustomerRegistrationCommand).GetTypeInfo().Assembly);
-//builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
-//builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
-//
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly(), typeof(CustomerRegistrationCommand).Assembly));
-builder.Services.AddScoped<ICustomerQueryRepository, CustomerQueryRepository>();
-builder.Services.AddScoped<ICustomerCommandRepository, CustomerCommandRepository>();
-builder.Services.AddScoped<IEmailSenderQueryRepository, EmailSenderQueryRepository>();
-builder.Services.AddScoped<IEmailLogCommandRepository, EmailLogCommandRepository>();
-builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
-builder.Services.AddScoped<IOtpLogCommandRepository, OtpLogCommandRepository>();
-builder.Services.AddScoped<IOtpLogQueryRepository, OtpLogQueryRepository>();
-builder.Services.AddScoped<IEmailSenderService, EmailSenderService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.Configure<OtpOptions>(builder.Configuration.GetSection("OtpOptions"));
-builder.Services.Configure<ConnectionStringsOptions>(builder.Configuration.GetSection("ConnectionStringsOptions"));
-builder.Services.Configure<EmailSenderOptions>(builder.Configuration.GetSection("EmailSenderOptions"));
-builder.Services.Configure<SecurityOptions>(builder.Configuration.GetSection("SecurityOptions"));
+
+builder.Services.AddMainMikitanDatabase();
+builder.Services.AddMainMikitanInternalService();
+builder.Services.AddMainMikitanExternalService();
+builder.Services.AddMainMikitanApplication();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
