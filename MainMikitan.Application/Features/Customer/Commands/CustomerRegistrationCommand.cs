@@ -3,8 +3,6 @@ using MainMikitan.InternalServiceAdapter.Validations;
 using MainMikitan.Database.Features.Common.Otp.Command;
 using MainMikitan.Database.Features.Common.Otp.Interfaces;
 using MainMikitan.Domain;
-using MainMikitan.Domain.Interfaces.Common;
-using MainMikitan.Domain.Interfaces.Customer;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Models.Customer;
 using MainMikitan.Domain.Models.Setting;
@@ -20,6 +18,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static MainMikitan.Domain.Enums;
 using static MainMikitan.ExternalServicesAdapter.Email.EmailSenderService;
+using MainMikitan.Database.Features.Customer.Interface;
 
 namespace MainMikitan.Application.Features.Customer.Commands {
     public class CustomerRegistrationCommand : IRequest<ResponseModel<bool>> {
