@@ -12,11 +12,6 @@ namespace MainMikitan.API.Controllers {
         public AuthController(IMediator mediator) {
             _mediator = mediator;
         }
-        [HttpGet]
-        [Route("restaurant")]
-        public async Task<IActionResult> RestaurantAuthentification(string restaurant) {
-            return null;        
-        }
         [HttpPost]
         [Route("customer-login")]
         public async Task<IActionResult> CustomerLogin(CustomerLoginRequest request) {
