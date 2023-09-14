@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MainMikitan.Domain.Interfaces.Customer
+namespace MainMikitan.Database.Features.Customer.Interface
 {
     public interface ICustomerQueryRepository
     {

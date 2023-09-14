@@ -1,5 +1,4 @@
 ﻿using MainMikitan.Application.Features.Customer.Commands;
-using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

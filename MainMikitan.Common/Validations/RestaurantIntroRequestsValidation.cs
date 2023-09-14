@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static MainMikitan.Domain.Enums;
 
-namespace MainMikitan.Common.Validations {
+namespace MainMikitan.InternalServiceAdapter.Validations {
     public class RestaurantIntroRequestsValidation {
         public static ResponseModel<bool> Registration(RestaurantRegistrationIntroRequest model) {
             var response = new ResponseModel<bool>();

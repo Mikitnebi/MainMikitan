@@ -1,6 +1,6 @@
 ﻿using MainMikitan.Database.Features.Common.Otp.Interfaces;
+using MainMikitan.Database.Features.Customer.Interface;
 using MainMikitan.Domain;
-using MainMikitan.Domain.Interfaces.Customer;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Requests.GeneralRequests;
 using MediatR;
@@ -68,7 +68,7 @@ namespace MainMikitan.Application.Features.Customer.Commands
                 response.ErrorType = ErrorType.OtpNotUpdated;
                 return response;
             }
-            var customerUpdate = await _customerCommandRepository.UpdateStatus(model._email, true, CustomerStatusId.Verified);
+            var customerUpdate = await _customerCommandRepository.UpdateStatus(model._email, true, CustomerStatusId.FullyVerified);
             if (customerUpdate == null || customerUpdate == 0)
             {
                 response.ErrorType = ErrorType.CustomerNotUpdated;

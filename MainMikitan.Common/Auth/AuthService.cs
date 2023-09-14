@@ -1,20 +1,15 @@
 ﻿using MainMikitan.Domain.Models.Common;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Models.Setting;
-using MainMikitan.Domain.Requests.Customer;
 using MainMikitan.Domain.Requests.Customer.Auth;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using static MainMikitan.Domain.Enums;
 
-namespace MainMikitan.Application.Services.Auth
+namespace MainMikitan.InternalServiceAdapter.Auth
 {
     public class AuthService : IAuthService
     {

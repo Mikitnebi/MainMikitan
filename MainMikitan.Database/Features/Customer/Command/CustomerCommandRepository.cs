@@ -1,6 +1,6 @@
 ﻿using Dapper;
-using MainMikitan.Domain.Interfaces.Common;
-using MainMikitan.Domain.Interfaces.Customer;
+using MainMikitan.InternalServiceAdapter.Hasher;
+using MainMikitan.Database.Features.Customer.Interface;
 using MainMikitan.Domain.Models.Customer;
 using MainMikitan.Domain.Models.Setting;
 using Microsoft.Extensions.Options;

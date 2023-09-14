@@ -8,6 +8,6 @@ namespace MainMikitan.Domain.Models.Setting
 {
     public class SecurityOptions
     {
-        public string Key { get; set; }
+        public string Key { get; set; } = null!;
     }
 }

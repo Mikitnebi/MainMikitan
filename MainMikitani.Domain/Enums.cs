@@ -34,7 +34,7 @@ namespace MainMikitan.Domain
         public enum CustomerStatusId
         {
             NoneVerified = 0,
-            Verified = 1,
+            FullyVerified = 1,
             Blocked = 2,
             Paused = 3,
             OnlyEmailVerified = 4,
@@ -52,7 +52,8 @@ namespace MainMikitan.Domain
         public enum GenderId
         {
             Female = 0,
-            Male = 1
+            Male = 1,
+            None = 2
         }
         public enum RegionId { 
             Tbilisi = 1
@@ -91,6 +92,7 @@ namespace MainMikitan.Domain
         public static readonly string OtpNotUpdated = "OTP_NOT_UPDATED";
 
         public static readonly string NotCorrectEmailOrPassword = "NOT_CORRECT_EMAIL_OR_PASSWORD";
+        public static readonly string NoTcorrectEmailAddressType = "NOT_CORRECT_EMAILADDRESS_TYPE";
     }
     public class EmailType {
         //

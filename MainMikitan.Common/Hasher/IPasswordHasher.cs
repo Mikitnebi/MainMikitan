@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MainMikitan.Domain.Interfaces.Common
+namespace MainMikitan.InternalServiceAdapter.Hasher
 {
     public interface IPasswordHasher 
     {

@@ -7,8 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using MainMikitan.Domain.Models.Setting;
 using Microsoft.Extensions.Options;
-using MainMikitan.Domain.Interfaces.Common;
 using System.Text.Json;
+using MainMikitan.Database.Features.Common.Email.Interfaces;
 
 namespace MainMikitan.ExternalServicesAdapter.Email
 {

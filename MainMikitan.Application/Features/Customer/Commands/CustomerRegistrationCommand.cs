@@ -1,10 +1,8 @@
-﻿using MainMikitan.Common.OtpGenerator;
-using MainMikitan.Common.Validations;
+﻿using MainMikitan.InternalServiceAdapter.OtpGenerator;
+using MainMikitan.InternalServiceAdapter.Validations;
 using MainMikitan.Database.Features.Common.Otp.Command;
 using MainMikitan.Database.Features.Common.Otp.Interfaces;
 using MainMikitan.Domain;
-using MainMikitan.Domain.Interfaces.Common;
-using MainMikitan.Domain.Interfaces.Customer;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Models.Customer;
 using MainMikitan.Domain.Models.Setting;
@@ -20,6 +18,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static MainMikitan.Domain.Enums;
 using static MainMikitan.ExternalServicesAdapter.Email.EmailSenderService;
+using MainMikitan.Database.Features.Customer.Interface;
 
 namespace MainMikitan.Application.Features.Customer.Commands {
     public class CustomerRegistrationCommand : IRequest<ResponseModel<bool>> {
@@ -54,41 +53,42 @@ namespace MainMikitan.Application.Features.Customer.Commands {
             var registrationRequest = command._registrationRequest;
             try {
                 var email = registrationRequest.Email.ToUpper();
+                var mobilde = registrationRequest.MobileNumber;
                 var validation = CustomerRequestsValidation.Registration(registrationRequest);
                 if (validation.HasError) return validation;
 
-                var emailValidation = await _customerQueryRepository.GetByEmail(email);
-                if(emailValidation != null)
+                if (command._registrationRequest.RequiredOptions)
                 {
-                    response.ErrorType = ErrorType.AlreadyUsedEmail;
-                    return response;
-                }
-                var mobileNumberValidation = await _customerQueryRepository.GetByMobileNumber(registrationRequest.MobileNumber);
-                if(mobileNumberValidation != null)
-                {
-                    response.ErrorType = ErrorType.AlreadyUsedMobileNumber;
-                    return response;
-                }
-                var emailBuilder = new EmailBuilder();
-                var otp = OtpGenerator.OtpGenerate();
-                emailBuilder.AddReplacement("{OTP}", otp);
-                var emailSenderResult = await _emailSenderService.SendEmailAsync(email, emailBuilder, EmailType.CustomerRegistrationEmail);
+                    var emailValidation = await _customerQueryRepository.GetByEmail(email);
+                    if (emailValidation != null)
+                    {
+                        response.ErrorType = ErrorType.AlreadyUsedEmail;
+                        return response;
+                    }
+                    var mobileNumberValidation = await _customerQueryRepository.GetByMobileNumber(registrationRequest.MobileNumber);
 
-                var otpLogResult = await _otpLogCommandRepository.Create(new Domain.Models.Common.OtpLogIntroEntity
-                {
-                    EmailAddress = email,
-                    NumberOfTrialsIsRequired = false,
-                    Otp = otp,
-                    UserTypeId = (int)UserTypeId.CustomerIntro,
-                    ValidationTime = _otpConfig.IntroValidationTime
-                });
+                    var emailBuilder = new EmailBuilder();
+                    var otp = OtpGenerator.OtpGenerate();
+                    emailBuilder.AddReplacement("{OTP}", otp);
+                    var emailSenderResult = await _emailSenderService.SendEmailAsync(email, emailBuilder, EmailType.CustomerRegistrationEmail);
 
-                var createCustomerResult = await _customerCommandRepository.CreateOrUpdate(new CustomerEntity {
-                    EmailAddress = email,
-                    FullName = registrationRequest.FullName,
-                    MobileNumber = registrationRequest.MobileNumber,
-                    HashPassWord = registrationRequest.Password
-                });
+                    var otpLogResult = await _otpLogCommandRepository.Create(new Domain.Models.Common.OtpLogIntroEntity
+                    {
+                        EmailAddress = email,
+                        NumberOfTrialsIsRequired = false,
+                        Otp = otp,
+                        UserTypeId = (int)UserTypeId.CustomerIntro,
+                        ValidationTime = _otpConfig.IntroValidationTime
+                    });
+
+                    var createCustomerResult = await _customerCommandRepository.CreateOrUpdate(new CustomerEntity
+                    {
+                        EmailAddress = email,
+                        FullName = registrationRequest.FullName,
+                        MobileNumber = registrationRequest.MobileNumber,
+                        HashPassWord = registrationRequest.Password
+                    });
+                }
                 response.Result = true;
                 return response;
             } catch (Exception ex) {

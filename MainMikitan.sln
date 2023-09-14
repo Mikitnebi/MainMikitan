@@ -21,9 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MainMikitan.Database", "Mai
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MainMikitan.Cache", "MainMikitan.Cache\MainMikitan.Cache.csproj", "{F1795133-2F3C-4C84-8B9B-49F9BC6DAD48}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MainMikitan.Common", "MainMikitan.Common\MainMikitan.Common.csproj", "{1E1FEB70-66CA-4993-A268-33F6E9931CED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MainMikitan.InternalServicesAdapter", "MainMikitan.Common\MainMikitan.InternalServicesAdapter.csproj", "{1E1FEB70-66CA-4993-A268-33F6E9931CED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainMikitan.ExternalServicesAdapter", "MainMikitan.ExternalServicesAdapter\MainMikitan.ExternalServicesAdapter.csproj", "{CA237206-DFC8-489D-8855-682E154601F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MainMikitan.ExternalServicesAdapter", "MainMikitan.ExternalServicesAdapter\MainMikitan.ExternalServicesAdapter.csproj", "{CA237206-DFC8-489D-8855-682E154601F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
