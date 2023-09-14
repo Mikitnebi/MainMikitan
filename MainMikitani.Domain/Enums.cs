@@ -61,6 +61,10 @@ namespace MainMikitan.Domain
             NonVerified = 0,
             Verified = 1
         }
+        public enum RestaurantOtpVerificationId {
+            NonVerified = 0,
+            Verified = 1
+        }
     }
     public class ErrorType
     {
@@ -83,6 +87,7 @@ namespace MainMikitan.Domain
         public static readonly string NotValidOtp = "NOT_VALID_OTP";
         public static readonly string NotCorrectOtp = "NOT_CORRECT_OTP";
         public static readonly string CustomerNotUpdated = "CUSTOMER_NOT_UPDATED";
+        public static readonly string RestaurantNotUpdated = "RESTAURANT_NOT_UPDATED";
         public static readonly string OtpNotUpdated = "OTP_NOT_UPDATED";
 
         public static readonly string NotCorrectEmailOrPassword = "NOT_CORRECT_EMAIL_OR_PASSWORD";

@@ -1,6 +1,7 @@
 ﻿using FluentEmail.Core;
 using MainMikitan.Application.Features.Customer.Commands;
 using MainMikitan.Application.Features.Restaurant.Registration.Commands;
+using MainMikitan.Domain.Requests.GeneralRequests;
 using MainMikitan.Domain.Requests.RestaurantRequests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -28,10 +29,15 @@ namespace MainMikitan.API.Controllers {
         }
 
         [HttpPost]
-        [Route("intro-validation")]
-        public async Task<IActionResult> RestaurantValidation(string email) {
+        [Route("intro-email-validation")]
+        public async Task<IActionResult> RestaurantIntroVerifyOtp(GeneralRegistrationVerifyOtpRequest model) {
             if (ModelState.IsValid) {
-
+                var result = await _mediator.Send(new RestaurantIntroVerifyOtpCommand(new Domain.Requests.GeneralRequests.GeneralRegistrationVerifyOtpRequest {
+                    Email = model.Email,
+                    Otp = model.Otp
+                }));
+                if (result.HasError) return BadRequest(result);
+                return Ok(result);
             }
             return BadRequest(ModelState);
         }

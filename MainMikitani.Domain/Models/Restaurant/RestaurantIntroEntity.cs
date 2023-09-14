@@ -12,13 +12,14 @@ namespace MainMikitan.Domain.Models.Restaurant
     {
         public int Id { get; set; }
         public int StatusId { get; set; }
+        public int OtpVerificationId { get; set; }
         public string BusinessName { get; set; }
 
         [Phone]
         public string PhoneNumber { get; set; }
 
         [EmailAddress]
-        public string EmailAdress { get; set; }
+        public string EmailAddress { get; set; }
         public bool EmailConfirmation { get; set; }
         public int RegionId { get; set; }
         public DateTime JoinedAt { get; set; }     

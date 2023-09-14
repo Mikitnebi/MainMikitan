@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MainMikitan.Domain.Requests.Customer
+namespace MainMikitan.Domain.Requests.GeneralRequests
 {
-    public class CustomerRegistrationVerifyOtpRequest
+    public class GeneralRegistrationVerifyOtpRequest
     {
         [EmailAddress]
         public string Email { get; set; }

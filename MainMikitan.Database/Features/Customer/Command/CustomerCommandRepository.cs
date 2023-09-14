@@ -4,6 +4,7 @@ using MainMikitan.Domain.Interfaces.Customer;
 using MainMikitan.Domain.Models.Customer;
 using MainMikitan.Domain.Models.Setting;
 using Microsoft.Extensions.Options;
+using NPOI.XSSF.UserModel.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -39,7 +40,6 @@ namespace MainMikitan.Database.Features.Customer.Command
             var customer = await _customerQueryRepository.GetNonVerifiedByEmail(email);
             if (customer != null)
             {
-
                 var sqlCommand = "UPDATE [dbo].[Customers] " +
                     "SET [StatusId] = @statusId, " +
                     "[EmailConfirmation] = @confirmation " +

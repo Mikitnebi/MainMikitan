@@ -54,7 +54,7 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
             try {
                 var validation = RestaurantIntroRequestsValidation.Registration(registrtationRequest);
                 if (validation.HasError) return validation;
-                var email = registrtationRequest.EmailAdress;
+                var email = registrtationRequest.EmailAddress;
                 var emailBuilder = new EmailBuilder();
                 var otp = OtpGenerator.OtpGenerate();
                 emailBuilder.AddReplacement("{OTP}", otp);
@@ -69,9 +69,9 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
                 var createRestaurantResult = await _restaurantIntroCommandRepository.Create(new RestaurantIntroEntity {
                     PhoneNumber = registrtationRequest.PhoneNumber,
                     RegionId = registrtationRequest.RegionId,
-                    EmailAdress = registrtationRequest.EmailAdress,
+                    EmailAddress = registrtationRequest.EmailAddress,
                     BusinessName = registrtationRequest.BusinessName,
-                });
+                }); 
                 response.Result = true;
                 return response;
             } catch (Exception ex) {
