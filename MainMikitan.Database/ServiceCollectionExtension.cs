@@ -14,6 +14,9 @@ using MainMikitan.Database.Features.Common.Otp.Interfaces;
 using MainMikitan.Database.Features.Common.Otp.Query;
 using MainMikitan.Database.Features.Common.Email.Interfaces;
 using MainMikitan.Database.Features.Customer.Interface;
+using MainMikitan.Database.Features.Restaurant.Command;
+using MainMikitan.Domain.Interfaces.Restaurant;
+using MainMikitan.Database.Features.Restaurant.Query;
 
 namespace MainMikitan.Database
 {
@@ -32,6 +35,10 @@ namespace MainMikitan.Database
             //otp
             services.AddScoped<IOtpLogCommandRepository, OtpLogCommandRepository>();
             services.AddScoped<IOtpLogQueryRepository, OtpLogQueryRepository>();
+            
+            //restaurant
+            services.AddScoped<IRestaurantIntroCommandRepository, RestaurantIntroCommandRepository>();
+            services.AddScoped<IRestaurantIntroQueryRepository, RestaurantIntroQueryRepository>();
         }
     }
 }

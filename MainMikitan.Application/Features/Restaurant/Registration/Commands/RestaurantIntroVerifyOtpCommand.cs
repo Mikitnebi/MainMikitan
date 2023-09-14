@@ -1,15 +1,9 @@
 ﻿using MainMikitan.Database.Features.Common.Otp.Interfaces;
 using MainMikitan.Database.Features.Restaurant.Command;
 using MainMikitan.Domain;
-using MainMikitan.Domain.Interfaces.Customer;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Requests.GeneralRequests;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static MainMikitan.Domain.Enums;
 
 namespace MainMikitan.Application.Features.Customer.Commands {

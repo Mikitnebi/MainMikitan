@@ -1,27 +1,17 @@
 ﻿using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Requests.RestaurantRequests;
-using MainMikitan.Application.Features.Customer.Commands;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
-using MainMikitan.Common.Validations;
-using FluentEmail.Core;
 using MainMikitan.Database.Features.Restaurant.Command;
-using MainMikitan.Domain.Models.Customer;
-using System.Threading.Tasks.Sources;
 using MainMikitan.Domain.Models.Restaurant;
 using MainMikitan.Domain;
-using MainMikitan.Common.OtpGenerator;
 using static MainMikitan.ExternalServicesAdapter.Email.EmailSenderService;
 using MainMikitan.ExternalServicesAdapter.Email;
 using MainMikitan.Database.Features.Common.Otp.Interfaces;
 using MainMikitan.Domain.Models.Setting;
 using Microsoft.Extensions.Options;
 using static MainMikitan.Domain.Enums;
+using MainMikitan.InternalServiceAdapter.Validations;
+using MainMikitan.InternalServiceAdapter.OtpGenerator;
 
 namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
     public class RestaurantRegistrationIntroCommand : IRequest<ResponseModel<bool>> {

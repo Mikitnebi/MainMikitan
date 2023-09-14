@@ -17,5 +17,6 @@ namespace MainMikitan.Domain.Models.Common
         public int ValidationTime { get; set; }
         public int NumberOfTrials { get; set; }
         public bool NumberOfTrialsIsRequired { get; set; }
+        public int UserTypeId { get; set; }
     }
 }
