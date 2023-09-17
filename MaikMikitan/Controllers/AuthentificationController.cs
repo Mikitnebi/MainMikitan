@@ -1,11 +1,13 @@
 ﻿using MainMikitan.Application.Features.Customer.Commands;
 using MainMikitan.Domain.Requests.Customer;
 using MediatR;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MainMikitan.API.Controllers {
     [ApiController]
     [Route("[controller]")]
+    [EnableCors("AllowSpecificOrigin")]
     public class AuthController : ControllerBase {
         private readonly IMediator _mediator;
 
@@ -14,6 +16,7 @@ namespace MainMikitan.API.Controllers {
         }
         [HttpPost]
         [Route("customer-login")]
+        [EnableCors("AllowSpecificOrigin")]
         public async Task<IActionResult> CustomerLogin(CustomerLoginRequest request) {
             if (ModelState.IsValid)
             {
