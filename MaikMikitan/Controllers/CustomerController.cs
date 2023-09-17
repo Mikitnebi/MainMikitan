@@ -5,13 +5,14 @@ using Microsoft.AspNetCore.Mvc;
 using MainMikitan.Application.Features.Customer.Commands;
 using Microsoft.AspNetCore.Authorization;
 using MainMikitan.Domain.Requests.GeneralRequests;
+using Microsoft.AspNetCore.Cors;
 
 namespace MainMikitan.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [EnableCors("AllowSpecificOrigin")]
 
-       
     public class CustomerController : ControllerBase 
     {
         private readonly IMediator _mediator;
@@ -19,9 +20,16 @@ namespace MainMikitan.API.Controllers
         {
             _mediator = mediator;
         }
+        [HttpOptions]
+        [EnableCors("AllowSpecificOrigin")] // Apply the CORS policy to this OPTIONS request
+        public IActionResult Options() {
+            return Ok();
+        }
+
         #region Registration
         [HttpPost]
         [Route("registration")]
+        [EnableCors("AllowSpecificOrigin")]
         public async Task<IActionResult> CustomerRegistration(CustomerRegistrationRequest model)
         {
             //???
@@ -38,6 +46,7 @@ namespace MainMikitan.API.Controllers
         }
         [HttpPost]
         [Route("email-validation")]
+        [EnableCors("AllowSpecificOrigin")]
         public async Task<IActionResult> CustomerRegistationVerifyOtp(GeneralRegistrationVerifyOtpRequest model)
         {
             //???
