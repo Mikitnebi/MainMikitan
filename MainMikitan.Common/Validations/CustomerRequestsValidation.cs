@@ -26,7 +26,7 @@ namespace MainMikitan.InternalServiceAdapter.Validations
                 response.ErrorType = ErrorType.NoTcorrectEmailAddressType;
                 return response;
             }
-            if(model.BirthDate.AddYears(18) > DateTime.UtcNow)
+            if(!model.AdultnessConfirmation)
             {
                 response.ErrorType = ErrorType.UserIsNotAdult;
                 return response;

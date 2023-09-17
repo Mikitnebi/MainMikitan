@@ -9,7 +9,7 @@ namespace MainMikitan.InternalServiceAdapter.OtpGenerator
     public class OtpGenerator
     {
         //ოტპ გენერატორი
-       public static string OtpGenerate(int n = 6)
+       public static string OtpGenerate(int n = 4)
         {
             string otp = "";
             string charsList= "9287634510";

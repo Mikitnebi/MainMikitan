@@ -53,5 +53,12 @@ namespace MainMikitan.API.Controllers
             return BadRequest(ModelState);
         }
         #endregion
+
+        #region CustomerInfo
+        public async Task<IActionResult> FillCustomerInfo(FillCustomerInfoRequest request)
+        {
+
+        }
+        #endregion
     }
 }

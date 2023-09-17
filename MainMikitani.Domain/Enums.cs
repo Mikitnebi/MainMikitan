@@ -93,6 +93,9 @@ namespace MainMikitan.Domain
 
         public static readonly string NotCorrectEmailOrPassword = "NOT_CORRECT_EMAIL_OR_PASSWORD";
         public static readonly string NoTcorrectEmailAddressType = "NOT_CORRECT_EMAILADDRESS_TYPE";
+
+        public const string BadTypeEmailAddress = "BAD_TYPE_EMAILADDRESS";
+        public const string BadTypeFullName = "BAD_TYPE_FULLNAME";
     }
     public class EmailType {
         //
