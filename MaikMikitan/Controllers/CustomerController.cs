@@ -64,10 +64,10 @@ namespace MainMikitan.API.Controllers
         #endregion
 
         #region CustomerInfo
-        public async Task<IActionResult> FillCustomerInfo(FillCustomerInfoRequest request)
+        /*public async Task<IActionResult> FillCustomerInfo(FillCustomerInfoRequest request)
         {
 
-        }
+        }*/
         #endregion
     }
 }
