@@ -48,7 +48,7 @@ namespace MainMikitan.Application.Features.Customer.Commands
             var customer = await _customerQueryRepository.GetByEmail(email);
             if(customer == null || !_passwordHasher.VerifyPassword(password, customer.HashPassWord))
             {
-                response.ErrorMessage = ErrorType.NotCorrectEmailOrPassword;
+                response.ErrorType = ErrorType.NotCorrectEmailOrPassword;
                 return response;
             }
             response = _authService.CustomerAuth(new CustomerAuthRequestModel

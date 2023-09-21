@@ -8,7 +8,7 @@ namespace MainMikitan.InternalServiceAdapter.OtpGenerator
 {
     public class OtpGenerator
     {
-        //ოტპ გენერატორი
+        //otp generator
        public static string OtpGenerate(int n = 4)
         {
             string otp = "";
