@@ -8,5 +8,6 @@ namespace MainMikitan.Domain.Requests.Customer
 {
     public record FillCustomerInfoRequest
     {
+        public List<int> InfoIds { get; set; } = null!;
     }
 }

@@ -1,0 +1,24 @@
+﻿using MainMikitan.Domain;
+using MainMikitan.Domain.Models.Commons;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MainMikitan.InternalServicesAdapter.Validations
+{
+    public class CategoryInfoValidation
+    {
+        public static ResponseModel<bool> Validate(List<int> ids, int maxId)
+        {
+            var response = new ResponseModel<bool>();
+            response.Result = ids.All(id => id < maxId);
+            if (!response.Result)
+            {
+                response.ErrorType = ErrorType.BadCategoryIdRequest;
+            }
+            return response;
+        }
+    }
+}

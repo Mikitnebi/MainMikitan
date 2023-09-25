@@ -24,7 +24,7 @@ namespace MainMikitan.InternalServiceAdapter.Auth
             var response = new ResponseModel<AuthTokenResponseModel>();
             var authClaims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, $"Customer{customerAuthModel.Id.ToString()}"),
+                new Claim(ClaimTypes.NameIdentifier, customerAuthModel.Id.ToString()),
                 new Claim(ClaimTypes.Name, customerAuthModel.EmailAdress),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.Role, RoleId.Customer.ToString())

@@ -6,6 +6,11 @@ using MainMikitan.Application.Features.Customer.Commands;
 using Microsoft.AspNetCore.Authorization;
 using MainMikitan.Domain.Requests.GeneralRequests;
 using Microsoft.AspNetCore.Cors;
+using MainMikitan.Domain.Requests.Customer;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
+using MainMikitan.API.Extentions;
+using static MainMikitan.Domain.Enums;
+using MainMikitan.API.Filters;
 
 namespace MainMikitan.API.Controllers
 {
@@ -32,7 +37,6 @@ namespace MainMikitan.API.Controllers
         [EnableCors("AllowSpecificOrigin")]
         public async Task<IActionResult> CustomerRegistration(CustomerRegistrationRequest model)
         {
-            //???
             if (ModelState.IsValid)
             {
                 var result = await _mediator.Send(new CustomerRegistrationCommand(model));
@@ -44,8 +48,7 @@ namespace MainMikitan.API.Controllers
             }
             return BadRequest(ModelState);
         }
-        [HttpPost]
-        [Route("email-validation")]
+        [HttpPost("email-validation")]
         [EnableCors("AllowSpecificOrigin")]
         public async Task<IActionResult> CustomerRegistationVerifyOtp(GeneralRegistrationVerifyOtpRequest model)
         {
@@ -64,10 +67,23 @@ namespace MainMikitan.API.Controllers
         #endregion
 
         #region CustomerInfo
-        /*public async Task<IActionResult> FillCustomerInfo(FillCustomerInfoRequest request)
-        {
 
-        }*/
+        [Authorized(RoleId.Customer)]
+        [HttpPost("CreateOrUpdateCustomerInfo")]
+        [EnableCors("AllowSpecificOrigin")]
+        public async Task<IActionResult> FillCustomerInfo(FillCustomerInfoRequest request)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _mediator.Send(new CustomerInfoCreateOrUpdateCommand(request, User.GetCustomerId()));
+                if (result.HasError)
+                {
+                    return BadRequest(result);
+                }
+                return Ok(result);
+            }
+            return BadRequest(ModelState);
+        }
         #endregion
     }
 }
