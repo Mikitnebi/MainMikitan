@@ -37,6 +37,7 @@ namespace MainMikitan.Application.Features.Customer.Commands
             var maxIdInCategoryDb = await _categoryQueryRepository.GetMaxIndex();
             var validationResponse = CategoryInfoValidation.Validate(ids, maxIdInCategoryDb);
             if (!validationResponse.Result) return validationResponse;
+            //var customerCategoryInfoGetResponse = await _customerCategoryQueryRepositoy.ContainsId(customerId);
             return null;
         }
     }

@@ -11,6 +11,10 @@ using System.Reflection;
 using System.Text;
 using MainMikitan.Application;
 using MainMikitan.Domain;
+using Amazon.S3;
+using Amazon.Extensions.NETCore.Setup;
+using Amazon.Runtime;
+using Amazon;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -94,13 +98,17 @@ builder.Services.AddMainMikitanDatabase();
 builder.Services.AddMainMikitanInternalService();
 builder.Services.AddMainMikitanExternalService();
 builder.Services.AddMainMikitanApplication();
-
+builder.Services.AddAWSService<IAmazonS3>(new AWSOptions
+{
+    Credentials = new BasicAWSCredentials("AKIASI7N5JDUHAB7VXEZ", "Rq3/D+4o1+bLCcgMnlKD+DVUIog9W02mi2LbKj3s"),
+    Region = RegionEndpoint.EUCentral1, // Replace with your AWS region
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
+    app.UseSwagger(); 
     app.UseSwaggerUI();
 }
 
