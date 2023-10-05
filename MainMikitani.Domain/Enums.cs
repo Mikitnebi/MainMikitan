@@ -108,4 +108,27 @@ namespace MainMikitan.Domain
         public static readonly int RestaurantRegistrationEmail = 5;
 
     }
+
+    public enum BusinessType
+    {
+        Cafe,
+        Bar,
+        CafeBar,
+        Restaurant,
+        NightClub,
+        Club,
+        Pub,
+        SushiBar,
+        LoungeBar,
+        BurgerBar,
+        Pizzaria,
+        FastFood
+    }
+
+    public enum RestaurantActiveStatus
+    {
+        Active,
+        Inactive,
+        TemporaryClosed
+    }
 }
