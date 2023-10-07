@@ -45,20 +45,7 @@ namespace MainMikitan.API.Controllers {
             }
             return BadRequest(ModelState);
         }
-        [HttpPost]
-        [Route("Test")]
-        [EnableCors("AllowSpecificOrigin")]
-        public async Task<IActionResult> Menu(Menu request) {
-            return null;
-        }
-
-        [HttpPost]
-        [Route("Test2")]
-        [EnableCors("AllowSpecificOrigin")]
-        public async Task<IActionResult> Menu1(Menu1 request) {
-            return null;
-        }
-
+        
 
         /*  [HttpPost]
           [Route("registration")]

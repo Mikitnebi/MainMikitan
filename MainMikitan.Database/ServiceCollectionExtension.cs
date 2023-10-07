@@ -18,6 +18,7 @@ using MainMikitan.Database.Features.Restaurant.Command;
 using MainMikitan.Domain.Interfaces.Restaurant;
 using MainMikitan.Database.Features.Restaurant.Query;
 using MainMikitan.Database.Features.Category.Query;
+using MainMikitan.Database.Features.Restaurant.Interface;
 
 namespace MainMikitan.Database
 {
@@ -40,6 +41,7 @@ namespace MainMikitan.Database
             //restaurant
             services.AddScoped<IRestaurantIntroCommandRepository, RestaurantIntroCommandRepository>();
             services.AddScoped<IRestaurantIntroQueryRepository, RestaurantIntroQueryRepository>();
+            services.AddScoped<IRestaurantFinalCommandRepository, RestaurantFinalCommandRepository>();
 
             services.AddScoped<ICategoryQueryRepository, CategoryQueryRepository>();
         }
