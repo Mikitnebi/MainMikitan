@@ -1,12 +1,13 @@
-﻿using FluentEmail.Core;
+﻿using MainMikitan.API.Extentions;
+using MainMikitan.API.Filters;
 using MainMikitan.Application.Features.Customer.Commands;
 using MainMikitan.Application.Features.Restaurant.Registration.Commands;
+using MainMikitan.Domain;
 using MainMikitan.Domain.Requests.GeneralRequests;
 using MainMikitan.Domain.Requests.RestaurantRequests;
 using MediatR;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace MainMikitan.API.Controllers {
     [ApiController]
@@ -44,6 +45,20 @@ namespace MainMikitan.API.Controllers {
                 return Ok(result);
             }
             return BadRequest(ModelState);
+        }
+
+        [HttpPost]
+        [Route("fill-intro-info")]
+        [Authorized(Enums.RoleId.Restaurant)]
+        public async Task<IActionResult> RestaurantRegistrationInfoIntro(RestaurantRegistrationInfoIntroRequest request)
+        {
+            if (ModelState.IsValid) {
+                var result = await _mediator.Send(new FillRestaurantInfoIntroCommand(request, User.GetRestaurantId()));
+                if (result.HasError) return BadRequest(result);
+                return Ok(result);
+            }
+
+            return Ok();
         }
         #endregion
     }
