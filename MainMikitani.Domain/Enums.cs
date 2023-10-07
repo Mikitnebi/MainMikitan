@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MainMikitan.Domain.Models.Customer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -97,6 +98,8 @@ namespace MainMikitan.Domain
         public const string BadTypeEmailAddress = "BAD_TYPE_EMAILADDRESS";
         public const string BadTypeFullName = "BAD_TYPE_FULLNAME";
         public const string BadCategoryIdRequest = "BAD_CATEGORYID_REQUEST";
+
+        public const string CustomerCategoryNotUpdated = "CUSTOMER_CATEGORY_NOT_UPDATED";
     }
     public class EmailType {
         //

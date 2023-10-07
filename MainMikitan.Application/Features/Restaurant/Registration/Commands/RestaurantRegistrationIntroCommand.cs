@@ -40,11 +40,11 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
 
         public async Task<ResponseModel<bool>> Handle(RestaurantRegistrationIntroCommand command, CancellationToken cancellationToken) {
             var response = new ResponseModel<bool>();
-            var registrtationRequest = command._restaurantRegistrationIntroRequest;
+            var registrationRequest = command._restaurantRegistrationIntroRequest;
             try {
-                var validation = RestaurantIntroRequestsValidation.Registration(registrtationRequest);
+                var validation = RestaurantIntroRequestsValidation.Registration(registrationRequest);
                 if (validation.HasError) return validation;
-                var email = registrtationRequest.EmailAddress;
+                var email = registrationRequest.EmailAddress;
                 var emailBuilder = new EmailBuilder();
                 var otp = OtpGenerator.OtpGenerate();
                 emailBuilder.AddReplacement("{OTP}", otp);
@@ -57,10 +57,10 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
                     ValidationTime = _otpConfig.IntroValidationTime
                 });
                 var createRestaurantResult = await _restaurantIntroCommandRepository.Create(new RestaurantIntroEntity {
-                    PhoneNumber = registrtationRequest.PhoneNumber,
-                    RegionId = registrtationRequest.RegionId,
-                    EmailAddress = registrtationRequest.EmailAddress,
-                    BusinessName = registrtationRequest.BusinessName,
+                    PhoneNumber = registrationRequest.PhoneNumber,
+                    RegionId = registrationRequest.RegionId,
+                    EmailAddress = registrationRequest.EmailAddress,
+                    BusinessName = registrationRequest.BusinessName,
                 }); 
                 response.Result = true;
                 return response;

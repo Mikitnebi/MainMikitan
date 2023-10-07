@@ -34,7 +34,7 @@ namespace MainMikitan.Application.Features.Customer.Commands
             var ids = request._RequestId;
             var customerId = request._CustomerId;
             var response = new ResponseModel<bool>();
-            var maxIdInCategoryDb = await _categoryQueryRepository.GetMaxIndex();
+            var maxIdInCategoryDb = await _categoryQueryRepository.GetAllActive(ids);
             var validationResponse = CategoryInfoValidation.Validate(ids, maxIdInCategoryDb);
             if (!validationResponse.Result) return validationResponse;
             //var customerCategoryInfoGetResponse = await _customerCategoryQueryRepositoy.ContainsId(customerId);

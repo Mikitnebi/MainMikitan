@@ -1,13 +1,12 @@
-﻿using MainMikitan.API.Extentions;
-using MainMikitan.API.Filters;
+﻿using FluentEmail.Core;
 using MainMikitan.Application.Features.Customer.Commands;
 using MainMikitan.Application.Features.Restaurant.Registration.Commands;
-using MainMikitan.Domain;
 using MainMikitan.Domain.Requests.GeneralRequests;
 using MainMikitan.Domain.Requests.RestaurantRequests;
 using MediatR;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace MainMikitan.API.Controllers {
     [ApiController]
@@ -29,7 +28,7 @@ namespace MainMikitan.API.Controllers {
                 if (response.HasError) return BadRequest(response);
                 return Ok(response);
             }
-            return BadRequest("Urod");
+            return BadRequest(ModelState);
         }
 
         [HttpPost]
@@ -46,20 +45,33 @@ namespace MainMikitan.API.Controllers {
             }
             return BadRequest(ModelState);
         }
+        [HttpPost]
+        [Route("Test")]
+        [EnableCors("AllowSpecificOrigin")]
+        public async Task<IActionResult> Menu(Menu request) {
+            return null;
+        }
 
         [HttpPost]
-        [Route("fill-intro-info")]
-        [Authorized(Enums.RoleId.Restaurant)]
-        public async Task<IActionResult> RestaurantRegistrationInfoIntro(RestaurantRegistrationInfoIntroRequest request)
-        {
-            if (ModelState.IsValid) {
-                var result = await _mediator.Send(new FillRestaurantInfoIntroCommand(request, User.GetRestaurantId()));
-                if (result.HasError) return BadRequest(result);
-                return Ok(result);
-            }
-
-            return Ok();
+        [Route("Test2")]
+        [EnableCors("AllowSpecificOrigin")]
+        public async Task<IActionResult> Menu1(Menu1 request) {
+            return null;
         }
+
+
+        /*  [HttpPost]
+          [Route("registration")]
+          [EnableCors("AllowSpecificOrigin")]
+          public async Task<IActionResult> RestaurantRegistrationFinal(RestaurantRegistrationFinalRequest request) {
+              if (ModelState.IsValid) {
+                  var response = await _mediator.Send(new RestaurantRegistrationFinalCommand(request));
+                  if (response.HasError) return BadRequest(response);
+                  return Ok(response);
+              }
+              return BadRequest(ModelState);
+          }*/
+
         #endregion
     }
 }

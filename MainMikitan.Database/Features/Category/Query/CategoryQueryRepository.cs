@@ -21,12 +21,12 @@ namespace MainMikitan.Database.Features.Category.Query
         { 
             _connectionString = connectionStrings.Value;
         }
-        public async Task<int> GetMaxIndex()
+        public async Task<List<int>> GetAllActive(List<int> indexes)
         {
             using var connection = new SqlConnection(_connectionString.MainMik);
 
-            string sqlCommand = "SELECT MAX(Id) FROM [dbo].[Category] (NOLOCK)";
-            return await connection.ExecuteScalarAsync<int>(sqlCommand);
+            string sqlCommand = $"SELECT Id FROM [dbo].[Category] WITH (NOLOCK) WHERE Id IN (@indexes) AND [Status] = 1";
+            return await connection.ExecuteScalarAsync<List<int>>(sqlCommand, indexes);
         }
     }
 }
