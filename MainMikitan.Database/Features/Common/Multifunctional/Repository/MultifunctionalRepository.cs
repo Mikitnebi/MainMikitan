@@ -49,6 +49,12 @@ public class MultifunctionalRepository : IMultifunctionalRepository
             
             return;
         }
+        
+        properties = properties.Where(prop =>
+        {
+            var value = prop.GetValue(model, null);
+            return value != null;
+        }).ToArray();
 
         var updateQuery = _multifunctionalQuery.GenerateUpdateQuery(properties, tableName);
 

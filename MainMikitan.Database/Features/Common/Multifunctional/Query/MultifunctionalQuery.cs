@@ -83,7 +83,6 @@ public class MultifunctionalQuery : IMultifunctionalQuery
     
     private bool IsPropertyNullable(Type propertyType)
     {
-        // Check if the type is nullable (e.g., int?)
         return Nullable.GetUnderlyingType(propertyType) != null;
     }
 }
