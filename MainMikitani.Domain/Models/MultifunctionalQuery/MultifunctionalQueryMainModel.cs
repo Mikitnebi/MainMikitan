@@ -5,4 +5,5 @@ public class MultifunctionalQueryMainModel
     public long? Id { get; set; }
     public string DatabaseName { get; set; }
     public string SchemaName { get; set; }
+    public string TableName { get; set; }
 }

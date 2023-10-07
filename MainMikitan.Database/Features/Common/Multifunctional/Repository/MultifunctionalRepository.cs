@@ -37,7 +37,8 @@ public class MultifunctionalRepository : IMultifunctionalRepository
         
         var databaseName = properties.FirstOrDefault(p => p.Name == "DatabaseName");
         var schemaName = properties.FirstOrDefault(p => p.Name == "SchemaName");
-        var tableName = $"[{databaseName}].[{schemaName}].[{typeof(T).Name}]";
+        var tableNameData = properties.FirstOrDefault(p => p.Name == "TableName");
+        var tableName = $"[{databaseName}].[{schemaName}].[{tableNameData}]";
         var id = properties.FirstOrDefault(i => i.Name == "Id");
         
         if (id is null)
