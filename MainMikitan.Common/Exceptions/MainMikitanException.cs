@@ -4,7 +4,7 @@ namespace MainMikitan.InternalServiceAdapterService.Exceptions;
 
 public class MainMikitanException : Exception
 {
-    public string ClassName { get; }
+    public string FunctionName { get; }
     public StackTrace StackTrace { get; }
     
     public MainMikitanException(){ }
@@ -13,25 +13,25 @@ public class MainMikitanException : Exception
     
     public MainMikitanException(string message, Exception innerException) : base(message, innerException) { }
 
-    public MainMikitanException(string message, string className) : base(message)
+    public MainMikitanException(string message, string functionName) : base(message)
     {
-        ClassName = className;
+        FunctionName = functionName;
     }
 
-    public MainMikitanException(string message, string className , Exception innerException) : base(message, innerException)
+    public MainMikitanException(string message, string functionName , Exception innerException) : base(message, innerException)
     {
-        ClassName = className;
+        FunctionName = functionName;
     }
     
-    public MainMikitanException(string message, string className, StackTrace stackTrace) : base(message)
+    public MainMikitanException(string message, string functionName, StackTrace stackTrace) : base(message)
     {
-        ClassName = className;
+        FunctionName = functionName;
         StackTrace = stackTrace;
     }
     
-    public MainMikitanException(string message, string className, StackTrace stackTrace, Exception exception) : base(message, exception)
+    public MainMikitanException(string message, string functionName, StackTrace stackTrace, Exception exception) : base(message, exception)
     {
-        ClassName = className;
+        FunctionName = functionName;
         StackTrace = stackTrace;
     }
 }

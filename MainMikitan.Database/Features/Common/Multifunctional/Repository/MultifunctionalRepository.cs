@@ -5,6 +5,7 @@ using System.Reflection;
 using MainMikitan.Database.Features.Common.Multifunctional.Interface.Query;
 using MainMikitan.Database.Features.Common.Multifunctional.Interface.Repository;
 using MainMikitan.Domain.Models.Setting;
+using MainMikitan.InternalServiceAdapterService.Exceptions;
 
 namespace MainMikitan.Database.Features.Common.Multifunctional.Repository;
 
@@ -27,7 +28,7 @@ public class MultifunctionalRepository : IMultifunctionalRepository
         
         if (typeof(T).BaseType is null || typeof(T).BaseType?.Name != "MultifunctionalQueryMainModel")
         {
-            throw new Exception("Class must be child of MultifunctionalQueryMainModel");
+            throw new MainMikitanException($"{typeof(T)} Class must be child of MultifunctionalQueryMainModel", "AddOrUpdateTableData");
         }
         
         var properties =
