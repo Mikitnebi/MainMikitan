@@ -32,7 +32,7 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
                     LocationX = registrationRequest.LocationX,
                     LocationY = registrationRequest.LocationY,
                     Address = registrationRequest.Address,
-                    BusinessTypeId = registrationRequest.BusinessTypeId,
+            //        BusinessTypeId = registrationRequest.BusinessTypeId,
                     CoupeQuantity = registrationRequest.CoupeQuantity,
                     TableQuantity = registrationRequest.TableQuantity,
                     TerraceQuantity = registrationRequest.TerraceQuantity,
@@ -50,7 +50,7 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
                     MusicEndMinute = registrationRequest.MusicEndMinute,
                     ForCorporateEvents = registrationRequest.ForCorporateEvents,
                     Description = registrationRequest.Description,
-                    ActiveStatusId = registrationRequest.ActiveStatusId,
+           //         ActiveStatusId = registrationRequest.ActiveStatusId,
                 });
                 response.Result = true;
                 return response;
