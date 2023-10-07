@@ -32,10 +32,10 @@ namespace MainMikitan.Database.Features.Customer.Command
             _connectionStrings = connectionStrings.Value;
             _customerQueryRepository = customerQueryRepository;
         }
-        public async Task<int?> UpdateStatus(string email, bool emailConfrmation, CustomerStatusId status)
+        public async Task<int?> UpdateStatus(string email, bool emailConfirmation, CustomerStatusId status)
         {
             int statusId = (int)status;
-            int confirmation = emailConfrmation == true ? 1 : 0;
+            int confirmation = emailConfirmation == true ? 1 : 0;
             using var connection = new SqlConnection(_connectionStrings.MainMik);
             var customer = await _customerQueryRepository.GetNonVerifiedByEmail(email);
             if (customer != null)

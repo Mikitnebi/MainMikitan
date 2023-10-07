@@ -18,6 +18,10 @@ using MainMikitan.Database.Features.Restaurant.Command;
 using MainMikitan.Domain.Interfaces.Restaurant;
 using MainMikitan.Database.Features.Restaurant.Query;
 using MainMikitan.Database.Features.Category.Query;
+using MainMikitan.Database.Features.Common.Multifunctional.Interface.Query;
+using MainMikitan.Database.Features.Common.Multifunctional.Interface.Repository;
+using MainMikitan.Database.Features.Common.Multifunctional.Query;
+using MainMikitan.Database.Features.Common.Multifunctional.Repository;
 
 namespace MainMikitan.Database
 {
@@ -42,6 +46,10 @@ namespace MainMikitan.Database
             services.AddScoped<IRestaurantIntroQueryRepository, RestaurantIntroQueryRepository>();
 
             services.AddScoped<ICategoryQueryRepository, CategoryQueryRepository>();
+            
+            //multifunctional Repository
+            services.AddScoped<IMultifunctionalQuery, MultifunctionalQuery>();
+            services.AddScoped<IMultifunctionalRepository, MultifunctionalRepository>();
         }
     }
 }

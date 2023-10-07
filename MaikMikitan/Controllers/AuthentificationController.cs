@@ -29,6 +29,16 @@ namespace MainMikitan.API.Controllers {
             }
             return BadRequest(ModelState);
         }
-
+   //TODO
+        [HttpPost]
+        [Route("restaurant-login")]
+        [EnableCors("AllowSpecificOrigin")]
+        public async Task<IActionResult> RestaurantLogin() {
+            if (ModelState.IsValid) {
+                
+                return Ok("aq response chasvit");
+            }
+            return BadRequest(ModelState);
+        }
     }
 }
