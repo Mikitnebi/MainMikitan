@@ -49,7 +49,7 @@ public class MultifunctionalRepository
             
         foreach (var property in properties)
         {
-            if (property.Name != "Id")
+            if (property.Name != "Id" || property.Name != "DatabaseName" || property.Name != "SchemaName")
             {
                 createSql += $"@{property.Name}, ";
             }
@@ -66,7 +66,7 @@ public class MultifunctionalRepository
 
         foreach (var property in properties)
         {
-            if (property.Name != "Id")
+            if (property.Name != "Id" || property.Name != "DatabaseName" || property.Name != "SchemaName")
             {
                 updateSql += $"{property.Name} = @{property.Name}, ";
             }
