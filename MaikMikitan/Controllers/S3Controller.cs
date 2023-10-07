@@ -35,7 +35,7 @@ namespace MainMikitan.API.Controllers
             var objectRequest = new PutObjectRequest()
             {
                 BucketName = bucketName,
-                Key = $"{DateTime.Now:yyyyMMdd}-{formFile.FileName}",
+                Key = $"/5/menuPicture/-{formFile.FileName}",
                 InputStream = formFile.OpenReadStream(),
             };
             var response = await _s3Client.PutObjectAsync(objectRequest);

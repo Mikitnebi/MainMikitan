@@ -10,10 +10,10 @@ namespace MainMikitan.InternalServicesAdapter.Validations
 {
     public class CategoryInfoValidation
     {
-        public static ResponseModel<bool> Validate(List<int> ids, int maxId)
+        public static ResponseModel<bool> Validate(List<int> ids, List<int> allActiveIds)
         {
             var response = new ResponseModel<bool>();
-            response.Result = ids.All(id => id < maxId);
+            response.Result = ids.All(x => allActiveIds.Contains(x));
             if (!response.Result)
             {
                 response.ErrorType = ErrorType.BadCategoryIdRequest;

@@ -8,6 +8,6 @@ namespace MainMikitan.Database.Features.Category.Query
 {
     public interface ICategoryQueryRepository
     {
-        Task<int> GetMaxIndex();
+        Task<List<int>> GetAllActive(List<int> indexes);
     }
 }
