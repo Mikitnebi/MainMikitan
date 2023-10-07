@@ -11,7 +11,7 @@ namespace MainMikitan.API.Controllers
     [EnableCors("AllowSpecificOrigin")]
     public class S3Controller : ControllerBase
     {
-        private readonly IAmazonS3 _s3Client;
+        
         public S3Controller(IAmazonS3 s3Client)
         {
             _s3Client = s3Client;

@@ -68,8 +68,15 @@ namespace MainMikitan.Domain
             Verified = 1
         }
     }
-    public class ErrorType
+    public record struct ErrorType
     {
+        public record struct S3
+        {
+            public const string BucketAlreadyExisted = "S3_BUCKET_ALREADY_EXISTED";
+            public const string FileIsEmpty = "S3_FILE_IS_EMPTY";
+            public const string FileSizeIsMore200KB = "S3_FILESIZE_IS_MORE_200KB";
+            public const string FileTypeIsNotImage = "S3_FILETYPE_IS_NOT_IMAGE";
+        }
         //Customers
         public static readonly string NotCorrectMobileNumberType = "NOT_CORRECT_MOBILE_NUMBER_TYPE";
         public static readonly string NotCorrectPasswordType = "NOT_CORRECT_PASSWORD_TYPE";
