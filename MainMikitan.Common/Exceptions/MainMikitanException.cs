@@ -29,7 +29,7 @@ public class MainMikitanException : Exception
         StackTrace = stackTrace;
     }
     
-    public MainMikitanException(string message, string functionName, StackTrace stackTrace, Exception exception) : base(message, exception)
+    public MainMikitanException(string message, string functionName, StackTrace stackTrace, Exception innerException) : base(message, innerException)
     {
         FunctionName = functionName;
         StackTrace = stackTrace;
