@@ -6,6 +6,7 @@ using MainMikitan.Database.Features.Common.Multifunctional.Interface.Query;
 using MainMikitan.Database.Features.Common.Multifunctional.Interface.Repository;
 using MainMikitan.Domain.Models.Setting;
 using MainMikitan.InternalServiceAdapterService.Exceptions;
+using Microsoft.Extensions.Options;
 
 namespace MainMikitan.Database.Features.Common.Multifunctional.Repository;
 
@@ -16,10 +17,10 @@ public class MultifunctionalRepository : IMultifunctionalRepository
 
     public MultifunctionalRepository(
         IMultifunctionalQuery multifunctionalQuery, 
-        ConnectionStringsOptions connectionString)
+        IOptions<ConnectionStringsOptions> connectionString)
     {
         _multifunctionalQuery = multifunctionalQuery;
-        _connectionString = connectionString;
+        _connectionString = connectionString.Value;
     }
 
     public async Task AddOrUpdateTableData<T>(T model) where T : class

@@ -1,5 +1,6 @@
 ﻿using MainMikitan.Domain;
 using MainMikitan.Domain.Models.Commons;
+using MainMikitan.Domain.Requests.S3Requests;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,22 @@ namespace MainMikitan.InternalServicesAdapter.Validations
 {
     public class S3ConteinerValidation
     {
+        public static ResponseModel<bool> ValidateImages(List<IFormFile> file)
+        {
+            foreach(IFormFile fileItem in file)
+            {
+                var response = ValidateImage(fileItem);
+                if (response.HasError) 
+                    return new ResponseModel<bool> { 
+                        ErrorMessage = fileItem.FileName, 
+                        ErrorType = response.ErrorType 
+                    };
+            }
+            return new ResponseModel<bool>
+            {
+                Result = true
+            };
+        }
         public static ResponseModel<bool> ValidateImage(IFormFile file)
         {
             var response = new ResponseModel<bool>();

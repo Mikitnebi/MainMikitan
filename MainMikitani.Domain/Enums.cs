@@ -77,8 +77,8 @@ namespace MainMikitan.Domain
             public const string FileSizeIsMore200KB = "S3_FILESIZE_IS_MORE_200KB";
             public const string FileTypeIsNotImage = "S3_FILETYPE_IS_NOT_IMAGE";
         }
-        //Customers
-        public static readonly string NotCorrectMobileNumberType = "NOT_CORRECT_MOBILE_NUMBER_TYPE";
+            //Customers
+            public static readonly string NotCorrectMobileNumberType = "NOT_CORRECT_MOBILE_NUMBER_TYPE";
         public static readonly string NotCorrectPasswordType = "NOT_CORRECT_PASSWORD_TYPE";
         public static readonly string NotCorrectGenderIdType = "NOT_CORRECT_GENDERID_TYPE";
         public static readonly string UserIsNotAdult = "USER_IS_NOT_ADULT";
@@ -107,7 +107,9 @@ namespace MainMikitan.Domain
         public const string BadCategoryIdRequest = "BAD_CATEGORYID_REQUEST";
 
         public const string CustomerCategoryNotUpdated = "CUSTOMER_CATEGORY_NOT_UPDATED";
-    }
+
+         
+        }
     public class EmailType {
         //
         public static readonly int CustomerRegistrationEmail = 1;
