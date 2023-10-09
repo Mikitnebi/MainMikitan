@@ -1,19 +1,17 @@
-﻿using MainMikitan.Domain;
+﻿using FluentEmail.Core.Models;
+using MainMikitan.Domain;
 using MainMikitan.Domain.Models.Commons;
-using MainMikitan.Domain.Requests;
 using MainMikitan.Domain.Requests.RestaurantRequests;
-using Org.BouncyCastle.Crypto;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static MainMikitan.Domain.Enums;
 
-namespace MainMikitan.InternalServiceAdapter.Validations {
-    public class RestaurantIntroRequestsValidation {
-        public static ResponseModel<bool> Registration(RestaurantRegistrationIntroRequest model) {
+namespace MainMikitan.InternalServicesAdapter.Validations {
+    public class RestaurantRequestsValidation {
+        public static ResponseModel<bool> RegistrationIntro(RestaurantRegistrationIntroRequest model) {
             var response = new ResponseModel<bool>();
             if (model.PhoneNumber == null || model.PhoneNumber.Length != 9 || model.PhoneNumber[0] != '5') {
                 response.ErrorType = ErrorType.NotCorrectMobileNumberType;
@@ -28,7 +26,10 @@ namespace MainMikitan.InternalServiceAdapter.Validations {
                 return response;
             }
             response.Result = true;
-            return response;
+            return response;                  
+        }
+        public static ResponseModel<bool> RegistrationFinal(RestaurantRegistrationFinalRequest model) {
+            return null;
         }
     }
 }

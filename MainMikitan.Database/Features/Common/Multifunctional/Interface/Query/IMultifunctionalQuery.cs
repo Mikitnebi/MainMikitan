@@ -6,4 +6,6 @@ public interface IMultifunctionalQuery
 {
     public string GenerateCreateQuery(PropertyInfo[] properties, string tableName);
     public string GenerateUpdateQuery(PropertyInfo[] properties, string tableName);
+    public string TableExistsQuery();
+    public string GenerateCreateTableQuery(string tableName, PropertyInfo[] properties);
 }

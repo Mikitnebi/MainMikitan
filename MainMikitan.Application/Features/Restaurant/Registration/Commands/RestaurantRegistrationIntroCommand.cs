@@ -11,6 +11,7 @@ using MainMikitan.Domain.Models.Setting;
 using Microsoft.Extensions.Options;
 using static MainMikitan.Domain.Enums;
 using MainMikitan.InternalServiceAdapter.Validations;
+using MainMikitan.InternalServicesAdapter.Validations;
 using MainMikitan.InternalServiceAdapter.OtpGenerator;
 
 namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
@@ -42,7 +43,7 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
             var response = new ResponseModel<bool>();
             var registrationRequest = command._restaurantRegistrationIntroRequest;
             try {
-                var validation = RestaurantIntroRequestsValidation.Registration(registrationRequest);
+                var validation = RestaurantRequestsValidation.RegistrationIntro(registrationRequest);
                 if (validation.HasError) return validation;
                 var email = registrationRequest.EmailAddress;
                 var emailBuilder = new EmailBuilder();

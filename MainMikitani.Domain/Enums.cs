@@ -67,6 +67,35 @@ namespace MainMikitan.Domain
             NonVerified = 0,
             Verified = 1
         }
+        public enum BusinessType {
+            Cafe,
+            Bar,
+            CafeBar,
+            Restaurant,
+            NightClub,
+            Club,
+            Pub,
+            SushiBar,
+            LoungeBar,
+            BurgerBar,
+            Pizzaria,
+            FastFood
+        }
+        public enum RestaurantActiveStatus {
+            Active,
+            Inactive,
+            TemporaryClosed
+        }
+
+
+        //Required to change these each time its Enum's size changes BY HAND
+        
+        public const int BusinessTypeSize = 11;
+
+        
+        //
+
+        
     }
     public record struct ErrorType
     {
@@ -108,8 +137,14 @@ namespace MainMikitan.Domain
 
         public const string CustomerCategoryNotUpdated = "CUSTOMER_CATEGORY_NOT_UPDATED";
 
-         
-        }
+        //RestaurantFinalRequestValidations
+        public const string MoreThanMaxSizeInput = "TOO_LONG_INPUT";
+        public const string NotEnoughInput = "TOO_SHORT_INPUT";
+        public const string WrongBusinessTypeId = "WRONG_BUSINESS_TYPE_ID";
+        public const string WrongRestaurantActiveStatusId = "WRONG_RESTAURANT_ACTIVE_STATUS_ID";
+        public const string WrongHour = "WRONG_HOUR";
+        public const string WrongMinute = "WRONG_MINUTE";
+    }
     public class EmailType {
         //
         public static readonly int CustomerRegistrationEmail = 1;
@@ -121,26 +156,6 @@ namespace MainMikitan.Domain
 
     }
 
-    public enum BusinessType
-    {
-        Cafe,
-        Bar,
-        CafeBar,
-        Restaurant,
-        NightClub,
-        Club,
-        Pub,
-        SushiBar,
-        LoungeBar,
-        BurgerBar,
-        Pizzaria,
-        FastFood
-    }
+    
 
-    public enum RestaurantActiveStatus
-    {
-        Active,
-        Inactive,
-        TemporaryClosed
-    }
 }

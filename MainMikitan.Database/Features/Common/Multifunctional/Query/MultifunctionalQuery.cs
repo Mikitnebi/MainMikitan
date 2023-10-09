@@ -40,4 +40,49 @@ public class MultifunctionalQuery : IMultifunctionalQuery
 
         return updateSql;
     }
+
+    public string GenerateCreateTableQuery(string tableName, PropertyInfo[] properties)
+    {
+        dynamic[] columns = properties.Select(propertyInfo => new
+        {
+            ColumnName = propertyInfo.Name,
+            DataType = GetSqlTypeFromPropertyType(propertyInfo.PropertyType),
+            IsNullable = IsPropertyNullable(propertyInfo.PropertyType)
+        }).ToArray();
+        
+        string createTableSQL = $"CREATE TABLE {tableName} (";
+        createTableSQL += string.Join(", ", columns.Select(column =>
+        {
+            string nullable = column.IsNullable ? "NULL" : "NOT NULL";
+            return $"{column.ColumnName} {column.DataType} {nullable}";
+        }));
+        createTableSQL += ");";
+
+        return createTableSQL;
+    }
+    
+    public string TableExistsQuery()
+    {
+        return "IF (EXISTS (SELECT 1 FROM MainMikitan.information_schema.tables " +
+              "WHERE table_schema = @schema " +
+              "AND table_name = @table" +
+              "AND table_catalog = @database)) " +
+              "BEGIN SELECT 1; END " +
+              "ELSE BEGIN SELECT 0; END";
+    }
+    
+    private string GetSqlTypeFromPropertyType(Type propertyType)
+    {
+        if (propertyType == typeof(string)) return "NVARCHAR(MAX)";
+        else if (propertyType == typeof(long)) return "BIGINT";
+        else if (propertyType == typeof(bool)) return "BIT";
+        else if (propertyType == typeof(short)) return "SMALLINT";
+
+        return propertyType.ToString();
+    }
+    
+    private bool IsPropertyNullable(Type propertyType)
+    {
+        return Nullable.GetUnderlyingType(propertyType) != null;
+    }
 }
