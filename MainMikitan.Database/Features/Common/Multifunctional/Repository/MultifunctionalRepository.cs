@@ -39,14 +39,14 @@ public class MultifunctionalRepository : IMultifunctionalRepository
         var databaseName = properties.FirstOrDefault(p => p.Name == "DatabaseName");
         var schemaName = properties.FirstOrDefault(p => p.Name == "SchemaName");
         var tableNameData = properties.FirstOrDefault(p => p.Name == "TableName");
-        var tableName = $"[{databaseName}].[{schemaName}].[{tableNameData}]";
+        var tableName = $"[{databaseName.GetValue(model)}].[{schemaName.GetValue(model)}].[{tableNameData.GetValue(model)}]";
         var id = properties.FirstOrDefault(i => i.Name == "Id");
         
-        if (id is null)
+        if (id.GetValue(model) is null)
         {
             var createSql = _multifunctionalQuery.GenerateCreateQuery(properties, tableName);
             
-            await connection.ExecuteAsync(createSql, model);
+            await connection.QueryAsync(createSql, model);
             
             return;
         }
@@ -59,7 +59,7 @@ public class MultifunctionalRepository : IMultifunctionalRepository
 
         var updateQuery = _multifunctionalQuery.GenerateUpdateQuery(properties, tableName);
 
-        await connection.ExecuteAsync(updateQuery, model);
+        await connection.QueryAsync(updateQuery, model);
     }
 
     public async Task CreateOrUpdateTable<T>(List<T> model) where T : class

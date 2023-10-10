@@ -28,7 +28,7 @@ namespace MainMikitan.InternalServicesAdapter.Validations {
             response.Result = true;
             return response;                  
         }
-        public static ResponseModel<bool> RegistrationFinal(RestaurantRegistrationFinalRequest model) {
+        public static ResponseModel<bool> RegistrationFinal(RestaurantRegistrationStarterInfoRequest model) {
             return null;
         }
     }

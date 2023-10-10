@@ -46,17 +46,17 @@ namespace MainMikitan.API.Controllers {
             return BadRequest(ModelState);
         }
 
-        /*  [HttpPost]
-          [Route("registration")]
+          [HttpPost]
+          [Route("registration/StarterInfo")]
           [EnableCors("AllowSpecificOrigin")]
-          public async Task<IActionResult> RestaurantRegistrationFinal(RestaurantRegistrationFinalRequest request) {
+          public async Task<IActionResult> RestaurantRegistrationFinal(RestaurantRegistrationStarterInfoRequest request) {
               if (ModelState.IsValid) {
                   var response = await _mediator.Send(new RestaurantRegistrationFinalCommand(request));
                   if (response.HasError) return BadRequest(response);
                   return Ok(response);
               }
               return BadRequest(ModelState);
-          }*/
+          }
 
         #endregion
     }

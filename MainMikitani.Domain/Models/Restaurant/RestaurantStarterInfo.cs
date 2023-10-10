@@ -9,7 +9,7 @@ using static MainMikitan.Domain.Enums;
 
 namespace MainMikitan.Domain.Models.Restaurant
 {
-    public class RestaurantInfoEntity : MultifunctionalQueryMainModel
+    public class RestaurantStarterInfo : MultifunctionalQueryMainModel
     {
         //
         public double LocationX { get; set; }
@@ -38,8 +38,8 @@ namespace MainMikitan.Domain.Models.Restaurant
         public int ActiveStatusId { get; set; }
         public bool TwoStepAuth { get; set; }
         public int UpdateUserId { get; set; }
-        public DateTime UpdateAt { get; set; }
-        public DateTime CreateAt { get; set; }
+        public DateTime? UpdateAt { get; set; }
+        public DateTime CreateAt { get; set; } = DateTime.Now;
 
     }
 }

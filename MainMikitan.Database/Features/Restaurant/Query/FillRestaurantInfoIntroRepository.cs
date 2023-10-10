@@ -16,7 +16,7 @@ public class FillRestaurantInfoIntroRepository
         _connectionString = connectionStrings.Value;
     }
 
-    public async Task<int> FillIntroInfo(RestaurantRegistrationFinalRequest request)
+    public async Task<int> FillIntroInfo(RestaurantRegistrationStarterInfoRequest request)
     {
         var connection = new SqlConnection(_connectionString.MainMik);
         await connection.OpenAsync();
