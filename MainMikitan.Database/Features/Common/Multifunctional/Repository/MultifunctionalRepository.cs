@@ -6,6 +6,7 @@ using MainMikitan.Database.Features.Common.Multifunctional.Interface.Query;
 using MainMikitan.Database.Features.Common.Multifunctional.Interface.Repository;
 using MainMikitan.Domain.Models.Setting;
 using MainMikitan.InternalServiceAdapterService.Exceptions;
+using Microsoft.Extensions.Options;
 using NPOI.SS.Formula.Functions;
 
 namespace MainMikitan.Database.Features.Common.Multifunctional.Repository;
@@ -17,10 +18,10 @@ public class MultifunctionalRepository : IMultifunctionalRepository
 
     public MultifunctionalRepository(
         IMultifunctionalQuery multifunctionalQuery, 
-        ConnectionStringsOptions connectionString)
+        IOptions<ConnectionStringsOptions> connectionString)
     {
         _multifunctionalQuery = multifunctionalQuery;
-        _connectionString = connectionString;
+        _connectionString = connectionString.Value;
     }
 
     public async Task AddOrUpdateTableData<T>(T model) where T : class
@@ -49,6 +50,12 @@ public class MultifunctionalRepository : IMultifunctionalRepository
             
             return;
         }
+        
+        properties = properties.Where(prop =>
+        {
+            var value = prop.GetValue(model, null);
+            return value != null;
+        }).ToArray();
 
         var updateQuery = _multifunctionalQuery.GenerateUpdateQuery(properties, tableName);
 

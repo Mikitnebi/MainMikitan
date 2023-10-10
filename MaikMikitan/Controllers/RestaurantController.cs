@@ -45,7 +45,6 @@ namespace MainMikitan.API.Controllers {
             }
             return BadRequest(ModelState);
         }
-        
 
         /*  [HttpPost]
           [Route("registration")]

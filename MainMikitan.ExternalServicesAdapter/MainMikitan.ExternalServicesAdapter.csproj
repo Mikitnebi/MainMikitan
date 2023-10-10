@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AWSSDK.S3" Version="3.7.205.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MainMikitan.Database\MainMikitan.Database.csproj" />
     <ProjectReference Include="..\MainMikitani.Domain\MainMikitan.Domain.csproj" />
   </ItemGroup>

@@ -97,10 +97,17 @@ namespace MainMikitan.Domain
 
         
     }
-    public class ErrorType
+    public record struct ErrorType
     {
-        //Customers
-        public static readonly string NotCorrectMobileNumberType = "NOT_CORRECT_MOBILE_NUMBER_TYPE";
+        public record struct S3
+        {
+            public const string BucketAlreadyExisted = "S3_BUCKET_ALREADY_EXISTED";
+            public const string FileIsEmpty = "S3_FILE_IS_EMPTY";
+            public const string FileSizeIsMore200KB = "S3_FILESIZE_IS_MORE_200KB";
+            public const string FileTypeIsNotImage = "S3_FILETYPE_IS_NOT_IMAGE";
+        }
+            //Customers
+            public static readonly string NotCorrectMobileNumberType = "NOT_CORRECT_MOBILE_NUMBER_TYPE";
         public static readonly string NotCorrectPasswordType = "NOT_CORRECT_PASSWORD_TYPE";
         public static readonly string NotCorrectGenderIdType = "NOT_CORRECT_GENDERID_TYPE";
         public static readonly string UserIsNotAdult = "USER_IS_NOT_ADULT";
