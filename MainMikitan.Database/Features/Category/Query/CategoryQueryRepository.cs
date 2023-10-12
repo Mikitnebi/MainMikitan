@@ -26,7 +26,10 @@ namespace MainMikitan.Database.Features.Category.Query
             using var connection = new SqlConnection(_connectionString.MainMik);
 
             string sqlCommand = $"SELECT Id FROM [dbo].[Category] WITH (NOLOCK) WHERE Id IN (@indexes) AND [Status] = 1";
-            return await connection.ExecuteScalarAsync<List<int>>(sqlCommand, indexes);
+            dynamic sqlResult = await connection.QueryAsync<int>(sqlCommand, indexes);
+            sqlResult = sqlResult.ToList();
+
+            return sqlResult;
         }
     }
 }

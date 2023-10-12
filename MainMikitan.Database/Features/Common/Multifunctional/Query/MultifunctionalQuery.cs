@@ -7,7 +7,18 @@ public class MultifunctionalQuery : IMultifunctionalQuery
 {
     public string GenerateCreateQuery(PropertyInfo[] properties, string tableName)
     {
-        var createSql = $"INSERT INTO {tableName} VALUES(";
+        var createSql = $"INSERT INTO {tableName} (";
+        
+        foreach (var property in properties)
+        {
+            if (property.Name is not ("Id" or "DatabaseName" or "SchemaName" or "TableName"))
+            {
+                createSql += $"{property.Name}, ";
+            }
+        }
+        
+        createSql = $"{createSql.Trim().TrimEnd(',', ')')})";
+        createSql += " VALUES (";
             
         foreach (var property in properties)
         {

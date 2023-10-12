@@ -12,5 +12,6 @@ namespace MainMikitan.Database.Features.Customer.Interface
         Task<CustomerEntity> GetByEmail(string email);
         Task<CustomerEntity> GetByMobileNumber(string mobileNumber);
         Task<CustomerEntity> GetNonVerifiedByEmail(string email);
+        Task ContainsId();
     }
 }

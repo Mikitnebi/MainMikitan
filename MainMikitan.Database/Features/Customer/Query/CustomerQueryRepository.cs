@@ -43,5 +43,10 @@ namespace MainMikitan.Database.Features.Customer
             var sqlCommand = "SELECT * FROM [dbo].[Customers] WHERE [EmailAddress] = @email AND [StatusId] = '0' ORDER BY [CreatedAt] DESC";
             return await connection.QueryFirstOrDefaultAsync<CustomerEntity>(sqlCommand, new { email });
         }
+
+        public async Task ContainsId()
+        {
+            
+        }
     }
 }

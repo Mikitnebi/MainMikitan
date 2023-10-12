@@ -13,7 +13,12 @@ namespace MainMikitan.InternalServicesAdapter.Validations
         public static ResponseModel<bool> Validate(List<int> ids, List<int> allActiveIds)
         {
             var response = new ResponseModel<bool>();
-            response.Result = ids.All(x => allActiveIds.Contains(x));
+            if (ids.Count() > allActiveIds.Count())
+            {
+                response.ErrorType = ErrorType.BadCategoryIdRequest;
+            }
+
+            response.Result = ids.SequenceEqual(allActiveIds);
             if (!response.Result)
             {
                 response.ErrorType = ErrorType.BadCategoryIdRequest;
