@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MainMikitan.Domain.Models.MultifunctionalQuery;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
@@ -8,7 +9,7 @@ using static MainMikitan.Domain.Enums;
 
 namespace MainMikitan.Domain.Models.Restaurant
 {
-    public class RestaurantInfoEntity
+    public class RestaurantStarterInfo : MultifunctionalQueryMainModel
     {
         //
         public double LocationX { get; set; }
@@ -16,7 +17,7 @@ namespace MainMikitan.Domain.Models.Restaurant
         public string Address { get; set; } = null!;
         public int ManagerId { get; set; }
         public int OperatorId { get; set; }
-        public BusinessType BusinessTypeId { get; set; }
+        public int BusinessTypeId { get; set; }
         public int CoupeQuantity { get; set; }
         public int TableQuantity { get; set; }
         public int TerraceQuantity { get; set; }
@@ -34,11 +35,11 @@ namespace MainMikitan.Domain.Models.Restaurant
         public short MusicEndMinute { get; set; }
         public bool ForCorporateEvents { get; set; }
         public string? Description { get; set; }
-        public RestaurantActiveStatus ActiveStatusId { get; set; }
+        public int ActiveStatusId { get; set; }
         public bool TwoStepAuth { get; set; }
         public int UpdateUserId { get; set; }
-        public DateTime UpdateAt { get; set; }
-        public DateTime CreateAt { get; set; }
+        public DateTime? UpdateAt { get; set; }
+        public DateTime CreateAt { get; set; } = DateTime.Now;
 
     }
 }
