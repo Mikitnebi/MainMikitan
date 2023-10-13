@@ -20,8 +20,10 @@ using Newtonsoft.Json;
 namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
     public class RestaurantRegistrationFinalCommand : IRequest<ResponseModel<bool>> {
         public RestaurantRegistrationStarterInfoRequest _restaurantRegistrationFinalRequest { get; set; }
-        public RestaurantRegistrationFinalCommand(RestaurantRegistrationStarterInfoRequest request) {
+        public int _restaurantId { get; set; }
+        public RestaurantRegistrationFinalCommand(RestaurantRegistrationStarterInfoRequest request, int restaurantId) {
             _restaurantRegistrationFinalRequest = request;
+            _restaurantId = restaurantId;
         }
     }
     public class RestaurantRegistrationFinalCommandHandler : IRequestHandler<RestaurantRegistrationFinalCommand, ResponseModel<bool>> {
@@ -33,11 +35,13 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
         {
             var response = new ResponseModel<bool>();
             var registrationRequest = command._restaurantRegistrationFinalRequest;
+            var restaurantId = command._restaurantId;
 
             var json = JsonConvert.SerializeObject(registrationRequest);
             var restaurantStarterInfoJson = JsonConvert.DeserializeObject<RestaurantStarterInfo>(json);
-            
-            await _multifunctionalRepository.AddOrUpdateTableData<>(restaurantStarterInfoJson, "MainMikitan", "dbo", "RestaurantInfo");
+            restaurantStarterInfoJson!.CreateAt = DateTime.Now;
+            restaurantStarterInfoJson!.RestaurantId = restaurantId;
+            await _multifunctionalRepository.AddOrUpdateTableData(restaurantStarterInfoJson!, "MainMikitan", "dbo", "RestaurantInfo");
 
             return new ResponseModel<bool> { Result = true };
         }

@@ -1,5 +1,4 @@
-﻿using MainMikitan.Domain.Models.MultifunctionalQuery;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
@@ -9,9 +8,10 @@ using static MainMikitan.Domain.Enums;
 
 namespace MainMikitan.Domain.Models.Restaurant
 {
-    public class RestaurantStarterInfo : MultifunctionalQueryMainModel
+    public class RestaurantStarterInfo 
     {
         //
+        public int Id { get; set; }
         public int RestaurantId { get; set; }
         public double LocationX { get; set; }
         public double LocationY { get; set; }
@@ -37,8 +37,8 @@ namespace MainMikitan.Domain.Models.Restaurant
         public int ActiveStatusId { get; set; }
         public bool TwoStepAuth { get; set; }
         public int UpdateUserId { get; set; }
-        public DateTime? UpdateAt { get; set; } = DateTime.Now;
-        public DateTime CreateAt { get; set; }
+        public DateTime? UpdateAt { get; set; }
+        public DateTime CreateAt { get; set; } 
 
     }
 }

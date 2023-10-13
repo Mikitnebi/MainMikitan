@@ -90,12 +90,15 @@ public class MultifunctionalQuery : IMultifunctionalQuery
     
     private string GetSqlTypeFromPropertyType(Type propertyType)
     {
+        if (propertyType == typeof(int) || propertyType == typeof(int?)) return "INT";
+        if (propertyType == typeof(double) || propertyType == typeof(double?)) return "DECIMAL";
         if (propertyType == typeof(string)) return "NVARCHAR(MAX)";
-        else if (propertyType == typeof(long)) return "BIGINT";
-        else if (propertyType == typeof(bool)) return "BIT";
-        else if (propertyType == typeof(short)) return "SMALLINT";
-
-        return propertyType.ToString();
+        if (propertyType == typeof(long) || propertyType == typeof(long?)) return "BIGINT";
+        if (propertyType == typeof(bool) || propertyType == typeof(bool?)) return "BIT";
+        if (propertyType == typeof(short) || propertyType == typeof(short?)) return "SMALLINT";
+        if (propertyType == typeof(DateTime) || propertyType == typeof(DateTime?)) return "DATETIME";
+        if (propertyType == typeof(DateOnly) || propertyType == typeof(DateOnly?)) return "DATE";
+        return propertyType.Name;
     }
     
     private bool IsPropertyNullable(Type propertyType)

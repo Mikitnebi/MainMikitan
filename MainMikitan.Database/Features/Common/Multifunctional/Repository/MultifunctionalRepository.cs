@@ -27,22 +27,17 @@ public class MultifunctionalRepository : IMultifunctionalRepository
     {
         using IDbConnection connection = new SqlConnection(_connectionString.MainMik);
         
-        if (typeof(T).BaseType is null || typeof(T).BaseType?.Name != "MultifunctionalQueryMainModel")
-        {
-            throw new MainMikitanException($"{typeof(T)} Class must be child of MultifunctionalQueryMainModel", "AddOrUpdateTableData");
-        }
-        
         var properties =
             typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy);
         
         var tableNameData = $"[{databaseName}].[{schemaName}].[{tableName}]";
         var id = properties.FirstOrDefault(i => i.Name == "Id");
         
-        if (id.GetValue(model) is null)
+        if (id.GetValue(model) is null || id.GetValue(model) is 0)
         {
             var createSql = _multifunctionalQuery.GenerateCreateQuery(properties, tableNameData);
             
-            await connection.QueryAsync(createSql, model);
+            var resp = await connection.ExecuteAsync(createSql, model);
             
             return;
         }
@@ -55,17 +50,13 @@ public class MultifunctionalRepository : IMultifunctionalRepository
 
         var updateQuery = _multifunctionalQuery.GenerateUpdateQuery(properties, tableNameData);
 
-        await connection.QueryAsync(updateQuery, model);
+        var resp1 = await connection.ExecuteAsync(updateQuery, model);
     }
 
     public async Task CreateOrUpdateTable<T>(string databaseName, string schemaName, string tableName) where T : class
     {
         using IDbConnection connection = new SqlConnection(_connectionString.MainMik);
-        
-        if (typeof(T).BaseType is null || typeof(T).BaseType?.Name != "MultifunctionalQueryMainModel")
-        {
-            throw new MainMikitanException($"{typeof(T)} Class must be child of MultifunctionalQueryMainModel", "CreateOrUpdateTable");
-        }
+
         var tableExistsQuery = _multifunctionalQuery.TableExistsQuery();
 
         var properties =

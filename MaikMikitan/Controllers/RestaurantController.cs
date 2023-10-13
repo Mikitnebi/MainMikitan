@@ -1,4 +1,6 @@
 ﻿using FluentEmail.Core;
+using MainMikitan.API.Extentions;
+using MainMikitan.API.Filters;
 using MainMikitan.Application.Features.Customer.Commands;
 using MainMikitan.Application.Features.Restaurant.Registration.Commands;
 using MainMikitan.Domain.Requests.GeneralRequests;
@@ -7,6 +9,7 @@ using MediatR;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using static MainMikitan.Domain.Enums;
 
 namespace MainMikitan.API.Controllers {
     [ApiController]
@@ -47,11 +50,12 @@ namespace MainMikitan.API.Controllers {
         }
 
           [HttpPost]
+          [Authorized(RoleId.Restaurant)]
           [Route("registration/StarterInfo")]
           [EnableCors("AllowSpecificOrigin")]
           public async Task<IActionResult> RestaurantRegistrationFinal(RestaurantRegistrationStarterInfoRequest request) {
               if (ModelState.IsValid) {
-                  var response = await _mediator.Send(new RestaurantRegistrationFinalCommand(request));
+                  var response = await _mediator.Send(new RestaurantRegistrationFinalCommand(request,User.GetRestaurantId()));
                   if (response.HasError) return BadRequest(response);
                   return Ok(response);
               }

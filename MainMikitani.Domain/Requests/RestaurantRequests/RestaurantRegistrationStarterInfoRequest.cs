@@ -29,10 +29,10 @@ public class RestaurantRegistrationStarterInfoRequest
     [Range(0, 24, ErrorMessage = ErrorType.WrongHour)]
     public short HallEndHour { get; set; }
 
-    [Range(0, 24, ErrorMessage = ErrorType.WrongMinute)]
+    [Range(0, 59, ErrorMessage = ErrorType.WrongMinute)]
     public short HallStartMinute { get; set; }
 
-    [Range(0, 24, ErrorMessage = ErrorType.WrongMinute)]
+    [Range(0, 59, ErrorMessage = ErrorType.WrongMinute)]
     public short HallEndMinute { get; set; }
 
     [Range(0, 24, ErrorMessage = ErrorType.WrongHour)]
@@ -41,10 +41,10 @@ public class RestaurantRegistrationStarterInfoRequest
     [Range(0, 24, ErrorMessage = ErrorType.WrongHour)]
     public short KitchenEndHour { get; set; }
 
-    [Range(0, 24, ErrorMessage = ErrorType.WrongMinute)]
+    [Range(0, 59, ErrorMessage = ErrorType.WrongMinute)]
     public short KitchenStartMinute { get; set; }
 
-    [Range(0, 24, ErrorMessage = ErrorType.WrongMinute)]
+    [Range(0, 59, ErrorMessage = ErrorType.WrongMinute)]
     public short KitchenEndMinute { get; set; }
 
     [Range(0, 24, ErrorMessage = ErrorType.WrongHour)]
@@ -53,10 +53,10 @@ public class RestaurantRegistrationStarterInfoRequest
     [Range(0, 24, ErrorMessage = ErrorType.WrongHour)]
     public short MusicEndHour { get; set; }
 
-    [Range(0, 24, ErrorMessage = ErrorType.WrongMinute)]
+    [Range(0, 59, ErrorMessage = ErrorType.WrongMinute)]
     public short MusicStartMinute { get; set; }
 
-    [Range(0, 24, ErrorMessage = ErrorType.WrongMinute)]
+    [Range(0, 59, ErrorMessage = ErrorType.WrongMinute)]
     public short MusicEndMinute { get; set; }
     public bool ForCorporateEvents { get; set; }
 
