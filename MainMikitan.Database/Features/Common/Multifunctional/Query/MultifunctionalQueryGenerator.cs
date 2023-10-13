@@ -67,8 +67,7 @@ public class MultifunctionalQuery : IMultifunctionalQuery
         {
             if (column.ColumnName is "Id")
             {
-                string isIdNullable = column.IsNullable ? "NULL" : "NOT NULL";
-                return $"{column.ColumnName} {column.DataType} {isIdNullable} IDENTITY( 1, 1)";
+                return $"{column.ColumnName} {column.DataType} IDENTITY( 1, 1)";
             }
 
             string nullable = column.IsNullable ? "NULL" : "NOT NULL";
