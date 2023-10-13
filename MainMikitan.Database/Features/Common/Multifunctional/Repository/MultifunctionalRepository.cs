@@ -98,6 +98,11 @@ public class MultifunctionalRepository : IMultifunctionalRepository
 
         var tableCreateQuery = _multifunctionalQuery.GenerateCreateTableQuery(tableName, properties);
         
-        await connection.ExecuteAsync(tableCreateQuery);
+        await connection.ExecuteAsync(tableCreateQuery, new
+        {
+            schema = schemaName,
+            table = tableName,
+            database = databaseName
+        });
     }
 }
