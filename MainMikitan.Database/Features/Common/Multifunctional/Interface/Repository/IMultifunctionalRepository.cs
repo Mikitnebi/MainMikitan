@@ -3,5 +3,5 @@ namespace MainMikitan.Database.Features.Common.Multifunctional.Interface.Reposit
 public interface IMultifunctionalRepository
 {
     public Task AddOrUpdateTableData<T>(T model) where T : class;
-    public Task CreateOrUpdateTable<T>(List<T> model) where T : class;
+    public Task CreateOrUpdateTable<T>() where T : class;
 }

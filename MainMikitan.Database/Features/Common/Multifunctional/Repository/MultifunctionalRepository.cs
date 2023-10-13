@@ -65,7 +65,7 @@ public class MultifunctionalRepository : IMultifunctionalRepository
         await connection.QueryAsync(updateQuery, model);
     }
 
-    public async Task CreateOrUpdateTable<T>(List<T> model) where T : class
+    public async Task CreateOrUpdateTable<T>() where T : class
     {
         using IDbConnection connection = new SqlConnection(_connectionString.MainMik);
         
@@ -98,6 +98,6 @@ public class MultifunctionalRepository : IMultifunctionalRepository
 
         var tableCreateQuery = _multifunctionalQuery.GenerateCreateTableQuery(tableName, properties);
         
-        await connection.ExecuteAsync(tableCreateQuery, model);
+        await connection.ExecuteAsync(tableCreateQuery);
     }
 }
