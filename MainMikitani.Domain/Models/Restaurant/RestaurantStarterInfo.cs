@@ -12,11 +12,10 @@ namespace MainMikitan.Domain.Models.Restaurant
     public class RestaurantStarterInfo : MultifunctionalQueryMainModel
     {
         //
+        public int RestaurantId { get; set; }
         public double LocationX { get; set; }
         public double LocationY { get; set; }
         public string Address { get; set; } = null!;
-        public int ManagerId { get; set; }
-        public int OperatorId { get; set; }
         public int BusinessTypeId { get; set; }
         public int CoupeQuantity { get; set; }
         public int TableQuantity { get; set; }
@@ -38,8 +37,8 @@ namespace MainMikitan.Domain.Models.Restaurant
         public int ActiveStatusId { get; set; }
         public bool TwoStepAuth { get; set; }
         public int UpdateUserId { get; set; }
-        public DateTime? UpdateAt { get; set; }
-        public DateTime CreateAt { get; set; } = DateTime.Now;
+        public DateTime? UpdateAt { get; set; } = DateTime.Now;
+        public DateTime CreateAt { get; set; }
 
     }
 }

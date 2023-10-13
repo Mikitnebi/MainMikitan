@@ -30,7 +30,8 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
         public RestaurantRegistrationFinalCommandHandler(IMultifunctionalRepository multifunctionalRepository) { 
             _multifunctionalRepository = multifunctionalRepository;
         }
-        public async Task<ResponseModel<bool>> Handle(RestaurantRegistrationFinalCommand command, CancellationToken cancellationToken) {
+        public async Task<ResponseModel<bool>> Handle(RestaurantRegistrationFinalCommand command, CancellationToken cancellationToken)
+        {
             var response = new ResponseModel<bool>();
             var registrationRequest = command._restaurantRegistrationFinalRequest;
 
@@ -39,10 +40,11 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
             restaurantStarterInfoJson.DatabaseName = "MainMikitan";
             restaurantStarterInfoJson.TableName = "RestaurantInfo";
             restaurantStarterInfoJson.SchemaName = "dbo";
-            
-                await _multifunctionalRepository.AddOrUpdateTableData(restaurantStarterInfoJson);
 
-            return new ResponseModel<bool> { Result = true};
+            await _multifunctionalRepository.CreateOrUpdateTable<RestaurantStarterInfo>();
+            await _multifunctionalRepository.AddOrUpdateTableData(restaurantStarterInfoJson);
+
+            return new ResponseModel<bool> { Result = true };
         }
     }
 }
