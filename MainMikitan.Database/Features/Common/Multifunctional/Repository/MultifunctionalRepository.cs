@@ -23,7 +23,7 @@ public class MultifunctionalRepository : IMultifunctionalRepository
         _connectionString = connectionString.Value;
     }
 
-    public async Task AddOrUpdateTableData<T>(T model, string databaseName, string schemaName, string tableName) where T : class
+    public async Task<int> AddOrUpdateTableData<T>(T model, string databaseName, string schemaName, string tableName) where T : class
     {
         using IDbConnection connection = new SqlConnection(_connectionString.MainMik);
         
@@ -37,9 +37,7 @@ public class MultifunctionalRepository : IMultifunctionalRepository
         {
             var createSql = _multifunctionalQuery.GenerateCreateQuery(properties, tableNameData);
             
-            var resp = await connection.ExecuteAsync(createSql, model);
-            
-            return;
+            return await connection.ExecuteAsync(createSql, model);
         }
         
         properties = properties.Where(prop =>
@@ -50,10 +48,10 @@ public class MultifunctionalRepository : IMultifunctionalRepository
 
         var updateQuery = _multifunctionalQuery.GenerateUpdateQuery(properties, tableNameData);
 
-        var resp1 = await connection.ExecuteAsync(updateQuery, model);
+        return await connection.ExecuteAsync(updateQuery, model);
     }
 
-    public async Task CreateOrUpdateTable<T>(string databaseName, string schemaName, string tableName) where T : class
+    public async Task<int> CreateOrUpdateTable<T>(string databaseName, string schemaName, string tableName) where T : class
     {
         using IDbConnection connection = new SqlConnection(_connectionString.MainMik);
 
@@ -78,7 +76,7 @@ public class MultifunctionalRepository : IMultifunctionalRepository
 
         var tableCreateQuery = _multifunctionalQuery.GenerateCreateTableQuery(tableName, properties);
         
-        await connection.ExecuteAsync(tableCreateQuery, new
+        return await connection.ExecuteAsync(tableCreateQuery, new
         {
             schema = schemaName,
             table = tableName,

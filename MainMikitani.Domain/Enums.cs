@@ -106,7 +106,19 @@ namespace MainMikitan.Domain
             public const string FileSizeIsMore200KB = "S3_FILESIZE_IS_MORE_200KB";
             public const string FileTypeIsNotImage = "S3_FILETYPE_IS_NOT_IMAGE";
         }
-            //Customers
+        public record struct RestaurntIntro
+        {
+            public const string RestaurantNotUpdated = "RESTAURANTINTRO_RESTAURANT_NOT_UPDATED";
+            public const string VerifiedRestaurantNotFound = "RESTAURANTINTRO_VERIFIED_RESTAURANT_NOT_FOUND";
+        }
+        public record struct Restaurant
+        {
+            public const string RestaurantNotUpdated = "RESTAURANT_NOT_UPDATED";
+        }
+
+        public const string CustomerCategoryNotUpdated = "CUSTOMER_CATEGORY_NOT_UPDATED";
+        public static readonly string CustomerNotUpdated = "CUSTOMER_NOT_UPDATED";
+
             public static readonly string NotCorrectMobileNumberType = "NOT_CORRECT_MOBILE_NUMBER_TYPE";
         public static readonly string NotCorrectPasswordType = "NOT_CORRECT_PASSWORD_TYPE";
         public static readonly string NotCorrectGenderIdType = "NOT_CORRECT_GENDERID_TYPE";
@@ -124,8 +136,6 @@ namespace MainMikitan.Domain
         public static readonly string AlreadyUsedOtp = "ALREADY_USED_OTP";
         public static readonly string NotValidOtp = "NOT_VALID_OTP";
         public static readonly string NotCorrectOtp = "NOT_CORRECT_OTP";
-        public static readonly string CustomerNotUpdated = "CUSTOMER_NOT_UPDATED";
-        public static readonly string RestaurantNotUpdated = "RESTAURANT_NOT_UPDATED";
         public static readonly string OtpNotUpdated = "OTP_NOT_UPDATED";
 
         public static readonly string NotCorrectEmailOrPassword = "NOT_CORRECT_EMAIL_OR_PASSWORD";
@@ -135,7 +145,6 @@ namespace MainMikitan.Domain
         public const string BadTypeFullName = "BAD_TYPE_FULLNAME";
         public const string BadCategoryIdRequest = "BAD_CATEGORYID_REQUEST";
 
-        public const string CustomerCategoryNotUpdated = "CUSTOMER_CATEGORY_NOT_UPDATED";
 
         //RestaurantFinalRequestValidations
         public const string MoreThanMaxSizeInput = "TOO_LONG_INPUT";
@@ -144,6 +153,7 @@ namespace MainMikitan.Domain
         public const string WrongRestaurantActiveStatusId = "WRONG_RESTAURANT_ACTIVE_STATUS_ID";
         public const string WrongHour = "WRONG_HOUR";
         public const string WrongMinute = "WRONG_MINUTE";
+
     }
     public class EmailType {
         //
@@ -153,6 +163,7 @@ namespace MainMikitan.Domain
         public static readonly int CustomerAccountUpdate = 4;
         //
         public static readonly int RestaurantRegistrationEmail = 5;
+        public const int RestaurantGenerateAccount = 6;
 
     }
 

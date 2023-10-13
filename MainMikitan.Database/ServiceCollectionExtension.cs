@@ -46,12 +46,14 @@ namespace MainMikitan.Database
             services.AddScoped<IRestaurantIntroCommandRepository, RestaurantIntroCommandRepository>();
             services.AddScoped<IRestaurantIntroQueryRepository, RestaurantIntroQueryRepository>();
             services.AddScoped<IRestaurantFinalCommandRepository, RestaurantFinalCommandRepository>();
+            services.AddScoped<IRestaurantCommandRepository, RestaurantCommandRepository>();
 
             services.AddScoped<ICategoryQueryRepository, CategoryQueryRepository>();
             
             //multifunctional Repository
             services.AddScoped<IMultifunctionalQuery, MultifunctionalQuery>();
             services.AddScoped<IMultifunctionalRepository, MultifunctionalRepository>();
+
         }
     }
 }

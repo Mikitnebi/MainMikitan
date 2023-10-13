@@ -48,8 +48,20 @@ namespace MainMikitan.API.Controllers {
             }
             return BadRequest(ModelState);
         }
+        [HttpPost("Login-Info-Generation")]
+        [EnableCors("AllowSpecificOrigin")]
+        public async Task<IActionResult> LoginInfoGeneratiron(LoginInfoGeneratironRequest request)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _mediator.Send(new LoginInfoGeneratironCommand(request));
+                if (result.HasError) return BadRequest(result);
+                return Ok(result);
+            }
+            return BadRequest(ModelState);
+        }
 
-          [HttpPost]
+        [HttpPost]
           [Authorized(RoleId.Restaurant)]
           [Route("registration/StarterInfo")]
           [EnableCors("AllowSpecificOrigin")]

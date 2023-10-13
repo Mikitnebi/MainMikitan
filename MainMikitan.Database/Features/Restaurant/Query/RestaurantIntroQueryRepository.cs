@@ -27,5 +27,12 @@ namespace MainMikitan.Database.Features.Restaurant.Query {
             var sqlCommand = "SELECT * FROM [dbo].[RestaurantIntro] WHERE [EmailAddress] = @email AND [RestaurantOtpVerificationId] = '0' ORDER BY [CreatedAt] DESC";
             return await connection.QueryFirstOrDefaultAsync<RestaurantIntroEntity>(sqlCommand, new { email });
         }
+        public async Task<RestaurantIntroEntity> GetVerifiedByEmail(string email)
+        {
+            using var connection = new SqlConnection(_connectionString.MainMik);
+
+            var sqlCommand = "SELECT * FROM [dbo].[RestaurantIntro] WHERE [EmailAddress] = @email AND [RestaurantOtpVerificationId] = '1' ORDER BY [CreatedAt] DESC";
+            return await connection.QueryFirstOrDefaultAsync<RestaurantIntroEntity>(sqlCommand, new { email });
+        }
     }
 }

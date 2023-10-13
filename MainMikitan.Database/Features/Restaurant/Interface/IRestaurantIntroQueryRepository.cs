@@ -8,5 +8,6 @@ using System.Threading.Tasks;
 namespace MainMikitan.Domain.Interfaces.Restaurant {
     public interface IRestaurantIntroQueryRepository {
         Task<RestaurantIntroEntity> GetNonVerifiedByEmail(string email);
+        Task<RestaurantIntroEntity> GetVerifiedByEmail(string email);
     }
 }
