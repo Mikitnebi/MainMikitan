@@ -23,7 +23,7 @@ public class MultifunctionalRepository : IMultifunctionalRepository
         _connectionString = connectionString.Value;
     }
 
-    public async Task AddOrUpdateTableData<T>(T model) where T : class
+    public async Task AddOrUpdateTableData<T>(T model, string databaseName, string schemaName, string tableName) where T : class
     {
         using IDbConnection connection = new SqlConnection(_connectionString.MainMik);
         
@@ -35,15 +35,12 @@ public class MultifunctionalRepository : IMultifunctionalRepository
         var properties =
             typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy);
         
-        var databaseName = properties.FirstOrDefault(p => p.Name == "DatabaseName");
-        var schemaName = properties.FirstOrDefault(p => p.Name == "SchemaName");
-        var tableNameData = properties.FirstOrDefault(p => p.Name == "TableName");
-        var tableName = $"[{databaseName.GetValue(model)}].[{schemaName.GetValue(model)}].[{tableNameData.GetValue(model)}]";
+        var tableNameData = $"[{databaseName}].[{schemaName}].[{tableName}]";
         var id = properties.FirstOrDefault(i => i.Name == "Id");
         
         if (id.GetValue(model) is null)
         {
-            var createSql = _multifunctionalQuery.GenerateCreateQuery(properties, tableName);
+            var createSql = _multifunctionalQuery.GenerateCreateQuery(properties, tableNameData);
             
             await connection.QueryAsync(createSql, model);
             
@@ -56,12 +53,12 @@ public class MultifunctionalRepository : IMultifunctionalRepository
             return value != null;
         }).ToArray();
 
-        var updateQuery = _multifunctionalQuery.GenerateUpdateQuery(properties, tableName);
+        var updateQuery = _multifunctionalQuery.GenerateUpdateQuery(properties, tableNameData);
 
         await connection.QueryAsync(updateQuery, model);
     }
 
-    public async Task CreateOrUpdateTable<T>() where T : class
+    public async Task CreateOrUpdateTable<T>(string databaseName, string schemaName, string tableName) where T : class
     {
         using IDbConnection connection = new SqlConnection(_connectionString.MainMik);
         
@@ -70,14 +67,10 @@ public class MultifunctionalRepository : IMultifunctionalRepository
             throw new MainMikitanException($"{typeof(T)} Class must be child of MultifunctionalQueryMainModel", "CreateOrUpdateTable");
         }
         var tableExistsQuery = _multifunctionalQuery.TableExistsQuery();
-        
+
         var properties =
             typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy);
-        
-        var databaseName = properties.FirstOrDefault(p => p.Name == "DatabaseName");
-        var schemaName = properties.FirstOrDefault(p => p.Name == "SchemaName");
-        var tableName = typeof(T).Name;
-        
+
         var tableExists = await connection.QueryFirstOrDefaultAsync<bool>(tableExistsQuery, new
         {
             schema = schemaName,
