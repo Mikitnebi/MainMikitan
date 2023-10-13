@@ -65,8 +65,18 @@ public class MultifunctionalQuery : IMultifunctionalQuery
         string createTableSQL = $"CREATE TABLE {tableName} (";
         createTableSQL += string.Join(", ", columns.Select(column =>
         {
-            string nullable = column.IsNullable ? "NULL" : "NOT NULL";
-            return $"{column.ColumnName} {column.DataType} {nullable}";
+            if (column.ColumnName is not ("DatabaseName" or "SchemaName" or "TableName"))
+            {
+                string nullable = column.IsNullable ? "NULL" : "NOT NULL";
+                return $"{column.ColumnName} {column.DataType} {nullable}";
+            }
+            else if (column.ColumnName is "Id")
+            {
+                string nullable = column.IsNullable ? "NULL" : "NOT NULL";
+                return $"{column.ColumnName} {column.DataType} {nullable} IDENTITY( 1, 1)";
+            }
+
+            return "";
         }));
         createTableSQL += ");";
 
