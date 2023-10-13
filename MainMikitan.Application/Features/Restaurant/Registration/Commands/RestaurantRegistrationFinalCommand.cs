@@ -25,8 +25,7 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
         }
     }
     public class RestaurantRegistrationFinalCommandHandler : IRequestHandler<RestaurantRegistrationFinalCommand, ResponseModel<bool>> {
-
-        IMultifunctionalRepository _multifunctionalRepository;
+        private readonly IMultifunctionalRepository _multifunctionalRepository;
         public RestaurantRegistrationFinalCommandHandler(IMultifunctionalRepository multifunctionalRepository) { 
             _multifunctionalRepository = multifunctionalRepository;
         }
@@ -37,12 +36,8 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
 
             var json = JsonConvert.SerializeObject(registrationRequest);
             var restaurantStarterInfoJson = JsonConvert.DeserializeObject<RestaurantStarterInfo>(json);
-            restaurantStarterInfoJson.DatabaseName = "MainMikitan";
-            restaurantStarterInfoJson.TableName = "RestaurantInfo";
-            restaurantStarterInfoJson.SchemaName = "dbo";
-
-            await _multifunctionalRepository.CreateOrUpdateTable<RestaurantStarterInfo>();
-            await _multifunctionalRepository.AddOrUpdateTableData(restaurantStarterInfoJson);
+            
+            await _multifunctionalRepository.AddOrUpdateTableData<>(restaurantStarterInfoJson, "MainMikitan", "dbo", "RestaurantInfo");
 
             return new ResponseModel<bool> { Result = true };
         }

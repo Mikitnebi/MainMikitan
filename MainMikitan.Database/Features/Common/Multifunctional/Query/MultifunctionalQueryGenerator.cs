@@ -11,7 +11,7 @@ public class MultifunctionalQuery : IMultifunctionalQuery
         
         foreach (var property in properties)
         {
-            if (property.Name is not ("Id" or "DatabaseName" or "SchemaName" or "TableName"))
+            if (property.Name is not "Id")
             {
                 createSql += $"{property.Name}, ";
             }
@@ -22,7 +22,7 @@ public class MultifunctionalQuery : IMultifunctionalQuery
             
         foreach (var property in properties)
         {
-            if (property.Name is not ("Id" or "DatabaseName" or "SchemaName" or "TableName"))
+            if (property.Name is not "Id")
             {
                 createSql += $"@{property.Name}, ";
             }
@@ -40,7 +40,7 @@ public class MultifunctionalQuery : IMultifunctionalQuery
 
         foreach (var property in properties)
         {
-            if (property.Name is not ("Id" or "DatabaseName" or "SchemaName" or "TableName"))
+            if (property.Name is not "Id")
             {
                 updateSql += $"{property.Name} = @{property.Name}, ";
             }
@@ -65,18 +65,13 @@ public class MultifunctionalQuery : IMultifunctionalQuery
         string createTableSQL = $"CREATE TABLE {tableName} (";
         createTableSQL += string.Join(", ", columns.Select(column =>
         {
-            if (column.ColumnName is not ("DatabaseName" or "SchemaName" or "TableName"))
+            if (column.ColumnName is "Id")
             {
-                string nullable = column.IsNullable ? "NULL" : "NOT NULL";
-                return $"{column.ColumnName} {column.DataType} {nullable}";
-            }
-            else if (column.ColumnName is "Id")
-            {
-                string nullable = column.IsNullable ? "NULL" : "NOT NULL";
-                return $"{column.ColumnName} {column.DataType} {nullable} IDENTITY( 1, 1)";
+                return $"{column.ColumnName} {column.DataType} IDENTITY( 1, 1)";
             }
 
-            return "";
+            string nullable = column.IsNullable ? "NULL" : "NOT NULL";
+            return $"{column.ColumnName} {column.DataType} {nullable}";
         }));
         createTableSQL += ");";
 
