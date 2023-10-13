@@ -1,16 +1,12 @@
 using System.Data.SqlClient;
 using Dapper;
 using System.Data;
-using System.Net.Http.Json;
 using System.Reflection;
-using System.Text.Json.Nodes;
-using System.Text.Json.Serialization;
 using MainMikitan.Database.Features.Common.Multifunctional.Interface.Query;
 using MainMikitan.Database.Features.Common.Multifunctional.Interface.Repository;
 using MainMikitan.Domain.Models.Setting;
 using MainMikitan.InternalServiceAdapterService.Exceptions;
 using Microsoft.Extensions.Options;
-using NPOI.SS.Formula.Functions;
 
 namespace MainMikitan.Database.Features.Common.Multifunctional.Repository;
 
