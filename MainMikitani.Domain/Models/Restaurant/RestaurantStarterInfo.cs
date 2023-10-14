@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
-using static MainMikitan.Domain.Enums;
-
-namespace MainMikitan.Domain.Models.Restaurant
+﻿namespace MainMikitan.Domain.Models.Restaurant
 {
     public class RestaurantStarterInfo 
     {

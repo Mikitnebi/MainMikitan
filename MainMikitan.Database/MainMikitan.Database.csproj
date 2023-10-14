@@ -21,4 +21,10 @@
     <Folder Include="Features\Category\Command\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="MainMikitan.Domain">
+      <HintPath>..\MaikMikitan\bin\Debug\net7.0\MainMikitan.Domain.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

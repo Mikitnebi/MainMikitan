@@ -10,8 +10,12 @@ namespace MainMikitan.Domain.Requests
     public class CustomerRegistrationRequest
     {
         [MaxLength(40, ErrorMessage = ErrorType.BadTypeFullName)]
-        [MinLength(4, ErrorMessage = ErrorType.BadTypeFullName)]
-        public string FullName { get; set; } = null!;
+        [MinLength(1, ErrorMessage = ErrorType.BadTypeFullName)]
+        public string FirstName { get; set; } = null!;
+        [MaxLength(40, ErrorMessage = ErrorType.BadTypeFullName)]
+        [MinLength(1, ErrorMessage = ErrorType.BadTypeFullName)]
+
+        public string LastName { get; set; } = null!;
         public bool AdultnessConfirmation { get; set; }
         [EmailAddress(ErrorMessage = ErrorType.BadTypeEmailAddress)]
         [MaxLength(40, ErrorMessage = ErrorType.BadTypeEmailAddress)]

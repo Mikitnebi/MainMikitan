@@ -25,7 +25,7 @@ namespace MainMikitan.Database.Features.Restaurant.Command
         public async Task<int> Create(RestaurantEntity restaurant)
         {
             restaurant.CreatedAt = DateTime.Now;
-            return await _multifunctionalRepository.AddOrUpdateTableData(restaurant, "MainMikitan", "dbo", "Restaurant");
+            return await _multifunctionalRepository.AddOrUpdateTableData<RestaurantEntity>(restaurant, "MainMikitan", "dbo", "Restaurant");
         }
     }
 }

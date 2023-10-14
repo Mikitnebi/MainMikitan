@@ -1,19 +1,8 @@
 ﻿using MainMikitan.Database.Features.Common.Multifunctional.Interface.Repository;
-using MainMikitan.Database.Features.Restaurant.Command;
-using MainMikitan.Database.Features.Restaurant.Interface;
-using MainMikitan.Domain;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Models.Restaurant;
 using MainMikitan.Domain.Requests.RestaurantRequests;
-using MainMikitan.Domain.Responses.RestaurantResponses;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 

@@ -2,12 +2,9 @@
 using MainMikitan.Domain.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using MainMikitan.Application.Features.Customer.Commands;
-using Microsoft.AspNetCore.Authorization;
 using MainMikitan.Domain.Requests.GeneralRequests;
 using Microsoft.AspNetCore.Cors;
 using MainMikitan.Domain.Requests.Customer;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using MainMikitan.API.Extentions;
 using static MainMikitan.Domain.Enums;
 using MainMikitan.API.Filters;
@@ -66,10 +63,30 @@ namespace MainMikitan.API.Controllers
         }
         #endregion
 
-        #region CustomerInfo
+        #region CustomerInterest
 
         [Authorized(RoleId.Customer)]
-        [HttpPost("CreateOrUpdateCustomerInfo")]
+        [HttpPost("CreateOrUpdateCustomerInterest")]
+        [EnableCors("AllowSpecificOrigin")]
+        public async Task<IActionResult> FillCustomerInterest(FillCustomerInterestRequest request)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _mediator.Send(new CustomerInfoCreateOrUpdateCommand(request, User.GetCustomerId()));
+                if (result.HasError)
+                {
+                    return BadRequest(result);
+                }
+                return Ok(result);
+            }
+            return BadRequest(ModelState);
+        }
+        #endregion
+
+        #region FillCustomerBasicInfo
+                
+        [Authorized(RoleId.Customer)]
+        [HttpPost("CreateOrUpdateCustomerInterest")]
         [EnableCors("AllowSpecificOrigin")]
         public async Task<IActionResult> FillCustomerInfo(FillCustomerInfoRequest request)
         {
@@ -84,6 +101,7 @@ namespace MainMikitan.API.Controllers
             }
             return BadRequest(ModelState);
         }
+                
         #endregion
     }
 }

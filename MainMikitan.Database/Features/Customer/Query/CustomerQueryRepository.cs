@@ -1,13 +1,7 @@
 ﻿using MainMikitan.Domain.Models.Setting;
 using MainMikitan.Domain.Models.Customer;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using Dapper;
 using MainMikitan.Database.Features.Customer.Interface;
 
@@ -42,11 +36,6 @@ namespace MainMikitan.Database.Features.Customer
 
             var sqlCommand = "SELECT * FROM [dbo].[Customers] WHERE [EmailAddress] = @email AND [StatusId] = '0' ORDER BY [CreatedAt] DESC";
             return await connection.QueryFirstOrDefaultAsync<CustomerEntity>(sqlCommand, new { email });
-        }
-
-        public async Task ContainsId()
-        {
-            
         }
     }
 }
