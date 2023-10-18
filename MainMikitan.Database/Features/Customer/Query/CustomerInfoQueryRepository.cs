@@ -25,7 +25,3 @@ public class CustomerInfoQueryRepository : ICustomerInfoQueryRepository
         return await connection.QueryFirstOrDefaultAsync<CustomerInfoEntity>(sqlCommand, new { customerId });
     }
 }
-
-public class CustomerInfoEntity
-{
-}

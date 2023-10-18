@@ -15,20 +15,24 @@ namespace MainMikitan.API.Controllers
     [Route("[controller]")]
     [EnableCors("AllowSpecificOrigin")]
 
-    public class CustomerController : ControllerBase 
+    public class CustomerController : ControllerBase
     {
         private readonly IMediator _mediator;
+
         public CustomerController(IMediator mediator)
         {
             _mediator = mediator;
         }
+
         [HttpOptions]
         [EnableCors("AllowSpecificOrigin")] // Apply the CORS policy to this OPTIONS request
-        public IActionResult Options() {
+        public IActionResult Options()
+        {
             return Ok();
         }
 
         #region Registration
+
         [HttpPost]
         [Route("registration")]
         [EnableCors("AllowSpecificOrigin")]
@@ -41,29 +45,36 @@ namespace MainMikitan.API.Controllers
                 {
                     return BadRequest(result);
                 }
+
                 return Ok(result);
             }
+
             return BadRequest(ModelState);
         }
+
         [HttpPost("email-validation")]
         [EnableCors("AllowSpecificOrigin")]
         public async Task<IActionResult> CustomerRegistationVerifyOtp(GeneralRegistrationVerifyOtpRequest model)
         {
             //???
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                var result = await _mediator.Send(new CustomerRegistrationVerifyOtpCommand(new GeneralRegistrationVerifyOtpRequest {
-                    Email = model.Email,
-                    Otp = model.Otp
-                }));
+                var result = await _mediator.Send(new CustomerRegistrationVerifyOtpCommand(
+                    new GeneralRegistrationVerifyOtpRequest
+                    {
+                        Email = model.Email,
+                        Otp = model.Otp
+                    }));
                 if (result.HasError) return BadRequest(result);
                 return Ok(result);
             }
+
             return BadRequest(ModelState);
         }
+
         #endregion
 
-        #region CustomerInterest
+        /*#region CustomerInterest
 
         [Authorized(RoleId.Customer)]
         [HttpPost("CreateOrUpdateCustomerInterest")]
@@ -84,7 +95,7 @@ namespace MainMikitan.API.Controllers
         #endregion
 
         #region FillCustomerBasicInfo
-                
+
         [Authorized(RoleId.Customer)]
         [HttpPost("CreateOrUpdateCustomerInterest")]
         [EnableCors("AllowSpecificOrigin")]
@@ -101,7 +112,8 @@ namespace MainMikitan.API.Controllers
             }
             return BadRequest(ModelState);
         }
-                
+
         #endregion
+    }*/
     }
 }

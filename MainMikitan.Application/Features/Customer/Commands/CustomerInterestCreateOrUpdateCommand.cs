@@ -17,11 +17,11 @@ namespace MainMikitan.Application.Features.Customer.Commands
             _CustomerId = customerId;
         }
     }
-    public class CustomerInfoCreateOrUpdateCommandHandler : IRequestHandler<CustomerInterestCreateOrUpdateCommand, ResponseModel<bool>>
+    public class CustomerInterestCreateOrUpdateCommandHandler : IRequestHandler<CustomerInterestCreateOrUpdateCommand, ResponseModel<bool>>
     {
         private readonly ICategoryQueryRepository _categoryQueryRepository;
         private readonly ICustomerQueryRepository _customerCategoryQueryRepository;
-        public CustomerInfoCreateOrUpdateCommandHandler(ICategoryQueryRepository categoryQueryRepository, 
+        public CustomerInterestCreateOrUpdateCommandHandler(ICategoryQueryRepository categoryQueryRepository, 
             ICustomerQueryRepository customerCategoryQueryRepository)
         {
             _categoryQueryRepository = categoryQueryRepository;
