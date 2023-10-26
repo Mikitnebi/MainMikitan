@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MainMikitan.Domain.Models.Setting
+namespace MainMikitan.Domain.Models.Setting;
+
+public class OtpOptions
 {
-    public class OtpOptions
-    {
-        public int IntroValidationTime { get; set; }
-    }
+    public int IntroValidationTime { get; set; }
 }

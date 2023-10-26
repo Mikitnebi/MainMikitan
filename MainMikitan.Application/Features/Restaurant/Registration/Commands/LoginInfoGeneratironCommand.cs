@@ -52,8 +52,7 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands
             var restaurant = new RestaurantEntity
             {
                 UserName = generateUserName,
-                Password = generatePassword,
-                Email = request._email
+                PasswordHash = generatePassword
             };
             var addRestaurant = await _restaurantCommandRepository.Create(restaurant);
             if(addRestaurant == 0)

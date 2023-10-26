@@ -6,14 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace MainMikitan.Domain.Requests.RestaurantRequests {
-    public record RestaurantRegistrationIntroRequest {
-        public string BusinessName { get; set; }
+    public record RestaurantRegistrationIntroRequest
+    {
+        public string BusinessNameGeo { get; set; } = null!;
+        public string BusinessNameEng { get; set; } = null!;
 
-        [Phone]
-        public string PhoneNumber { get; set; }
+        [Phone] public string PhoneNumber { get; set; } = null!;
 
-        [EmailAddress]
-        public string EmailAddress { get; set; }
+        [EmailAddress] public string EmailAddress { get; set; } = null!;
         public int RegionId { get; set; }
     }
 }

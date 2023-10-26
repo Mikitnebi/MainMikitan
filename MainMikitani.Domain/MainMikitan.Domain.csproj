@@ -21,4 +21,8 @@
     <PackageReference Include="NPOI" Version="2.6.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Models\Customer\CustomerAnalytics.cs" />
+  </ItemGroup>
+
 </Project>

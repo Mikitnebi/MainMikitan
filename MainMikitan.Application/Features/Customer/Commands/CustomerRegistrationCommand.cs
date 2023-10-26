@@ -84,8 +84,7 @@ namespace MainMikitan.Application.Features.Customer.Commands {
                     var createCustomerResult = await _customerCommandRepository.CreateOrUpdate(new CustomerEntity
                     {
                         EmailAddress = email,
-                        FirstName = registrationRequest.FirstName,
-                        LastName = registrationRequest.LastName,
+                        FullName = $"{registrationRequest.FirstName} {registrationRequest.LastName}",
                         MobileNumber = registrationRequest.MobileNumber,
                         HashPassWord = registrationRequest.Password
                     });

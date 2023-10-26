@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.SqlClient;
 using Dapper;
-using FluentEmail.Core;
-using MainMikitan.Domain.Models.Customer;
 using MainMikitan.Domain.Models.Setting;
 using Microsoft.Extensions.Options;
-using System.Data.Common;
 
 namespace MainMikitan.Database.Features.Category.Query
 {

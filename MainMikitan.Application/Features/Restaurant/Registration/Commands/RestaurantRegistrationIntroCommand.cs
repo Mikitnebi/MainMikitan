@@ -61,7 +61,8 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
                     PhoneNumber = registrationRequest.PhoneNumber,
                     RegionId = registrationRequest.RegionId,
                     EmailAddress = registrationRequest.EmailAddress,
-                    BusinessName = registrationRequest.BusinessName,
+                    BusinessNameGeo = registrationRequest.BusinessNameGeo,
+                    BusinessNameEng = registrationRequest.BusinessNameEng
                 }); 
                 response.Result = true;
                 return response;
