@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.143" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.13" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
   </ItemGroup>
@@ -24,6 +25,9 @@
   <ItemGroup>
     <Reference Include="MainMikitan.Domain">
       <HintPath>..\MaikMikitan\bin\Debug\net7.0\MainMikitan.Domain.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.EntityFrameworkCore">
+      <HintPath>..\..\..\.nuget\packages\microsoft.entityframeworkcore\3.0.0\lib\netstandard2.1\Microsoft.EntityFrameworkCore.dll</HintPath>
     </Reference>
   </ItemGroup>
 

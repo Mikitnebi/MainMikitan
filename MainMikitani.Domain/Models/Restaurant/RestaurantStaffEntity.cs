@@ -1,6 +1,6 @@
 namespace MainMikitan.Domain.Models.Restaurant;
 
-public class RestaurantStaff
+public class RestaurantStaffEntity
 {
     public int Id { get; set; }
     public string NameGeo { get; set; } = null!;
