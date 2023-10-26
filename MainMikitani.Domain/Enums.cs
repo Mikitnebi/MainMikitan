@@ -116,6 +116,12 @@ namespace MainMikitan.Domain
             public const string RestaurantNotUpdated = "RESTAURANT_NOT_UPDATED";
         }
 
+        public record struct CustomerInterest
+        {
+            public const string NotDelete = "CUSTOMERINTERESTdb_NOT_DELETE";
+            public const string NotAdd = "CUSTOMERINTERESTdb_NOT_ADD";
+        }
+
         public const string CustomerCategoryNotUpdated = "CUSTOMER_CATEGORY_NOT_UPDATED";
         public static readonly string CustomerNotUpdated = "CUSTOMER_NOT_UPDATED";
 

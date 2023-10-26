@@ -74,27 +74,31 @@ namespace MainMikitan.API.Controllers
 
         #endregion
 
-        /*#region CustomerInterest
+        #region CustomerInterest
 
         [Authorized(RoleId.Customer)]
         [HttpPost("CreateOrUpdateCustomerInterest")]
         [EnableCors("AllowSpecificOrigin")]
-        public async Task<IActionResult> FillCustomerInterest(FillCustomerInterestRequest request)
+        public async Task<IActionResult> CreateOrUpdateCustomerInterest(FillCustomerInterestRequest request)
         {
             if (ModelState.IsValid)
             {
-                var result = await _mediator.Send(new CustomerInfoCreateOrUpdateCommand(request, User.GetCustomerId()));
+                var result =
+                    await _mediator.Send(new CreateOrUpdateCustomerInterestCommand(request, User.GetCustomerId()));
                 if (result.HasError)
                 {
                     return BadRequest(result);
                 }
+
                 return Ok(result);
             }
+
             return BadRequest(ModelState);
         }
+
         #endregion
 
-        #region FillCustomerBasicInfo
+        /*#region FillCustomerBasicInfo
 
         [Authorized(RoleId.Customer)]
         [HttpPost("CreateOrUpdateCustomerInterest")]
@@ -108,12 +112,13 @@ namespace MainMikitan.API.Controllers
                 {
                     return BadRequest(result);
                 }
+
                 return Ok(result);
             }
+
             return BadRequest(ModelState);
         }
 
-        #endregion
-    }*/
+        #endregion*/
     }
 }
