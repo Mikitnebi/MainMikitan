@@ -15,6 +15,8 @@ using Amazon.S3;
 using Amazon.Extensions.NETCore.Setup;
 using Amazon.Runtime;
 using Amazon;
+using MainMikitan.Database.DbContext;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,6 +57,10 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddDbContext<MikDbContext>(opt =>
+    opt.UseSqlServer(builder.Configuration["BankDbContext"]));
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
@@ -90,7 +96,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtOptions"));
-builder.Services.Configure<ConnectionStringsOption>(builder.Configuration.GetSection("ConnectionStringsOptions"));
+builder.Services.Configure<ConnectionStringsOptions>(builder.Configuration.GetSection("ConnectionStringsOptions"));
 builder.Services.Configure<EmailSenderOptions>(builder.Configuration.GetSection("EmailSenderOptions"));
 builder.Services.Configure<OtpOptions>(builder.Configuration.GetSection("OtpOptions"));
 builder.Services.Configure<SecurityOptions>(builder.Configuration.GetSection("SecurityOptions"));
