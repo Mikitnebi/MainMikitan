@@ -20,8 +20,7 @@ public class CreateOrUpdateCustomerInterestCommand : IRequest<ResponseModel<bool
         }
     }
 
-public class
-    CreateOrUpdateCustomerInterestCommandHandler : IRequestHandler<CreateOrUpdateCustomerInterestCommand,
+public class CreateOrUpdateCustomerInterestCommandHandler : IRequestHandler<CreateOrUpdateCustomerInterestCommand,
         ResponseModel<bool>>
 {
     private readonly ICategoryQueryRepository _categoryQueryRepository;
@@ -61,7 +60,11 @@ public class
             return response;
         }
 
-        await _customerInterestRepository.SaveChanges();
+        if (await _customerInterestRepository.SaveChanges())
+        {
+            response.ErrorType = ErrorType.CustomerInterest.NotDbSave;
+            return response;
+        }
         response.Result = true;
         return response;
     }

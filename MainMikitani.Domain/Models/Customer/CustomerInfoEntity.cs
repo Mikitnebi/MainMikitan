@@ -5,11 +5,11 @@ public class CustomerInfoEntity
     public string FirstName { get; set; } = null!;
     public string LastName { get; set; } = null!;
     public int CustomerId { get; set; }
-    public DateTime BirthDate { get; set; }
+    public DateOnly BirthDate { get; set; }
     public int GenderId { get; set; }
     public int NationalityId { get; set; }
-    public DateTime? UpdateAt { get; set; }
-    public DateTime CreateAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
 }
     
 

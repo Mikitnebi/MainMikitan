@@ -34,6 +34,7 @@ namespace MainMikitan.Database
             services.AddScoped<ICustomerQueryRepository, CustomerQueryRepository>();
             services.AddScoped<ICustomerCommandRepository, CustomerCommandRepository>();
             services.AddScoped<ICustomerInterestRepository, CustomerInterestRepository>();
+            services.AddScoped<ICustomerInfoRepository, CustomerInfoRepository>();
 
             //email
             services.AddScoped<IEmailSenderQueryRepository, EmailSenderQueryRepository>();

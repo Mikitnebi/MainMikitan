@@ -24,13 +24,6 @@ namespace MainMikitan.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpOptions]
-        [EnableCors("AllowSpecificOrigin")] // Apply the CORS policy to this OPTIONS request
-        public IActionResult Options()
-        {
-            return Ok();
-        }
-
         #region Registration
 
         [HttpPost]
@@ -77,7 +70,7 @@ namespace MainMikitan.API.Controllers
         #region CustomerInterest
 
         [Authorized(RoleId.Customer)]
-        [HttpPost("CreateOrUpdateCustomerInterest")]
+        [HttpPost("CreateOrUpdateInterest")]
         [EnableCors("AllowSpecificOrigin")]
         public async Task<IActionResult> CreateOrUpdateCustomerInterest(FillCustomerInterestRequest request)
         {
@@ -98,16 +91,16 @@ namespace MainMikitan.API.Controllers
 
         #endregion
 
-        /*#region FillCustomerBasicInfo
+        #region FillCustomerBasicInfo
 
         [Authorized(RoleId.Customer)]
-        [HttpPost("CreateOrUpdateCustomerInterest")]
+        [HttpPost("CreateOrUpdateInfo")]
         [EnableCors("AllowSpecificOrigin")]
-        public async Task<IActionResult> FillCustomerInfo(FillCustomerInfoRequest request)
+        public async Task<IActionResult> CreateOrUpdateCustomerInfo(CreateOrUpdateCustomerInfoRequest request)
         {
             if (ModelState.IsValid)
             {
-                var result = await _mediator.Send(new CustomerInfoCreateOrUpdateCommand(request, User.GetCustomerId()));
+                var result = await _mediator.Send(new CreateOrUpdateCustomerInfoCommand(request, User.GetCustomerId()));
                 if (result.HasError)
                 {
                     return BadRequest(result);
@@ -119,6 +112,6 @@ namespace MainMikitan.API.Controllers
             return BadRequest(ModelState);
         }
 
-        #endregion*/
+        #endregion
     }
 }
