@@ -21,7 +21,7 @@ namespace MainMikitan.InternalServicesAdapter.Validations {
                 response.ErrorType = ErrorType.NotCorrectRegionId;
                 return response;
             }
-            if (model.BusinessName == null) {
+            if (model.BusinessNameGeo == null || model.BusinessNameEng == null) {
                 response.ErrorType = ErrorType.NotAppropriateBusinessName;
                 return response;
             }

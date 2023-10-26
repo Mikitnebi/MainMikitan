@@ -90,7 +90,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtOptions"));
-builder.Services.Configure<ConnectionStringsOptions>(builder.Configuration.GetSection("ConnectionStringsOptions"));
+builder.Services.Configure<ConnectionStringsOption>(builder.Configuration.GetSection("ConnectionStringsOptions"));
 builder.Services.Configure<EmailSenderOptions>(builder.Configuration.GetSection("EmailSenderOptions"));
 builder.Services.Configure<OtpOptions>(builder.Configuration.GetSection("OtpOptions"));
 builder.Services.Configure<SecurityOptions>(builder.Configuration.GetSection("SecurityOptions"));

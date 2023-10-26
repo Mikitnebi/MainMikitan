@@ -1,6 +1,6 @@
 ﻿namespace MainMikitan.Domain.Models.Restaurant
 {
-    public class RestaurantStarterInfo 
+    public class RestaurantInfoEntity 
     {
         //
         public int Id { get; set; }
@@ -25,7 +25,8 @@
         public short MusicStartMinute { get; set; }
         public short MusicEndMinute { get; set; }
         public bool ForCorporateEvents { get; set; }
-        public string? Description { get; set; }
+        public string? DescriptionGeo { get; set; }
+        public string? DescriptionEng { get; set; }
         public int ActiveStatusId { get; set; }
         public bool TwoStepAuth { get; set; }
         public int UpdateUserId { get; set; }
