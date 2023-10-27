@@ -22,6 +22,8 @@ using MainMikitan.Database.Features.Common.Multifunctional.Interface.Query;
 using MainMikitan.Database.Features.Common.Multifunctional.Interface.Repository;
 using MainMikitan.Database.Features.Common.Multifunctional.Query;
 using MainMikitan.Database.Features.Common.Multifunctional.Repository;
+using MainMikitan.Database.Features.Dish.Command;
+using MainMikitan.Database.Features.Dish.Interface;
 using MainMikitan.Database.Features.Restaurant.Interface;
 
 namespace MainMikitan.Database
@@ -55,6 +57,9 @@ namespace MainMikitan.Database
             //multifunctional Repository
             services.AddScoped<IMultifunctionalQuery, MultifunctionalQuery>();
             services.AddScoped<IMultifunctionalRepository, MultifunctionalRepository>();
+            
+            //Dish Repository
+            services.AddScoped<IDishCommandRepository, DishCommandRepository>();
 
         }
     }
