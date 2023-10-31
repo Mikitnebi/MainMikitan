@@ -7,8 +7,8 @@ namespace MainMikitan.Application.Features.Dish.Add.Commands;
 
 public class AddCategoryDishCommand : IRequest<ResponseModel<bool>>
 {
-    public AddCategoryDishRequest Request { get; }
-    public AddCategoryDishCommand(AddCategoryDishRequest request)
+    public List<AddCategoryDishRequest> Request { get; }
+    public AddCategoryDishCommand(List<AddCategoryDishRequest> request)
     {
         Request = request;
     }
@@ -28,8 +28,12 @@ public class AddCategoryDishHandler : IRequestHandler<AddCategoryDishCommand, Re
         CancellationToken cancellationToken)
     {
         var response = new ResponseModel<bool>();
+
+        foreach (var dishCategory in request.Request)
+        {
+            await _dishCommandRepository.AddDishCategory(dishCategory);
+        }
         
-        await _dishCommandRepository.AddDishCategory(request.Request);
         response.Result = await _dishCommandRepository.SaveDishChanges();
 
         return response;

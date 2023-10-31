@@ -23,24 +23,24 @@ public class CustomerInfoCommandRepository
         _connectionString = connectionString.Value;
     }
 
-    public async Task<int> AddOrUpdateCustomerInfo(FillCustomerInfoRequest request)
-    {
-        using var connection = new SqlConnection(_connectionString.MainMik);
-        var customerInfo = await _customerInfoQueryRepository.GetVerifiedFromCustomerInfoById(request.CustomerId);
-        if (customerInfo is null)
-        {
-            return await _multifunctionalRepository.AddOrUpdateTableData(request, "MainMikitan", "dbo", "CustomerInfo");
-        }
-
-
-        var updateQuery = "UPDATE [MainMikitan].[dbo].[CustomerInfo] SET FirstName = @FirstName, " +
-                          "LastName = @LastName," +
-                          "BirthDate = @BirthDate," +
-                          "GenderId = @GenderId," +
-                          "NationalityId = @NationalityId," +
-                          "UpdateAt = @UpdateAt" +
-                          "WHERE CustomerId = @CustomerId";
-
-        return await connection.ExecuteAsync(updateQuery, request);
-    }
+    // public async Task<int> AddOrUpdateCustomerInfo(FillCustomerInfoRequest request)
+    // {
+    //     using var connection = new SqlConnection(_connectionString.MainMik);
+    //     var customerInfo = await _customerInfoQueryRepository.GetVerifiedFromCustomerInfoById(request.CustomerId);
+    //     if (customerInfo is null)
+    //     {
+    //         return await _multifunctionalRepository.AddOrUpdateTableData(request, "MainMikitan", "dbo", "CustomerInfo");
+    //     }
+    //
+    //
+    //     var updateQuery = "UPDATE [MainMikitan].[dbo].[CustomerInfo] SET FirstName = @FirstName, " +
+    //                       "LastName = @LastName," +
+    //                       "BirthDate = @BirthDate," +
+    //                       "GenderId = @GenderId," +
+    //                       "NationalityId = @NationalityId," +
+    //                       "UpdateAt = @UpdateAt" +
+    //                       "WHERE CustomerId = @CustomerId";
+    //
+    //     return await connection.ExecuteAsync(updateQuery, request);
+    // }
 }
