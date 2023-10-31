@@ -21,21 +21,21 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using ErrorType = MainMikitan.Domain.ErrorType;
 
-namespace MainMikitan.ExternalServicesAdapter.S3Adapter
+namespace MainMikitan.ExternalServicesAdapter.S3ServiceAdapter
 {
-    public class S3Adapter
+    public class S3Adapter : IS3Adapter
     {
         private readonly IAmazonS3 _s3Client;
-        private readonly string BucketName;
+        private readonly string _bucketName;
         public S3Adapter(IAmazonS3 s3Client)
         {
             _s3Client = s3Client;
-            BucketName = "samikitno";
+            _bucketName = "samikitno";
         }
         public async Task<ResponseModel<bool>> CreateBucket()
         {
             var response = new ResponseModel<bool>();
-            var bucketName = BucketName;
+            var bucketName = _bucketName;
             var bucketExist = await AmazonS3Util.DoesS3BucketExistV2Async(_s3Client, bucketName);
             if (!bucketExist)
             {
@@ -64,7 +64,7 @@ namespace MainMikitan.ExternalServicesAdapter.S3Adapter
             await DeleteAllContentWithKey(baseKey);
             var putRequest = new PutObjectRequest()
             {
-                BucketName = BucketName,
+                BucketName = _bucketName,
                 Key = $"{baseKey}{DateTime.Now:yyyy-MM-dd-HH-mm}",
                 InputStream = file.OpenReadStream(),
             };
@@ -83,7 +83,7 @@ namespace MainMikitan.ExternalServicesAdapter.S3Adapter
             await DeleteAllContentWithKey(baseKey);
             var putRequest = new PutObjectRequest()
             {
-                BucketName = BucketName,
+                BucketName = _bucketName,
                 Key = $"{baseKey}{DateTime.Now:yyyy-MM-dd-HH-mm}",
                 InputStream = file.OpenReadStream(),
             };
@@ -107,7 +107,7 @@ namespace MainMikitan.ExternalServicesAdapter.S3Adapter
             await DeleteAllContentWithKey(baseKey);
             var putRequest = new PutObjectRequest()
             {
-                BucketName = BucketName,
+                BucketName = _bucketName,
                 Key = $"{baseKey}{DateTime.Now:yyyy-MM-dd-HH-mm}",
                 InputStream = file.OpenReadStream(),
             };
@@ -134,7 +134,7 @@ namespace MainMikitan.ExternalServicesAdapter.S3Adapter
                 counter++;
                 var putRequest = new PutObjectRequest()
                 {
-                    BucketName = BucketName,
+                    BucketName = _bucketName,
                     Key = $"{baseKey}{counter}-{DateTime.Now:yyyy-MM-dd-HH-mm}",
                     InputStream = file.OpenReadStream(),
                 };
@@ -158,7 +158,7 @@ namespace MainMikitan.ExternalServicesAdapter.S3Adapter
             {
                 var deleteRequest = new DeleteObjectRequest()
                 {
-                    BucketName = BucketName,
+                    BucketName = _bucketName,
                     Key = $"{baseKey}{file.Key}"
                 };
                 var deleteResponse = await _s3Client.DeleteObjectAsync(deleteRequest);
@@ -177,7 +177,7 @@ namespace MainMikitan.ExternalServicesAdapter.S3Adapter
             await DeleteAllContentWithKey(baseKey);
             var putRequest = new PutObjectRequest()
             {
-                BucketName = BucketName,
+                BucketName = _bucketName,
                 Key = $"{baseKey}-{DateTime.Now:yyyy-MM-dd-HH-mm}",
                 InputStream = file.OpenReadStream(),
             };
@@ -202,7 +202,7 @@ namespace MainMikitan.ExternalServicesAdapter.S3Adapter
         {
             var requestForListCount = new ListObjectsV2Request
             {
-                BucketName = BucketName,
+                BucketName = _bucketName,
                 Prefix = baseKey
             };
             var responseForListCount = await _s3Client.ListObjectsV2Async(requestForListCount);
@@ -212,7 +212,7 @@ namespace MainMikitan.ExternalServicesAdapter.S3Adapter
                 {
                     var deleteRequest = new DeleteObjectRequest
                     {
-                        BucketName = BucketName,
+                        BucketName = _bucketName,
                         Key = s3Object.Key
                     };
 
@@ -237,7 +237,7 @@ namespace MainMikitan.ExternalServicesAdapter.S3Adapter
         {
             var requestForList = new ListObjectsV2Request
             {
-                BucketName = BucketName,
+                BucketName = _bucketName,
                 Prefix = baseKey
             };
             var responseForList = await _s3Client.ListObjectsV2Async(requestForList);
@@ -246,7 +246,7 @@ namespace MainMikitan.ExternalServicesAdapter.S3Adapter
             if (imageResponse == null) return new ResponseModel<string> { Result = null };
             var imageUrl = _s3Client.GetPreSignedURL(new GetPreSignedUrlRequest()
             {
-                BucketName = BucketName,
+                BucketName = _bucketName,
                 Key = imageResponse.Key,
                 Expires = DateTime.Now.AddHours(1)
             });
@@ -259,7 +259,7 @@ namespace MainMikitan.ExternalServicesAdapter.S3Adapter
         {
             var requestForList = new ListObjectsV2Request
             {
-                BucketName = BucketName,
+                BucketName = _bucketName,
                 Prefix = baseKey
             };
             var responseForList = await _s3Client.ListObjectsV2Async(requestForList);
@@ -270,7 +270,7 @@ namespace MainMikitan.ExternalServicesAdapter.S3Adapter
             {
                 var getUrlRequest = new GetPreSignedUrlRequest()
                 {
-                    BucketName = BucketName,
+                    BucketName = _bucketName,
                     Key = o.Key,
                     Expires = DateTime.Now.AddHours(1)
                 };

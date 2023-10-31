@@ -2,6 +2,7 @@ using MainMikitan.Database.DbContext;
 using MainMikitan.Database.Features.Customer.Interface;
 using MainMikitan.Domain.Models.Customer;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Crypto;
 
 namespace MainMikitan.Database.Features.Customer.Command;
 
@@ -32,6 +33,11 @@ public class CustomerInterestRepository : ICustomerInterestRepository
             if (result.Entity == null) return false;
         }
         return true;
+    }
+
+    public async Task<List<CustomerInterestEntity>> Get(int customerId)
+    {
+        return await _mikDbContext.CustomerInterest.Where(t => t.CustomerId == customerId).ToListAsync();
     }
 
     public async Task<bool> SaveChanges()

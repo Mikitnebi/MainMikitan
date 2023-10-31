@@ -120,6 +120,7 @@ namespace MainMikitan.Domain
         {
             public const string NotCreated = "CUSTOMERINFOdb_NOT_CREATED";
             public const string NotDbSave = "CUSTOMERINFOdb_NOT_SAVECHANGED";
+            public const string NotGetInfo = "CUSTOMERINFOdb_NOT_GET_INFO";
         }
 
         public record struct CustomerInterest

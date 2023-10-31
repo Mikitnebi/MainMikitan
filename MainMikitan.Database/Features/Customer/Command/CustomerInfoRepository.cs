@@ -52,6 +52,11 @@ public class CustomerInfoRepository : ICustomerInfoRepository
         return true;
     }
 
+    public async Task<CustomerInfoEntity?> Get(int customerId)
+    {
+        var customerInfoResponse = await _mikDbContext.CustomerInfo.FirstOrDefaultAsync(t => t.CustomerId == customerId);
+        return customerInfoResponse ?? null;
+    }
     public async Task<bool> SaveChanges()
     {
         var result = await _mikDbContext.SaveChangesAsync();
