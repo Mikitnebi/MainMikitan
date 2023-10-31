@@ -1,4 +1,3 @@
-using Amazon.Runtime.Internal;
 using MainMikitan.Database.Features.Dish.Interface;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Requests;
@@ -8,9 +7,9 @@ namespace MainMikitan.Application.Features.Dish.Add.Commands;
 
 public class AddDishCommand : IRequest<ResponseModel<bool>>
 {
-    public AddDishRequest Request { get; } 
+    public List<AddDishRequest> Request { get; } 
     
-    public AddDishCommand(AddDishRequest request)
+    public AddDishCommand(List<AddDishRequest> request)
     {
         Request = request;
     }
@@ -28,7 +27,12 @@ public class AddDishHandler : IRequestHandler<AddDishCommand, ResponseModel<bool
     public async Task<ResponseModel<bool>> Handle(AddDishCommand request, CancellationToken cancellationToken)
     {
         var response = new ResponseModel<bool>();
-        await _dishCommandRepository.AddDish(request.Request);
+
+        foreach (var dish in request.Request)
+        {
+            await _dishCommandRepository.AddDish(dish);
+        }
+
         response.Result = await _dishCommandRepository.SaveDishChanges();
 
         return response;

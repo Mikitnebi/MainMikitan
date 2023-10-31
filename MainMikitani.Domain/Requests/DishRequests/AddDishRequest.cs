@@ -1,6 +1,6 @@
 namespace MainMikitan.Domain.Requests;
 
-public class AddDishRequest
+public record AddDishRequest
 {
     public bool IsActive { get; set; }
     public bool IsDeleted { get; set; }

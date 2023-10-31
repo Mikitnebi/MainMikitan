@@ -1,6 +1,6 @@
 namespace MainMikitan.Domain.Requests;
 
-public class AddDishInfoRequest
+public record AddDishInfoRequest
 {
     public int DishId { get; set; }
     public string NameGeo { get; set; } = null!;

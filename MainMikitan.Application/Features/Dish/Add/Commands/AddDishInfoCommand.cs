@@ -8,9 +8,9 @@ namespace MainMikitan.Application.Features.Dish.Add.Commands;
 
 public class AddDishInfoCommand : IRequest<ResponseModel<bool>>
 {
-    public AddDishInfoRequest Request { get; }
+    public List<AddDishInfoRequest> Request { get; }
     
-    public AddDishInfoCommand(AddDishInfoRequest request)
+    public AddDishInfoCommand(List<AddDishInfoRequest> request)
     {
         Request = request;
     }
@@ -29,8 +29,12 @@ public class AddDishInfoHandler : IRequestHandler<AddDishInfoCommand, ResponseMo
         CancellationToken cancellationToken)
     {
         var response = new ResponseModel<bool>();
+
+        foreach (var dishInfo in request.Request)
+        {
+            await _dishCommandRepository.AddDishInfo(dishInfo);
+        }
         
-        await _dishCommandRepository.AddDishInfo(request.Request);
         response.Result = await _dishCommandRepository.SaveDishChanges();
 
         return response;
