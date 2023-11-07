@@ -3,14 +3,15 @@ using MainMikitan.Database.Features.Customer.Interface;
 using MainMikitan.Domain;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Requests.Customer;
+using MainMikitan.Domain.Templates;
 using MainMikitan.InternalServicesAdapter.Validations;
 using MediatR;
 
 namespace MainMikitan.Application.Features.Customer.Commands;
 
-public class CreateOrUpdateCustomerInfoCommand : IRequest<ResponseModel<bool>>
+public class CreateOrUpdateCustomerInfoCommand : ICommand
 {
-    public CreateOrUpdateCustomerInfoRequest CustomerRequest;
+    public readonly CreateOrUpdateCustomerInfoRequest CustomerRequest;
     public int CustomerId { get; set; }
 
     public CreateOrUpdateCustomerInfoCommand(CreateOrUpdateCustomerInfoRequest command, int customerId)
@@ -20,8 +21,7 @@ public class CreateOrUpdateCustomerInfoCommand : IRequest<ResponseModel<bool>>
     }
 }
 
-public class CreateOrUpdateCustomerInfoCommandHandler : IRequestHandler<CreateOrUpdateCustomerInfoCommand,
-        ResponseModel<bool>>
+public class CreateOrUpdateCustomerInfoCommandHandler : ICommandHandler<CreateOrUpdateCustomerInfoCommand>
 {
     private readonly ICustomerInfoRepository _customerInfoRepository;
 

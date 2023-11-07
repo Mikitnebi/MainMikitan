@@ -3,12 +3,13 @@ using MainMikitan.Database.Features.Customer.Interface;
 using MainMikitan.Domain;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Requests.Customer;
+using MainMikitan.Domain.Templates;
 using MediatR;
 using NPOI.SS.Formula.Functions;
 
 namespace MainMikitan.Application.Features.Customer.Queries;
 
-public class GetCustomerInterestsQuery : IRequest<ResponseModel<GetCustomerInterestsResponse>> {
+public class GetCustomerInterestsQuery : IQuery<GetCustomerInterestsResponse> {
         public int CustomerId { get; set; }
         public GetCustomerInterestsQuery(int customerId) {
             CustomerId = customerId;
@@ -16,8 +17,7 @@ public class GetCustomerInterestsQuery : IRequest<ResponseModel<GetCustomerInter
     }
 
 public class
-    GetCustomerInterestsQueryHandler : IRequestHandler<GetCustomerInterestsQuery,
-        ResponseModel<GetCustomerInterestsResponse>>
+    GetCustomerInterestsQueryHandler : IQueryHandler<GetCustomerInterestsQuery, GetCustomerInterestsResponse>
 {
     private readonly ICustomerInterestRepository _customerInterestRepository;
 

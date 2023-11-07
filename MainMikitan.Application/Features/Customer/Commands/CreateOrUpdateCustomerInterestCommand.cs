@@ -4,12 +4,13 @@ using MainMikitan.Database.Features.Customer.Interface;
 using MainMikitan.Domain;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Requests.Customer;
+using MainMikitan.Domain.Templates;
 using MainMikitan.InternalServicesAdapter.Validations;
 using MediatR;
 
 namespace MainMikitan.Application.Features.Customer.Commands;
 
-public class CreateOrUpdateCustomerInterestCommand : IRequest<ResponseModel<bool>>
+public class CreateOrUpdateCustomerInterestCommand : ICommand
 {
         public List<int> RequestId { get; set; }
         public int CustomerId { get; set; }
@@ -20,8 +21,7 @@ public class CreateOrUpdateCustomerInterestCommand : IRequest<ResponseModel<bool
         }
     }
 
-public class CreateOrUpdateCustomerInterestCommandHandler : IRequestHandler<CreateOrUpdateCustomerInterestCommand,
-        ResponseModel<bool>>
+public class CreateOrUpdateCustomerInterestCommandHandler : ICommandHandler<CreateOrUpdateCustomerInterestCommand>
 {
     private readonly ICategoryQueryRepository _categoryQueryRepository;
     private readonly ICustomerQueryRepository _customerCategoryQueryRepository;

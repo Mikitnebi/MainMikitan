@@ -29,8 +29,7 @@ public class CustomerInfoRepository : ICustomerInfoRepository
                 GenderId = customerInfo.GenderId,
                 NationalityId = customerInfo.NationalityId,
                 BirthDate = (DateOnly)customerInfo.BirthDate!,
-                FirstName = customerInfo.FirstName,
-                LastName = customerInfo.LastName,
+                FullName = customerInfo.FullName,
                 CreatedAt = DateTime.Now
             });
             if (result.Entity.CustomerId == 0)
@@ -40,8 +39,7 @@ public class CustomerInfoRepository : ICustomerInfoRepository
         {
             customerInfoEntity!.GenderId = customerInfo.GenderId != 0 ? customerInfo.GenderId : customerInfoEntity.GenderId;
             customerInfoEntity!.NationalityId = customerInfo.NationalityId != 0 ? customerInfo.NationalityId : customerInfoEntity.NationalityId;
-            customerInfoEntity!.FirstName = customerInfo.FirstName != String.Empty ? customerInfo.FirstName : customerInfoEntity.FirstName;
-            customerInfoEntity!.LastName = customerInfo.LastName != String.Empty ? customerInfo.LastName : customerInfoEntity.LastName;
+            customerInfoEntity!.FullName = customerInfo.FullName != string.Empty ? customerInfo.FullName : customerInfoEntity.FullName;
             customerInfoEntity!.BirthDate = customerInfo.BirthDate is not null
                 ? (DateOnly)customerInfo.BirthDate!
                 : customerInfoEntity.BirthDate;

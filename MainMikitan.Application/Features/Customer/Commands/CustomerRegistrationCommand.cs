@@ -19,15 +19,16 @@ using System.Threading.Tasks;
 using static MainMikitan.Domain.Enums;
 using static MainMikitan.ExternalServicesAdapter.Email.EmailSenderService;
 using MainMikitan.Database.Features.Customer.Interface;
+using MainMikitan.Domain.Templates;
 
 namespace MainMikitan.Application.Features.Customer.Commands {
-    public class CustomerRegistrationCommand : IRequest<ResponseModel<bool>> {
-        public CustomerRegistrationRequest _registrationRequest { get; set; }
+    public class CustomerRegistrationCommand : ICommand {
+        public CustomerRegistrationRequest RegistrationRequest { get; set; }
         public CustomerRegistrationCommand(CustomerRegistrationRequest request) {
-            _registrationRequest = request;
+            RegistrationRequest = request;
         }
     }
-    public class CustomorRegistrationCommandHandler : IRequestHandler<CustomerRegistrationCommand, ResponseModel<bool>> {
+    public class CustomorRegistrationCommandHandler : ICommandHandler<CustomerRegistrationCommand> {
         private readonly ICustomerQueryRepository _customerQueryRepository;
         private readonly ICustomerCommandRepository _customerCommandRepository;
         private readonly IOtpLogCommandRepository _otpLogCommandRepository;
@@ -50,14 +51,14 @@ namespace MainMikitan.Application.Features.Customer.Commands {
 
         public async Task<ResponseModel<bool>> Handle(CustomerRegistrationCommand command, CancellationToken cancellationToken) {
             var response = new ResponseModel<bool>();
-            var registrationRequest = command._registrationRequest;
+            var registrationRequest = command.RegistrationRequest;
             try {
                 var email = registrationRequest.Email.ToUpper();
                 var mobilde = registrationRequest.MobileNumber;
                 var validation = CustomerRequestsValidation.Registration(registrationRequest);
                 if (validation.HasError) return validation;
 
-                if (command._registrationRequest.RequiredOptions)
+                if (command.RegistrationRequest.RequiredOptions)
                 {
                     var emailValidation = await _customerQueryRepository.GetByEmail(email);
                     if (emailValidation != null)

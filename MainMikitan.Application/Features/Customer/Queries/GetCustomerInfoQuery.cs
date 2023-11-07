@@ -2,18 +2,19 @@ using MainMikitan.Database.Features.Customer.Interface;
 using MainMikitan.Domain;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Requests.Customer;
+using MainMikitan.Domain.Templates;
 using MainMikitan.ExternalServicesAdapter.S3ServiceAdapter;
 using MediatR;
 
 namespace MainMikitan.Application.Features.Customer.Queries;
 
-public class GetCustomerInfoQuery : IRequest<ResponseModel<GetCustomerInfoResponse>> {
+public class GetCustomerInfoQuery : IQuery<GetCustomerInfoResponse> {
         public int CustomerId { get; set; }
         public GetCustomerInfoQuery(int customerId) {
             CustomerId = customerId;
         }
     }
-    public class GetCustomerInfoQueryHandler : IRequestHandler<GetCustomerInfoQuery, ResponseModel<GetCustomerInfoResponse>>
+    public class GetCustomerInfoQueryHandler : IQueryHandler<GetCustomerInfoQuery, GetCustomerInfoResponse>
     {
         private readonly ICustomerInfoRepository _customerInfoRepository;
         private readonly IS3Adapter _s3Adapter;
@@ -46,8 +47,7 @@ public class GetCustomerInfoQuery : IRequest<ResponseModel<GetCustomerInfoRespon
                 response.Result = new GetCustomerInfoResponse
                 {
                     BirthDate = customerInfo.BirthDate,
-                    FirstName = customerInfo.FirstName,
-                    LastName = customerInfo.LastName,
+                    FullName = customerInfo.FullName,
                     NationalityId = customerInfo.NationalityId,
                     GenderId = customerInfo.GenderId,
                     ImageUrl = customerImageUrlResponse.Result!
