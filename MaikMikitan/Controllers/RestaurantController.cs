@@ -62,7 +62,7 @@ namespace MainMikitan.API.Controllers {
         }
 
         [HttpPost]
-          [Authorized(RoleId.Restaurant)]
+          
           [Route("registration/StarterInfo")]
           [EnableCors("AllowSpecificOrigin")]
           public async Task<IActionResult> RestaurantRegistrationFinal(RestaurantRegistrationStarterInfoRequest request) {
