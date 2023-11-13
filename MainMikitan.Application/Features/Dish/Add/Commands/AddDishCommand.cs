@@ -1,6 +1,7 @@
 using MainMikitan.Database.Features.Dish.Interface;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Requests;
+using MainMikitan.ExternalServicesAdapter.S3ServiceAdapter;
 using MediatR;
 
 namespace MainMikitan.Application.Features.Dish.Add.Commands;
@@ -8,32 +9,51 @@ namespace MainMikitan.Application.Features.Dish.Add.Commands;
 public class AddDishCommand : IRequest<ResponseModel<bool>>
 {
     public List<AddDishRequest> Request { get; } 
+    public int RestaurantId { get; }
     
-    public AddDishCommand(List<AddDishRequest> request)
+    public AddDishCommand(List<AddDishRequest> request, int restaurantId)
     {
         Request = request;
+        RestaurantId = restaurantId;
     }
 }
 
 public class AddDishHandler : IRequestHandler<AddDishCommand, ResponseModel<bool>>
 {
     private readonly IDishCommandRepository _dishCommandRepository;
+    private readonly IS3Adapter _s3adapter;
     
-    public AddDishHandler(IDishCommandRepository dishCommandRepository)
+    public AddDishHandler(IDishCommandRepository dishCommandRepository, 
+        IS3Adapter s3Adapter)
     {
         _dishCommandRepository = dishCommandRepository;
+        _s3adapter = s3Adapter;
     }
 
     public async Task<ResponseModel<bool>> Handle(AddDishCommand request, CancellationToken cancellationToken)
     {
-        var response = new ResponseModel<bool>();
+        ResponseModel<bool> response = new ();
+        Dictionary<int, AddDishRequest> dishInfo = new ();
 
         foreach (var dish in request.Request)
         {
-            await _dishCommandRepository.AddDish(dish);
+            var dishId = await _dishCommandRepository.AddDish(dish);
+            
+            dishInfo[dishId] = dish;
         }
-
+        
         response.Result = await _dishCommandRepository.SaveDishChanges();
+
+        foreach (var dishId in dishInfo.Keys.Where(dish => dishInfo[dish].DishPhoto != null))
+        {
+            var addImageResponse = await _s3adapter.AddOrUpdateDishImage(dishInfo[dishId].DishPhoto, request.RestaurantId, dishInfo[dishId].CategoryDishId,
+                dishId);
+
+            if (!addImageResponse.Result)
+            {
+                return addImageResponse;
+            }
+        }
 
         return response;
     }

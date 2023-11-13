@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http;
+
 namespace MainMikitan.Domain.Requests;
 
 public record AddDishInfoRequest
