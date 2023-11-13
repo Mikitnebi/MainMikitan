@@ -67,7 +67,7 @@ namespace MainMikitan.API.Controllers {
           [EnableCors("AllowSpecificOrigin")]
           public async Task<IActionResult> RestaurantRegistrationFinal(RestaurantRegistrationStarterInfoRequest request) {
               if (ModelState.IsValid) {
-                  var response = await _mediator.Send(new RestaurantRegistrationFinalCommand(request,User.GetRestaurantId()));
+                  var response = await _mediator.Send(new RestaurantRegistrationFinalCommand(request,User.GetId()));
                   if (response.HasError) return BadRequest(response);
                   return Ok(response);
               }

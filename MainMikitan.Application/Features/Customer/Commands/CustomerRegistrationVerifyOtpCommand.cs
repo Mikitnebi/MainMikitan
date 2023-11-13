@@ -9,11 +9,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MainMikitan.Domain.Templates;
 using static MainMikitan.Domain.Enums;
 
 namespace MainMikitan.Application.Features.Customer.Commands
 {
-    public class CustomerRegistrationVerifyOtpCommand : IRequest<ResponseModel<bool>>
+    public class CustomerRegistrationVerifyOtpCommand : ICommand
     {
         public string _email { get; set; }
         public string _otp { get; set; }
@@ -23,7 +24,7 @@ namespace MainMikitan.Application.Features.Customer.Commands
             _otp = request.Otp;
         }
     }
-    public class CustomerRegistrationVerifyOtpcommandHandler : IRequestHandler<CustomerRegistrationVerifyOtpCommand, ResponseModel<bool>>
+    public class CustomerRegistrationVerifyOtpcommandHandler : ICommandHandler<CustomerRegistrationVerifyOtpCommand>
     {
         private readonly IOtpLogQueryRepository _otpLogQueryRepository;
         private readonly IOtpLogCommandRepository _otpLogCommandRepository;

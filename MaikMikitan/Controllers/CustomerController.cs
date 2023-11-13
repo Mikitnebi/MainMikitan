@@ -13,121 +13,75 @@ using MainMikitan.Application.Features.Customer.Queries;
 namespace MainMikitan.API.Controllers
 {
     
-    [ApiController]
-    [Route("[controller]")]
-    [EnableCors("AllowSpecificOrigin")]
+    [Authorized(RoleId.Customer)]
 
-    public class CustomerController : ControllerBase
+    public class CustomerController : MainController
     {
-        private readonly IMediator _mediator;
-        private int UserId => User.GetCustomerId();
-        public CustomerController(IMediator mediator)
+        public CustomerController(IMediator mediator) : base(mediator)
         {
-            _mediator = mediator;
         }
 
         [HttpPost]
         [Route("registration")]
-        [EnableCors("AllowSpecificOrigin")]
         public async Task<IActionResult> CustomerRegistration(CustomerRegistrationRequest model)
         {
-            if (ModelState.IsValid)
-            {
-                var result = await _mediator.Send(new CustomerRegistrationCommand(model));
-                if (result.HasError)
-                {
-                    return BadRequest(result);
-                }
-
-                return Ok(result);
-            }
-
-            return BadRequest(ModelState);
+            return !ModelState.IsValid ? BadRequest(ModelState) :
+                CheckResponse(await Mediator.Send(new CustomerRegistrationCommand(model)));
         }
 
         [HttpPost("email-validation")]
-        [EnableCors("AllowSpecificOrigin")]
-        public async Task<IActionResult> CustomerRegistationVerifyOtp(GeneralRegistrationVerifyOtpRequest model)
+        public async Task<IActionResult> CustomerRegistrationVerifyOtp(GeneralRegistrationVerifyOtpRequest model)
         {
-            //???
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            var result = await _mediator.Send(new CustomerRegistrationVerifyOtpCommand(
+            return !ModelState.IsValid ? BadRequest(ModelState) :
+                CheckResponse(await Mediator.Send(new CustomerRegistrationVerifyOtpCommand(
                 new GeneralRegistrationVerifyOtpRequest
                 {
                     Email = model.Email,
                     Otp = model.Otp
-                }));
-            if (result.HasError) return BadRequest(result);
-            return Ok(result);
-
+                })));
         }
-
-        [Authorized(RoleId.Customer)]
+        
         [HttpPost("CreateOrUpdateInterest")]
-        [EnableCors("AllowSpecificOrigin")]
         public async Task<IActionResult> CreateOrUpdateCustomerInterest(FillCustomerInterestRequest request)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            var result =
-                await _mediator.Send(new CreateOrUpdateCustomerInterestCommand(request, User.GetCustomerId()));
-            if (result.HasError)
-            {
-                return BadRequest(result);
-            }
-
-            return Ok(result);
-
+            return !ModelState.IsValid ? BadRequest(ModelState) :
+                CheckResponse(await Mediator.Send(new CreateOrUpdateCustomerInterestCommand(request, UserId)));
         }
         
-        [Authorized(RoleId.Customer)]
         [HttpGet("GetInterests")]
-        [EnableCors("AllowSpecificOrigin")]
         public async Task<IActionResult> GetInterests()
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            var result =
-                await _mediator.Send(new GetCustomerInterestsQuery(UserId));
-            if (result.HasError)
-            {
-                return BadRequest(result);
-            }
-
-            return Ok(result);
-
+            return !ModelState.IsValid ? BadRequest(ModelState) :
+                CheckResponse(await Mediator.Send(new GetCustomerInterestsQuery(UserId)));
         }
-
         
-        [Authorized(RoleId.Customer)]
         [HttpPost("CreateOrUpdateInfo")]
-        [EnableCors("AllowSpecificOrigin")]
         public async Task<IActionResult> CreateOrUpdateInfo(CreateOrUpdateCustomerInfoRequest request)
-        {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            var result = await _mediator.Send(new CreateOrUpdateCustomerInfoCommand(request, User.GetCustomerId()));
-            if (result.HasError)
-            {
-                return BadRequest(result);
-            }
-
-            return Ok(result);
-
+        {   return !ModelState.IsValid ? BadRequest(ModelState) :
+                CheckResponse(await Mediator.Send(new CreateOrUpdateCustomerInfoCommand(request, UserId)));
         }
-
-        [Authorized(RoleId.Customer)]
+        
         [HttpGet("GetInfo")]
-        [EnableCors("AllowSpecificOrigin")]
         public async Task<IActionResult> GetInfo()
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            var result = await _mediator.Send(new GetCustomerInfoQuery(UserId));
-            if (result.HasError)
-            {
-                return BadRequest(result);
-            }
-
-            return Ok(result);
-
+            return !ModelState.IsValid ? BadRequest(ModelState) :
+                CheckResponse(await Mediator.Send(new GetCustomerInfoQuery(UserId)));
         }
+        
+        [HttpPost("AddOrUpdateProfilePhoto")]
+        public async Task<IActionResult> AddOrUpdateProfilePhoto(IFormFile formFile)
+        {
+            return !ModelState.IsValid ? BadRequest(ModelState) : 
+                CheckResponse(await Mediator.Send(new AddOrUpdateProfilePhotoCommand(formFile, UserId)));
+        }
+
+        [HttpPost("GetProfilePhoto")]
+        public async Task<IActionResult> GetProfilePhoto()
+        {
+            return !ModelState.IsValid ? BadRequest(ModelState) :
+            CheckResponse(await Mediator.Send(new GetProfilePhotoQuery(UserId)));
+        }
+
         
     }
 }
