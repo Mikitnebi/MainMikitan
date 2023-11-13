@@ -1,3 +1,5 @@
+using MainMikitan.Domain.Responses.S3Response;
+
 namespace MainMikitan.Domain.Requests.Customer;
 
 public record GetCustomerInfoResponse
@@ -6,5 +8,5 @@ public record GetCustomerInfoResponse
     public DateOnly BirthDate { get; set; }
     public int GenderId { get; set; }
     public int NationalityId { get; set; }
-    public string ImageUrl { get; set; } = null!;
+    public GetImageResponse? ImageData { get; set; }
 }

@@ -51,7 +51,7 @@ namespace MainMikitan.ExternalServicesAdapter.S3ServiceAdapter
             response.ErrorType = ErrorType.S3.BucketAlreadyExisted;
             return response;
         }
-        public async Task<ResponseModel<string>> GetCustomerProfileImage(int customerId)
+        public async Task<ResponseModel<GetImageResponse>> GetCustomerProfileImage(int customerId)
         {
             var baseKey = $"/Customer/{customerId}/Profile/";
             return await GetImage(baseKey);
@@ -94,7 +94,7 @@ namespace MainMikitan.ExternalServicesAdapter.S3ServiceAdapter
                 Result = true
             };
         }
-        public async Task<ResponseModel<string>> GetCompanyProfileImage(int companyId)
+        public async Task<ResponseModel<GetImageResponse>> GetCompanyProfileImage(int companyId)
         {
             var baseKey = $"/Company/{companyId}/Profile/";
             return await GetImage(baseKey);
@@ -118,9 +118,9 @@ namespace MainMikitan.ExternalServicesAdapter.S3ServiceAdapter
                 Result = true
             };
         }
-        public async Task<ResponseModel<string>> GetRestaurantProfileImage(int restaurantId)
+        public async Task<ResponseModel<GetImageResponse>> GetRestaurantProfileImage(int restaurantId)
         {
-            var baseKey = $"/Resutaurant/{restaurantId}/Profile/";
+            var baseKey = $"/Restaurant/{restaurantId}/Profile/";
             return await GetImage(baseKey);
         }
         public async Task<ResponseModel<bool>> AddRestaurantEnvironmentImage(List<IFormFile> files, int restaurantId)
@@ -146,7 +146,7 @@ namespace MainMikitan.ExternalServicesAdapter.S3ServiceAdapter
                 Result = true
             };
         }
-        public async Task<ResponseModel<List<string>>> GetRestaurantEnvironmnetImages(int restaurantId)
+        public async Task<ResponseModel<GetImagesResponse>> GetRestaurantEnvironmentImages(int restaurantId)
         {
             var baseKey = $"/Restaurant/{restaurantId}/Environment/";
             return await GetImages(baseKey);
@@ -188,12 +188,12 @@ namespace MainMikitan.ExternalServicesAdapter.S3ServiceAdapter
                 Result = true
             };
         }
-        public async Task<ResponseModel<List<string>>> GetRestaurantDishCategoryImages(int restaurantId, int categoryId)
+        public async Task<ResponseModel<GetImagesResponse>> GetRestaurantDishCategoryImages(int restaurantId, int categoryId)
         {
             var baseKey = $"/Restaurant/{restaurantId}/Dish/{categoryId}/";
             return await GetImages(baseKey);
         }
-        public async Task<ResponseModel<string>> GetRestaurantdishCategoryImage(int restaurantId, int categoryId, int dishId)
+        public async Task<ResponseModel<GetImageResponse>> GetRestaurantDishCategoryImage(int restaurantId, int categoryId, int dishId)
         {
             var baseKey = $"/Restaurant/{restaurantId}/Dish/{categoryId}/{dishId}";
             return await GetImage(baseKey);
@@ -208,16 +208,14 @@ namespace MainMikitan.ExternalServicesAdapter.S3ServiceAdapter
             var responseForListCount = await _s3Client.ListObjectsV2Async(requestForListCount);
             if (responseForListCount.KeyCount > 0)
             {
-                foreach (var s3Object in responseForListCount.S3Objects)
+                foreach (var deleteRequest in responseForListCount.S3Objects.Select(s3Object => new DeleteObjectRequest
+                         {
+                             BucketName = _bucketName,
+                             Key = s3Object.Key
+                         }))
                 {
-                    var deleteRequest = new DeleteObjectRequest
-                    {
-                        BucketName = _bucketName,
-                        Key = s3Object.Key
-                    };
-
-                   var deleteReponse = await _s3Client.DeleteObjectAsync(deleteRequest);
-                    CheckStatusCode(deleteRequest, deleteReponse);
+                    var deleteResponse = await _s3Client.DeleteObjectAsync(deleteRequest);
+                    CheckStatusCode(deleteRequest, deleteResponse);
                 }
             }
             return new ResponseModel<bool>
@@ -225,15 +223,14 @@ namespace MainMikitan.ExternalServicesAdapter.S3ServiceAdapter
                 Result = true
             }; 
         }
-        private void CheckStatusCode(AmazonWebServiceRequest request, AmazonWebServiceResponse response)
+        private static void CheckStatusCode(AmazonWebServiceRequest request, AmazonWebServiceResponse response)
         {
-            if (response.HttpStatusCode != System.Net.HttpStatusCode.OK) {
-                var jsonRequestModel = JsonSerializer.Serialize(request);
-                var jsonReqsponseModel = JsonSerializer.Serialize(response);
-                throw new MainMikitanException(message: $"Error In S3 : {nameof(request)} : Request : {jsonRequestModel} : Reqspnse : {jsonReqsponseModel}");
-             }
+            if (response.HttpStatusCode == System.Net.HttpStatusCode.OK) return;
+            var jsonRequestModel = JsonSerializer.Serialize(request);
+            var jsonResponseModel = JsonSerializer.Serialize(response);
+            throw new MainMikitanException(message: $"Error In S3 : {nameof(request)} : Request : {jsonRequestModel} : Response : {jsonResponseModel}");
         }
-        private async Task<ResponseModel<string>> GetImage(string baseKey)
+        private async Task<ResponseModel<GetImageResponse>> GetImage(string baseKey, bool restaurantDish = false)
         {
             var requestForList = new ListObjectsV2Request
             {
@@ -243,19 +240,42 @@ namespace MainMikitan.ExternalServicesAdapter.S3ServiceAdapter
             var responseForList = await _s3Client.ListObjectsV2Async(requestForList);
             CheckStatusCode(requestForList, responseForList);
             var imageResponse = responseForList.S3Objects.FirstOrDefault();
-            if (imageResponse == null) return new ResponseModel<string> { Result = null };
+            if (imageResponse == null) return new ResponseModel<GetImageResponse> { Result = null };
             var imageUrl = _s3Client.GetPreSignedURL(new GetPreSignedUrlRequest()
             {
                 BucketName = _bucketName,
                 Key = imageResponse.Key,
                 Expires = DateTime.Now.AddHours(1)
             });
-            return new ResponseModel<string>
+            if (restaurantDish)
             {
-                Result = imageUrl
+                var key = imageResponse.Key;
+
+                var indexOfDrop = key.LastIndexOf('/');
+                var indexOfHipHen = key.IndexOf('-');
+
+                // TODO : ამას უნდა ვუშველოთ
+                if (indexOfDrop == -1 || indexOfHipHen == -1 || indexOfHipHen <= indexOfDrop)
+                    throw new MainMikitanException(message: "Rac AR Ari Ar Ari");
+                var dishIdString = key.Substring(indexOfDrop + 1, indexOfHipHen - indexOfDrop - 1);
+
+                return new ResponseModel<GetImageResponse>
+                {
+                    Result = new GetImageResponse(
+                        Url: imageUrl,
+                        DishId: int.Parse(dishIdString)
+                    )
+                };
+            }
+
+            return new ResponseModel<GetImageResponse>
+            {
+                Result = new GetImageResponse(
+                    Url: imageUrl
+                )
             };
         }
-        private async Task<ResponseModel<List<string>>> GetImages(string baseKey)
+        private async Task<ResponseModel<GetImagesResponse>> GetImages(string baseKey, bool restaurantDish = false)
         {
             var requestForList = new ListObjectsV2Request
             {
@@ -265,8 +285,8 @@ namespace MainMikitan.ExternalServicesAdapter.S3ServiceAdapter
             var responseForList = await _s3Client.ListObjectsV2Async(requestForList);
             CheckStatusCode(requestForList, responseForList);
             var imageResponse = responseForList.S3Objects;
-            if (imageResponse == null) return new ResponseModel<List<string>> { Result = null };
-            var urls = imageResponse.Select(o =>
+            if (imageResponse == null) return new ResponseModel<GetImagesResponse> { Result = null };
+            var imagesData = imageResponse.Select<S3Object,GetImageResponse>(o =>
             {
                 var getUrlRequest = new GetPreSignedUrlRequest()
                 {
@@ -274,11 +294,30 @@ namespace MainMikitan.ExternalServicesAdapter.S3ServiceAdapter
                     Key = o.Key,
                     Expires = DateTime.Now.AddHours(1)
                 };
-                return _s3Client.GetPreSignedURL(getUrlRequest);
+                if (restaurantDish)
+                {
+                    var key = getUrlRequest.Key;
+
+                    var indexOfDrop = key.LastIndexOf('/');
+                    var indexOfHipHen = key.IndexOf('-');
+
+                    // TODO : ამას უნდა ვუშველოთ
+                    if (indexOfDrop == -1 || indexOfHipHen == -1 || indexOfHipHen <= indexOfDrop)
+                        throw new MainMikitanException(message: "Rac AR Ari Ar Ari");
+                    var dishIdString = key.Substring(indexOfDrop + 1, indexOfHipHen - indexOfDrop - 1);
+
+                    return new GetImageResponse(
+                        Url: _s3Client.GetPreSignedURL(getUrlRequest),
+                        DishId: int.Parse(dishIdString)
+                    );
+                }
+                return new GetImageResponse(
+                    Url: _s3Client.GetPreSignedURL(getUrlRequest)
+                );
             });
-            return new ResponseModel<List<string>>
+            return new ResponseModel<GetImagesResponse>
             {
-                Result = urls.ToList()
+                Result = new GetImagesResponse(imagesData.ToList())
             };
         }
     }
