@@ -42,7 +42,7 @@ public class DishCommandRepository : IDishCommandRepository
 
     #region Add
 
-    public async Task AddDishInfo(AddDishInfoRequest request)
+    public async Task<int> AddDishInfo(AddDishInfoRequest request)
     {
         var addDishInfoEntity = new DishInfoEntity
         {
@@ -57,7 +57,9 @@ public class DishCommandRepository : IDishCommandRepository
         };
 
         await _db.DishInfo.AddAsync(addDishInfoEntity);
-        await _db.SaveChangesAsync();
+        var result = await _db.SaveChangesAsync();
+        
+        return result;
     }
 
     #endregion
@@ -89,7 +91,7 @@ public class DishCommandRepository : IDishCommandRepository
 
     #region Add
 
-    public async Task AddDish(AddDishRequest request)
+    public async Task<int> AddDish(AddDishRequest request)
     {
         var dishEntity = new DishEntity
         {
@@ -104,27 +106,36 @@ public class DishCommandRepository : IDishCommandRepository
             CreateUserId = request.CreateUserId
         };
 
-        await _db.Dish.AddAsync(dishEntity);
+        var result = await _db.Dish.AddAsync(dishEntity);
+        
+        return result.Entity.Id;
     }
 
     #endregion
 
     #region Get
 
-    public List<GetDishInfoResponse> GetAllDishes(GetAllDishesRequest request)
+    public List<GetDishInfoResponse> GetAllDishes(int RestaurantId)
     {
         var dishes = from dish in _db.Dish
             join dishInfo in _db.DishInfo on dish.Id equals dishInfo.DishId
-            where dish.RestaurantId == request.RestaurantId
+            join categoryDish in _db.CategoryDish on dish.CategoryDishId equals categoryDish.Id
+            where dish.RestaurantId == RestaurantId 
+                  && dish.IsDeleted == false
             select new GetDishInfoResponse
             {
+                DishId = dish.Id,
                 IngredientsGeo = dishInfo.IngredientsGeo,
                 IngredientsEng = dishInfo.IngredientsEng,
                 DescriptionGeo = dishInfo.DescriptionGeo,
                 DescriptionEng = dishInfo.DescriptionEng,
                 NameGeo = dishInfo.NameGeo,
                 NameEng = dishInfo.NameEng,
-                CreateAt = dishInfo.CreateAt
+                CreateAt = dishInfo.CreateAt,
+                IsActive = dish.IsActive,
+                CategoryNameGeo = categoryDish.NameGeo,
+                CategoryNameEng = categoryDish.NameEng,
+                CategoryId = categoryDish.Id
             };
 
         return dishes.ToList();
