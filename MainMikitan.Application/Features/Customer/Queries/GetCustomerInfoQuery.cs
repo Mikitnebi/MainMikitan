@@ -50,7 +50,7 @@ public class GetCustomerInfoQuery : IQuery<GetCustomerInfoResponse> {
                     FullName = customerInfo.FullName,
                     NationalityId = customerInfo.NationalityId,
                     GenderId = customerInfo.GenderId,
-                    ImageUrl = customerImageUrlResponse.Result!
+                    ImageData = customerImageUrlResponse.Result!
                 };
                 return response;
             } catch (Exception ex) {

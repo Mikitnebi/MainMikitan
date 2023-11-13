@@ -6,9 +6,5 @@ using System.Threading.Tasks;
 
 namespace MainMikitan.Domain.Responses.S3Response
 {
-    public record GetImageResponse
-    {
-        public string Url { get; set; }
-        public string Key { get; set; }
-    }
+    public record GetImageResponse(string Url, int? DishId = null);
 }
