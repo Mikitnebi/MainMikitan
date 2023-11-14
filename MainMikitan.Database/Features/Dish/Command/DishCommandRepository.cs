@@ -115,12 +115,12 @@ public class DishCommandRepository : IDishCommandRepository
 
     #region Get
 
-    public List<GetDishInfoResponse> GetAllDishes(int RestaurantId)
+    public List<GetDishInfoResponse> GetAllDishes(int restaurantId)
     {
         var dishes = from dish in _db.Dish
             join dishInfo in _db.DishInfo on dish.Id equals dishInfo.DishId
             join categoryDish in _db.CategoryDish on dish.CategoryDishId equals categoryDish.Id
-            where dish.RestaurantId == RestaurantId 
+            where dish.RestaurantId == restaurantId 
                   && dish.IsDeleted == false
             select new GetDishInfoResponse
             {
@@ -141,12 +141,39 @@ public class DishCommandRepository : IDishCommandRepository
         return dishes.ToList();
     }
     
-    public List<GetAllDishesForCustomerResponse> GetAllDishesForCustomer(int RestaurantId)
+    public List<GetAllDishesForCustomerResponse> GetAllDishesForCustomer(int restaurantId)
     {
         var dishes = from dish in _db.Dish
             join dishInfo in _db.DishInfo on dish.Id equals dishInfo.DishId
             join categoryDish in _db.CategoryDish on dish.CategoryDishId equals categoryDish.Id
-            where dish.RestaurantId == RestaurantId 
+            where dish.RestaurantId == restaurantId 
+                  && dish.IsDeleted == false
+                  && dish.IsActive == true
+            select new GetAllDishesForCustomerResponse()
+            {
+                DishId = dish.Id,
+                IngredientsGeo = dishInfo.IngredientsGeo,
+                IngredientsEng = dishInfo.IngredientsEng,
+                DescriptionGeo = dishInfo.DescriptionGeo,
+                DescriptionEng = dishInfo.DescriptionEng,
+                NameGeo = dishInfo.NameGeo,
+                NameEng = dishInfo.NameEng,
+                CreateAt = dishInfo.CreateAt,
+                CategoryNameGeo = categoryDish.NameGeo,
+                CategoryNameEng = categoryDish.NameEng,
+                CategoryId = categoryDish.Id
+            };
+
+        return dishes.ToList();
+    }
+    
+    public List<GetAllDishesForCustomerResponse> GetAllDishesWithCategoryForCustomer(int restaurantId, int? categoryId)
+    {
+        var dishes = from dish in _db.Dish
+            join dishInfo in _db.DishInfo on dish.Id equals dishInfo.DishId
+            join categoryDish in _db.CategoryDish on dish.CategoryDishId equals categoryDish.Id
+            where dish.RestaurantId == restaurantId 
+                  && dish.CategoryDishId == categoryId
                   && dish.IsDeleted == false
                   && dish.IsActive == true
             select new GetAllDishesForCustomerResponse()

@@ -13,6 +13,7 @@ public interface IDishCommandRepository
     public Task<bool> DeactiveDish(DeactiveDishRequest request);
     public Task<bool> DeleteDish(DeleteDishRequest request);
     public Task<bool> VerifyDish(VerifyDishRequest request);
-    public List<GetDishInfoResponse> GetAllDishes(int RestaurantId);
-    public List<GetAllDishesForCustomerResponse> GetAllDishesForCustomer(int RestaurantId);
+    public List<GetDishInfoResponse> GetAllDishes(int restaurantId);
+    public List<GetAllDishesForCustomerResponse> GetAllDishesForCustomer(int restaurantId);
+    public List<GetAllDishesForCustomerResponse> GetAllDishesWithCategoryForCustomer(int restaurantId, int? categoryId);
 }

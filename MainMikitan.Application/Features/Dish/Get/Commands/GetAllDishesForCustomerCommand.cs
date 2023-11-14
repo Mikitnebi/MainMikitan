@@ -11,10 +11,12 @@ namespace MainMikitan.Application.Features.Dish.Get.Commands;
 public class GetAllDishesForCustomerCommand : IRequest<ResponseModel<List<GetAllDishesForCustomerResponse>>>
 {
     public int RestaurantId { get; }
+    public int? CategoryId { get; }
 
     public GetAllDishesForCustomerCommand(GetAllDishesForCustomerRequest request)
     {
         RestaurantId = request.RestaurantId;
+        CategoryId = request.CategoryId;
     }
 }
 
@@ -32,14 +34,16 @@ public class GetAllDishesForCustomerHandler : IRequestHandler<GetAllDishesForCus
     public async Task<ResponseModel<List<GetAllDishesForCustomerResponse>>> Handle(GetAllDishesForCustomerCommand request,
         CancellationToken cancellationToken)
     {
-        var dishes = _dishCommandRepository.GetAllDishesForCustomer(request.RestaurantId);
+        var dishes = request.CategoryId is null
+            ? _dishCommandRepository.GetAllDishesForCustomer(request.RestaurantId)
+            : _dishCommandRepository.GetAllDishesWithCategoryForCustomer(request.RestaurantId, request.CategoryId);
         
         List<GetImageResponse> data = new();
         var dishCategories = dishes.Select(d => d.CategoryId).Distinct();
         foreach (var categoryId in dishCategories)
         {
             var images = await _s3Adapter.GetRestaurantDishCategoryImages(request.RestaurantId, categoryId);
-            data.AddRange(images.Result.ImagesData);
+            data.AddRange(images.Result!.ImagesData);
         }
         
         foreach (var dish in dishes)
