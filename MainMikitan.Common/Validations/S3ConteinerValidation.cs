@@ -40,7 +40,7 @@ namespace MainMikitan.InternalServicesAdapter.Validations
             long fileSizeInKB = file.Length / 1024;
             if (fileSizeInKB > maxSizeInKB)
             {
-                response.ErrorType = ErrorType.S3.FileSizeIsMore200KB;
+                response.ErrorType = ErrorType.S3.FileSizeIsMore200Kb;
                 return response;
             }
             string[] allowedImageContentTypes = { "image/jpeg", "image/png", "image/bmp" };

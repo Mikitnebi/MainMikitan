@@ -2,6 +2,7 @@ using MainMikitan.Database.Features.Customer.Interface;
 using MainMikitan.Domain;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Requests.Customer;
+using MainMikitan.Domain.Responses.S3Response;
 using MainMikitan.Domain.Templates;
 using MainMikitan.ExternalServicesAdapter.S3ServiceAdapter;
 using MediatR;

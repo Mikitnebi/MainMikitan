@@ -43,20 +43,29 @@ namespace MainMikitan.Application.Features.Customer.Commands
         public async Task<ResponseModel<AuthTokenResponseModel>> Handle (CustomerLoginCommand command, CancellationToken cancellationToken)
         {
             var response = new ResponseModel<AuthTokenResponseModel>();
-            var email = command._EmailAddress;
-            var password = command._Password;
-            var customer = await _customerQueryRepository.GetByEmail(email);
-            if(customer == null || !_passwordHasher.VerifyPassword(password, customer.HashPassWord))
+            try
             {
-                response.ErrorType = ErrorType.NotCorrectEmailOrPassword;
+                var email = command._EmailAddress;
+                var password = command._Password;
+                var customer = await _customerQueryRepository.GetByEmail(email);
+                if (customer == null || !_passwordHasher.VerifyPassword(password, customer.HashPassWord))
+                {
+                    response.ErrorType = ErrorType.NotCorrectEmailOrPassword;
+                    return response;
+                }
+
+                response = _authService.CustomerAuth(new CustomerAuthRequestModel
+                {
+                    EmailAdress = email,
+                    Id = customer.Id
+                });
                 return response;
             }
-            response = _authService.CustomerAuth(new CustomerAuthRequestModel
-            {
-                EmailAdress = email,
-                Id = customer.Id
-            });
-            return response;
+            catch (Exception ex) {
+                response.ErrorType = ErrorType.UnExpectedException;
+                response.ErrorMessage = ex.Message;
+                return response;
+            }
         }
     }
 }

@@ -16,6 +16,14 @@ namespace MainMikitan.Database.Features.Customer
         {
             _connectionString= connectionStrings.Value;
         }
+
+        public async Task<CustomerEntity> GetById(int id)
+        {
+            using var connection = new SqlConnection(_connectionString.MainMik);
+
+            var sqlCommand = "SELECT * FROM [dbo].[Customers] WHERE [Id] = @id AND [StatusId] != '0'";
+            return await connection.QueryFirstOrDefaultAsync<CustomerEntity>(sqlCommand, new { id });
+        }
         public async Task<CustomerEntity> GetByEmail(string email)
         {
             using var connection = new SqlConnection(_connectionString.MainMik);

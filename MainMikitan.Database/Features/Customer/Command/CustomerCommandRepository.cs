@@ -27,8 +27,8 @@ namespace MainMikitan.Database.Features.Customer.Command
         }
         public async Task<int?> UpdateStatus(string email, bool emailConfirmation, CustomerStatusId status)
         {
-            int statusId = (int)status;
-            int confirmation = emailConfirmation == true ? 1 : 0;
+            var statusId = (int)status;
+            var confirmation = emailConfirmation == true ? 1 : 0;
             using var connection = new SqlConnection(_connectionStrings.MainMik);
             var customer = await _customerQueryRepository.GetNonVerifiedByEmail(email);
             if (customer != null)
@@ -40,7 +40,7 @@ namespace MainMikitan.Database.Features.Customer.Command
                 var result = await connection.ExecuteAsync(sqlCommand, new { statusId, confirmation, id = customer.Id});
                 return result;
             }
-            return customer== null ? 0 : customer.Id;
+            return customer?.Id ?? 0;
         }
         public async Task<int?> CreateOrUpdate(CustomerEntity entity)
         {
@@ -86,5 +86,14 @@ namespace MainMikitan.Database.Features.Customer.Command
                 return result;
             }
         }
+        public async Task<bool> Delete(int userId)
+        {
+            using var connection = new SqlConnection(_connectionStrings.MainMik);
+            var sqlCommand = "DELETE FROM [dbo].[Customers] WHERE [Id] = @userId";
+            var result = await connection.QueryFirstOrDefaultAsync<int?>(sqlCommand, new { userId});
+            return result > 0;
+        } 
+
+        
     }
 }

@@ -55,6 +55,13 @@ public class CustomerInfoRepository : ICustomerInfoRepository
         var customerInfoResponse = await _mikDbContext.CustomerInfo.FirstOrDefaultAsync(t => t.CustomerId == customerId);
         return customerInfoResponse ?? null;
     }
+
+    public async Task<bool> Delete(int customerId)
+    {
+        var deleteCustomerInfoResponse =
+            await _mikDbContext.CustomerInfo.Where(t => t.CustomerId == customerId).ExecuteDeleteAsync();
+        return deleteCustomerInfoResponse > 0;
+    }
     public async Task<bool> SaveChanges()
     {
         var result = await _mikDbContext.SaveChangesAsync();

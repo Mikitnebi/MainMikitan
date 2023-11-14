@@ -40,7 +40,7 @@ namespace MainMikitan.Database.Features.Common.Otp.Command
             var result = await connection.QuerySingleOrDefaultAsync<int?>(sqlCommand, model);
             return result;
         }
-        public async Task<int?> Update(int id, int numberOfTrials, OtpStatusId status)
+        public async Task<int?> Update(int id, int numberOfTrials, int status)
         {
             var otpStatus = (int)status;
             using var connection = new SqlConnection(_connectionStrings.MainMik);

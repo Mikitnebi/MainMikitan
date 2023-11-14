@@ -60,7 +60,7 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands
                 response.ErrorType = ErrorType.Restaurant.RestaurantNotUpdated;
                 return response;
             }
-            var sendEmail = _emailSenderQueryRepository.GetEmailById(EmailType.RestaurantGenerateAccount);
+            var sendEmail = _emailSenderQueryRepository.GetEmailById((int)Enums.EmailType.RestaurantGenerateAccount);
             response.Result = true;
             return response;
         }

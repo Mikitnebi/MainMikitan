@@ -53,7 +53,7 @@ namespace MainMikitan.Application.Features.Customer.Commands {
             var response = new ResponseModel<bool>();
             var registrationRequest = command.RegistrationRequest;
             try {
-                var email = registrationRequest.Email.ToUpper();
+                var email = registrationRequest.Email!.ToUpper();
                 var mobilde = registrationRequest.MobileNumber;
                 var validation = CustomerRequestsValidation.Registration(registrationRequest);
                 if (validation.HasError) return validation;
@@ -66,12 +66,12 @@ namespace MainMikitan.Application.Features.Customer.Commands {
                         response.ErrorType = ErrorType.AlreadyUsedEmail;
                         return response;
                     }
-                    var mobileNumberValidation = await _customerQueryRepository.GetByMobileNumber(registrationRequest.MobileNumber);
+                    var mobileNumberValidation = await _customerQueryRepository.GetByMobileNumber(registrationRequest.MobileNumber!);
 
                     var emailBuilder = new EmailBuilder();
                     var otp = OtpGenerator.OtpGenerate();
                     emailBuilder.AddReplacement("{OTP}", otp);
-                    var emailSenderResult = await _emailSenderService.SendEmailAsync(email, emailBuilder, EmailType.CustomerRegistrationEmail);
+                    var emailSenderResult = await _emailSenderService.SendEmailAsync(email, emailBuilder, (int)EmailType.CustomerRegistrationEmail);
 
                     var otpLogResult = await _otpLogCommandRepository.Create(new Domain.Models.Common.OtpLogIntroEntity
                     {
@@ -86,7 +86,7 @@ namespace MainMikitan.Application.Features.Customer.Commands {
                     {
                         EmailAddress = email,
                         FullName = $"{registrationRequest.FirstName} {registrationRequest.LastName}",
-                        MobileNumber = registrationRequest.MobileNumber,
+                        MobileNumber = registrationRequest.MobileNumber!,
                         HashPassWord = registrationRequest.Password
                     });
                 }

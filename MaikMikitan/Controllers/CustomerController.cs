@@ -3,12 +3,11 @@ using MainMikitan.Domain.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MainMikitan.Domain.Requests.GeneralRequests;
-using Microsoft.AspNetCore.Cors;
 using MainMikitan.Domain.Requests.Customer;
-using MainMikitan.API.Extentions;
 using static MainMikitan.Domain.Enums;
 using MainMikitan.API.Filters;
 using MainMikitan.Application.Features.Customer.Queries;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MainMikitan.API.Controllers
 {
@@ -22,14 +21,15 @@ namespace MainMikitan.API.Controllers
         }
 
         [HttpPost]
-        [Route("registration")]
+        [AllowAnonymous]
+        [Route("Registration")]
         public async Task<IActionResult> CustomerRegistration(CustomerRegistrationRequest model)
         {
             return !ModelState.IsValid ? BadRequest(ModelState) :
                 CheckResponse(await Mediator.Send(new CustomerRegistrationCommand(model)));
         }
 
-        [HttpPost("email-validation")]
+        [HttpPost("Registration/VerifyOtp")]
         public async Task<IActionResult> CustomerRegistrationVerifyOtp(GeneralRegistrationVerifyOtpRequest model)
         {
             return !ModelState.IsValid ? BadRequest(ModelState) :
@@ -82,6 +82,19 @@ namespace MainMikitan.API.Controllers
             CheckResponse(await Mediator.Send(new GetProfilePhotoQuery(UserId)));
         }
 
+        [HttpPost("DeleteAccount")]
+        public async Task<IActionResult> DeleteAccount()
+        {
+            return !ModelState.IsValid ? BadRequest(ModelState) :
+                CheckResponse(await Mediator.Send(new CustomerDeleteAccountCommand(UserId,UserEmail)));
+        }
+
+        [HttpDelete("DeleteAccount/VerifyOtp")]
+        public async Task<IActionResult> DeleteAccountVerifyOtp(string otp)
+        {
+            return !ModelState.IsValid ? BadRequest(ModelState) :
+                CheckResponse(await Mediator.Send(new CustomerDeleteAccountVerifyOtpCommand(UserId,UserEmail,otp)));
+        }
         
     }
 }

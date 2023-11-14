@@ -9,8 +9,8 @@ namespace MainMikitan.Domain.Requests.GeneralRequests
 {
     public class GeneralRegistrationVerifyOtpRequest
     {
-        [EmailAddress]
-        public string Email { get; set; }
-        public string Otp { get; set; }
+        [EmailAddress] 
+        public string Email { get; init; } = null!;
+        public string Otp { get; init; } = null!;
     }
 }

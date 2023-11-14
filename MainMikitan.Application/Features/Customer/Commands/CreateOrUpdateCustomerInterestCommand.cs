@@ -40,32 +40,41 @@ public class CreateOrUpdateCustomerInterestCommandHandler : ICommandHandler<Crea
     public async Task<ResponseModel<bool>> Handle(CreateOrUpdateCustomerInterestCommand request,
         CancellationToken cancellationToken)
     {
-        var ids = request.RequestId;
-        var customerId = request.CustomerId;
         var response = new ResponseModel<bool>();
-        var activeIds = await _categoryQueryRepository.GetAllActive(ids);
-        var validationResponse = CategoryInfoValidation.Validate(ids, activeIds);
-        if (!validationResponse.Result) return validationResponse;
-        var deleteResponse = await _customerInterestRepository.Delete(customerId);
-        if (!deleteResponse)
+        try
         {
-            response.ErrorType = ErrorType.CustomerInterest.NotDelete;
-            return response;
-        }
+            var ids = request.RequestId;
+            var customerId = request.CustomerId;
+            var activeIds = await _categoryQueryRepository.GetAllActive(ids);
+            var validationResponse = CategoryInfoValidation.Validate(ids, activeIds);
+            if (!validationResponse.Result) return validationResponse;
+            var deleteResponse = await _customerInterestRepository.Delete(customerId);
+            if (!deleteResponse)
+            {
+                response.ErrorType = ErrorType.CustomerInterest.NotDelete;
+                return response;
+            }
 
-        var addResponse = await _customerInterestRepository.Add(activeIds, customerId);
-        if (!addResponse)
-        {
-            response.ErrorType = ErrorType.CustomerInterest.NotAdd;
-            return response;
-        }
+            var addResponse = await _customerInterestRepository.Add(activeIds, customerId);
+            if (!addResponse)
+            {
+                response.ErrorType = ErrorType.CustomerInterest.NotAdd;
+                return response;
+            }
 
-        if (await _customerInterestRepository.SaveChanges())
-        {
-            response.ErrorType = ErrorType.CustomerInterest.NotDbSave;
+            if (await _customerInterestRepository.SaveChanges())
+            {
+                response.ErrorType = ErrorType.CustomerInterest.NotDbSave;
+                return response;
+            }
+
+            response.Result = true;
             return response;
         }
-        response.Result = true;
-        return response;
+        catch (Exception ex) {
+            response.ErrorType = ErrorType.UnExpectedException;
+            response.ErrorMessage = ex.Message;
+            return response;
+        }
     }
 }

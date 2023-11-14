@@ -7,5 +7,6 @@ public interface ICustomerInfoRepository
 {
     Task<bool> CreateOrUpdate(CreateOrUpdateCustomerInfoRequest customerInfo, int customerId);
     Task<CustomerInfoEntity?> Get(int customerId);
+    Task<bool> Delete(int customerId);
     Task<bool> SaveChanges();
 }

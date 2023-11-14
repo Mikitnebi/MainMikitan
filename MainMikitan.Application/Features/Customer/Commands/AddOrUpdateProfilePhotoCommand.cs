@@ -1,4 +1,5 @@
 using MainMikitan.Database.Features.Customer.Interface;
+using MainMikitan.Domain;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Requests.Customer;
 using MainMikitan.Domain.Templates;
@@ -38,16 +39,25 @@ public class AddOrUpdateProfilePhotoCommandHandler : ICommandHandler<AddOrUpdate
     public async Task<ResponseModel<bool>> Handle(AddOrUpdateProfilePhotoCommand request,
         CancellationToken cancellationToken)
     {
-        var customerProfilePhoto = request.CustomerProfilePhoto;
-        var customerId = request.CustomerId;
         var response = new ResponseModel<bool>();
-        var updateRequest = await _s3Adapter.AddOrUpdateCustomerProfileImage(customerProfilePhoto, customerId);
-        if (updateRequest.HasError)
+        try
         {
-            response.ErrorType = updateRequest.ErrorType;
+            var customerProfilePhoto = request.CustomerProfilePhoto;
+            var customerId = request.CustomerId;
+            var updateRequest = await _s3Adapter.AddOrUpdateCustomerProfileImage(customerProfilePhoto, customerId);
+            if (updateRequest.HasError)
+            {
+                response.ErrorType = updateRequest.ErrorType;
+                return response;
+            }
+
+            response.Result = true;
             return response;
         }
-        response.Result = true;
-        return response;
+        catch (Exception ex) {
+            response.ErrorType = ErrorType.UnExpectedException;
+            response.ErrorMessage = ex.Message;
+            return response;
+        }
     }
 }

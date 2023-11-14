@@ -35,22 +35,31 @@ public class CreateOrUpdateCustomerInfoCommandHandler : ICommandHandler<CreateOr
     public async Task<ResponseModel<bool>> Handle(CreateOrUpdateCustomerInfoCommand request,
         CancellationToken cancellationToken)
     {
-        var customerRequest = request.CustomerRequest;
-        var customerId = request.CustomerId;
         var response = new ResponseModel<bool>();
-        var updateRequest = await _customerInfoRepository.CreateOrUpdate(customerRequest, customerId);
-        if (!updateRequest)
+        try
         {
-            response.ErrorType = ErrorType.CustomerInfo.NotCreated;
-            return response;
-        }
+            var customerRequest = request.CustomerRequest;
+            var customerId = request.CustomerId;
+            var updateRequest = await _customerInfoRepository.CreateOrUpdate(customerRequest, customerId);
+            if (!updateRequest)
+            {
+                response.ErrorType = ErrorType.CustomerInfo.NotCreated;
+                return response;
+            }
 
-        if (await _customerInfoRepository.SaveChanges())
-        {
-            response.ErrorType = ErrorType.CustomerInfo.NotDbSave;
+            if (await _customerInfoRepository.SaveChanges())
+            {
+                response.ErrorType = ErrorType.CustomerInfo.NotDbSave;
+                return response;
+            }
+
+            response.Result = true;
             return response;
         }
-        response.Result = true;
-        return response;
+        catch (Exception ex) {
+            response.ErrorType = ErrorType.UnExpectedException;
+            response.ErrorMessage = ex.Message;
+            return response;
+        }
     }
 }

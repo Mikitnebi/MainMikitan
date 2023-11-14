@@ -32,24 +32,24 @@ namespace MainMikitan.Application.Features.Customer.Commands {
             var response = new ResponseModel<bool>();
             var otp = await _otpLogQueryRepository.GetOtpbyEmail(model._email);
             if (otp == null) {
-                response.ErrorType = ErrorType.EmailNotFound;
+                response.ErrorType = ErrorType.Otp.IncorrectEmail;
                 return response;
             }
             if (otp.StatusId == (int)OtpStatusId.Success) {
-                response.ErrorType = ErrorType.AlreadyUsedOtp;
+                response.ErrorType = ErrorType.Otp.AlreadyUsedOtp;
                 return response;
             }
             if (DateTime.Now > otp.CreatedAt.AddMinutes(otp.ValidationTime) || otp.StatusId == (int)OtpStatusId.NotValid) {
-                response.ErrorType = ErrorType.NotValidOtp;
+                response.ErrorType = ErrorType.Otp.NotValidOtp;
                 return response;
             }
             if (otp.Otp != model._otp) {
-                response.ErrorType = ErrorType.NotCorrectOtp;
+                response.ErrorType = ErrorType.Otp.NotCorrectOtp;
                 return response;
             }
-            var otpUpdate = await _otpLogCommandRepository.Update(otp.Id, 0, OtpStatusId.Success);
+            var otpUpdate = await _otpLogCommandRepository.Update(otp.Id, 0, (int)OtpStatusId.Success);
             if (otpUpdate == null || otpUpdate == 0) {
-                response.ErrorType = ErrorType.OtpNotUpdated;
+                response.ErrorType = ErrorType.Otp.OtpNotUpdated;
                 return response;
             }
             var restaurantUpdate = await _restaurantIntroCommandRepository.UpdateStatus(model._email, true, RestaurantOtpVerificationId.Verified);

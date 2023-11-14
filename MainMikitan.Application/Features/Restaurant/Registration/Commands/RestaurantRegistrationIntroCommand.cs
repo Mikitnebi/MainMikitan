@@ -49,7 +49,7 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
                 var emailBuilder = new EmailBuilder();
                 var otp = OtpGenerator.OtpGenerate();
                 emailBuilder.AddReplacement("{OTP}", otp);
-                var emailSenderResult = await _emailSenderService.SendEmailAsync(email, emailBuilder, EmailType.RestaurantRegistrationEmail);
+                var emailSenderResult = await _emailSenderService.SendEmailAsync(email, emailBuilder, (int)EmailType.RestaurantRegistrationEmail);
                 var otpLogResult = await _otpLogCommandRepository.Create(new Domain.Models.Common.OtpLogIntroEntity {
                     UserTypeId = (int)UserTypeId.RestaurantIntro,
                     Otp = otp,
