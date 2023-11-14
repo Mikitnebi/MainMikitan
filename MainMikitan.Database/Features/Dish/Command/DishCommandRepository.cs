@@ -140,7 +140,32 @@ public class DishCommandRepository : IDishCommandRepository
 
         return dishes.ToList();
     }
+    
+    public List<GetAllDishesForCustomerResponse> GetAllDishesForCustomer(int RestaurantId)
+    {
+        var dishes = from dish in _db.Dish
+            join dishInfo in _db.DishInfo on dish.Id equals dishInfo.DishId
+            join categoryDish in _db.CategoryDish on dish.CategoryDishId equals categoryDish.Id
+            where dish.RestaurantId == RestaurantId 
+                  && dish.IsDeleted == false
+                  && dish.IsActive == true
+            select new GetAllDishesForCustomerResponse()
+            {
+                DishId = dish.Id,
+                IngredientsGeo = dishInfo.IngredientsGeo,
+                IngredientsEng = dishInfo.IngredientsEng,
+                DescriptionGeo = dishInfo.DescriptionGeo,
+                DescriptionEng = dishInfo.DescriptionEng,
+                NameGeo = dishInfo.NameGeo,
+                NameEng = dishInfo.NameEng,
+                CreateAt = dishInfo.CreateAt,
+                CategoryNameGeo = categoryDish.NameGeo,
+                CategoryNameEng = categoryDish.NameEng,
+                CategoryId = categoryDish.Id
+            };
 
+        return dishes.ToList();
+    }
     #endregion
 
     #region Deactive

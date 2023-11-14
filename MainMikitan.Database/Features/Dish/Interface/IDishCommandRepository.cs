@@ -14,4 +14,5 @@ public interface IDishCommandRepository
     public Task<bool> DeleteDish(DeleteDishRequest request);
     public Task<bool> VerifyDish(VerifyDishRequest request);
     public List<GetDishInfoResponse> GetAllDishes(int RestaurantId);
+    public List<GetAllDishesForCustomerResponse> GetAllDishesForCustomer(int RestaurantId);
 }
