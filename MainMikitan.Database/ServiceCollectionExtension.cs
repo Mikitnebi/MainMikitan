@@ -51,6 +51,7 @@ namespace MainMikitan.Database
             services.AddScoped<IRestaurantIntroQueryRepository, RestaurantIntroQueryRepository>();
             services.AddScoped<IRestaurantFinalCommandRepository, RestaurantFinalCommandRepository>();
             services.AddScoped<IRestaurantCommandRepository, RestaurantCommandRepository>();
+            services.AddScoped<IRestaurantEnvironmentRepository, RestaurantEnvironmentRepository>();
 
             services.AddScoped<ICategoryQueryRepository, CategoryQueryRepository>();
             
