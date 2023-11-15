@@ -59,7 +59,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddDbContext<MikDbContext>(opt =>
-    opt.UseSqlServer(builder.Configuration["BankDbContext"]));
+    opt.UseSqlServer(builder.Configuration["MikConnection"]!));
 
 builder.Services.AddSwaggerGen(options =>
 {

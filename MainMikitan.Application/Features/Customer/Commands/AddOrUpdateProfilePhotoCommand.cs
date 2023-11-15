@@ -25,15 +25,12 @@ public class AddOrUpdateProfilePhotoCommand: ICommand
 
 public class AddOrUpdateProfilePhotoCommandHandler : ICommandHandler<AddOrUpdateProfilePhotoCommand>
 {
-    private readonly ICustomerInfoRepository _customerInfoRepository;
     private readonly IS3Adapter _s3Adapter;
 
     public AddOrUpdateProfilePhotoCommandHandler(
-        ICustomerInfoRepository customerInfoRepository, 
         IS3Adapter s3Adapter
         )
     {
-        _customerInfoRepository = customerInfoRepository;
         _s3Adapter = s3Adapter;
     }
 

@@ -20,26 +20,7 @@ namespace MainMikitan.API.Controllers
         {
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        [Route("Registration")]
-        public async Task<IActionResult> CustomerRegistration(CustomerRegistrationRequest model)
-        {
-            return !ModelState.IsValid ? BadRequest(ModelState) :
-                CheckResponse(await Mediator.Send(new CustomerRegistrationCommand(model)));
-        }
-
-        [HttpPost("Registration/VerifyOtp")]
-        public async Task<IActionResult> CustomerRegistrationVerifyOtp(GeneralRegistrationVerifyOtpRequest model)
-        {
-            return !ModelState.IsValid ? BadRequest(ModelState) :
-                CheckResponse(await Mediator.Send(new CustomerRegistrationVerifyOtpCommand(
-                new GeneralRegistrationVerifyOtpRequest
-                {
-                    Email = model.Email,
-                    Otp = model.Otp
-                })));
-        }
+        
         
         [HttpPost("CreateOrUpdateInterest")]
         public async Task<IActionResult> CreateOrUpdateCustomerInterest(FillCustomerInterestRequest request)

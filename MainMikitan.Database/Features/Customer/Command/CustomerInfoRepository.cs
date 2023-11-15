@@ -8,22 +8,22 @@ namespace MainMikitan.Database.Features.Customer.Command;
 
 public class CustomerInfoRepository : ICustomerInfoRepository
 {
-    public MikDbContext _mikDbContext;
+    public readonly MikDbContext _db;
 
     public CustomerInfoRepository(
-        MikDbContext mikDbContext
+        MikDbContext db
         )
     {
-        _mikDbContext = mikDbContext;
+        _db = db;
     }
 
     public async Task<bool> CreateOrUpdate(CreateOrUpdateCustomerInfoRequest customerInfo, int customerId)
     {
-        var customerInfoEntity = await _mikDbContext.CustomerInfo.
+        var customerInfoEntity = await _db.CustomerInfo.
             FirstOrDefaultAsync(t => t.CustomerId == customerId);
         if (customerInfoEntity is not null)
         {
-            var result = await _mikDbContext.CustomerInfo.AddAsync(new CustomerInfoEntity
+            var result = await _db.CustomerInfo.AddAsync(new CustomerInfoEntity
             {
                 CustomerId = customerId,
                 GenderId = customerInfo.GenderId,
@@ -52,19 +52,19 @@ public class CustomerInfoRepository : ICustomerInfoRepository
 
     public async Task<CustomerInfoEntity?> Get(int customerId)
     {
-        var customerInfoResponse = await _mikDbContext.CustomerInfo.FirstOrDefaultAsync(t => t.CustomerId == customerId);
+        var customerInfoResponse = await _db.CustomerInfo.FirstOrDefaultAsync(t => t.CustomerId == customerId);
         return customerInfoResponse ?? null;
     }
 
     public async Task<bool> Delete(int customerId)
     {
         var deleteCustomerInfoResponse =
-            await _mikDbContext.CustomerInfo.Where(t => t.CustomerId == customerId).ExecuteDeleteAsync();
+            await _db.CustomerInfo.Where(t => t.CustomerId == customerId).ExecuteDeleteAsync();
         return deleteCustomerInfoResponse > 0;
     }
     public async Task<bool> SaveChanges()
     {
-        var result = await _mikDbContext.SaveChangesAsync();
+        var result = await _db.SaveChangesAsync();
         return result > 0;
     }
 }

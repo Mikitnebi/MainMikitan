@@ -50,20 +50,20 @@ namespace MainMikitan.ExternalServicesAdapter.S3ServiceAdapter
         }
         public async Task<GetImageResponse?> GetCustomerProfileImage(int customerId)
         {
-            var baseKey = $"/Customer/{customerId}/Profile/";
+            var baseKey = $"Customer/{customerId}/Profile/";
             return await GetImage(baseKey);
         }
 
         public async Task<bool> DeleteCustomerProfileImage(int customerId)
         {
-            var baseKey = $"/Customer/{customerId}/Profile/";
+            var baseKey = $"Customer/{customerId}/Profile/";
             return await DeleteAllContentWithKey(baseKey);
             return true;
         }
         public async Task<bool> AddOrUpdateCustomerProfileImage(IFormFile file, int customerId)
         {
             var validationResponse = S3ConteinerValidation.ValidateImage(file);
-            var baseKey = $"/Customer/{customerId}/Profile/";
+            var baseKey = $"Customer/{customerId}/Profile/";
             await DeleteAllContentWithKey(baseKey);
             var putRequest = new PutObjectRequest()
             {
@@ -78,7 +78,7 @@ namespace MainMikitan.ExternalServicesAdapter.S3ServiceAdapter
         public async Task<bool> AddOrUpdateCompanyProfileImage(IFormFile file, int companyId)
         {
             var validationResponse = S3ConteinerValidation.ValidateImage(file);
-            var baseKey = $"/Company/{companyId}/Profile/";
+            var baseKey = $"Company/{companyId}/Profile/";
             await DeleteAllContentWithKey(baseKey);
             var putRequest = new PutObjectRequest()
             {
@@ -92,7 +92,7 @@ namespace MainMikitan.ExternalServicesAdapter.S3ServiceAdapter
         }
         public async Task<GetImageResponse> GetCompanyProfileImage(int companyId)
         {
-            var baseKey = $"/Company/{companyId}/Profile/";
+            var baseKey = $"Company/{companyId}/Profile/";
             return await GetImage(baseKey);
         }
         public async Task<bool> AddOrUpdateRestaurantProfileImage(IFormFile file, int restaurantId)
@@ -112,13 +112,13 @@ namespace MainMikitan.ExternalServicesAdapter.S3ServiceAdapter
         }
         public async Task<GetImageResponse> GetRestaurantProfileImage(int restaurantId)
         {
-            var baseKey = $"/Restaurant/{restaurantId}/Profile/";
+            var baseKey = $"Restaurant/{restaurantId}/Profile/";
             return await GetImage(baseKey);
         }
         public async Task<bool> AddRestaurantEnvironmentImage(List<IFormFile> files, int restaurantId)
         {
             var validationResponse = S3ConteinerValidation.ValidateImages(files);
-            var baseKey = $"/Restaurant/{restaurantId}/Environment/";
+            var baseKey = $"Restaurant/{restaurantId}/Environment/";
             int counter = 0;
             foreach (var file in files)
             {
@@ -137,12 +137,12 @@ namespace MainMikitan.ExternalServicesAdapter.S3ServiceAdapter
         }
         public async Task<GetImagesResponse> GetRestaurantEnvironmentImages(int restaurantId)
         {
-            var baseKey = $"/Restaurant/{restaurantId}/Environment/";
+            var baseKey = $"Restaurant/{restaurantId}/Environment/";
             return await GetImages(baseKey);
         }
         public async Task<bool> DeleteRestaurantEnvironmentImage(List<DeleteImageRequest> files, int restaurantId)
         {
-            var baseKey = $"/Restaurant/{restaurantId}/Environment/";
+            var baseKey = $"Restaurant/{restaurantId}/Environment/";
             foreach (var file in files)
             {
                 var deleteRequest = new DeleteObjectRequest()
@@ -159,7 +159,7 @@ namespace MainMikitan.ExternalServicesAdapter.S3ServiceAdapter
         public async Task<bool> AddOrUpdateDishImage(IFormFile file, int restaurantId, int categoryId, int dishId)
         {
             var validationResponse = S3ConteinerValidation.ValidateImage(file);
-            var baseKey = $"/Restaurant/{restaurantId}/Dish/{categoryId}/{dishId}";
+            var baseKey = $"Restaurant/{restaurantId}/Dish/{categoryId}/{dishId}";
             await DeleteAllContentWithKey(baseKey);
             var putRequest = new PutObjectRequest()
             {
@@ -173,12 +173,12 @@ namespace MainMikitan.ExternalServicesAdapter.S3ServiceAdapter
         }
         public async Task<GetImagesResponse> GetRestaurantDishCategoryImages(int restaurantId, int categoryId)
         {
-            var baseKey = $"/Restaurant/{restaurantId}/Dish/{categoryId}/";
+            var baseKey = $"Restaurant/{restaurantId}/Dish/{categoryId}/";
             return await GetImages(baseKey);
         }
         public async Task<GetImageResponse> GetRestaurantDishCategoryImage(int restaurantId, int categoryId, int dishId)
         {
-            var baseKey = $"/Restaurant/{restaurantId}/Dish/{categoryId}/{dishId}";
+            var baseKey = $"Restaurant/{restaurantId}/Dish/{categoryId}/{dishId}";
             return await GetImage(baseKey);
         }
         public async Task<bool> DeleteAllContentWithKey (string baseKey)
