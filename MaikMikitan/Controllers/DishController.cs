@@ -120,4 +120,17 @@ public class DishController : MainController
         
         return Ok();
     }
+    
+    [HttpGet]
+    [Route("get-customer-menu")]
+    public async Task<IActionResult> GetCustomerMenu(GetAllDishesForCustomerRequest request)
+    {
+        if (ModelState.IsValid) {
+            var response = await Mediator.Send(new GetAllDishesForCustomerCommand(request));
+            if (response.HasError) return BadRequest(response);
+            return Ok(response);
+        }
+        
+        return Ok();
+    }
 }
