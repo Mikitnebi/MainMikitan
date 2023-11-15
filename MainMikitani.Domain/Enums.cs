@@ -79,7 +79,7 @@ namespace MainMikitan.Domain
             SushiBar,
             LoungeBar,
             BurgerBar,
-            Pizzaria,
+            Pizzeria,
             FastFood
         }
         public enum RestaurantActiveStatus {
@@ -132,8 +132,10 @@ namespace MainMikitan.Domain
             public const string FileIsEmpty = "S3_FILE_IS_EMPTY";
             public const string FileSizeIsMore200Kb = "S3_FILESIZE_IS_MORE_200KB";
             public const string FileTypeIsNotImage = "S3_FILETYPE_IS_NOT_IMAGE";
+            public const string ImageNotCreatedOrUpdated = "S3_IMAGE_NOT_CREATED_OR_UPDATED";
+            public const string ImageNotFound = "S3_IMAGE_NOT_FOUND";
         }
-        public record struct RestaurntIntro
+        public record struct RestaurantIntro
         {
             public const string RestaurantNotUpdated = "RESTAURANTINTRO_RESTAURANT_NOT_UPDATED";
             public const string VerifiedRestaurantNotFound = "RESTAURANTINTRO_VERIFIED_RESTAURANT_NOT_FOUND";
@@ -176,23 +178,23 @@ namespace MainMikitan.Domain
 
         public const string CustomerCategoryNotUpdated = "CUSTOMER_CATEGORY_NOT_UPDATED";
 
-            public static readonly string NotCorrectMobileNumberType = "NOT_CORRECT_MOBILE_NUMBER_TYPE";
-        public static readonly string NotCorrectPasswordType = "NOT_CORRECT_PASSWORD_TYPE";
-        public static readonly string NotCorrectGenderIdType = "NOT_CORRECT_GENDERID_TYPE";
-        public static readonly string UserIsNotAdult = "USER_IS_NOT_ADULT";
+        public const string NotCorrectMobileNumberType = "NOT_CORRECT_MOBILE_NUMBER_TYPE";
+        public const string NotCorrectPasswordType = "NOT_CORRECT_PASSWORD_TYPE";
+        public const string NotCorrectGenderIdType = "NOT_CORRECT_GENDERID_TYPE";
+        public const string UserIsNotAdult = "USER_IS_NOT_ADULT";
 
-        //Restaurants
-        public static readonly string NotCorrectRegionId = "NOT_CORRECT_REGION_ID";
-        public static readonly string NotAppropriateBusinessName = "NOT_APPROPRIATE_BUSINESS_NAME";
+            //Restaurants
+        public const string NotCorrectRegionId = "NOT_CORRECT_REGION_ID";
+        public const string NotAppropriateBusinessName = "NOT_APPROPRIATE_BUSINESS_NAME";
 
-        public static readonly string UnExpectedException = "EXCEPTION";
-        public static readonly string AlreadyUsedEmail = "ALREADY_USED_EMAILADDRESS";
-        public static readonly string AlreadyUsedMobileNumber = "ALREADY_USED_MOBILENUMBER";
+        public const string UnExpectedException = "EXCEPTION";
+        public const string AlreadyUsedEmail = "ALREADY_USED_EMAILADDRESS";
+        public const string AlreadyUsedMobileNumber = "ALREADY_USED_MOBILENUMBER";
 
         
 
-        public static readonly string NotCorrectEmailOrPassword = "NOT_CORRECT_EMAIL_OR_PASSWORD";
-        public static readonly string NoTcorrectEmailAddressType = "NOT_CORRECT_EMAILADDRESS_TYPE";
+        public const string NotCorrectEmailOrPassword = "NOT_CORRECT_EMAIL_OR_PASSWORD";
+        public const string NotCorrectEmailAddressType = "NOT_CORRECT_EMAILADDRESS_TYPE";
 
         public const string BadTypeEmailAddress = "BAD_TYPE_EMAILADDRESS";
         public const string BadTypeFullName = "BAD_TYPE_FULLNAME";

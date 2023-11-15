@@ -1,7 +1,9 @@
 using MainMikitan.Database.Features.Dish.Interface;
+using MainMikitan.Domain;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Requests;
 using MainMikitan.ExternalServicesAdapter.S3ServiceAdapter;
+using MainMikitan.InternalServiceAdapterService.Exceptions;
 using MediatR;
 
 namespace MainMikitan.Application.Features.Dish.Add.Commands;
@@ -46,13 +48,19 @@ public class AddDishHandler : IRequestHandler<AddDishCommand, ResponseModel<bool
 
         foreach (var dishId in dishInfo.Keys.Where(dish => dishInfo[dish].DishPhoto != null))
         {
-            var addImageResponse = await _s3adapter.AddOrUpdateDishImage(dishInfo[dishId].DishPhoto, request.RestaurantId, dishInfo[dishId].CategoryDishId,
-                dishId);
-
-            if (!addImageResponse.Result)
+            try
             {
-                return addImageResponse;
+                var addImageResponse = await _s3adapter.AddOrUpdateDishImage(dishInfo[dishId].DishPhoto, request.RestaurantId, dishInfo[dishId].CategoryDishId,
+                    dishId);
             }
+            catch (MainMikitanException ex)
+            {
+                response.ErrorType = ErrorType.S3.ImageNotCreatedOrUpdated;
+                response.ErrorMessage = ex.Message;
+                return response;
+            } 
+            response.Result = true;
+            return response;
         }
 
         return response;

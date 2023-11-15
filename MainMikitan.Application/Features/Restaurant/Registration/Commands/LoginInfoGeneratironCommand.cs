@@ -43,7 +43,7 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands
             var getRestaurantIntro = await _restaurantIntroQueryRepository.GetVerifiedByEmail(email);
             if(getRestaurantIntro == null)
             {
-                response.ErrorType = ErrorType.RestaurntIntro.VerifiedRestaurantNotFound;
+                response.ErrorType = ErrorType.RestaurantIntro.VerifiedRestaurantNotFound;
                 return response;
             }
             var generateUserName = UtilHelper.GenerateUserName();

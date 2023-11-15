@@ -39,7 +39,7 @@ public class GetAllDishesHandler : IRequestHandler<GetAllDishesCommand, Response
         foreach (var categoryId in dishCategories)
         {
             var images = await _s3Adapter.GetRestaurantDishCategoryImages(request.RestaurantId, categoryId);
-            data.AddRange(images.Result.ImagesData);
+            data.AddRange(images.ImagesData);
         }
         
         foreach (var dish in dishes)

@@ -4,6 +4,7 @@ using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Requests.Customer;
 using MainMikitan.Domain.Templates;
 using MainMikitan.ExternalServicesAdapter.S3ServiceAdapter;
+using MainMikitan.InternalServiceAdapterService.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using static System.String;
@@ -44,13 +45,16 @@ public class AddOrUpdateProfilePhotoCommandHandler : ICommandHandler<AddOrUpdate
         {
             var customerProfilePhoto = request.CustomerProfilePhoto;
             var customerId = request.CustomerId;
-            var updateRequest = await _s3Adapter.AddOrUpdateCustomerProfileImage(customerProfilePhoto, customerId);
-            if (updateRequest.HasError)
+            try
             {
-                response.ErrorType = updateRequest.ErrorType;
+                var updateRequest = await _s3Adapter.AddOrUpdateCustomerProfileImage(customerProfilePhoto, customerId);
+            }
+            catch (MainMikitanException ex)
+            {
+                response.ErrorType = ErrorType.S3.ImageNotCreatedOrUpdated;
+                response.ErrorMessage = ex.Message;
                 return response;
             }
-
             response.Result = true;
             return response;
         }

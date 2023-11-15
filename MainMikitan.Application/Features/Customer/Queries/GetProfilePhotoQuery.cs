@@ -3,6 +3,7 @@ using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Responses.S3Response;
 using MainMikitan.Domain.Templates;
 using MainMikitan.ExternalServicesAdapter.S3ServiceAdapter;
+using MainMikitan.InternalServiceAdapterService.Exceptions;
 using MediatR;
 
 namespace MainMikitan.Application.Features.Customer.Queries;
@@ -25,13 +26,23 @@ public class GetProfilePhotoQueryHandler : IQueryHandler<GetProfilePhotoQuery, G
         _s3Adapter = s3Adapter;
     }
     
-    public Task<ResponseModel<GetImageResponse>> Handle(GetProfilePhotoQuery request, CancellationToken cancellationToken)
+    public async Task<ResponseModel<GetImageResponse>> Handle(GetProfilePhotoQuery request, CancellationToken cancellationToken)
     {
         var response = new ResponseModel<GetImageResponse>();
         try
         {
-            //var customer
-            return null;
+            try
+            {
+                var customerImage = await _s3Adapter.GetCustomerProfileImage(request.CustomerId);
+                response.Result = customerImage;
+                return response;
+            }
+            catch (MainMikitanException ex)
+            {
+                response.ErrorType = ErrorType.S3.ImageNotCreatedOrUpdated;
+                response.ErrorMessage = ex.Message;
+                return response;
+            }
         }
         catch (Exception ex) {
             response.ErrorType = ErrorType.UnExpectedException;

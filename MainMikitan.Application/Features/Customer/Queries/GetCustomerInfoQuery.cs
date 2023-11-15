@@ -5,6 +5,7 @@ using MainMikitan.Domain.Requests.Customer;
 using MainMikitan.Domain.Responses.S3Response;
 using MainMikitan.Domain.Templates;
 using MainMikitan.ExternalServicesAdapter.S3ServiceAdapter;
+using MainMikitan.InternalServiceAdapterService.Exceptions;
 using MediatR;
 
 namespace MainMikitan.Application.Features.Customer.Queries;
@@ -39,10 +40,15 @@ public class GetCustomerInfoQuery : IQuery<GetCustomerInfoResponse> {
                     return response;
                 }
 
-                var customerImageUrlResponse = await _s3Adapter.GetCustomerProfileImage(customerId);
-                if (customerImageUrlResponse.HasError)
+                GetImageResponse? customerImageUrlResponse = null;
+                try
                 {
-                    response.ErrorType = customerImageUrlResponse.ErrorType;
+                    customerImageUrlResponse = await _s3Adapter.GetCustomerProfileImage(customerId);
+                }
+                catch (MainMikitanException ex)
+                {
+                    response.ErrorType = ErrorType.S3.ImageNotCreatedOrUpdated;
+                    response.ErrorMessage = ex.Message;
                     return response;
                 }
                 response.Result = new GetCustomerInfoResponse
@@ -51,7 +57,7 @@ public class GetCustomerInfoQuery : IQuery<GetCustomerInfoResponse> {
                     FullName = customerInfo.FullName,
                     NationalityId = customerInfo.NationalityId,
                     GenderId = customerInfo.GenderId,
-                    ImageData = customerImageUrlResponse.Result!
+                    ImageData = customerImageUrlResponse!
                 };
                 return response;
             } catch (Exception ex) {

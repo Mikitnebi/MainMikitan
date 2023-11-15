@@ -23,7 +23,7 @@ namespace MainMikitan.InternalServiceAdapter.Validations
             }
             if (model.RequiredOptions && (model.Email == null || model.Email.Length < 5))
             {
-                response.ErrorType = ErrorType.NoTcorrectEmailAddressType;
+                response.ErrorType = ErrorType.NotCorrectEmailAddressType;
                 return response;
             }
             if(!model.AdultnessConfirmation)
