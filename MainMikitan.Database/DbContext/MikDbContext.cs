@@ -28,4 +28,9 @@ public class MikDbContext : IdentityDbContext
     public MikDbContext(DbContextOptions<MikDbContext> option) : base(option)
     {
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+    }
 }
