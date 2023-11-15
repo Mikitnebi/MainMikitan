@@ -145,6 +145,12 @@ namespace MainMikitan.Domain
             public const string RestaurantNotUpdated = "RESTAURANT_NOT_UPDATED";
         }
 
+        public record struct RestaurantEnvironment {
+            public const string NotDeleted = "RESTAURANTENVIRONMENTINFOdb_NOT_DELETED";
+            public const string NotAdded = "RESTAURANTENVIRONMENTINFOdb_NOT_ADDED";
+            public const string NotDbSaved = "RESTAURANTENVIRONMENTINFOdb_NOT_SAVECHANGED";
+        }
+
         public record struct CustomerInfo
         {
             public const string NotCreated = "CUSTOMERINFOdb_NOT_CREATED";

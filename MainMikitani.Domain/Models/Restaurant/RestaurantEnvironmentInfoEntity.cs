@@ -6,6 +6,5 @@ public class RestaurantEnvironmentInfoEntity
     public int RestaurantId { get; set; }
     public int EnvironmentId { get; set; }
     public bool IsActive { get; set; }
-    public bool IsDeleted { get; set; }
     public DateTime CreatedAt { get; set; }
 }
