@@ -71,11 +71,11 @@ namespace MainMikitan.API.Controllers {
 
         #endregion
 
-
         [HttpPost("CreateOrUpdateEnvironments")]
         public async Task<IActionResult> CreateOrUpdateRestaurantEnvironment(RestaurantRegistrationEnvironmentRequest request) {
             return !ModelState.IsValid ? BadRequest(ModelState) :
                 CheckResponse(await Mediator.Send(new CreateOrUpdateEnvironmentCommand(request, UserId)));
         }
+
     }
 }
