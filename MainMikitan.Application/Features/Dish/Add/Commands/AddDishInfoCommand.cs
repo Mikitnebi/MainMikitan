@@ -1,11 +1,11 @@
 using MainMikitan.Database.Features.Dish.Interface;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Requests;
-using MediatR;
+using MainMikitan.Domain.Templates;
 
 namespace MainMikitan.Application.Features.Dish.Add.Commands;
 
-public class AddDishInfoCommand : IRequest<ResponseModel<bool>>
+public class AddDishInfoCommand : ICommand
 {
     public List<AddDishInfoRequest> Request { get; }
 
@@ -15,7 +15,7 @@ public class AddDishInfoCommand : IRequest<ResponseModel<bool>>
     }
 }
 
-public class AddDishInfoHandler : IRequestHandler<AddDishInfoCommand, ResponseModel<bool>>
+public class AddDishInfoHandler : ICommandHandler<AddDishInfoCommand>
 {
     private readonly IDishCommandRepository _dishCommandRepository;
     
@@ -33,13 +33,11 @@ public class AddDishInfoHandler : IRequestHandler<AddDishInfoCommand, ResponseMo
         foreach (var dishInfo in request.Request)
         {
             var addResponse = await _dishCommandRepository.AddDishInfo(dishInfo);
-            if (addResponse < 1)
-            {
-                response.ErrorMessage = "TODO: შესაქმნელია Error Type";
-                response.Result = false;
+            if (addResponse >= 1) continue;
+            response.ErrorMessage = "TODO: შესაქმნელია Error Type";
+            response.Result = false;
 
-                return response;
-            }
+            return response;
         }
         
         response.Result = await _dishCommandRepository.SaveDishChanges();

@@ -1,11 +1,11 @@
 using MainMikitan.Database.Features.Dish.Interface;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Requests;
-using MediatR;
+using MainMikitan.Domain.Templates;
 
 namespace MainMikitan.Application.Features.Dish.Delete.Commands;
 
-public class DeleteDishCommand : IRequest<ResponseModel<bool>>
+public class DeleteDishCommand : ICommand
 {
     public DeleteDishRequest Request { get; }
     public DeleteDishCommand(DeleteDishRequest request)
@@ -14,7 +14,7 @@ public class DeleteDishCommand : IRequest<ResponseModel<bool>>
     }
 }
 
-public class DeleteDishHandler : IRequestHandler<DeleteDishCommand, ResponseModel<bool>>
+public class DeleteDishHandler : ICommandHandler<DeleteDishCommand>
 {
     private readonly IDishCommandRepository _dishCommandRepository;
     

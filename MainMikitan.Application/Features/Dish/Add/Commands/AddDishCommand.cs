@@ -2,13 +2,14 @@ using MainMikitan.Database.Features.Dish.Interface;
 using MainMikitan.Domain;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Requests;
+using MainMikitan.Domain.Templates;
 using MainMikitan.ExternalServicesAdapter.S3ServiceAdapter;
 using MainMikitan.InternalServiceAdapterService.Exceptions;
 using MediatR;
 
 namespace MainMikitan.Application.Features.Dish.Add.Commands;
 
-public class AddDishCommand : IRequest<ResponseModel<bool>>
+public class AddDishCommand : ICommand
 {
     public List<AddDishRequest> Request { get; } 
     public int RestaurantId { get; }
@@ -20,16 +21,16 @@ public class AddDishCommand : IRequest<ResponseModel<bool>>
     }
 }
 
-public class AddDishHandler : IRequestHandler<AddDishCommand, ResponseModel<bool>>
+public class AddDishHandler : ICommandHandler<AddDishCommand>
 {
     private readonly IDishCommandRepository _dishCommandRepository;
-    private readonly IS3Adapter _s3adapter;
+    private readonly IS3Adapter _s3Adapter;
     
     public AddDishHandler(IDishCommandRepository dishCommandRepository, 
         IS3Adapter s3Adapter)
     {
         _dishCommandRepository = dishCommandRepository;
-        _s3adapter = s3Adapter;
+        _s3Adapter = s3Adapter;
     }
 
     public async Task<ResponseModel<bool>> Handle(AddDishCommand request, CancellationToken cancellationToken)
@@ -50,7 +51,7 @@ public class AddDishHandler : IRequestHandler<AddDishCommand, ResponseModel<bool
         {
             try
             {
-                var addImageResponse = await _s3adapter.AddOrUpdateDishImage(dishInfo[dishId].DishPhoto, request.RestaurantId, dishInfo[dishId].CategoryDishId,
+                var addImageResponse = await _s3Adapter.AddOrUpdateDishImage(dishInfo[dishId].DishPhoto!, request.RestaurantId, dishInfo[dishId].CategoryDishId,
                     dishId);
             }
             catch (MainMikitanException ex)

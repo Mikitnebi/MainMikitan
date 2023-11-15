@@ -2,12 +2,12 @@ using MainMikitan.Database.Features.Dish.Interface;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Responses.DishResponses;
 using MainMikitan.Domain.Responses.S3Response;
+using MainMikitan.Domain.Templates;
 using MainMikitan.ExternalServicesAdapter.S3ServiceAdapter;
-using MediatR;
 
 namespace MainMikitan.Application.Features.Dish.Get.Commands;
 
-public class GetAllDishesCommand : IRequest<ResponseModel<List<GetDishInfoResponse>>>
+public class GetAllDishesCommand : IQuery<List<GetDishInfoResponse>>
 {
     public int RestaurantId { get; }
 
@@ -17,7 +17,7 @@ public class GetAllDishesCommand : IRequest<ResponseModel<List<GetDishInfoRespon
     }
 }
 
-public class GetAllDishesHandler : IRequestHandler<GetAllDishesCommand, ResponseModel<List<GetDishInfoResponse>>>
+public class GetAllDishesHandler : IQueryHandler<GetAllDishesCommand, List<GetDishInfoResponse>>
 {
     private readonly IDishCommandRepository _dishCommandRepository;
     private readonly IS3Adapter _s3Adapter;

@@ -1,11 +1,8 @@
-using MainMikitan.Database.Features.Customer.Command;
 using MainMikitan.Database.Features.Customer.Interface;
 using MainMikitan.Domain;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Requests.Customer;
 using MainMikitan.Domain.Templates;
-using MediatR;
-using NPOI.SS.Formula.Functions;
 
 namespace MainMikitan.Application.Features.Customer.Queries;
 

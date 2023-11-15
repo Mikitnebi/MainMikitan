@@ -1,13 +1,9 @@
-using MainMikitan.Database.Features.Customer.Interface;
 using MainMikitan.Domain;
 using MainMikitan.Domain.Models.Commons;
-using MainMikitan.Domain.Requests.Customer;
 using MainMikitan.Domain.Templates;
 using MainMikitan.ExternalServicesAdapter.S3ServiceAdapter;
 using MainMikitan.InternalServiceAdapterService.Exceptions;
-using MediatR;
 using Microsoft.AspNetCore.Http;
-using static System.String;
 
 namespace MainMikitan.Application.Features.Customer.Commands;
 

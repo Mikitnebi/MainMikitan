@@ -1,11 +1,11 @@
 using MainMikitan.Database.Features.Dish.Interface;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Requests;
-using MediatR;
+using MainMikitan.Domain.Templates;
 
 namespace MainMikitan.Application.Features.Dish.Add.Commands;
 
-public class AddCategoryDishCommand : IRequest<ResponseModel<bool>>
+public class AddCategoryDishCommand : ICommand
 {
     public List<AddCategoryDishRequest> Request { get; }
     public AddCategoryDishCommand(List<AddCategoryDishRequest> request)
@@ -15,7 +15,7 @@ public class AddCategoryDishCommand : IRequest<ResponseModel<bool>>
     
 }
 
-public class AddCategoryDishHandler : IRequestHandler<AddCategoryDishCommand, ResponseModel<bool>>
+public class AddCategoryDishHandler : ICommandHandler<AddCategoryDishCommand>
 {
     private readonly IDishCommandRepository _dishCommandRepository;
     

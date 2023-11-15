@@ -1,12 +1,11 @@
-using MainMikitan.Application.Features.Dish.Add.Commands;
 using MainMikitan.Database.Features.Dish.Interface;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Requests;
-using MediatR;
+using MainMikitan.Domain.Templates;
 
 namespace MainMikitan.Application.Features.Dish.Update.Commands;
 
-public class UpdateDishInfoCommand : IRequest<ResponseModel<bool>>
+public class UpdateDishInfoCommand : ICommand
 {
     public UpdateDishInfoRequest Request { get; }
     public UpdateDishInfoCommand(UpdateDishInfoRequest request)
@@ -16,7 +15,7 @@ public class UpdateDishInfoCommand : IRequest<ResponseModel<bool>>
     
 }
 
-public class UpdateDishInfoHandler : IRequestHandler<UpdateDishInfoCommand, ResponseModel<bool>>
+public class UpdateDishInfoHandler : ICommandHandler<UpdateDishInfoCommand>
 {
     private readonly IDishCommandRepository _dishCommandRepository;
     
@@ -28,10 +27,11 @@ public class UpdateDishInfoHandler : IRequestHandler<UpdateDishInfoCommand, Resp
     public async Task<ResponseModel<bool>> Handle(UpdateDishInfoCommand request,
         CancellationToken cancellationToken)
     {
-        var response = new ResponseModel<bool>();
-        
-        response.Result = await _dishCommandRepository.UpdateDishInfo(request.Request);
-        
+        var response = new ResponseModel<bool>
+        {
+            Result = await _dishCommandRepository.UpdateDishInfo(request.Request)
+        };
+
         return response;
     }
 }

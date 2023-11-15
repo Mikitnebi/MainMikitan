@@ -1,12 +1,9 @@
 using MainMikitan.Database.Features.Common.Otp.Interfaces;
-using MainMikitan.Database.Features.Customer.Interface;
 using MainMikitan.Domain;
 using MainMikitan.Domain.Models.Commons;
-using MainMikitan.Domain.Models.Customer;
 using MainMikitan.Domain.Models.Setting;
 using MainMikitan.Domain.Templates;
 using MainMikitan.ExternalServicesAdapter.Email;
-using MainMikitan.ExternalServicesAdapter.S3ServiceAdapter;
 using MainMikitan.InternalServiceAdapter.OtpGenerator;
 using Microsoft.Extensions.Options;
 

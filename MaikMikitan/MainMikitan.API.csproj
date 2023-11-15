@@ -29,4 +29,10 @@
     <ProjectReference Include="..\MainMikitani.Domain\MainMikitan.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="MainMikitan.Application">
+      <HintPath>bin\Debug\net7.0\MainMikitan.Application.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

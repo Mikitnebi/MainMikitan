@@ -7,11 +7,6 @@ using MainMikitan.Domain.Requests.Customer;
 using MainMikitan.Domain.Requests.Customer.Auth;
 using MainMikitan.InternalServiceAdapter.Auth;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MainMikitan.Application.Features.Customer.Commands
 {

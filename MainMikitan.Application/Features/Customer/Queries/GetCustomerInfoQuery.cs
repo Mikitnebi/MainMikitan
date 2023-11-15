@@ -6,7 +6,6 @@ using MainMikitan.Domain.Responses.S3Response;
 using MainMikitan.Domain.Templates;
 using MainMikitan.ExternalServicesAdapter.S3ServiceAdapter;
 using MainMikitan.InternalServiceAdapterService.Exceptions;
-using MediatR;
 
 namespace MainMikitan.Application.Features.Customer.Queries;
 

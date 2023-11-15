@@ -1,11 +1,8 @@
-using MainMikitan.Database.Features.Category.Query;
 using MainMikitan.Database.Features.Customer.Interface;
 using MainMikitan.Domain;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Requests.Customer;
 using MainMikitan.Domain.Templates;
-using MainMikitan.InternalServicesAdapter.Validations;
-using MediatR;
 
 namespace MainMikitan.Application.Features.Customer.Commands;
 

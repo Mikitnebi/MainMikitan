@@ -85,7 +85,7 @@ public class CustomerDeleteAccountVerifyOtpCommandHandler : ICommandHandler<Cust
             var deleteCustomer = await _customerCommandRepository.Delete(request.CustomerId);
             var deleteCustomerInfo = await _customerInfoRepository.Delete(request.CustomerId);
             var deleteCustomerInterests = await _customerInterestRepository.Delete((request.CustomerId));
-           // var deleteCustomerProfilePhoto = await _s3Adapter.DeleteCustomerPhoto(request.CustomerId);
+            //var deleteCustomerProfilePhoto = await _s3Adapter.DeleteCustomerPhoto(request.CustomerId);
            // if (customerDelete is null or 0)
            // {
             //    response.ErrorType = ErrorType.Customer.NotDeleted;

@@ -74,7 +74,7 @@ public class DishController : MainController
     public async Task<IActionResult> DeactiveDish(DeactiveDishRequest request)
     {
         if (ModelState.IsValid) {
-            var response = await Mediator.Send(new DeactiveDishCommand(request));
+            var response = await Mediator.Send(new DeactivateDishCommand(request));
             if (response.HasError) return BadRequest(response);
             return Ok(response);
         }
@@ -126,7 +126,7 @@ public class DishController : MainController
     public async Task<IActionResult> GetCustomerMenu(GetAllDishesForCustomerRequest request)
     {
         if (ModelState.IsValid) {
-            var response = await Mediator.Send(new GetAllDishesForCustomerCommand(request));
+            var response = await Mediator.Send(new GetAllDishesForCustomerQuery(request));
             if (response.HasError) return BadRequest(response);
             return Ok(response);
         }
