@@ -19,6 +19,7 @@ namespace MainMikitan.Database.Features.Restaurant.Command {
         }
 
         public async Task<bool> Delete(int restaurantId) {
+            
             var test = await _mikDbContext.RestaurantEnvironmentInfo.Where(r => r.RestaurantId == restaurantId).ToListAsync();
             if (test.Count == 0) return true;
             var result = await _mikDbContext.RestaurantEnvironmentInfo
