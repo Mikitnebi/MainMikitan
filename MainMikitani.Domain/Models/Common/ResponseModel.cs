@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace MainMikitan.Domain.Models.Commons;
 
-namespace MainMikitan.Domain.Models.Commons
+public record ResponseModel<T>
 {
-    public record ResponseModel<T>
+    public string? ErrorType { get; set; }
+    public string? ErrorMessage { get; set;}
+    public T? Result { get; set; }
+    public bool HasError
     {
-        public string? ErrorType { get; set; }
-        public string? ErrorMessage { get; set;}
-        public T? Result { get; set; }
-        public bool HasError
+        get
         {
-            get
-            {
-                return !string.IsNullOrEmpty(ErrorType);
-            }
+            return !string.IsNullOrEmpty(ErrorType);
         }
     }
 }
