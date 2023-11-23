@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace MainMikitan.Domain.Requests.RestaurantRequests {
-    public record RestaurantRegistrationIntroRequest
-    {
-        public string BusinessNameGeo { get; set; } = null!;
-        public string BusinessNameEng { get; set; } = null!;
+namespace MainMikitan.Domain.Requests.RestaurantRequests;
 
-        [Phone] public string PhoneNumber { get; set; } = null!;
+public record RestaurantRegistrationIntroRequest
+{
+    public string BusinessNameGeo { get; set; } = null!;
+    public string BusinessNameEng { get; set; } = null!;
 
-        [EmailAddress] public string EmailAddress { get; set; } = null!;
-        public int RegionId { get; set; }
-    }
+    [Phone] public string PhoneNumber { get; set; } = null!;
+
+    [EmailAddress] public string EmailAddress { get; set; } = null!;
+    public int RegionId { get; set; }
 }
