@@ -1,16 +1,12 @@
 ﻿using MainMikitan.Domain.Models.Common;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Requests.Customer.Auth;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MainMikitan.Domain.Requests.RestaurantRequests.Auth;
 
-namespace MainMikitan.InternalServiceAdapter.Auth
+namespace MainMikitan.InternalServiceAdapter.Auth;
+
+public interface IAuthService 
 {
-    public interface IAuthService 
-    {
-        ResponseModel<AuthTokenResponseModel> CustomerAuth(CustomerAuthRequestModel customerAuthModel);
-    }
+    ResponseModel<AuthTokenResponseModel> CustomerAuth(CustomerAuthRequestModel customerAuthModel);
+    ResponseModel<AuthTokenResponseModel> RestaurantAuth(RestaurantAuthRequestModel customerAuthModel);
 }
