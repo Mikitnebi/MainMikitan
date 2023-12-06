@@ -2,6 +2,7 @@
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Models.Setting;
 using MainMikitan.Domain.Requests.Customer.Auth;
+using MainMikitan.Domain.Requests.RestaurantRequests.Auth;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -37,6 +38,23 @@ namespace MainMikitan.InternalServiceAdapter.Auth
             return response;
         }
 
+        public ResponseModel<AuthTokenResponseModel> RestaurantAuth(RestaurantAuthRequestModel restaurantAuthModel)
+        {
+            var response = new ResponseModel<AuthTokenResponseModel>();
+            var authClaims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, restaurantAuthModel.Id.ToString()),
+                new Claim(ClaimTypes.Name, restaurantAuthModel.Username),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.Role, RoleId.Restaurant.ToString())
+            };
+            var token = GetToken(authClaims);
+            response.Result = new AuthTokenResponseModel
+            {
+                AccessToken = new JwtSecurityTokenHandler().WriteToken(token)
+            };
+            return response;
+        }
 
         private JwtSecurityToken GetToken(List<Claim> authClaims)
         {
