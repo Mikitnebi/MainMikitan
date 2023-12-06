@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MainMikitan.Database.DbContext;
 
-public class MikDbContext : IdentityDbContext
+public class MikDbContext : Microsoft.EntityFrameworkCore.DbContext
 {
     public DbSet<CategoryDishEntity> CategoryDish { get; set; }
     public DbSet<CustomerInfoEntity> CustomerInfo { get; set; }
@@ -22,15 +22,17 @@ public class MikDbContext : IdentityDbContext
     public DbSet<RestaurantEntity> Restaurant { get; set; }
     public DbSet<RestaurantEnvironmentInfoEntity> RestaurantEnvironmentInfo { get; set; }
     public DbSet<RestaurantInfoEntity> RestaurantInfo { get; set; }
-    public DbSet<RestaurantIntroEntity> RestaurantIntro { get; set; }
-    // public DbSet<RestaurantStaffEntity> RestaurantStaff { get; set; }
+    public DbSet<RestaurantIntroEntity> RestaurantIntro { get; set; } 
+    public DbSet<RestaurantStaffEntity> RestaurantStaff { get; set; }
     
     public MikDbContext(DbContextOptions<MikDbContext> option) : base(option)
     {
+        
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        
     }
 }
