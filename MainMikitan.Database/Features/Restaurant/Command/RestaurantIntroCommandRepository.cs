@@ -50,13 +50,14 @@ namespace MainMikitan.Database.Features.Restaurant.Command {
                 "[EmailAddress]," +
                 "[EmailConfirmation]," +
                 "[PhoneNumber]," +
-                "[BusinessName]," +
+                "[BusinessNameGeo]," +
+                "[BusinessNameEng]," +
                 "[RegionId]," +
                 "[RestaurantOtpVerificationId]," + 
                 "[CreatedAt])" +
                 " OUTPUT INSERTED.Id" +
                 " VALUES (@StatusId,@EmailAddress,@EmailConfirmation," +
-                "@PhoneNumber, @BusinessName, @RegionId, @OtpVerificationId, @JoinedAt)";
+                "@PhoneNumber, @BusinessNameGeo, @BusinessNameEng, @RegionId, @RestaurantOtpVerificationId, @CreatedAt)";
             var result = await connection.QueryFirstOrDefaultAsync<int>(sqlCommand, entity);
             return result;
         }
