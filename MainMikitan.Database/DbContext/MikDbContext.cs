@@ -3,6 +3,7 @@ using MainMikitan.Domain.Models.Common;
 using MainMikitan.Domain.Models.Customer;
 using MainMikitan.Domain.Models.Menu;
 using MainMikitan.Domain.Models.Restaurant;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -49,6 +50,39 @@ public class MikDbContext : IdentityDbContext
         modelBuilder.ApplyConfiguration(new RestaurantIntroMap());
         modelBuilder.ApplyConfiguration(new RestaurantStaffMap());
 
+        base.OnModelCreating(modelBuilder);
+        
+        var customerEntityHasher = new PasswordHasher<CustomerEntity>();
+
+        var customer = new CustomerEntity
+        {
+            Id = -1,
+            FullName = "Customer",
+            EmailAddress = "customer@gmail.com",
+            EmailConfirmation = true,
+            MobileNumber = "000000000",
+            MobileNumberConfirmation = true,
+            StatusId = 0,
+            CreatedAt = DateTime.Now
+        };
+        
+        customer.HashPassWord = customerEntityHasher.HashPassword(customer, "pass");
+        
+        modelBuilder.Entity<CustomerEntity>().HasData(customer);
+
+        var restaurant = new RestaurantEntity
+        {
+            Id = -1,
+            UserName = "restaurant",
+            CreatedAt = DateTime.Now
+        };
+
+        var restaurantEntityHasher = new PasswordHasher<RestaurantEntity>();
+        
+        restaurant.PasswordHash = restaurantEntityHasher.HashPassword(restaurant, "pass");
+
+        modelBuilder.Entity<RestaurantEntity>().HasData(restaurant);
+        
         base.OnModelCreating(modelBuilder);
     }
 }
