@@ -5,8 +5,10 @@ using MainMikitan.Domain.Interfaces.Restaurant;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Models.Restaurant;
 using MainMikitan.Domain.Requests.RestaurantRequests;
+using MainMikitan.InternalServiceAdapter.Hasher;
 using MainMikitan.InternalServicesAdapter.Util;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 
 namespace MainMikitan.Application.Features.Restaurant.Registration.Commands
 {
@@ -49,11 +51,15 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands
             var generateUserName = UtilHelper.GenerateUserName();
             var generatePassword = UtilHelper.GeneratePassword();
 
+            var hasher = new PasswordHasher<RestaurantEntity>();
+            
             var restaurant = new RestaurantEntity
             {
-                UserName = generateUserName,
-                PasswordHash = generatePassword
+                UserName = generateUserName
             };
+
+            restaurant.PasswordHash = hasher.HashPassword(restaurant, generatePassword);
+            
             var addRestaurant = await _restaurantCommandRepository.Create(restaurant);
             if(addRestaurant == 0)
             {

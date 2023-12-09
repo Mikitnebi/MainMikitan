@@ -12,6 +12,8 @@ using static MainMikitan.Domain.Enums;
 using static MainMikitan.ExternalServicesAdapter.Email.EmailSenderService;
 using MainMikitan.Database.Features.Customer.Interface;
 using MainMikitan.Domain.Templates;
+using MainMikitan.InternalServiceAdapter.Hasher;
+using Microsoft.AspNetCore.Identity;
 
 namespace MainMikitan.Application.Features.Customer.Commands {
     public class CustomerRegistrationCommand : ICommand {
@@ -74,13 +76,18 @@ namespace MainMikitan.Application.Features.Customer.Commands {
                         ValidationTime = _otpConfig.IntroValidationTime
                     });
 
-                    var createCustomerResult = await _customerCommandRepository.CreateOrUpdate(new CustomerEntity
+                    var hasher = new PasswordHasher<CustomerEntity>();
+
+                    var customerEntity = new CustomerEntity()
                     {
                         EmailAddress = email,
                         FullName = $"{registrationRequest.FirstName} {registrationRequest.LastName}",
-                        MobileNumber = registrationRequest.MobileNumber!,
-                        HashPassWord = registrationRequest.Password
-                    });
+                        MobileNumber = registrationRequest.MobileNumber!
+                    };
+
+                    customerEntity.HashPassWord = hasher.HashPassword(customerEntity, registrationRequest.Password);
+
+                    var createCustomerResult = await _customerCommandRepository.CreateOrUpdate(customerEntity);
                 }
                 response.Result = true;
                 return response;
