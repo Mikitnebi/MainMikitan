@@ -62,7 +62,7 @@ public class MikDbContext : IdentityDbContext
             EmailConfirmation = true,
             MobileNumber = "000000000",
             MobileNumberConfirmation = true,
-            StatusId = 0,
+            StatusId = 1,
             CreatedAt = DateTime.Now
         };
         
