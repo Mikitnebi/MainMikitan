@@ -31,6 +31,7 @@ public class MikDbContext : IdentityDbContext
     public DbSet<RestaurantInfoEntity> RestaurantInfo { get; set; }
     public DbSet<RestaurantIntroEntity> RestaurantIntro { get; set; } 
     public DbSet<RestaurantStaffEntity> RestaurantStaff { get; set; }
+    public DbSet<CategoryEntity> Category { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -49,7 +50,8 @@ public class MikDbContext : IdentityDbContext
         modelBuilder.ApplyConfiguration(new RestaurantInfoMap());
         modelBuilder.ApplyConfiguration(new RestaurantIntroMap());
         modelBuilder.ApplyConfiguration(new RestaurantStaffMap());
-
+        modelBuilder.ApplyConfiguration(new CategoryMap());
+        
         base.OnModelCreating(modelBuilder);
         
         var customerEntityHasher = new PasswordHasher<CustomerEntity>();
