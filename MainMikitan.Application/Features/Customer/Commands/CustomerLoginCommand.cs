@@ -39,10 +39,11 @@ namespace MainMikitan.Application.Features.Customer.Commands
             try
             {
                 var email = command._EmailAddress;
+                var password = command._Password;
                 var customer = await _customerQueryRepository.GetByEmail(email);
-
+                
                 var hasher = new PasswordHasher<CustomerEntity>();
-                var passComparison = hasher.VerifyHashedPassword(customer, customer.HashPassWord, command._Password);
+                var passComparison = hasher.VerifyHashedPassword(customer, customer.HashPassWord, password);
                 
                 if (customer == null || passComparison != PasswordVerificationResult.Success)
                 {

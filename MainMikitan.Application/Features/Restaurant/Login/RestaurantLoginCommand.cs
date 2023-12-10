@@ -7,6 +7,8 @@ using MainMikitan.Domain;
 using MainMikitan.Domain.Requests.RestaurantRequests;
 using MainMikitan.Domain.Requests.RestaurantRequests.Auth;
 using MainMikitan.Domain.Interfaces.Restaurant;
+using MainMikitan.Domain.Models.Restaurant;
+using Microsoft.AspNetCore.Identity;
 
 namespace MainMikitan.Application.Features.Restaurant.Login;
 
@@ -41,8 +43,13 @@ public class RestaurantLoginCommandHandler : IRequestHandler<RestaurantLoginComm
         var response = new ResponseModel<AuthTokenResponseModel>();
         var username = command._Username;
         var password = command._Password;
+        
         var restaurant = await _restaurantIntroQueryRepository.GetByUsername(username);
-        if (restaurant == null || !_passwordHasher.VerifyPassword(password, restaurant.PasswordHash))
+        
+        var hasher = new PasswordHasher<RestaurantEntity>();
+        var passComparison = hasher.VerifyHashedPassword(restaurant, restaurant.PasswordHash, password);
+        
+        if (restaurant == null || passComparison != PasswordVerificationResult.Success)
         {
             response.ErrorType = ErrorType.NotCorrectEmailOrPassword;
             return response;
