@@ -3,10 +3,12 @@ using MainMikitan.Database.Features.Customer.Interface;
 using MainMikitan.Domain;
 using MainMikitan.Domain.Models.Common;
 using MainMikitan.Domain.Models.Commons;
+using MainMikitan.Domain.Models.Customer;
 using MainMikitan.Domain.Requests.Customer;
 using MainMikitan.Domain.Requests.Customer.Auth;
 using MainMikitan.InternalServiceAdapter.Auth;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 
 namespace MainMikitan.Application.Features.Customer.Commands
 {
@@ -24,15 +26,11 @@ namespace MainMikitan.Application.Features.Customer.Commands
     {
         private readonly ICustomerQueryRepository _customerQueryRepository;
         private readonly IAuthService _authService;
-        private readonly IPasswordHasher _passwordHasher;
         public CustomerLoginCommandHandler
-            (
-            ICustomerQueryRepository customerQueryRepository,
-            IPasswordHasher passwordHasher,
+            (ICustomerQueryRepository customerQueryRepository,
             IAuthService authService)
         {
             _customerQueryRepository = customerQueryRepository;
-            _passwordHasher = passwordHasher;
             _authService = authService;
         }
         public async Task<ResponseModel<AuthTokenResponseModel>> Handle (CustomerLoginCommand command, CancellationToken cancellationToken)
@@ -41,9 +39,12 @@ namespace MainMikitan.Application.Features.Customer.Commands
             try
             {
                 var email = command._EmailAddress;
-                var password = command._Password;
                 var customer = await _customerQueryRepository.GetByEmail(email);
-                if (customer == null || !_passwordHasher.VerifyPassword(password, customer.HashPassWord))
+
+                var hasher = new PasswordHasher<CustomerEntity>();
+                var passComparison = hasher.VerifyHashedPassword(customer, customer.HashPassWord, command._Password);
+                
+                if (customer == null || passComparison != PasswordVerificationResult.Success)
                 {
                     response.ErrorType = ErrorType.NotCorrectEmailOrPassword;
                     return response;
