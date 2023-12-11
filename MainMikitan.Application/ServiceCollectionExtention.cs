@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using MainMikitan.Application.Services.CacheServices;
 
 namespace MainMikitan.Application
 {
@@ -15,6 +16,8 @@ namespace MainMikitan.Application
         public static void AddMainMikitanApplication(this IServiceCollection services)
         {
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+
+            services.AddScoped<ICustomerCacheService, CustomerCacheService>();
         }
     }
 }

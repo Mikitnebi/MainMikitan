@@ -1,18 +1,15 @@
 ﻿using MainMikitan.Cache.Cache;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace MainMikitan.Cache
 {
     public static class ServiceCollectionExtension
     {
-        public static void AddMainMikitanDatabase(this IServiceCollection services)
+        public static void AddMainMikitanCache(this IServiceCollection services)
         {
-            services.AddSingleton<IMemCacheManager, MemCacheMeneger>();
+            services.AddMemoryCache();
+            services.AddScoped<IMemCacheManager, MemCacheManager>();
         }
     }
 }

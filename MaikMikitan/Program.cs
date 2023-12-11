@@ -15,6 +15,7 @@ using Amazon.S3;
 using Amazon.Extensions.NETCore.Setup;
 using Amazon.Runtime;
 using Amazon;
+using MainMikitan.Cache;
 using MainMikitan.Database.DbContext;
 using Microsoft.EntityFrameworkCore;
 
@@ -101,6 +102,7 @@ builder.Services.Configure<EmailSenderOptions>(builder.Configuration.GetSection(
 builder.Services.Configure<OtpOptions>(builder.Configuration.GetSection("OtpOptions"));
 builder.Services.Configure<SecurityOptions>(builder.Configuration.GetSection("SecurityOptions"));
 builder.Services.AddMainMikitanDatabase();
+builder.Services.AddMainMikitanCache();
 builder.Services.AddMainMikitanInternalService();
 builder.Services.AddMainMikitanExternalService();
 builder.Services.AddMainMikitanApplication();

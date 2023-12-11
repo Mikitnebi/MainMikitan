@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MainMikitan.Cache\MainMikitan.Cache.csproj" />
     <ProjectReference Include="..\MainMikitan.Common\MainMikitan.InternalServicesAdapter.csproj" />
     <ProjectReference Include="..\MainMikitan.ExternalServicesAdapter\MainMikitan.ExternalServicesAdapter.csproj" />
     <ProjectReference Include="..\MainMikitani.Domain\MainMikitan.Domain.csproj" />
