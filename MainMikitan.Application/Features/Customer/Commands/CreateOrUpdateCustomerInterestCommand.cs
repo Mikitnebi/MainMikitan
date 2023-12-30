@@ -22,16 +22,13 @@ public class CreateOrUpdateCustomerInterestCommand : ICommand
 public class CreateOrUpdateCustomerInterestCommandHandler : ICommandHandler<CreateOrUpdateCustomerInterestCommand>
 {
     private readonly ICategoryQueryRepository _categoryQueryRepository;
-    private readonly ICustomerQueryRepository _customerCategoryQueryRepository;
     private readonly ICustomerInterestRepository _customerInterestRepository;
 
     public CreateOrUpdateCustomerInterestCommandHandler(
         ICategoryQueryRepository categoryQueryRepository,
-        ICustomerQueryRepository customerCategoryQueryRepository,
         ICustomerInterestRepository customerInterestRepository)
     {
         _categoryQueryRepository = categoryQueryRepository;
-        _customerCategoryQueryRepository = customerCategoryQueryRepository;
         _customerInterestRepository = customerInterestRepository;
     }
 
@@ -44,6 +41,7 @@ public class CreateOrUpdateCustomerInterestCommandHandler : ICommandHandler<Crea
             var ids = request.RequestId;
             var customerId = request.CustomerId;
             var activeIds = await _categoryQueryRepository.GetAllActive(ids);
+            
             var validationResponse = CategoryInfoValidation.Validate(ids, activeIds);
             if (!validationResponse.Result) return validationResponse;
             var deleteResponse = await _customerInterestRepository.Delete(customerId);
