@@ -15,9 +15,13 @@ namespace MainMikitan.Database.Features.Category.Query
         public async Task<List<int>> GetAllActive(List<int> indexes)
         {
             using var connection = new SqlConnection(_connectionString.MainMik);
-
+            
             string sqlCommand = $"SELECT Id FROM [dbo].[Category] WITH (NOLOCK) WHERE Id IN (@indexes) AND [StatusId] = 1";
-            dynamic sqlResult = await connection.QueryAsync<int>(sqlCommand, indexes);
+            
+            var parameters = new DynamicParameters();
+            parameters.Add("indexes",indexes);
+            
+            dynamic sqlResult = await connection.QueryAsync<int>(sqlCommand, parameters);
             sqlResult = sqlResult.ToList();
 
             return sqlResult;

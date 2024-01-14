@@ -22,6 +22,33 @@ namespace MainMikitan.Database.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("MainMikitan.Domain.Models.Common.CategoryEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NameEng")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameGeo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Category");
+                });
+
             modelBuilder.Entity("MainMikitan.Domain.Models.Common.DictionaryEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -187,14 +214,14 @@ namespace MainMikitan.Database.Migrations
                         new
                         {
                             Id = -1,
-                            CreatedAt = new DateTime(2023, 12, 10, 3, 43, 38, 585, DateTimeKind.Local).AddTicks(1287),
+                            CreatedAt = new DateTime(2023, 12, 30, 18, 28, 21, 608, DateTimeKind.Local).AddTicks(4250),
                             EmailAddress = "customer@gmail.com",
                             EmailConfirmation = true,
                             FullName = "Customer",
-                            HashPassWord = "AQAAAAIAAYagAAAAEGLqrr2w4qvXqiMeK1lqTuXCmWxAPjMEFLI/N65/6v4WfCINkMUI5uJY2ekTCyHwPg==",
+                            HashPassWord = "AQAAAAIAAYagAAAAEK96rANMOlqhcxa9DPwbr/ohsHLBUR0srhf/QhVteJkv89yb7Po5bSz6zxIMi61xxA==",
                             MobileNumber = "000000000",
                             MobileNumberConfirmation = true,
-                            StatusId = 0
+                            StatusId = 1
                         });
                 });
 
@@ -399,8 +426,8 @@ namespace MainMikitan.Database.Migrations
                         new
                         {
                             Id = -1,
-                            CreatedAt = new DateTime(2023, 12, 10, 3, 43, 38, 643, DateTimeKind.Local).AddTicks(670),
-                            PasswordHash = "AQAAAAIAAYagAAAAECsdiAjDWYFgehiRnIGNjHWSHddPjbYVA740Og5X/hySZ2sFMcdRdfP7uK2W+TxVxA==",
+                            CreatedAt = new DateTime(2023, 12, 30, 18, 28, 21, 645, DateTimeKind.Local).AddTicks(7700),
+                            PasswordHash = "AQAAAAIAAYagAAAAEEpDMIvjmSLmdFQTgljyG6MkOHPDtbN5I/DH9ZLbadzPHJ53OWwwgPN/2oTGrSFURQ==",
                             UserName = "restaurant"
                         });
                 });

@@ -16,6 +16,7 @@ using MainMikitan.Database.Features.Common.Multifunctional.Interface.Query;
 using MainMikitan.Database.Features.Common.Multifunctional.Interface.Repository;
 using MainMikitan.Database.Features.Common.Multifunctional.Query;
 using MainMikitan.Database.Features.Common.Multifunctional.Repository;
+using MainMikitan.Database.Features.Customer.Query;
 using MainMikitan.Database.Features.Dish.Command;
 using MainMikitan.Database.Features.Dish.Interface;
 using MainMikitan.Database.Features.Restaurant.Interface;
@@ -31,6 +32,7 @@ namespace MainMikitan.Database
             services.AddScoped<ICustomerCommandRepository, CustomerCommandRepository>();
             services.AddScoped<ICustomerInterestRepository, CustomerInterestRepository>();
             services.AddScoped<ICustomerInfoRepository, CustomerInfoRepository>();
+            services.AddScoped<ICustomerInterestQueryRepository, CustomerInterestQueryRepository>();
 
             //email
             services.AddScoped<IEmailSenderQueryRepository, EmailSenderQueryRepository>();
