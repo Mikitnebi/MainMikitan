@@ -5,31 +5,34 @@ using MainMikitan.Domain.Templates;
 
 namespace MainMikitan.Application.Features.Dish.Update.Commands;
 
-public class DeactivateDishCommand : ICommand
+public class UpdateDishStatusCommand : ICommand
 {
-    public DeactiveDishRequest Request { get; }
+    public UpdateDishStatusRequest Request { get; }
+    public int UserId { get; }
     
-    public DeactivateDishCommand(DeactiveDishRequest request)
+    public UpdateDishStatusCommand(UpdateDishStatusRequest request, int userId)
     {
         Request = request;
+        UserId = userId;
     }
 }
 
-public class DeactivateDishCommandHandler : ICommandHandler<DeactivateDishCommand>
+public class DeactivateDishCommandHandler : ICommandHandler<UpdateDishStatusCommand>
 {
     private readonly IDishCommandRepository _dishCommandRepository;
+    
     
     public DeactivateDishCommandHandler(IDishCommandRepository dishCommandRepository)
     {
         _dishCommandRepository = dishCommandRepository;
     }
     
-    public async Task<ResponseModel<bool>> Handle(DeactivateDishCommand request,
+    public async Task<ResponseModel<bool>> Handle(UpdateDishStatusCommand request,
         CancellationToken cancellationToken)
     {
         var response = new ResponseModel<bool>();
         
-        response.Result = await _dishCommandRepository.DeactiveDish(request.Request);
+        response.Result = await _dishCommandRepository.UpdateDishStatus(request.Request, request.UserId);
         
         return response;
     }

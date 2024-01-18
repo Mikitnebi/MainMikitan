@@ -20,6 +20,7 @@ public class DishInfoEntity
     public string IngredientsEng { get; set; } = null!;
     public string? DescriptionGeo { get; set; } 
     public string? DescriptionEng { get; set; }
+    public int UpdateUserId { get; set; }
     [Required]
     public DateTime CreateAt { get; set; }
 }

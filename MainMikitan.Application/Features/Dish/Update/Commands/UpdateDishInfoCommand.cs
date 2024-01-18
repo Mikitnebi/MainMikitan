@@ -8,9 +8,11 @@ namespace MainMikitan.Application.Features.Dish.Update.Commands;
 public class UpdateDishInfoCommand : ICommand
 {
     public UpdateDishInfoRequest Request { get; }
-    public UpdateDishInfoCommand(UpdateDishInfoRequest request)
+    public int UserId { get; }
+    public UpdateDishInfoCommand(UpdateDishInfoRequest request, int userId)
     {
         Request = request;
+        UserId = userId;
     }
     
 }
@@ -29,7 +31,7 @@ public class UpdateDishInfoHandler : ICommandHandler<UpdateDishInfoCommand>
     {
         var response = new ResponseModel<bool>
         {
-            Result = await _dishCommandRepository.UpdateDishInfo(request.Request)
+            Result = await _dishCommandRepository.UpdateDishInfo(request.Request, request.UserId)
         };
 
         return response;

@@ -57,10 +57,12 @@ public class DishController : MainController
     }
     
     [HttpPost]
-    [Route("delete-dish")]
-    public async Task<IActionResult> DeleteDish(DeleteDishRequest request)
+    [Route("revoke-dish")]
+    public async Task<IActionResult> RevokeDish(DeleteDishRequest request)
     {
-        if (ModelState.IsValid) {
+        if (ModelState.IsValid)
+        {
+            request.IsDeletedStatus = false;
             var response = await Mediator.Send(new DeleteDishCommand(request));
             if (response.HasError) return BadRequest(response);
             return Ok(response);
@@ -70,11 +72,42 @@ public class DishController : MainController
     }
     
     [HttpPost]
-    [Route("deactive-dish")]
-    public async Task<IActionResult> DeactiveDish(DeactiveDishRequest request)
+    [Route("delete-dish")]
+    public async Task<IActionResult> DeleteDish(DeleteDishRequest request)
     {
         if (ModelState.IsValid) {
-            var response = await Mediator.Send(new DeactivateDishCommand(request));
+            request.IsDeletedStatus = true;
+            var response = await Mediator.Send(new DeleteDishCommand(request));
+            if (response.HasError) return BadRequest(response);
+            return Ok(response);
+        }
+        
+        return Ok();
+    }
+    
+    [HttpPost]
+    [Route("activate-dish")]
+    public async Task<IActionResult> ActivateDish(UpdateDishStatusRequest request)
+    {
+        if (ModelState.IsValid)
+        {
+            request.IsActiveStatus = true;
+            var response = await Mediator.Send(new UpdateDishStatusCommand(request, UserId));
+            if (response.HasError) return BadRequest(response);
+            return Ok(response);
+        }
+        
+        return Ok();
+    }
+    
+    [HttpPost]
+    [Route("deactivate-dish")]
+    public async Task<IActionResult> DeactivateDish(UpdateDishStatusRequest request)
+    {
+        if (ModelState.IsValid)
+        {
+            request.IsActiveStatus = false;
+            var response = await Mediator.Send(new UpdateDishStatusCommand(request, UserId));
             if (response.HasError) return BadRequest(response);
             return Ok(response);
         }
@@ -87,7 +120,7 @@ public class DishController : MainController
     public async Task<IActionResult> UpdateDishInfo(UpdateDishInfoRequest request)
     {
         if (ModelState.IsValid) {
-            var response = await Mediator.Send(new UpdateDishInfoCommand(request));
+            var response = await Mediator.Send(new UpdateDishInfoCommand(request, UserId));
             if (response.HasError) return BadRequest(response);
             return Ok(response);
         }

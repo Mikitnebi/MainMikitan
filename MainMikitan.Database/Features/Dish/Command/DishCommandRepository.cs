@@ -66,7 +66,7 @@ public class DishCommandRepository : IDishCommandRepository
 
     #region Update
 
-    public async Task<bool> UpdateDishInfo(UpdateDishInfoRequest request)
+    public async Task<bool> UpdateDishInfo(UpdateDishInfoRequest request, int userId)
     {
         var dish = await _db.DishInfo.FirstOrDefaultAsync(d => d.DishId == request.DishId);
         
@@ -78,6 +78,7 @@ public class DishCommandRepository : IDishCommandRepository
         dish.IngredientsEng = request.IngredientsEng ?? dish.IngredientsEng;
         dish.DescriptionGeo = request.DescriptionGeo ?? dish.DescriptionGeo;
         dish.DescriptionEng = request.DescriptionEng ?? dish.DescriptionEng;
+        dish.UpdateUserId = userId;
         
         var saveResult = await _db.SaveChangesAsync();
         return saveResult > 0;
@@ -197,14 +198,14 @@ public class DishCommandRepository : IDishCommandRepository
 
     #region Deactive
 
-    public async Task<bool> DeactiveDish(DeactiveDishRequest request)
+    public async Task<bool> UpdateDishStatus(UpdateDishStatusRequest request, int userId)
     {
         var dish = await _db.Dish.FirstOrDefaultAsync(d => d.Id == request.DishId);
         
         if (dish is null) return false;
         
         dish.IsActive = request.IsActiveStatus;
-        dish.UpdateUserId = request.UpdateUserId;
+        dish.UpdateUserId = userId;
         dish.UpdateAt = DateTime.Now;
 
         var saveResult = await _db.SaveChangesAsync();
