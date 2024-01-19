@@ -1,8 +1,6 @@
 ﻿using MainMikitan.Application.Features.Customer.Commands;
-using MainMikitan.Domain.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using MainMikitan.Domain.Requests.GeneralRequests;
 using MainMikitan.Domain.Requests.Customer;
 using static MainMikitan.Domain.Enums;
 using MainMikitan.API.Filters;
@@ -10,9 +8,7 @@ using MainMikitan.Application.Features.Customer.Queries;
 
 namespace MainMikitan.API.Controllers
 {
-    
     [Authorized(RoleId.Customer)]
-
     public class CustomerController(IMediator mediator) : MainController(mediator)
     {
         [HttpPost("CreateOrUpdateInterest")]
