@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MainMikitan.Domain
 {
-    public class Enums
+    public abstract class Enums
     {
         public enum PasswordScore
         {
@@ -40,7 +40,8 @@ namespace MainMikitan.Domain
             Paused = 3,
             OnlyEmailVerified = 4,
             OnlyMobileVerified = 5,
-            Deleted = 6
+            TemporaryDeleted = 6,
+            Deleted = 7
         }
         public enum UserTypeId
         {
@@ -50,6 +51,11 @@ namespace MainMikitan.Domain
             Company = 3,
             RestaurantIntro = 4, 
             Restaurant = 5
+        }
+
+        public enum OtpOperationTypeId
+        {
+            CustomerDeleteAccount = 0
         }
         public enum GenderId
         {
@@ -171,6 +177,8 @@ namespace MainMikitan.Domain
             public const string IsDeleted = "CUSTOMER_IS_DELETED";
             public const string IsNotDeleted = "CUSTOMER_IS_NOT_DELETED";
             public const string NotDeleted = "CUSTOMER_NOT_DELETED";
+            public const string AccountIsTemporaryDeleted = "CUSTOMER_IS_TEMPORARY_DELETED";
+            public const string NotFound = "CUSTOMER_NOT_FOUND";
         }
 
         public record struct Otp

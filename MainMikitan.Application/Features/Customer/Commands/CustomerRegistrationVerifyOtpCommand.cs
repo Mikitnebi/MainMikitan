@@ -36,7 +36,7 @@ namespace MainMikitan.Application.Features.Customer.Commands
         public async Task<ResponseModel<bool>> Handle (CustomerRegistrationVerifyOtpCommand model, CancellationToken cancellationToken)
         {
             var response = new ResponseModel<bool>();
-            var otp = await _otpLogQueryRepository.GetOtpbyEmail(model._email);
+            var otp = await _otpLogQueryRepository.GetOtpByEmail(model._email);
             if (otp is null) 
             {
                 response.ErrorType = ErrorType.Otp.IncorrectEmail;

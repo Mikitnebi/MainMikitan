@@ -17,6 +17,7 @@ using Amazon.Runtime;
 using Amazon;
 using MainMikitan.Cache;
 using MainMikitan.Database.DbContext;
+using MainMikitan.InternalServicesAdapter;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

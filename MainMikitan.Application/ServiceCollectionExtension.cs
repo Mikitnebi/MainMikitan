@@ -8,16 +8,18 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using MainMikitan.Application.Services.CacheServices;
+using MainMikitan.Application.Services.Otp;
 
 namespace MainMikitan.Application
 {
-    public static class ServiceCollectionExtention
+    public static class ServiceCollectionExtension
     {
         public static void AddMainMikitanApplication(this IServiceCollection services)
         {
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
             services.AddScoped<ICustomerCacheService, CustomerCacheService>();
+            services.AddScoped<IOtpCheckerService, OtpCheckerService>();
         }
     }
 }

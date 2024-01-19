@@ -6,44 +6,29 @@ using MainMikitan.Domain.Templates;
 
 namespace MainMikitan.Application.Features.Customer.Queries;
 
-public class GetCustomerInterestsQuery : IQuery<GetCustomerInterestsResponse> {
-        public int CustomerId { get; set; }
-        public GetCustomerInterestsQuery(int customerId) {
-            CustomerId = customerId;
-        }
-    }
-
-public class
-    GetCustomerInterestsQueryHandler : IQueryHandler<GetCustomerInterestsQuery, GetCustomerInterestsResponse>
+public class GetCustomerInterestsQuery(int customerId) : IQuery<GetCustomerInterestsResponse>
 {
-    private readonly ICustomerInterestRepository _customerInterestRepository;
+        public int CustomerId { get; set; } = customerId;
+}
 
-    public GetCustomerInterestsQueryHandler(
-        ICustomerInterestRepository customerInterestRepository
-    )
-    {
-        _customerInterestRepository = customerInterestRepository;
-    }
-
+public class  GetCustomerInterestsQueryHandler(ICustomerInterestRepository customerInterestRepository)
+    : ResponseMaker<GetCustomerInterestsResponse>,IQueryHandler<GetCustomerInterestsQuery, GetCustomerInterestsResponse>
+{
     public async Task<ResponseModel<GetCustomerInterestsResponse>> Handle(GetCustomerInterestsQuery query,
         CancellationToken cancellationToken)
     {
-        var response = new ResponseModel<GetCustomerInterestsResponse>();
         var customerId = query.CustomerId;
         try
         {
-            var customerInterests = await _customerInterestRepository.Get(customerId);
-            response.Result = new GetCustomerInterestsResponse
+            var customerInterests = await customerInterestRepository.Get(customerId);
+            return Success(new GetCustomerInterestsResponse
             {
                 InterestsIds = customerInterests.Select(t => t.InterestId).ToList()
-            };
-            return response;
+            });
         }
         catch (Exception ex)
         {
-            response.ErrorType = ErrorType.UnExpectedException;
-            response.ErrorMessage = ex.Message;
-            return response;
+            return Unexpected(ex.Message);
         }
     }
 }

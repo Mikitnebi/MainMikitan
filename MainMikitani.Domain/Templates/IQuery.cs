@@ -3,7 +3,4 @@ using MediatR;
 
 namespace MainMikitan.Domain.Templates;
 
-public interface IQuery<TResponse> : IRequest<ResponseModel<TResponse>>
-{
-    
-}
+public interface IQuery<TResponse> : IRequest<ResponseModel<TResponse>>;

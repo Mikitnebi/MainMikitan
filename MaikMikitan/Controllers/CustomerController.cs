@@ -61,11 +61,11 @@ namespace MainMikitan.API.Controllers
         }
         
         [HttpPost("DeleteAccount/VerifyOtp")]
-        public async Task<IActionResult> DeleteAccountVerifyOtp()
+        public async Task<IActionResult> DeleteAccountVerifyOtp(string otp)
         {
             return !ModelState.IsValid
                 ? BadRequest(ModelState)
-                : CheckResponse(await Mediator.Send(new CustomerDeleteAccountCommand(UserId)));
+                : CheckResponse(await Mediator.Send(new CustomerDeleteAccountVerifyOtpCommand(UserId, otp)));
         }
     }
 }

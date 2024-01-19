@@ -4,13 +4,13 @@ using MainMikitan.ExternalServicesAdapter.S3ServiceAdapter;
 
 namespace MainMikitan.ExternalServicesAdapter
 {
-    public static class ServiceCollectionExtention
+    public static class ServiceCollectionExtension
     {
         public static void AddMainMikitanExternalService(this IServiceCollection services)
         {
             //S3Adapter
             services.AddScoped<IS3Adapter, S3Adapter>();
-            //emailsender
+            //email sender
             services.AddScoped<IEmailSenderService, EmailSenderService>();
         }
     }

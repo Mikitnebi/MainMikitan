@@ -20,16 +20,13 @@ namespace MainMikitan.API.Controllers {
         [Route("customer-login")]
         [EnableCors("AllowSpecificOrigin")]
         public async Task<IActionResult> CustomerLogin(CustomerLoginRequest request) {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var response = await _mediator.Send(new CustomerLoginCommand(request));
+            if (response.HasError)
             {
-                var response = await _mediator.Send(new CustomerLoginCommand(request));
-                if (response.HasError)
-                {
-                    return BadRequest(response);
-                }
-                return Ok(response);
+                return BadRequest(response);
             }
-            return BadRequest(ModelState);
+            return Ok(response);
         }
 
         [HttpPost]

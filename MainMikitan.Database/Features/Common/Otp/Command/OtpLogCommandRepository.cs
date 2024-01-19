@@ -22,33 +22,33 @@ namespace MainMikitan.Database.Features.Common.Otp.Command
         }
         public async Task<int?> Create(OtpLogIntroEntity model)
         {
-            using var connection = new SqlConnection(_connectionStrings.MainMik);
+            await using var connection = new SqlConnection(_connectionStrings.MainMik);
             model.CreatedAt = DateTime.Now;
             model.StatusId = (int)OtpStatusId.NoneVerified;
-            var sqlCommand = "INSERT INTO [dbo].[OtpLogIntro] " +
-              "([CreatedAt], " +
-              "[Otp]," +
-              "[MobileNumber], " +
-              "[EmailAddress], " +
-              "[NumberOfTrials], " +
-              "[NumberOfTrialsIsRequired]," +
-              "[StatusId]," +
-              "[ValidationTime]," +
-              "[UserTypeId]) " +
-              " OUTPUT INSERTED.Id" +
-              " VALUES (@CreatedAt, @Otp, @MobileNumber, @EmailAddress, @NumberOfTrials, @NumberOfTrialsIsRequired, @StatusId, @ValidationTime, @UserTypeId)";
+            const string sqlCommand = "INSERT INTO [dbo].[OtpLogIntro] " +
+                                      "([CreatedAt], " +
+                                      "[Otp]," +
+                                      "[MobileNumber], " +
+                                      "[EmailAddress], " +
+                                      "[NumberOfTrials], " +
+                                      "[NumberOfTrialsIsRequired]," +
+                                      "[StatusId]," +
+                                      "[ValidationTime]," +
+                                      "[UserTypeId]) " +
+                                      " OUTPUT INSERTED.Id" +
+                                      " VALUES (@CreatedAt, @Otp, @MobileNumber, @EmailAddress, @NumberOfTrials, @NumberOfTrialsIsRequired, @StatusId, @ValidationTime, @UserTypeId)";
             var result = await connection.QuerySingleOrDefaultAsync<int?>(sqlCommand, model);
             return result;
         }
         public async Task<int?> Update(int id, int numberOfTrials, int status)
         {
             var otpStatus = (int)status;
-            using var connection = new SqlConnection(_connectionStrings.MainMik);
+            await using var connection = new SqlConnection(_connectionStrings.MainMik);
 
-            var sqlCommand = "UPDATE [dbo].[OtpLogIntro] " +
-                "SET [NumberOfTrials] = @numberOfTrials, " +
-                "[StatusId] = @otpStatus " +
-                " WHERE [Id] = @id";
+            const string sqlCommand = "UPDATE [dbo].[OtpLogIntro] " +
+                                      "SET [NumberOfTrials] = @numberOfTrials, " +
+                                      "[StatusId] = @otpStatus " +
+                                      " WHERE [Id] = @id";
             var result = await connection.ExecuteAsync(sqlCommand, new {id, numberOfTrials, otpStatus});
             return result;
 

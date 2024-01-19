@@ -9,6 +9,6 @@ namespace MainMikitan.Database.Features.Common.Otp.Interfaces
 {
     public interface IOtpLogQueryRepository
     {
-        Task<OtpLogIntroEntity> GetOtpbyEmail(string email);
+        Task<OtpLogIntroEntity?> GetOtpByEmail(string email);
     }
 }

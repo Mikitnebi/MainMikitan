@@ -7,54 +7,36 @@ using Microsoft.AspNetCore.Http;
 
 namespace MainMikitan.Application.Features.Customer.Commands;
 
-public class AddOrUpdateProfilePhotoCommand: ICommand
+public class AddOrUpdateProfilePhotoCommand(IFormFile command, int customerId) : ICommand
 {
-    public readonly IFormFile CustomerProfilePhoto;
-    public int CustomerId { get; set; }
-
-    public AddOrUpdateProfilePhotoCommand(IFormFile command, int customerId)
-    {
-        CustomerProfilePhoto = command;
-        CustomerId = customerId;
-    }
+    public readonly IFormFile CustomerProfilePhoto = command;
+    public int CustomerId { get; set; } = customerId;
 }
 
-public class AddOrUpdateProfilePhotoCommandHandler : ICommandHandler<AddOrUpdateProfilePhotoCommand>
+public class AddOrUpdateProfilePhotoCommandHandler(IS3Adapter s3Adapter)
+    : ResponseMaker, ICommandHandler<AddOrUpdateProfilePhotoCommand>
 {
-    private readonly IS3Adapter _s3Adapter;
-
-    public AddOrUpdateProfilePhotoCommandHandler(
-        IS3Adapter s3Adapter
-        )
-    {
-        _s3Adapter = s3Adapter;
-    }
-
     public async Task<ResponseModel<bool>> Handle(AddOrUpdateProfilePhotoCommand request,
         CancellationToken cancellationToken)
     {
-        var response = new ResponseModel<bool>();
         try
         {
             var customerProfilePhoto = request.CustomerProfilePhoto;
             var customerId = request.CustomerId;
             try
             {
-                var updateRequest = await _s3Adapter.AddOrUpdateCustomerProfileImage(customerProfilePhoto, customerId);
+                var updateRequest = await s3Adapter.AddOrUpdateCustomerProfileImage(customerProfilePhoto, customerId);
             }
             catch (MainMikitanException ex)
             {
-                response.ErrorType = ErrorType.S3.ImageNotCreatedOrUpdated;
-                response.ErrorMessage = ex.Message;
-                return response;
+                return Fail(ErrorType.S3.ImageNotCreatedOrUpdated);
             }
-            response.Result = true;
-            return response;
+
+            return Success();
         }
-        catch (Exception ex) {
-            response.ErrorType = ErrorType.UnExpectedException;
-            response.ErrorMessage = ex.Message;
-            return response;
+        catch (Exception ex)
+        {
+            return Unexpected(ex.Message);
         }
     }
 }

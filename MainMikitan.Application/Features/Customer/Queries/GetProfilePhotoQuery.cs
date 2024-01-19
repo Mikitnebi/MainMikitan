@@ -7,24 +7,13 @@ using MainMikitan.InternalServiceAdapterService.Exceptions;
 
 namespace MainMikitan.Application.Features.Customer.Queries;
 
-public class GetProfilePhotoQuery : IQuery<GetImageResponse>
+public class GetProfilePhotoQuery(int customerId) : IQuery<GetImageResponse>
 {
-    public int CustomerId { get; set; }
-
-    public GetProfilePhotoQuery(int customerId)
-    {
-        CustomerId = customerId;
-    }
+    public int CustomerId { get; set; } = customerId;
 }
 
-public class GetProfilePhotoQueryHandler : IQueryHandler<GetProfilePhotoQuery, GetImageResponse>
+public class GetProfilePhotoQueryHandler(IS3Adapter s3Adapter) : ResponseMaker<GetImageResponse>, IQueryHandler<GetProfilePhotoQuery, GetImageResponse>
 {
-    private readonly IS3Adapter _s3Adapter;
-    public GetProfilePhotoQueryHandler(IS3Adapter s3Adapter)
-    {
-        _s3Adapter = s3Adapter;
-    }
-    
     public async Task<ResponseModel<GetImageResponse>> Handle(GetProfilePhotoQuery request, CancellationToken cancellationToken)
     {
         var response = new ResponseModel<GetImageResponse>();
@@ -32,21 +21,18 @@ public class GetProfilePhotoQueryHandler : IQueryHandler<GetProfilePhotoQuery, G
         {
             try
             {
-                var customerImage = await _s3Adapter.GetCustomerProfileImage(request.CustomerId);
+                var customerImage = await s3Adapter.GetCustomerProfileImage(request.CustomerId);
                 response.Result = customerImage;
                 return response;
             }
             catch (MainMikitanException ex)
             {
-                response.ErrorType = ErrorType.S3.ImageNotCreatedOrUpdated;
-                response.ErrorMessage = ex.Message;
-                return response;
+                return Fail(ErrorType.S3.ImageNotCreatedOrUpdated);
             }
         }
-        catch (Exception ex) {
-            response.ErrorType = ErrorType.UnExpectedException;
-            response.ErrorMessage = ex.Message;
-            return null;
+        catch (Exception ex)
+        {
+            return Unexpected(ex.Message);
         }
     }
 }

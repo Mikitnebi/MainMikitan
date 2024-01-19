@@ -8,69 +8,38 @@ using MainMikitan.InternalServicesAdapter.Validations;
 
 namespace MainMikitan.Application.Features.Customer.Commands;
 
-public class CreateOrUpdateCustomerInterestCommand : ICommand
+public class CreateOrUpdateCustomerInterestCommand(FillCustomerInterestRequest command, int customerId) : ICommand
 {
-        public List<int> RequestId { get; set; }
-        public int CustomerId { get; set; }
-        public CreateOrUpdateCustomerInterestCommand(FillCustomerInterestRequest command, int customerId)
-        {
-            RequestId = command.InfoIds;
-            CustomerId = customerId;
-        }
-    }
+        public List<int> RequestId { get; set; } = command.InfoIds;
+        public int CustomerId { get; set; } = customerId;
+}
 
-public class CreateOrUpdateCustomerInterestCommandHandler : ICommandHandler<CreateOrUpdateCustomerInterestCommand>
+public class CreateOrUpdateCustomerInterestCommandHandler(
+    ICategoryQueryRepository categoryQueryRepository,
+    ICustomerInterestRepository customerInterestRepository)
+    : ResponseMaker, ICommandHandler<CreateOrUpdateCustomerInterestCommand>
 {
-    private readonly ICategoryQueryRepository _categoryQueryRepository;
-    private readonly ICustomerInterestRepository _customerInterestRepository;
-
-    public CreateOrUpdateCustomerInterestCommandHandler(
-        ICategoryQueryRepository categoryQueryRepository,
-        ICustomerInterestRepository customerInterestRepository)
-    {
-        _categoryQueryRepository = categoryQueryRepository;
-        _customerInterestRepository = customerInterestRepository;
-    }
-
     public async Task<ResponseModel<bool>> Handle(CreateOrUpdateCustomerInterestCommand request,
         CancellationToken cancellationToken)
     {
-        var response = new ResponseModel<bool>();
         try
         {
-            var ids = request.RequestId;
-            var customerId = request.CustomerId;
-            var activeIds = await _categoryQueryRepository.GetAllActive(ids);
-            
-            var validationResponse = CategoryInfoValidation.Validate(ids, activeIds);
+            var activeIds = await categoryQueryRepository.GetAllActive(request.RequestId);
+            var validationResponse = CategoryInfoValidation.Validate(request.RequestId, activeIds);
             if (!validationResponse.Result) return validationResponse;
-            var deleteResponse = await _customerInterestRepository.Delete(customerId);
+            var deleteResponse = await customerInterestRepository.Delete(request.CustomerId);
             if (!deleteResponse)
-            {
-                response.ErrorType = ErrorType.CustomerInterest.NotDelete;
-                return response;
-            }
-
-            var addResponse = await _customerInterestRepository.Add(activeIds, customerId);
+                return Fail(ErrorType.CustomerInterest.NotDelete);
+            var addResponse = await customerInterestRepository.Add(activeIds, request.CustomerId);
             if (!addResponse)
-            {
-                response.ErrorType = ErrorType.CustomerInterest.NotAdd;
-                return response;
-            }
-
-            if (await _customerInterestRepository.SaveChanges())
-            {
-                response.ErrorType = ErrorType.CustomerInterest.NotDbSave;
-                return response;
-            }
-
-            response.Result = true;
-            return response;
+                return Fail(ErrorType.CustomerInterest.NotAdd);
+            if (await customerInterestRepository.SaveChanges())
+                return Fail(ErrorType.CustomerInterest.NotDbSave);
+            return Success();
         }
-        catch (Exception ex) {
-            response.ErrorType = ErrorType.UnExpectedException;
-            response.ErrorMessage = ex.Message;
-            return response;
+        catch (Exception ex)
+        {
+            return Unexpected(ex.Message);
         }
     }
 }
