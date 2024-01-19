@@ -12,4 +12,5 @@ public class OtpLogIntroEntity
     public int NumberOfTrials { get; set; }
     public bool NumberOfTrialsIsRequired { get; set; }
     public int UserTypeId { get; set; }
+    public int OperationId { get; set; }
 }

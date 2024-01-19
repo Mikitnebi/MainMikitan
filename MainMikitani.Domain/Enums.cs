@@ -182,6 +182,21 @@ namespace MainMikitan.Domain
             public const string OtpNotUpdated = "OTP_NOT_UPDATED";
         }
 
+        public record struct OtpLog
+        {
+            public const string OtpLogNotCreated = "OTP_LOG_NOT_CREATED";
+        }
+
+        public record struct EmailSender
+        {
+            public const string EmailNotSend = "EMAIL_NOT_SEND";
+        }
+
+        public record struct Reservation
+        {
+            public const string CustomerHasReservation = "CUSTOMER_HAS_RESERVATION";
+        }
+
         public const string CustomerCategoryNotUpdated = "CUSTOMER_CATEGORY_NOT_UPDATED";
 
         public const string NotCorrectMobileNumberType = "NOT_CORRECT_MOBILE_NUMBER_TYPE";

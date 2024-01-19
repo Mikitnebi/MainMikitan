@@ -2,6 +2,7 @@ using MainMikitan.Database.DbContext.Mapping;
 using MainMikitan.Domain.Models.Common;
 using MainMikitan.Domain.Models.Customer;
 using MainMikitan.Domain.Models.Menu;
+using MainMikitan.Domain.Models.Reservation;
 using MainMikitan.Domain.Models.Restaurant;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -32,6 +33,7 @@ public class MikDbContext : IdentityDbContext
     public DbSet<RestaurantIntroEntity> RestaurantIntro { get; set; } 
     public DbSet<RestaurantStaffEntity> RestaurantStaff { get; set; }
     public DbSet<CategoryEntity> Category { get; set; }
+    public DbSet<ReservationEntity> Reservations { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

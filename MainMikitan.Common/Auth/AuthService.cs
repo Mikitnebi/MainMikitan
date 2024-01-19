@@ -26,7 +26,6 @@ namespace MainMikitan.InternalServiceAdapter.Auth
             var authClaims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, customerAuthModel.Id.ToString()),
-                new Claim(ClaimTypes.Name, customerAuthModel.EmailAdress),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.Role, RoleId.Customer.ToString())
             };
@@ -44,7 +43,6 @@ namespace MainMikitan.InternalServiceAdapter.Auth
             var authClaims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, restaurantAuthModel.Id.ToString()),
-                new Claim(ClaimTypes.Name, restaurantAuthModel.Username),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.Role, RoleId.Restaurant.ToString())
             };

@@ -15,8 +15,7 @@ namespace MainMikitan.API.Controllers;
         {
         }
 
-        [HttpPost]
-        [Route("Customer/Registration")]
+        [HttpPost("Customer/Registration")]
         public async Task<IActionResult> CustomerRegistration(CustomerRegistrationRequest model)
         {
             return !ModelState.IsValid ? BadRequest(ModelState) :

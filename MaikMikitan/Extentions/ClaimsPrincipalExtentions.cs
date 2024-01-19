@@ -11,10 +11,6 @@ namespace MainMikitan.API.Extentions
             int.TryParse(claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier), out var id);
             return id;
         }
-        public static string GetEmail(this ClaimsPrincipal claimsPrincipal)
-        {
-            return  claimsPrincipal.FindFirstValue(ClaimTypes.Name) ?? string.Empty;
-        }
 
     }
 }

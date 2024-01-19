@@ -19,6 +19,8 @@ using MainMikitan.Database.Features.Common.Multifunctional.Repository;
 using MainMikitan.Database.Features.Customer.Query;
 using MainMikitan.Database.Features.Dish.Command;
 using MainMikitan.Database.Features.Dish.Interface;
+using MainMikitan.Database.Features.Reservation.Command;
+using MainMikitan.Database.Features.Reservation.Interfaces;
 using MainMikitan.Database.Features.Restaurant.Interface;
 
 namespace MainMikitan.Database
@@ -57,7 +59,9 @@ namespace MainMikitan.Database
             
             //Dish Repository
             services.AddScoped<IDishCommandRepository, DishCommandRepository>();
-
+            
+            //Reservation
+            services.AddScoped<IReservationCommandRepository, ReservationCommandRepository>();
         }
     }
 }

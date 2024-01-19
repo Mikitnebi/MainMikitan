@@ -12,7 +12,6 @@ public class MainController : ControllerBase
 {
     protected readonly IMediator Mediator;
     protected int UserId => User.GetId();
-    protected string UserEmail => User.GetEmail();
 
     public MainController(IMediator mediator) =>
         Mediator = mediator;

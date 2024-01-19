@@ -13,32 +13,8 @@ namespace MainMikitan.API.Controllers
     
     [Authorized(RoleId.Customer)]
 
-    public class CustomerController : MainController
+    public class CustomerController(IMediator mediator) : MainController(mediator)
     {
-        public CustomerController(IMediator mediator) : base(mediator)
-        {
-        }
-
-        [HttpPost]
-        [Route("registration")]
-        public async Task<IActionResult> CustomerRegistration(CustomerRegistrationRequest model)
-        {
-            return !ModelState.IsValid ? BadRequest(ModelState) :
-                CheckResponse(await Mediator.Send(new CustomerRegistrationCommand(model)));
-        }
-
-        [HttpPost("email-validation")]
-        public async Task<IActionResult> CustomerRegistrationVerifyOtp(GeneralRegistrationVerifyOtpRequest model)
-        {
-            return !ModelState.IsValid ? BadRequest(ModelState) :
-                CheckResponse(await Mediator.Send(new CustomerRegistrationVerifyOtpCommand(
-                new GeneralRegistrationVerifyOtpRequest
-                {
-                    Email = model.Email,
-                    Otp = model.Otp
-                })));
-        }
-        
         [HttpPost("CreateOrUpdateInterest")]
         public async Task<IActionResult> CreateOrUpdateCustomerInterest(FillCustomerInterestRequest request)
         {
@@ -80,6 +56,20 @@ namespace MainMikitan.API.Controllers
             CheckResponse(await Mediator.Send(new GetProfilePhotoQuery(UserId)));
         }
 
+        [HttpPost("DeleteAccount")]
+        public async Task<IActionResult> DeleteAccount()
+        {
+            return !ModelState.IsValid
+                ? BadRequest(ModelState)
+                : CheckResponse(await Mediator.Send(new CustomerDeleteAccountCommand(UserId)));
+        }
         
+        [HttpPost("DeleteAccount/VerifyOtp")]
+        public async Task<IActionResult> DeleteAccountVerifyOtp()
+        {
+            return !ModelState.IsValid
+                ? BadRequest(ModelState)
+                : CheckResponse(await Mediator.Send(new CustomerDeleteAccountCommand(UserId)));
+        }
     }
 }
