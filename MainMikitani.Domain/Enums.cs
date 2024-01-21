@@ -140,6 +140,8 @@ namespace MainMikitan.Domain
             public const string FileTypeIsNotImage = "S3_FILETYPE_IS_NOT_IMAGE";
             public const string ImageNotCreatedOrUpdated = "S3_IMAGE_NOT_CREATED_OR_UPDATED";
             public const string ImageNotFound = "S3_IMAGE_NOT_FOUND";
+            public const string ImagesNotFound = "S3_IMAGES_NOT_FOUND";
+            public const string UnexpectedException = "S3_UNEXPECTED_EXCEPTION";
         }
         public record struct RestaurantIntro
         {

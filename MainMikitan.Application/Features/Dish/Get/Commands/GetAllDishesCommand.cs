@@ -38,7 +38,7 @@ public class GetAllDishesHandler : IQueryHandler<GetAllDishesCommand, List<GetDi
         foreach (var categoryId in dishCategories)
         {
             var images = await _s3Adapter.GetRestaurantDishCategoryImages(request.RestaurantId, categoryId);
-            data.AddRange(images.ImagesData);
+            data.AddRange(images.Result!.ImagesData);
         }
         
         foreach (var dish in dishes)

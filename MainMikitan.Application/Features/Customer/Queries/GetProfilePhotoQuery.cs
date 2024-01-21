@@ -19,16 +19,8 @@ public class GetProfilePhotoQueryHandler(IS3Adapter s3Adapter) : ResponseMaker<G
         var response = new ResponseModel<GetImageResponse>();
         try
         {
-            try
-            {
                 var customerImage = await s3Adapter.GetCustomerProfileImage(request.CustomerId);
-                response.Result = customerImage;
-                return response;
-            }
-            catch (MainMikitanException ex)
-            {
-                return Fail(ErrorType.S3.ImageNotCreatedOrUpdated);
-            }
+                return customerImage;
         }
         catch (Exception ex)
         {

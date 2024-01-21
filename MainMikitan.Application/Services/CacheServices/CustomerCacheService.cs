@@ -48,7 +48,7 @@ public class CustomerCacheService : ICustomerCacheService
         var cacheValue = _memCacheManager.Get<GetImageResponse>(cacheKey);
         if (cacheValue is not null) return cacheValue;
         var imageResponse = await _s3Adapter.GetCustomerProfileImage(customerId);
-        _memCacheManager.Set(cacheKey, imageResponse);
-        return imageResponse;
+        _memCacheManager.Set(cacheKey, imageResponse.Result);
+        return imageResponse.Result;
     }
 }

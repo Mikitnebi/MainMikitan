@@ -9,7 +9,7 @@ namespace MainMikitan.Application.Features.Customer.Commands;
 public class CreateOrUpdateCustomerInfoCommand(CreateOrUpdateCustomerInfoRequest command, int customerId) : ICommand
 {
     public readonly CreateOrUpdateCustomerInfoRequest CustomerRequest = command;
-    public int CustomerId { get; set; } = customerId;
+    public int CustomerId { get; } = customerId;
 }
 
 public class CreateOrUpdateCustomerInfoCommandHandler(ICustomerInfoRepository customerInfoRepository)

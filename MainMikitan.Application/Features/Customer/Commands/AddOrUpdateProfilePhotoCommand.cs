@@ -23,16 +23,8 @@ public class AddOrUpdateProfilePhotoCommandHandler(IS3Adapter s3Adapter)
         {
             var customerProfilePhoto = request.CustomerProfilePhoto;
             var customerId = request.CustomerId;
-            try
-            {
                 var updateRequest = await s3Adapter.AddOrUpdateCustomerProfileImage(customerProfilePhoto, customerId);
-            }
-            catch (MainMikitanException ex)
-            {
-                return Fail(ErrorType.S3.ImageNotCreatedOrUpdated);
-            }
-
-            return Success();
+                return !updateRequest ? Fail(ErrorType.S3.ImageNotCreatedOrUpdated) : Success();
         }
         catch (Exception ex)
         {

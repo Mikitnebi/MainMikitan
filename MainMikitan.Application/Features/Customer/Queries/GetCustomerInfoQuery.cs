@@ -25,15 +25,7 @@ public class GetCustomerInfoQuery(int customerId) : IQuery<GetCustomerInfoRespon
                 var customerInfo = await customerInfoRepository.Get(customerId);
                 if (customerInfo is null)
                     return Fail(ErrorType.CustomerInfo.NotGetInfo);
-                GetImageResponse? customerImageUrlResponse = null;
-                try
-                {
-                    customerImageUrlResponse = await s3Adapter.GetCustomerProfileImage(customerId);
-                }
-                catch (MainMikitanException ex)
-                {
-                    return Fail(ErrorType.S3.ImageNotCreatedOrUpdated);
-                }
+                var customerImageUrlResponse = await s3Adapter.GetCustomerProfileImage(customerId);
 
                 return Success(new GetCustomerInfoResponse
                 {
@@ -41,7 +33,7 @@ public class GetCustomerInfoQuery(int customerId) : IQuery<GetCustomerInfoRespon
                     FullName = customerInfo.FullName,
                     NationalityId = customerInfo.NationalityId,
                     GenderId = customerInfo.GenderId,
-                    ImageData = customerImageUrlResponse!
+                    ImageData = customerImageUrlResponse.Result!
                 });
             } catch (Exception ex)
             {
