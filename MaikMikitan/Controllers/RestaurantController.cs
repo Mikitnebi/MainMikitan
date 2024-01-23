@@ -22,57 +22,41 @@ namespace MainMikitan.API.Controllers {
             _mediator = mediator;
         }
         #region Registration
-        [HttpPost]
-        [Route("registration")]
-        [EnableCors("AllowSpecificOrigin")]
+        [HttpPost("registration")]
         public async Task<IActionResult> RestaurantRegistration(RestaurantRegistrationIntroRequest request) {
-            if (ModelState.IsValid) {
-                var response = await _mediator.Send(new RestaurantRegistrationIntroCommand(request));
-                if (response.HasError) return BadRequest(response);
-                return Ok(response);
-            }
-            return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var response = await _mediator.Send(new RestaurantRegistrationIntroCommand(request));
+            if (response.HasError) return BadRequest(response);
+            return Ok(response);
         }
 
-        [HttpPost]
-        [Route("intro-email-validation")]
-        [EnableCors("AllowSpecificOrigin")]
+        [HttpPost("intro-email-validation")]
         public async Task<IActionResult> RestaurantIntroVerifyOtp(GeneralRegistrationVerifyOtpRequest model) {
-            if (ModelState.IsValid) {
-                var result = await _mediator.Send(new RestaurantIntroVerifyOtpCommand(new Domain.Requests.GeneralRequests.GeneralRegistrationVerifyOtpRequest {
-                    Email = model.Email,
-                    Otp = model.Otp
-                }));
-                if (result.HasError) return BadRequest(result);
-                return Ok(result);
-            }
-            return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var result = await _mediator.Send(new RestaurantIntroVerifyOtpCommand(new Domain.Requests.GeneralRequests.GeneralRegistrationVerifyOtpRequest {
+                Email = model.Email,
+                Otp = model.Otp
+            }));
+            if (result.HasError) return BadRequest(result);
+            return Ok(result);
         }
         [HttpPost("Login-Info-Generation")]
-        [EnableCors("AllowSpecificOrigin")]
         public async Task<IActionResult> LoginInfoGeneratiron(LoginInfoGeneratironRequest request)
         {
-            if (ModelState.IsValid)
-            {
-                var result = await _mediator.Send(new LoginInfoGeneratironCommand(request));
-                if (result.HasError) return BadRequest(result);
-                return Ok(result);
-            }
-            return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var result = await _mediator.Send(new LoginInfoGeneratironCommand(request));
+            if (result.HasError) return BadRequest(result);
+            return Ok(result);
         }
 
-        [HttpPost]
-          [Authorized(RoleId.Restaurant)]
-          [Route("registration/StarterInfo")]
-          [EnableCors("AllowSpecificOrigin")]
-          public async Task<IActionResult> RestaurantRegistrationFinal(RestaurantRegistrationStarterInfoRequest request) {
-              if (ModelState.IsValid) {
-                  var response = await _mediator.Send(new RestaurantRegistrationFinalCommand(request,User.GetId()));
-                  if (response.HasError) return BadRequest(response);
-                  return Ok(response);
-              }
-              return BadRequest(ModelState);
-          }
+        [HttpPost("registration/StarterInfo")]
+        [Authorized(RoleId.Restaurant)]
+        public async Task<IActionResult> RestaurantRegistrationFinal(RestaurantRegistrationStarterInfoRequest request) {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var response = await _mediator.Send(new RestaurantRegistrationFinalCommand(request, User.GetId()));
+            if (response.HasError) return BadRequest(response);
+            return Ok(response);
+        }
 
         #endregion
     }
