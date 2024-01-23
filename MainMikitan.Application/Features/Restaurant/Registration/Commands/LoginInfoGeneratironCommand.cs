@@ -5,6 +5,7 @@ using MainMikitan.Domain.Interfaces.Restaurant;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Models.Restaurant;
 using MainMikitan.Domain.Requests.RestaurantRequests;
+using MainMikitan.ExternalServicesAdapter.Email;
 using MainMikitan.InternalServiceAdapter.Hasher;
 using MainMikitan.InternalServicesAdapter.Util;
 using MediatR;
@@ -27,15 +28,17 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands
         private readonly IRestaurantIntroQueryRepository _restaurantIntroQueryRepository;
         private readonly IRestaurantCommandRepository _restaurantCommandRepository;
         private readonly IEmailSenderQueryRepository _emailSenderQueryRepository;
+        private readonly IEmailSenderService _emailSenderService;
         public LoginInfoGeneratironCommandHandler(
             IRestaurantIntroQueryRepository restaurantIntroQueryRepository, 
             IRestaurantCommandRepository restaurantCommandRepository, 
-            IEmailSenderQueryRepository emailSenderQueryRepository
-            )
+            IEmailSenderQueryRepository emailSenderQueryRepository, 
+            IEmailSenderService emailSenderService)
         {
             _restaurantIntroQueryRepository = restaurantIntroQueryRepository;
             _restaurantCommandRepository = restaurantCommandRepository;
             _emailSenderQueryRepository = emailSenderQueryRepository;
+            _emailSenderService = emailSenderService;
         }
         public async Task<ResponseModel<bool>> Handle(LoginInfoGeneratironCommand request, CancellationToken cancellationToken)
         {
@@ -66,7 +69,17 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands
                 response.ErrorType = ErrorType.Restaurant.RestaurantNotUpdated;
                 return response;
             }
-            var sendEmail = _emailSenderQueryRepository.GetEmailById((int)Enums.EmailType.RestaurantGenerateAccount);
+            var sendEmail = await _emailSenderQueryRepository.GetEmailById((int)Enums.EmailType.RestaurantGenerateAccount);
+
+            var emailBuilder = new EmailSenderService.EmailBuilder();
+            
+            var emailSenderResult = await _emailSenderService.SendEmailAsync(email, emailBuilder, (int)Enums.EmailType.RestaurantGenerateAccount);
+
+            if(!emailSenderResult)
+            {
+                response.ErrorMessage = ErrorType.EmailSender.EmailNotSend;
+            }
+            
             response.Result = true;
             return response;
         }
