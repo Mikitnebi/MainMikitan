@@ -23,8 +23,8 @@ public class DishController : MainController
         if (!ModelState.IsValid) return Ok();
         var response = await Mediator.Send(new AddCategoryDishCommand(request));
         if (response.HasError) return BadRequest(response);
+        
         return Ok(response);
-
     }
     
     [HttpPost("add-dish")]
@@ -33,8 +33,8 @@ public class DishController : MainController
         if (!ModelState.IsValid) return Ok();
         var response = await Mediator.Send(new AddDishCommand(request, UserId));
         if (response.HasError) return BadRequest(response);
+        
         return Ok(response);
-
     }
     
     [HttpPost("add-dish-info")]
@@ -43,8 +43,8 @@ public class DishController : MainController
         if (!ModelState.IsValid) return Ok();
         var response = await Mediator.Send(new AddDishInfoCommand(request));
         if (response.HasError) return BadRequest(response);
+        
         return Ok(response);
-
     }
     
     [HttpPost("revoke-dish")]
@@ -54,8 +54,8 @@ public class DishController : MainController
         request.IsDeletedStatus = false;
         var response = await Mediator.Send(new DeleteDishCommand(request));
         if (response.HasError) return BadRequest(response);
+        
         return Ok(response);
-
     }
     
     [HttpPost("delete-dish")]
@@ -65,8 +65,8 @@ public class DishController : MainController
         request.IsDeletedStatus = true;
         var response = await Mediator.Send(new DeleteDishCommand(request));
         if (response.HasError) return BadRequest(response);
+        
         return Ok(response);
-
     }
     
     [HttpPost("activate-dish")]
@@ -76,8 +76,8 @@ public class DishController : MainController
         request.IsActiveStatus = true;
         var response = await Mediator.Send(new UpdateDishStatusCommand(request, UserId));
         if (response.HasError) return BadRequest(response);
+        
         return Ok(response);
-
     }
     
     [HttpPost("deactivate-dish")]
@@ -87,8 +87,8 @@ public class DishController : MainController
         request.IsActiveStatus = false;
         var response = await Mediator.Send(new UpdateDishStatusCommand(request, UserId));
         if (response.HasError) return BadRequest(response);
+        
         return Ok(response);
-
     }
     
     [HttpPost("update-dish-info")]
@@ -97,8 +97,8 @@ public class DishController : MainController
         if (!ModelState.IsValid) return Ok();
         var response = await Mediator.Send(new UpdateDishInfoCommand(request, UserId));
         if (response.HasError) return BadRequest(response);
+        
         return Ok(response);
-
     }
     
     [HttpPost("verify-dish")]
@@ -107,8 +107,8 @@ public class DishController : MainController
         if (!ModelState.IsValid) return Ok();
         var response = await Mediator.Send(new VerifyDishCommand(request));
         if (response.HasError) return BadRequest(response);
+        
         return Ok(response);
-
     }
     
     [HttpGet("get-restaurant-menu")]
@@ -117,8 +117,8 @@ public class DishController : MainController
         if (!ModelState.IsValid) return Ok();
         var response = await Mediator.Send(new GetAllDishesCommand(UserId));
         if (response.HasError) return BadRequest(response);
+        
         return Ok(response);
-
     }
     
     [HttpGet("get-customer-menu")]
@@ -127,7 +127,7 @@ public class DishController : MainController
         if (!ModelState.IsValid) return Ok();
         var response = await Mediator.Send(new GetAllDishesForCustomerQuery(request));
         if (response.HasError) return BadRequest(response);
+        
         return Ok(response);
-
     }
 }
