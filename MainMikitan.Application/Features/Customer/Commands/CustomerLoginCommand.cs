@@ -7,7 +7,9 @@ using MainMikitan.Domain.Requests.Customer;
 using MainMikitan.Domain.Requests.Customer.Auth;
 using MainMikitan.Domain.Templates;
 using MainMikitan.InternalServiceAdapter.Auth;
-using Microsoft.AspNetCore.Identity;
+using MainMikitan.InternalServiceAdapter.Hasher;
+
+//using Microsoft.AspNetCore.Identity;
 
 namespace MainMikitan.Application.Features.Customer.Commands
 {
@@ -18,6 +20,7 @@ namespace MainMikitan.Application.Features.Customer.Commands
     }
     public class CustomerLoginCommandHandler(
         ICustomerQueryRepository customerQueryRepository,
+        IPasswordHasher passwordHasher,
         IAuthService authService)
         : ResponseMaker<AuthTokenResponseModel>,IQueryHandler<CustomerLoginCommand, AuthTokenResponseModel>
     {
@@ -32,9 +35,10 @@ namespace MainMikitan.Application.Features.Customer.Commands
                     return Fail(ErrorType.NotCorrectEmailOrPassword);
                 if(customer.StatusId == (int)Enums.CustomerStatusId.TemporaryDeleted)
                     return Fail(ErrorType.Customer.AccountIsTemporaryDeleted);
-                var hasher = new PasswordHasher<CustomerEntity>();
-                var passComparison = hasher.VerifyHashedPassword(customer, customer.HashPassWord, password);
-                if (passComparison != PasswordVerificationResult.Success)
+                //var hasher = new PasswordHasher<CustomerEntity>();
+                //var passComparison = hasher.VerifyHashedPassword(customer, customer.HashPassWord, password);
+                //if (passComparison != PasswordVerificationResult.Success)
+                if(!passwordHasher.VerifyPassword(password, customer.HashPassWord))
                     return Fail(ErrorType.NotCorrectEmailOrPassword);
                 return authService.CustomerAuth(new CustomerAuthRequestModel
                 {
