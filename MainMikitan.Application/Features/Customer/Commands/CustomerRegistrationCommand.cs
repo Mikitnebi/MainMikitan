@@ -13,34 +13,22 @@ using static MainMikitan.ExternalServicesAdapter.Email.EmailSenderService;
 using MainMikitan.Database.Features.Customer.Interface;
 using MainMikitan.Domain.Templates;
 using MainMikitan.InternalServiceAdapter.Hasher;
-using Microsoft.AspNetCore.Identity;
 
 namespace MainMikitan.Application.Features.Customer.Commands {
-    public class CustomerRegistrationCommand : ICommand {
-        public CustomerRegistrationRequest RegistrationRequest { get; set; }
-        public CustomerRegistrationCommand(CustomerRegistrationRequest request) {
-            RegistrationRequest = request;
-        }
+    public class CustomerRegistrationCommand(CustomerRegistrationRequest request) : ICommand
+    {
+        public CustomerRegistrationRequest RegistrationRequest { get; set; } = request;
     }
-    public class CustomorRegistrationCommandHandler : ICommandHandler<CustomerRegistrationCommand> {
-        private readonly ICustomerQueryRepository _customerQueryRepository;
-        private readonly ICustomerCommandRepository _customerCommandRepository;
-        private readonly IOtpLogCommandRepository _otpLogCommandRepository;
-        private readonly IEmailSenderService _emailSenderService;
-        private readonly OtpOptions _otpConfig; 
-        public CustomorRegistrationCommandHandler(
-            ICustomerQueryRepository customerQueryRepository,
-            ICustomerCommandRepository customerCommandRepository,
-            IEmailSenderService emailSenderService,
-            IOptions<OtpOptions> otpConfig,
-            IOtpLogCommandRepository otpLogCommandRepository)
-        {
-            _otpConfig = otpConfig.Value;
-            _emailSenderService = emailSenderService;
-            _customerCommandRepository = customerCommandRepository;
-            _customerQueryRepository = customerQueryRepository;
-            _otpLogCommandRepository = otpLogCommandRepository;
-        }
+    public class CustomerRegistrationCommandHandler(
+        ICustomerQueryRepository customerQueryRepository,
+        ICustomerCommandRepository customerCommandRepository,
+        IPasswordHasher passwordHasher,
+        IEmailSenderService emailSenderService,
+        IOptions<OtpOptions> otpConfig,
+        IOtpLogCommandRepository otpLogCommandRepository)
+        : ICommandHandler<CustomerRegistrationCommand>
+    {
+        private readonly OtpOptions _otpConfig = otpConfig.Value;
 
 
         public async Task<ResponseModel<bool>> Handle(CustomerRegistrationCommand command, CancellationToken cancellationToken) {
@@ -54,20 +42,20 @@ namespace MainMikitan.Application.Features.Customer.Commands {
 
                 if (command.RegistrationRequest.RequiredOptions)
                 {
-                    var emailValidation = await _customerQueryRepository.GetByEmail(email);
+                    var emailValidation = await customerQueryRepository.GetByEmail(email);
                     if (emailValidation != null)
                     {
                         response.ErrorType = ErrorType.AlreadyUsedEmail;
                         return response;
                     }
-                    var mobileNumberValidation = await _customerQueryRepository.GetByMobileNumber(registrationRequest.MobileNumber!);
+                    var mobileNumberValidation = await customerQueryRepository.GetByMobileNumber(registrationRequest.MobileNumber!);
 
                     var emailBuilder = new EmailBuilder();
                     var otp = OtpGenerator.OtpGenerate();
                     emailBuilder.AddReplacement("{OTP}", otp);
-                    var emailSenderResult = await _emailSenderService.SendEmailAsync(email, emailBuilder, (int)EmailType.CustomerRegistrationEmail);
+                    var emailSenderResult = await emailSenderService.SendEmailAsync(email, emailBuilder, (int)EmailType.CustomerRegistrationEmail);
 
-                    var otpLogResult = await _otpLogCommandRepository.Create(new Domain.Models.Common.OtpLogIntroEntity
+                    var otpLogResult = await otpLogCommandRepository.Create(new Domain.Models.Common.OtpLogIntroEntity
                     {
                         EmailAddress = email,
                         NumberOfTrialsIsRequired = false,
@@ -76,8 +64,6 @@ namespace MainMikitan.Application.Features.Customer.Commands {
                         ValidationTime = _otpConfig.IntroValidationTime
                     });
 
-                    var hasher = new PasswordHasher<CustomerEntity>();
-
                     var customerEntity = new CustomerEntity()
                     {
                         EmailAddress = email,
@@ -85,9 +71,9 @@ namespace MainMikitan.Application.Features.Customer.Commands {
                         MobileNumber = registrationRequest.MobileNumber!
                     };
 
-                    customerEntity.HashPassWord = hasher.HashPassword(customerEntity, registrationRequest.Password);
+                    customerEntity.HashPassWord = passwordHasher.HashPassword(registrationRequest.Password);
 
-                    var createCustomerResult = await _customerCommandRepository.CreateOrUpdate(customerEntity);
+                    var createCustomerResult = await customerCommandRepository.CreateOrUpdate(customerEntity);
                 }
                 response.Result = true;
                 return response;
