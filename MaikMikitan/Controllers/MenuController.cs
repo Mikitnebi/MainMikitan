@@ -1,3 +1,7 @@
+using MainMikitan.API.Extentions;
+using MainMikitan.API.Filters;
+using MainMikitan.Application.Features.Restaurant.Get;
+using MainMikitan.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -5,14 +9,17 @@ using Microsoft.AspNetCore.Mvc;
 namespace MainMikitan.API.Controllers;
 
 [ApiController]
+[Authorized(Enums.RoleId.Restaurant)]
 [Route("[controller]")]
 [EnableCors("AllowSpecificOrigin")]
-public class MenuController : ControllerBase
+public class MenuController(IMediator mediator) : MainController(mediator)
 {
-    private readonly IMediator _mediator;
 
-    public MenuController(IMediator mediator)
+    [HttpGet("get-menu")]
+    public async Task<IActionResult> GetMenu()
     {
-        _mediator = mediator;
+        return !ModelState.IsValid
+            ? BadRequest(ModelState)
+            : CheckResponse(await Mediator.Send(new GetMenuCommand(UserId)));
     }
 }

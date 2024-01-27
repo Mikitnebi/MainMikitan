@@ -142,6 +142,34 @@ public class DishCommandRepository : IDishCommandRepository
         return dishes.ToList();
     }
     
+    public async Task<GetDishInfoResponse?> GetDish(int restaurantId, int dishId)
+    {
+        var dishResult = from dish in _db.Dish.AsNoTracking()
+            join dishInfo in _db.DishInfo.AsNoTracking() on dish.Id equals dishInfo.DishId
+            join categoryDish in _db.CategoryDish.AsNoTracking() on dish.CategoryDishId equals categoryDish.Id
+            where dish.RestaurantId == restaurantId 
+                  && dish.IsDeleted == false
+                  && dish.Id == dishId
+            select new GetDishInfoResponse
+            {
+                DishId = dish.Id,
+                IngredientsGeo = dishInfo.IngredientsGeo,
+                IngredientsEng = dishInfo.IngredientsEng,
+                DescriptionGeo = dishInfo.DescriptionGeo,
+                DescriptionEng = dishInfo.DescriptionEng,
+                NameGeo = dishInfo.NameGeo,
+                NameEng = dishInfo.NameEng,
+                CreateAt = dishInfo.CreateAt,
+                IsActive = dish.IsActive,
+                CategoryNameGeo = categoryDish.NameGeo,
+                CategoryNameEng = categoryDish.NameEng,
+                CategoryId = categoryDish.Id
+            };
+
+        return await dishResult.FirstOrDefaultAsync();
+    }
+    
+    
     public List<GetAllDishesForCustomerResponse> GetAllDishesForCustomer(int restaurantId)
     {
         var dishes = from dish in _db.Dish

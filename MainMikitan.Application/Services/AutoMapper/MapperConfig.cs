@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections;
+using System.Reflection;
 
 namespace MainMikitan.Application.Services.AutoMapper;
 
@@ -13,11 +14,10 @@ public class MapperConfig : IMapperConfig
         
         var fromProperties = GetProperties(fromType);
         var toProperties = GetProperties(toType);
-
+        
         if (fromProperties == null || toProperties == null) return to;
         
         var similarProperties = GetSimilarProperties(fromProperties, toProperties);
-
         return SetValues(from, to, similarProperties);
     }
 

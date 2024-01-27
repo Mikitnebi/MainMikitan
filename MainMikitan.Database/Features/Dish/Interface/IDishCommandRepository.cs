@@ -16,4 +16,5 @@ public interface IDishCommandRepository
     public List<GetDishInfoResponse> GetAllDishes(int restaurantId);
     public List<GetAllDishesForCustomerResponse> GetAllDishesForCustomer(int restaurantId);
     public List<GetAllDishesForCustomerResponse> GetAllDishesWithCategoryForCustomer(int restaurantId, int? categoryId);
+    public Task<GetDishInfoResponse?> GetDish(int restaurantId, int dishId);
 }
