@@ -70,8 +70,15 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands
                 return response;
             }
             var sendEmail = await _emailSenderQueryRepository.GetEmailById((int)Enums.EmailType.RestaurantGenerateAccount);
-
+            
+            if (sendEmail == null)
+            {
+                throw new Exception("ემაილის ტიპი მითითებული აიდით ვერ მოიძებნა");
+            }
+            
             var emailBuilder = new EmailSenderService.EmailBuilder();
+            emailBuilder.AddReplacement("{Username}", restaurant.UserName);
+            emailBuilder.AddReplacement("{Password}", generatePassword);
             
             var emailSenderResult = await _emailSenderService.SendEmailAsync(email, emailBuilder, (int)Enums.EmailType.RestaurantGenerateAccount);
 
