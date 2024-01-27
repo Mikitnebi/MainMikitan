@@ -28,7 +28,7 @@ public class AddOrUpdateProfilePhotoCommandHandler(IS3Adapter s3Adapter)
         }
         catch (Exception ex)
         {
-            return Unexpected(ex.Message);
+            return Unexpected(ex);
         }
     }
 }

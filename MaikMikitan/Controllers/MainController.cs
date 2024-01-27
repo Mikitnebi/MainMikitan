@@ -8,13 +8,10 @@ namespace MainMikitan.API.Controllers;
 [ApiController]
 [Route("[controller]")]
 [EnableCors("AllowSpecificOrigin")]
-public class MainController : ControllerBase
+public class MainController(IMediator mediator) : ControllerBase
 {
-    protected readonly IMediator Mediator;
+    protected readonly IMediator Mediator = mediator;
     protected int UserId => User.GetId();
-
-    public MainController(IMediator mediator) =>
-        Mediator = mediator;
 
     protected IActionResult CheckResponse<T> (ResponseModel<T> response) =>
         response.HasError ? BadRequest(response) : Ok(response);

@@ -28,7 +28,7 @@ public class  GetCustomerInterestsQueryHandler(ICustomerInterestRepository custo
         }
         catch (Exception ex)
         {
-            return Unexpected(ex.Message);
+            return Unexpected(ex);
         }
     }
 }

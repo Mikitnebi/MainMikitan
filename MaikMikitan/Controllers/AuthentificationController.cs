@@ -16,9 +16,7 @@ namespace MainMikitan.API.Controllers {
         public AuthController(IMediator mediator) {
             _mediator = mediator;
         }
-        [HttpPost]
-        [Route("customer-login")]
-        [EnableCors("AllowSpecificOrigin")]
+        [HttpPost("customer-login")]
         public async Task<IActionResult> CustomerLogin(CustomerLoginRequest request) {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var response = await _mediator.Send(new CustomerLoginCommand(request));
@@ -29,9 +27,7 @@ namespace MainMikitan.API.Controllers {
             return Ok(response);
         }
 
-        [HttpPost]
-        [Route("restaurant-login")]
-        [EnableCors("AllowSpecificOrigin")]
+        [HttpPost("restaurant-login")]
         public async Task<IActionResult> RestaurantLogin(RestaurantLoginRequest request) {
             if (ModelState.IsValid) {
 

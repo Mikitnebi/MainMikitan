@@ -39,7 +39,7 @@ public class CreateOrUpdateCustomerInterestCommandHandler(
         }
         catch (Exception ex)
         {
-            return Unexpected(ex.Message);
+            return Unexpected(ex);
         }
     }
 }

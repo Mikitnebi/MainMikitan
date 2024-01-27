@@ -9,12 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace MainMikitan.API.Controllers;
 
 
-    public class AnonymousController : MainController
+    public class AnonymousController(IMediator mediator) : MainController(mediator)
     {
-        public AnonymousController(IMediator mediator) : base(mediator)
-        {
-        }
-
         [HttpPost("Customer/Registration")]
         public async Task<IActionResult> CustomerRegistration(CustomerRegistrationRequest model)
         {

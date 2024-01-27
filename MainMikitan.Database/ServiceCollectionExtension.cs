@@ -62,6 +62,9 @@ namespace MainMikitan.Database
             
             //Reservation
             services.AddScoped<IReservationCommandRepository, ReservationCommandRepository>();
+            
+            //menu
+            services.AddScoped<IGetMenuRepository, GetMenuRepository>();
         }
     }
 }

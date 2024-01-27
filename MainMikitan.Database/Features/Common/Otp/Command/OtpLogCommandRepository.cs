@@ -13,14 +13,12 @@ using static MainMikitan.Domain.Enums;
 
 namespace MainMikitan.Database.Features.Common.Otp.Command
 {
-    public class OtpLogCommandRepository : IOtpLogCommandRepository
+    public class OtpLogCommandRepository(IOptions<ConnectionStringsOptions> connectionStrings)
+        : IOtpLogCommandRepository
     {
-        private readonly ConnectionStringsOptions _connectionStrings;
-        public OtpLogCommandRepository(IOptions<ConnectionStringsOptions> connectionStrings)
-        {
-            _connectionStrings = connectionStrings.Value;
-        }
-        public async Task<int?> Create(OtpLogIntroEntity model)
+        private readonly ConnectionStringsOptions _connectionStrings = connectionStrings.Value;
+
+        public async Task<bool> Create(OtpLogIntroEntity model)
         {
             await using var connection = new SqlConnection(_connectionStrings.MainMik);
             model.CreatedAt = DateTime.Now;
@@ -38,9 +36,9 @@ namespace MainMikitan.Database.Features.Common.Otp.Command
                                       " OUTPUT INSERTED.Id" +
                                       " VALUES (@CreatedAt, @Otp, @MobileNumber, @EmailAddress, @NumberOfTrials, @NumberOfTrialsIsRequired, @StatusId, @ValidationTime, @UserTypeId)";
             var result = await connection.QuerySingleOrDefaultAsync<int?>(sqlCommand, model);
-            return result;
+            return result > 0;
         }
-        public async Task<int?> Update(int id, int numberOfTrials, int status)
+        public async Task<bool> Update(int id, int numberOfTrials, int status)
         {
             var otpStatus = (int)status;
             await using var connection = new SqlConnection(_connectionStrings.MainMik);
@@ -50,7 +48,7 @@ namespace MainMikitan.Database.Features.Common.Otp.Command
                                       "[StatusId] = @otpStatus " +
                                       " WHERE [Id] = @id";
             var result = await connection.ExecuteAsync(sqlCommand, new {id, numberOfTrials, otpStatus});
-            return result;
+            return result > 0;
 
         }
     }

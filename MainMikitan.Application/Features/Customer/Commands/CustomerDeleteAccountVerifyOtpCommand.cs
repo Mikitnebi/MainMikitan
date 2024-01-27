@@ -30,13 +30,13 @@ public class CustomerDeleteAccountVerifyOtpCommandHandler(
             if (!checkOtp.Result) return checkOtp;
             customer.StatusId = (int)Enums.CustomerStatusId.TemporaryDeleted;
             var updateCustomer = await customerCommandRepository.CreateOrUpdate(customer);
-            return updateCustomer is null 
+            return !updateCustomer
                 ? Fail(ErrorType.Customer.NotUpdated) 
                 : Success();
         }
         catch (Exception ex)
         {
-            return Unexpected(ex.Message);
+            return Unexpected(ex);
         }
     }
 }

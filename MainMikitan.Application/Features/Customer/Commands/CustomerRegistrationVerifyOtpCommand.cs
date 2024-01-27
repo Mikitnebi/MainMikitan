@@ -58,13 +58,13 @@ namespace MainMikitan.Application.Features.Customer.Commands
                 return response;
             }
             var otpUpdate = await _otpLogCommandRepository.Update(otp.Id, 0, (int)OtpStatusId.Success);
-            if(otpUpdate == null || otpUpdate == 0) 
+            if(!otpUpdate) 
             {
                 response.ErrorType = ErrorType.Otp.OtpNotUpdated;
                 return response;
             }
             var customerUpdate = await _customerCommandRepository.UpdateStatus(model._email, true, CustomerStatusId.FullyVerified);
-            if (customerUpdate == null || customerUpdate == 0)
+            if (!customerUpdate)
             {
                 response.ErrorType = ErrorType.Customer.NotUpdated;
                 return response;

@@ -24,7 +24,7 @@ public class GetProfilePhotoQueryHandler(IS3Adapter s3Adapter) : ResponseMaker<G
         }
         catch (Exception ex)
         {
-            return Unexpected(ex.Message);
+            return Unexpected(ex);
         }
     }
 }

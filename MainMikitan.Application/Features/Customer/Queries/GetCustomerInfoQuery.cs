@@ -37,7 +37,7 @@ public class GetCustomerInfoQuery(int customerId) : IQuery<GetCustomerInfoRespon
                 });
             } catch (Exception ex)
             {
-                return Unexpected(ex.Message);
+                return Unexpected(ex);
             }
         }
     }

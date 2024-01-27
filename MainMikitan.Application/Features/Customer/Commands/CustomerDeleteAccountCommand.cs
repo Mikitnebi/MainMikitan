@@ -51,13 +51,13 @@ public class CustomerDeleteAccountCommandHandler(
                 ValidationTime = otpOptions.Value.IntroValidationTime,
                 OperationId = (int)Enums.OtpOperationTypeId.CustomerDeleteAccount
             });
-            return otpLogResult == 0 
+            return !otpLogResult 
                 ? Fail(ErrorType.OtpLog.OtpLogNotCreated) 
                 : Success();
         }
         catch (Exception ex)
         {
-            return Unexpected(ex.Message) ;
+            return Unexpected(ex) ;
         }
     }
 }

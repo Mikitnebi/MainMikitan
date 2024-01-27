@@ -9,86 +9,81 @@ using static MainMikitan.Domain.Enums;
 
 namespace MainMikitan.Database.Features.Customer.Command
 {
-    public class CustomerCommandRepository : ICustomerCommandRepository
+    public class CustomerCommandRepository(
+        IPasswordHasher passwordHasher,
+        IOptions<ConnectionStringsOptions> connectionStrings,
+        ICustomerQueryRepository customerQueryRepository)
+        : ICustomerCommandRepository
     {
-        private readonly ConnectionStringsOptions _connectionStrings;
-        private readonly ICustomerQueryRepository _customerQueryRepository;
-        private readonly IPasswordHasher _passwordHasher;
-        public CustomerCommandRepository
-            (
-            IPasswordHasher passwordHasher,
-            IOptions<ConnectionStringsOptions> connectionStrings,
-            ICustomerQueryRepository customerQueryRepository
-            )
-        {
-            _passwordHasher = passwordHasher;
-            _connectionStrings = connectionStrings.Value;
-            _customerQueryRepository = customerQueryRepository;
-        }
-        public async Task<int?> UpdateStatus(string email, bool emailConfirmation, CustomerStatusId status)
+        private readonly ConnectionStringsOptions _connectionStrings = connectionStrings.Value;
+
+        public async Task<bool> UpdateStatus(string email, bool emailConfirmation, CustomerStatusId status)
         {
             var statusId = (int)status;
             var confirmation = emailConfirmation == true ? 1 : 0;
-            using var connection = new SqlConnection(_connectionStrings.MainMik);
-            var customer = await _customerQueryRepository.GetNonVerifiedByEmail(email);
-            if (customer != null)
-            {
-                var sqlCommand = "UPDATE [dbo].[Customers] " +
-                    "SET [StatusId] = @statusId, " +
-                    "[EmailConfirmation] = @confirmation " +
-                    "WHERE [Id] = @id";
-                var result = await connection.ExecuteAsync(sqlCommand, new { statusId, confirmation, id = customer.Id});
-                return result;
-            }
-            return customer?.Id ?? 0;
+            await using var connection = new SqlConnection(_connectionStrings.MainMik);
+            var customer = await customerQueryRepository.GetNonVerifiedByEmail(email);
+            if (customer == null) return (customer?.Id) != 0;
+            var sqlCommand = $"""
+                              UPDATE [dbo].[Customers]
+                              SET [StatusId] = @statusId,
+                              [EmailConfirmation] = @confirmation
+                              WHERE [Id] = @id
+                              """;
+            var result = await connection.ExecuteAsync(sqlCommand, new { statusId, confirmation, id = customer.Id});
+            return result > 0;
         }
-        public async Task<int?> CreateOrUpdate(CustomerEntity entity)
+        public async Task<bool> CreateOrUpdate(CustomerEntity entity)
         {
-            using var connection = new SqlConnection(_connectionStrings.MainMik);
-            if (await _customerQueryRepository.GetNonVerifiedByEmail(entity.EmailAddress) != null)
+            await using var connection = new SqlConnection(_connectionStrings.MainMik);
+            if (await customerQueryRepository.GetNonVerifiedByEmail(entity.EmailAddress) != null)
             {
                 entity.CreatedAt = DateTime.Now;
                 entity.StatusId = (int)CustomerStatusId.NoneVerified;
-                entity.HashPassWord = _passwordHasher.HashPassword(entity.HashPassWord);
+                entity.HashPassWord = passwordHasher.HashPassword(entity.HashPassWord);
 
-                var sqlCommand = "UPDATE [dbo].[Customers] " +
-                    "SET [FullName] = @FullName, " +
-                    "[EmailConfirmation] = @EmailConfirmation, " +
-                    "[MobileNumber] = @MobileNumber, " +
-                    "[MobileNumberConfirmation] = @MobileNumberConfirmation," +
-                    "[HashPassWord] = @HashPassWord, " +
-                    "[StatusId] = @StatusId," +
-                    "[CreatedAt] = @CreatedAt " +
-                    " WHERE [EmailAddress] = @EmailAddress";
+                var sqlCommand = $"""
+                                  UPDATE [dbo].[Customers] 
+                                  SET [FullName] = @FullName, 
+                                  [EmailConfirmation] = @EmailConfirmation, 
+                                  [MobileNumber] = @MobileNumber, 
+                                  [MobileNumberConfirmation] = @MobileNumberConfirmation,
+                                  [HashPassWord] = @HashPassWord, 
+                                  [StatusId] = @StatusId,
+                                  [CreatedAt] = @CreatedAt 
+                                  WHERE [EmailAddress] = @EmailAddress
+                                  """;
                 var result = await connection.ExecuteAsync( sqlCommand, entity );
-                return result;
+                return result > 0;
             }
             else
             {
                 entity.CreatedAt = DateTime.Now;
                 entity.StatusId = (int)CustomerStatusId.NoneVerified;
-                entity.HashPassWord = _passwordHasher.HashPassword(entity.HashPassWord);
+                entity.HashPassWord = passwordHasher.HashPassword(entity.HashPassWord);
 
-                var sqlCommand = "INSERT INTO [dbo].[Customers] " +
-                    "([FullName]," +
-                    "[EmailAddress]," +
-                    "[EmailConfirmation]," +
-                    "[MobileNumber]," +
-                    "[MobileNumberConfirmation]," +
-                    "[HashPassWord]," +
-                    "[StatusId]," +
-                    "[CreatedAt])" +
-                    " OUTPUT INSERTED.Id" +
-                    " VALUES (@FullName,@EmailAddress,@EmailConfirmation," +
-                    "@MobileNumber, @MobileNumberConfirmation, @HashPassWord," +
-                    "@StatusId, @CreatedAt)";
+                var sqlCommand = $"""
+                                  INSERT INTO [dbo].[Customers] 
+                                  ([FullName],
+                                  [EmailAddress],
+                                  [EmailConfirmation],
+                                  [MobileNumber],
+                                  [MobileNumberConfirmation],
+                                  [HashPassWord],
+                                  [StatusId],
+                                  [CreatedAt])
+                                   OUTPUT INSERTED.Id
+                                   VALUES (@FullName,@EmailAddress,@EmailConfirmation,
+                                  @MobileNumber, @MobileNumberConfirmation, @HashPassWord,
+                                  @StatusId, @CreatedAt)
+                                  """;
                 var result = await connection.QueryFirstOrDefaultAsync<int?>(sqlCommand, entity);
-                return result;
+                return result > 0;
             }
         }
         public async Task<bool> Delete(int userId)
         {
-            using var connection = new SqlConnection(_connectionStrings.MainMik);
+            await using var connection = new SqlConnection(_connectionStrings.MainMik);
             var sqlCommand = "DELETE FROM [dbo].[Customers] WHERE [Id] = @userId";
             var result = await connection.QueryFirstOrDefaultAsync<int?>(sqlCommand, new { userId});
             return result > 0;

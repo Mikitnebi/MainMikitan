@@ -48,7 +48,7 @@ namespace MainMikitan.Application.Features.Customer.Commands {
                 return response;
             }
             var otpUpdate = await _otpLogCommandRepository.Update(otp.Id, 0, (int)OtpStatusId.Success);
-            if (otpUpdate == null || otpUpdate == 0) {
+            if (!otpUpdate|| !otpUpdate) {
                 response.ErrorType = ErrorType.Otp.OtpNotUpdated;
                 return response;
             }

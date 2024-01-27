@@ -11,11 +11,11 @@ public class ResponseMaker<T>
             ErrorType = errorType
         };
     }
-    protected ResponseModel<T> Unexpected(string errorMessage)
+    protected ResponseModel<T> Unexpected(Exception ex)
     {
         return new ResponseModel<T>
         {
-            ErrorMessage = errorMessage,
+            ErrorMessage = ex.Message,
             ErrorType = ErrorType.UnExpectedException
         };
     }
@@ -34,11 +34,11 @@ public class ResponseMaker
             ErrorType = errorType
         };
     }
-    protected ResponseModel<bool> Unexpected(string errorMessage)
+    protected static ResponseModel<bool> Unexpected(Exception ex)
     {
         return new ResponseModel<bool>
         {
-            ErrorMessage = errorMessage,
+            ErrorMessage = ex.Message,
             ErrorType = ErrorType.UnExpectedException
         };
     }

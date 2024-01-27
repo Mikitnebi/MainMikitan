@@ -1,4 +1,5 @@
-﻿using MainMikitan.InternalServiceAdapter.OtpGenerator;
+﻿using Azure.Core;
+using MainMikitan.InternalServiceAdapter.OtpGenerator;
 using MainMikitan.InternalServiceAdapter.Validations;
 using MainMikitan.Database.Features.Common.Otp.Interfaces;
 using MainMikitan.Domain;
@@ -26,17 +27,16 @@ namespace MainMikitan.Application.Features.Customer.Commands {
         IEmailSenderService emailSenderService,
         IOptions<OtpOptions> otpConfig,
         IOtpLogCommandRepository otpLogCommandRepository)
-        : ICommandHandler<CustomerRegistrationCommand>
+        : ResponseMaker, ICommandHandler<CustomerRegistrationCommand>
     {
         private readonly OtpOptions _otpConfig = otpConfig.Value;
 
 
         public async Task<ResponseModel<bool>> Handle(CustomerRegistrationCommand command, CancellationToken cancellationToken) {
-            var response = new ResponseModel<bool>();
             var registrationRequest = command.RegistrationRequest;
             try {
                 var email = registrationRequest.Email!.ToUpper();
-                var mobilde = registrationRequest.MobileNumber;
+                var mobile = registrationRequest.MobileNumber;
                 var validation = CustomerRequestsValidation.Registration(registrationRequest);
                 if (validation.HasError) return validation;
 
@@ -44,17 +44,14 @@ namespace MainMikitan.Application.Features.Customer.Commands {
                 {
                     var emailValidation = await customerQueryRepository.GetByEmail(email);
                     if (emailValidation != null)
-                    {
-                        response.ErrorType = ErrorType.AlreadyUsedEmail;
-                        return response;
-                    }
-                    var mobileNumberValidation = await customerQueryRepository.GetByMobileNumber(registrationRequest.MobileNumber!);
-
+                        return Fail(ErrorType.AlreadyUsedEmail);
+                    //var mobileNumberValidation = await customerQueryRepository.GetByMobileNumber(registrationRequest.MobileNumber!);
                     var emailBuilder = new EmailBuilder();
                     var otp = OtpGenerator.OtpGenerate();
                     emailBuilder.AddReplacement("{OTP}", otp);
                     var emailSenderResult = await emailSenderService.SendEmailAsync(email, emailBuilder, (int)EmailType.CustomerRegistrationEmail);
-
+                    if (!emailSenderResult)
+                        return Fail(ErrorType.EmailSender.EmailNotSend);
                     var otpLogResult = await otpLogCommandRepository.Create(new Domain.Models.Common.OtpLogIntroEntity
                     {
                         EmailAddress = email,
@@ -63,24 +60,22 @@ namespace MainMikitan.Application.Features.Customer.Commands {
                         UserTypeId = (int)UserTypeId.CustomerIntro,
                         ValidationTime = _otpConfig.IntroValidationTime
                     });
-
-                    var customerEntity = new CustomerEntity()
+                    if (!otpLogResult)
+                        return Fail(ErrorType.OtpLog.OtpLogNotCreated);
+                    var customerEntity = new CustomerEntity
                     {
                         EmailAddress = email,
                         FullName = $"{registrationRequest.FirstName} {registrationRequest.LastName}",
-                        MobileNumber = registrationRequest.MobileNumber!
+                        MobileNumber = registrationRequest.MobileNumber!,
+                        HashPassWord = registrationRequest.Password
                     };
-
-                    customerEntity.HashPassWord = passwordHasher.HashPassword(registrationRequest.Password);
-
                     var createCustomerResult = await customerCommandRepository.CreateOrUpdate(customerEntity);
+                    if (!createCustomerResult)
+                        return Fail(ErrorType.Customer.NotUpdated);
                 }
-                response.Result = true;
-                return response;
+                return Success();
             } catch (Exception ex) {
-                response.ErrorType = ErrorType.UnExpectedException;
-                response.ErrorMessage = ex.Message;
-                return response;
+                return Unexpected(ex);
             }
         }
     }

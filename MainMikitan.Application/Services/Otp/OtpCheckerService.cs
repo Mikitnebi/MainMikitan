@@ -22,12 +22,12 @@ public class OtpCheckerService(
         if (otp.Otp != userOtp)
         {
             var updateOtpTrials = await otpLogCommandRepository.Update(otp.Id, otp.NumberOfTrials + 1, otp.NumberOfTrials);
-            return HandlerResponseMakerService.NewFailedResponse(updateOtpTrials is null or 0 
+            return HandlerResponseMakerService.NewFailedResponse(!updateOtpTrials
                 ? ErrorType.Otp.OtpNotUpdated 
                 : ErrorType.Otp.NotCorrectOtp);
         }
         var otpUpdate = await otpLogCommandRepository.Update(otp.Id, otp.NumberOfTrials, (int)Enums.OtpStatusId.Success);
-        return otpUpdate is null or 0 
+        return !otpUpdate 
             ? HandlerResponseMakerService.NewFailedResponse(ErrorType.Otp.OtpNotUpdated) 
             : HandlerResponseMakerService.NewSucceedResponse();
     }
