@@ -1,4 +1,3 @@
-using MainMikitan.API.Extentions;
 using MainMikitan.API.Filters;
 using MainMikitan.Application.Features.Restaurant.Get;
 using MainMikitan.Domain;
