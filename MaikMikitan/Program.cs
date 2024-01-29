@@ -60,8 +60,11 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
+var connectionString = builder.Configuration["ConnectionStringsOptions:MainMik"];
+Console.WriteLine($"Connection String: {connectionString}");
+
 builder.Services.AddDbContext<MikDbContext>(opt =>
-    opt.UseSqlServer(builder.Configuration["MikConnection"]!));
+    opt.UseSqlServer(builder.Configuration["ConnectionStringsOptions:MainMik"]));
 
 builder.Services.AddSwaggerGen(options =>
 {
