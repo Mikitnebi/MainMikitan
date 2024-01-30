@@ -9,9 +9,9 @@ public class OtpCheckerService(
     IOtpLogQueryRepository otpLogQueryRepository,
     IOtpLogCommandRepository otpLogCommandRepository) : IOtpCheckerService
 {
-    public async Task<ResponseModel<bool>> CheckOtp(string userOtp, string email)
+    public async Task<ResponseModel<bool>> CheckOtp(string userOtp, string email, int operationId)
     {
-        var otp = await otpLogQueryRepository.GetOtpByEmail(email);
+        var otp = await otpLogQueryRepository.GetOtpByEmail(email, operationId);
         if (otp is null)
             return HandlerResponseMakerService.NewFailedResponse(ErrorType.Otp.IncorrectEmail);
         if (otp.StatusId == (int)Enums.OtpStatusId.Success)

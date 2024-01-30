@@ -41,7 +41,8 @@ namespace MainMikitan.InternalServiceAdapter.Validations
             response.Result = true;
             return response;
         }
-        private static Enums.PasswordScore PasswordCheck(string password)
+
+        public static Enums.PasswordScore PasswordCheck(string password)
         {
             short score = 0;
             if (password.Length < 1)

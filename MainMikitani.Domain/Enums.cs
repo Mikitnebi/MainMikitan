@@ -55,7 +55,10 @@ namespace MainMikitan.Domain
 
         public enum OtpOperationTypeId
         {
-            CustomerDeleteAccount = 0
+            CustomerDeleteAccount = 0,
+            CustomerPasswordReset = 1,
+            CustomerRegistration = 2,
+            RestaurantIntroRegistration = 3
         }
         public enum GenderId
         {

@@ -40,14 +40,14 @@ public class CustomerDeleteAccountCommandHandler(
             var otp = OtpGenerator.OtpGenerate();
             emailBuilder.AddReplacement("{OTP}", otp);
             var emailSenderResult =
-                await emailSenderService.SendEmailAsync(customer.EmailAddress, emailBuilder, (int)Enums.EmailType.CustomerRegistrationEmail);
+                await emailSenderService.SendEmailAsync(customer.EmailAddress, emailBuilder, (int)Enums.EmailType.CustomerAccountDelete);
             if(!emailSenderResult) return Fail(ErrorType.EmailSender.EmailNotSend);
             var otpLogResult = await otpLogCommandRepository.Create(new Domain.Models.Common.OtpLogIntroEntity
             {
                 EmailAddress = customer.EmailAddress,
                 NumberOfTrialsIsRequired = false,
                 Otp = otp,
-                UserTypeId = (int)Enums.UserTypeId.CustomerIntro,
+                UserTypeId = (int)Enums.UserTypeId.Customer,
                 ValidationTime = otpOptions.Value.IntroValidationTime,
                 OperationId = (int)Enums.OtpOperationTypeId.CustomerDeleteAccount
             });

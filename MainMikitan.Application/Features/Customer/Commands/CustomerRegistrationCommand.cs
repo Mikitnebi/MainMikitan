@@ -30,8 +30,6 @@ namespace MainMikitan.Application.Features.Customer.Commands {
         : ResponseMaker, ICommandHandler<CustomerRegistrationCommand>
     {
         private readonly OtpOptions _otpConfig = otpConfig.Value;
-
-
         public async Task<ResponseModel<bool>> Handle(CustomerRegistrationCommand command, CancellationToken cancellationToken) {
             var registrationRequest = command.RegistrationRequest;
             try {
@@ -58,7 +56,8 @@ namespace MainMikitan.Application.Features.Customer.Commands {
                         NumberOfTrialsIsRequired = false,
                         Otp = otp,
                         UserTypeId = (int)UserTypeId.CustomerIntro,
-                        ValidationTime = _otpConfig.IntroValidationTime
+                        ValidationTime = _otpConfig.IntroValidationTime,
+                        OperationId = (int)Enums.OtpOperationTypeId.CustomerRegistration
                     });
                     if (!otpLogResult)
                         return Fail(ErrorType.OtpLog.OtpLogNotCreated);

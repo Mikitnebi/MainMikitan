@@ -34,6 +34,7 @@ public class MikDbContext : IdentityDbContext
     public DbSet<RestaurantStaffEntity> RestaurantStaff { get; set; }
     public DbSet<CategoryEntity> Category { get; set; }
     public DbSet<ReservationEntity> Reservations { get; set; }
+    public DbSet<RestaurantBranchingCodeLogEntity> RestaurantBranchingCodeLogs { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

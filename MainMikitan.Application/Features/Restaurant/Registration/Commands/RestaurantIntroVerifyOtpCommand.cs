@@ -30,7 +30,7 @@ namespace MainMikitan.Application.Features.Customer.Commands {
         }
         public async Task<ResponseModel<bool>> Handle(RestaurantIntroVerifyOtpCommand model, CancellationToken cancellationToken) {
             var response = new ResponseModel<bool>();
-            var otp = await _otpLogQueryRepository.GetOtpByEmail(model._email);
+            var otp = await _otpLogQueryRepository.GetOtpByEmail(model._email, (int)Enums.OtpOperationTypeId.RestaurantIntroRegistration);
             if (otp == null) {
                 response.ErrorType = ErrorType.Otp.IncorrectEmail;
                 return response;

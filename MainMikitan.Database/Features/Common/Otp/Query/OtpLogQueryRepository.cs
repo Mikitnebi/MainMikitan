@@ -12,11 +12,11 @@ namespace MainMikitan.Database.Features.Common.Otp.Query
     {
         private readonly ConnectionStringsOptions _connectionStrings = connectionStrings.Value;
 
-        public async Task<OtpLogIntroEntity?> GetOtpByEmail(string email)
+        public async Task<OtpLogIntroEntity?> GetOtpByEmail(string email, int operationId)
         {
             await using var connection = new SqlConnection(_connectionStrings.MainMik);
-            const string sqlCommand = "SELECT * FROM [dbo].[OtpLogIntro] WHERE [EmailAddress] = @email  ORDER BY [CreatedAt] DESC";
-            var result = await connection.QueryFirstOrDefaultAsync<OtpLogIntroEntity>(sqlCommand, new { email });
+            const string sqlCommand = "SELECT * FROM [dbo].[OtpLogIntro] WHERE [EmailAddress] = @email And [OperationId] = @operationId ORDER BY [CreatedAt] DESC";
+            var result = await connection.QueryFirstOrDefaultAsync<OtpLogIntroEntity>(sqlCommand, new { email, operationId });
             return result;
         }
 

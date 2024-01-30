@@ -65,6 +65,7 @@ namespace MainMikitan.Database
             
             //menu
             services.AddScoped<IGetMenuRepository, GetMenuRepository>();
+            services.AddScoped<IRestaurantBranchingCodeLogRepository, RestaurantBranchingCodeLogRepository>();
         }
     }
 }

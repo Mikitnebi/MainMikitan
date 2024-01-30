@@ -6,20 +6,17 @@ using Microsoft.Extensions.Options;
 
 namespace MainMikitan.Database.Features.Restaurant.Command
 {
-    public class RestaurantCommandRepository : IRestaurantCommandRepository
+    public class RestaurantCommandRepository(
+        IOptions<ConnectionStringsOptions> connectionString,
+        IMultifunctionalRepository multifunctionalRepository)
+        : IRestaurantCommandRepository
     {
-        private readonly ConnectionStringsOptions _connectionString;
-        private readonly IMultifunctionalRepository _multifunctionalRepository;
-        public RestaurantCommandRepository(IOptions<ConnectionStringsOptions> connectionString, IMultifunctionalRepository multifunctionalRepository)
-        {
-            _connectionString = connectionString.Value;
-            _multifunctionalRepository = multifunctionalRepository;
-        }
+        private readonly ConnectionStringsOptions _connectionString = connectionString.Value;
 
         public async Task<int> Create(RestaurantEntity restaurant)
         {
             restaurant.CreatedAt = DateTime.Now;
-            return await _multifunctionalRepository.AddOrUpdateTableData<RestaurantEntity>(restaurant, "MainMikitan", "dbo", "Restaurant");
+            return await multifunctionalRepository.AddOrUpdateTableData<RestaurantEntity>(restaurant, "MainMikitan", "dbo", "Restaurant");
         }
     }
 }

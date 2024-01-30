@@ -4,5 +4,5 @@ namespace MainMikitan.Application.Services.Otp;
 
 public interface IOtpCheckerService
 { 
-    Task<ResponseModel<bool>> CheckOtp(string customerOtp, string email);
+    Task<ResponseModel<bool>> CheckOtp(string customerOtp, string email, int operationId);
 }

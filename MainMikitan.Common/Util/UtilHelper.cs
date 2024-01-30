@@ -9,13 +9,27 @@ namespace MainMikitan.InternalServicesAdapter.Util
 {
     public class UtilHelper
     {
+        public static string GenerateCode()
+        {
+            var code = string.Empty;
+            var n = 6;
+            var bigAlpha = "QWERTYUIOPLKJHGFDSAZXCVBNM";
+            var smallAlpha = bigAlpha.ToLower();
+            var numeric = "1234567890";
+            var character = "!@#$%&*()";
+            var strongPassword = $"{bigAlpha}{smallAlpha}{numeric}{character}";
+            var random = new Random();
+            for(var i = 0; i < n; i++)
+                code += strongPassword[random.Next(strongPassword.Length)];
+            return code;
+        }
         public static string GenerateUserName()
         {
-            string userName = string.Empty;
-            string bigAlpha = "QWERTYUIOPLKJHGFDSAZXCVBNM";
-            string smallAlpha = bigAlpha.ToLower();
-            string numeric = "1234567890";
-            Random random = new Random();
+            var userName = string.Empty;
+            var bigAlpha = "QWERTYUIOPLKJHGFDSAZXCVBNM";
+            var smallAlpha = bigAlpha.ToLower();
+            var numeric = "1234567890";
+            var random = new Random();
             userName += bigAlpha[random.Next(bigAlpha.Length)];
             userName += bigAlpha[random.Next(bigAlpha.Length)];
             userName += smallAlpha[random.Next(smallAlpha.Length)];
@@ -27,14 +41,14 @@ namespace MainMikitan.InternalServicesAdapter.Util
         }
         public static string GeneratePassword(int n = 8)
         {
-            string password = string.Empty;
-            string bigAlpha = "QWERTYUIOPLKJHGFDSAZXCVBNM";
-            string smallAlpha = bigAlpha.ToLower();
-            string numeric = "1234567890";
-            string character = "!@#$%&*()";
-            string strongPassword = $"{bigAlpha}{smallAlpha}{numeric}{character}";
-            Random random = new Random();
-            for(int i = 0; i < n; i++)
+            var password = string.Empty;
+            var bigAlpha = "QWERTYUIOPLKJHGFDSAZXCVBNM";
+            var smallAlpha = bigAlpha.ToLower();
+            var numeric = "1234567890";
+            var character = "!@#$%&*()";
+            var strongPassword = $"{bigAlpha}{smallAlpha}{numeric}{character}";
+            var random = new Random();
+            for(var i = 0; i < n; i++)
             {
                 password += strongPassword[random.Next(strongPassword.Length)];
             }

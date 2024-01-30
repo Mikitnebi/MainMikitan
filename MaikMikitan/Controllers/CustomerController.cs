@@ -67,6 +67,14 @@ namespace MainMikitan.API.Controllers
                 ? BadRequest(ModelState)
                 : CheckResponse(await Mediator.Send(new CustomerDeleteAccountVerifyOtpCommand(UserId, otp)));
         }
+        
+        [HttpPost("PasswordReset")]
+        public async Task<IActionResult> PasswordReset()
+        {
+            return !ModelState.IsValid
+                ? BadRequest(ModelState)
+                : CheckResponse(await Mediator.Send(new CustomerPasswordResetCommand(UserId)));
+        }
         /*[HttpGet("RestaurantInfo")]
         public async Task<IActionResult> GetRestaurantInfo(int restaurantId)
         {
