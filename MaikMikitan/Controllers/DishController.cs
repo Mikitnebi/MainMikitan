@@ -11,12 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace MainMikitan.API.Controllers;
 
 [Authorized(Enums.RoleId.Restaurant)]
-public class DishController : MainController
+public class DishController(IMediator mediator) : MainController(mediator)
 {
-    public DishController(IMediator mediator) : base(mediator)
-    {
-    }
-
     [HttpPost("add-dish-category")]
     public async Task<IActionResult> AddCategoryDish(List<AddCategoryDishRequest> request)
     {

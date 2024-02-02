@@ -15,6 +15,7 @@ using Amazon.S3;
 using Amazon.Extensions.NETCore.Setup;
 using Amazon.Runtime;
 using Amazon;
+using AutoMapper;
 using MainMikitan.Cache;
 using MainMikitan.Database.DbContext;
 using MainMikitan.InternalServicesAdapter;
@@ -62,7 +63,6 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddDbContext<MikDbContext>(opt =>
     opt.UseSqlServer(builder.Configuration["ConnectionStringsOptions:MainMik"]));
-
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo

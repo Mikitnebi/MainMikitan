@@ -1,6 +1,7 @@
 using MainMikitan.Database.DbContext.Mapping;
 using MainMikitan.Domain.Models.Common;
 using MainMikitan.Domain.Models.Customer;
+using MainMikitan.Domain.Models.ListOfValue;
 using MainMikitan.Domain.Models.Menu;
 using MainMikitan.Domain.Models.Reservation;
 using MainMikitan.Domain.Models.Restaurant;
@@ -35,6 +36,7 @@ public class MikDbContext : IdentityDbContext
     public DbSet<CategoryEntity> Category { get; set; }
     public DbSet<ReservationEntity> Reservations { get; set; }
     public DbSet<RestaurantBranchingCodeLogEntity> RestaurantBranchingCodeLogs { get; set; }
+    public DbSet<SectorEntity> Sector { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

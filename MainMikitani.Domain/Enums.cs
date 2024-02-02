@@ -124,6 +124,12 @@ namespace MainMikitan.Domain
 
         }
 
+        public enum ListOfValueType
+        {
+            Kitchen = 1,
+            Music = 2,
+            Environment = 3
+        }
         //Required to change these each time its Enum's size changes BY HAND
         
         public const int BusinessTypeSize = 11;
@@ -135,6 +141,10 @@ namespace MainMikitan.Domain
     }
     public record struct ErrorType
     {
+        public record struct Dictionary
+        {
+            public const string NotFoundBySectorId = "DICTIONARY_NOT_FOUND_BY_SECTOR_ID";
+        }
         public record struct S3
         {
             public const string BucketAlreadyExisted = "S3_BUCKET_ALREADY_EXISTED";
