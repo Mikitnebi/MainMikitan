@@ -8,5 +8,4 @@ public record GetCustomerInfoResponse
     public DateOnly? BirthDate { get; set; }
     public int GenderId { get; set; }
     public int NationalityId { get; set; }
-    public GetImageResponse? ImageData { get; set; }
 }

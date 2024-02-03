@@ -27,7 +27,7 @@ public class CustomerPasswordResetCommandHandler(
     {
         try
         {
-            var customer = await customerQueryRepository.GetById(request.CustomerId);
+            var customer = await customerQueryRepository.GetById(request.CustomerId, cancellationToken);
             if (customer is null)
                 return Fail(ErrorType.Customer.NotFound);
             var emailBuilder = new EmailSenderService.EmailBuilder();
@@ -44,7 +44,7 @@ public class CustomerPasswordResetCommandHandler(
                 UserTypeId = (int)Enums.UserTypeId.Customer,
                 ValidationTime = otpOptions.Value.IntroValidationTime,
                 OperationId = (int)Enums.OtpOperationTypeId.CustomerPasswordReset
-            });
+            }, cancellationToken);
             return !otpLogResult 
                 ? Fail(ErrorType.OtpLog.OtpLogNotCreated) 
                 : Success();

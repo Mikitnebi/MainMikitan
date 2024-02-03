@@ -8,10 +8,18 @@ using MainMikitan.InternalServicesAdapter.Validations;
 
 namespace MainMikitan.Application.Features.Customer.Commands;
 
-public class CreateOrUpdateCustomerInterestCommand(FillCustomerInterestRequest command, int customerId) : ICommand
+public class CreateOrUpdateCustomerInterestCommand : ICommand
 {
-        public List<int> RequestId { get; set; } = command.InfoIds;
-        public int CustomerId { get; set; } = customerId;
+    public int CustomerId { get; }
+    public List<int> InterestsTypesIds { get; set; } = [];
+
+    public CreateOrUpdateCustomerInterestCommand(FillCustomerInterestRequest command, int customerId)
+    {
+        CustomerId = customerId;
+        InterestsTypesIds.AddRange(command.EnvironmentTypeIds);
+        InterestsTypesIds.AddRange(command.CousinsTypeIds);
+        InterestsTypesIds.AddRange(command.MusicsTypeIds);
+    }
 }
 
 public class CreateOrUpdateCustomerInterestCommandHandler(
@@ -24,16 +32,18 @@ public class CreateOrUpdateCustomerInterestCommandHandler(
     {
         try
         {
-            var activeIds = await categoryQueryRepository.GetAllActive(request.RequestId);
-            var validationResponse = CategoryInfoValidation.Validate(request.RequestId, activeIds);
-            if (!validationResponse.Result) return validationResponse;
-            var deleteResponse = await customerInterestRepository.Delete(request.CustomerId);
-            if (!deleteResponse)
-                return Fail(ErrorType.CustomerInterest.NotDelete);
-            var addResponse = await customerInterestRepository.Add(activeIds, request.CustomerId);
+            var customerCurrentInterests = await customerInterestRepository.Get(request.CustomerId, cancellationToken);
+            if (customerCurrentInterests.Count != 0)
+            {
+                var deleteResponse = await customerInterestRepository.Delete(request.CustomerId, cancellationToken);
+                if (!deleteResponse)
+                    return Fail(ErrorType.CustomerInterest.NotDelete);
+            }
+
+            var addResponse = await customerInterestRepository.Add(request.InterestsTypesIds, request.CustomerId, cancellationToken);
             if (!addResponse)
                 return Fail(ErrorType.CustomerInterest.NotAdd);
-            if (await customerInterestRepository.SaveChanges())
+            if (!(await customerInterestRepository.SaveChanges(cancellationToken)))
                 return Fail(ErrorType.CustomerInterest.NotDbSave);
             return Success();
         }

@@ -18,7 +18,7 @@ namespace MainMikitan.Database.Features.Common.Otp.Command
     {
         private readonly ConnectionStringsOptions _connectionStrings = connectionStrings.Value;
 
-        public async Task<bool> Create(OtpLogIntroEntity model)
+        public async Task<bool> Create(OtpLogIntroEntity model, CancellationToken cancellationToken = default)
         {
             await using var connection = new SqlConnection(_connectionStrings.MainMik);
             model.CreatedAt = DateTime.Now;
@@ -41,7 +41,7 @@ namespace MainMikitan.Database.Features.Common.Otp.Command
             var result = await connection.QuerySingleOrDefaultAsync<int?>(sqlCommand, model);
             return result > 0;
         }
-        public async Task<bool> Update(int id, int numberOfTrials, int status)
+        public async Task<bool> Update(int id, int numberOfTrials, int status, CancellationToken cancellationToken = default)
         {
             var otpStatus = (int)status;
             await using var connection = new SqlConnection(_connectionStrings.MainMik);

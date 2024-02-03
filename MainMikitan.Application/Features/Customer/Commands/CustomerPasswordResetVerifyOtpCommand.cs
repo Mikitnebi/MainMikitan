@@ -9,11 +9,11 @@ using MainMikitan.InternalServiceAdapter.Validations;
 
 namespace MainMikitan.Application.Features.Customer.Commands;
 
-public abstract class CustomerPasswordResetVerifyOtpCommand(CustomerPasswordResetVerifyOtpModel model, int customerId) : ICommand
+public class CustomerPasswordResetVerifyOtpCommand(CustomerPasswordResetVerifyOtpModel model, int customerId) : ICommand
 {
-    public readonly string Otp = model.Otp;
-    public readonly string Password = model.Password;
-    public readonly int CustomerId = customerId;
+    public string Otp { get; set; } = model.Otp;
+    public string Password { get; set; } = model.Password;
+    public int CustomerId { get; set; } = customerId;
 }
 
 public class CustomerPasswordResetVerifyOtpCommandHandler(
@@ -28,15 +28,17 @@ public class CustomerPasswordResetVerifyOtpCommandHandler(
         try
         {
             var passwordCheckResult = CustomerRequestsValidation.PasswordCheck(request.Password);
-            if ((short)passwordCheckResult < 3)
+            if ((short)passwordCheckResult < 2)
                 return Fail(ErrorType.NotCorrectPasswordType);
-            var customer = await customerQueryRepository.GetById(request.CustomerId);
+            var customer = await customerQueryRepository.GetById(request.CustomerId, cancellationToken);
             if (customer is null)
                 return Fail(ErrorType.Customer.NotFound);
-            var checkOtp = await otpCheckerService.CheckOtp(request.Otp, customer.EmailAddress, (int)Enums.OtpOperationTypeId.CustomerPasswordReset);
+            var checkOtp = await otpCheckerService.CheckOtp(request.Otp, customer.EmailAddress, (int)Enums.OtpOperationTypeId.CustomerPasswordReset, cancellationToken);
             if (!checkOtp.Result) return checkOtp;
-            var updateCustomer = await customerCommandRepository.CreateOrUpdate(customer);
-            return !updateCustomer
+            customer.HashPassWord = request.Password;
+            var updateCustomer = customerCommandRepository.UpdateCustomer(customer);
+            
+            return !(await customerCommandRepository.SaveChanges(cancellationToken))
                 ? Fail(ErrorType.Customer.NotUpdated) 
                 : Success();
         }

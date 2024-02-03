@@ -9,7 +9,7 @@ public class OtpCheckerService(
     IOtpLogQueryRepository otpLogQueryRepository,
     IOtpLogCommandRepository otpLogCommandRepository) : IOtpCheckerService
 {
-    public async Task<ResponseModel<bool>> CheckOtp(string userOtp, string email, int operationId)
+    public async Task<ResponseModel<bool>> CheckOtp(string userOtp, string email, int operationId, CancellationToken cancellationToken = default)
     {
         var otp = await otpLogQueryRepository.GetOtpByEmail(email, operationId);
         if (otp is null)
@@ -21,12 +21,12 @@ public class OtpCheckerService(
             return HandlerResponseMakerService.NewFailedResponse(ErrorType.Otp.NotValidOtp);
         if (otp.Otp != userOtp)
         {
-            var updateOtpTrials = await otpLogCommandRepository.Update(otp.Id, otp.NumberOfTrials + 1, otp.NumberOfTrials);
+            var updateOtpTrials = await otpLogCommandRepository.Update(otp.Id, otp.NumberOfTrials + 1, otp.NumberOfTrials, cancellationToken);
             return HandlerResponseMakerService.NewFailedResponse(!updateOtpTrials
                 ? ErrorType.Otp.OtpNotUpdated 
                 : ErrorType.Otp.NotCorrectOtp);
         }
-        var otpUpdate = await otpLogCommandRepository.Update(otp.Id, otp.NumberOfTrials, (int)Enums.OtpStatusId.Success);
+        var otpUpdate = await otpLogCommandRepository.Update(otp.Id, otp.NumberOfTrials, (int)Enums.OtpStatusId.Success, cancellationToken);
         return !otpUpdate 
             ? HandlerResponseMakerService.NewFailedResponse(ErrorType.Otp.OtpNotUpdated) 
             : HandlerResponseMakerService.NewSucceedResponse();

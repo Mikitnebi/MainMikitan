@@ -10,7 +10,7 @@ namespace MainMikitan.Database.Features.Common.Otp.Interfaces
 {
     public interface IOtpLogCommandRepository
     {
-        Task<bool> Create(OtpLogIntroEntity model);
-        Task<bool> Update(int id, int numberOfTrials, int status);
+        Task<bool> Create(OtpLogIntroEntity model, CancellationToken cancellationToken = default);
+        Task<bool> Update(int id, int numberOfTrials, int status, CancellationToken cancellationToken = default);
     }
 }
