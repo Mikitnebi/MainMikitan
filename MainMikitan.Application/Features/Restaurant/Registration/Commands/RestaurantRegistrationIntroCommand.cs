@@ -55,7 +55,8 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
                     Otp = otp,
                     EmailAddress = email,
                     NumberOfTrialsIsRequired = false,
-                    ValidationTime = _otpConfig.IntroValidationTime
+                    ValidationTime = _otpConfig.IntroValidationTime  ,
+                    OperationId = (int)Enums.OtpOperationTypeId.RestaurantIntroRegistration
                 });
                 var createRestaurantResult = await _restaurantIntroCommandRepository.Create(new RestaurantIntroEntity {
                     PhoneNumber = registrationRequest.PhoneNumber,
