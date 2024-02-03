@@ -6,40 +6,29 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MainMikitan.Database.Features.Customer.Command;
 
-public class CustomerInfoRepository : ICustomerInfoRepository
+public class CustomerInfoRepository(MikDbContext db) : ICustomerInfoRepository
 {
-    public readonly MikDbContext _db;
 
-    public CustomerInfoRepository(
-        MikDbContext db
-        )
+    public async Task<bool> CreateOrUpdate(CreateOrUpdateCustomerInfoRequest customerInfo, int customerId, CancellationToken cancellationToken = default)
     {
-        _db = db;
-    }
-
-    public async Task<bool> CreateOrUpdate(CreateOrUpdateCustomerInfoRequest customerInfo, int customerId)
-    {
-        var customerInfoEntity = await _db.CustomerInfo.
-            FirstOrDefaultAsync(t => t.CustomerId == customerId);
-        if (customerInfoEntity is not null)
+        var customerInfoEntity = await db.CustomerInfo.
+            FirstOrDefaultAsync(t => t.CustomerId == customerId, cancellationToken);
+        if (customerInfoEntity is null)
         {
-            var result = await _db.CustomerInfo.AddAsync(new CustomerInfoEntity
+            var result = await db.CustomerInfo.AddAsync(new CustomerInfoEntity
             {
                 CustomerId = customerId,
                 GenderId = customerInfo.GenderId,
                 NationalityId = customerInfo.NationalityId,
                 BirthDate = (DateOnly)customerInfo.BirthDate!,
-                FullName = customerInfo.FullName,
                 CreatedAt = DateTime.Now
-            });
-            if (result.Entity.CustomerId == 0)
-                return false;
+            }, cancellationToken);
+            return await SaveChanges(cancellationToken);
         }
         else
         {
             customerInfoEntity!.GenderId = customerInfo.GenderId != 0 ? customerInfo.GenderId : customerInfoEntity.GenderId;
             customerInfoEntity!.NationalityId = customerInfo.NationalityId != 0 ? customerInfo.NationalityId : customerInfoEntity.NationalityId;
-            customerInfoEntity!.FullName = customerInfo.FullName != string.Empty ? customerInfo.FullName : customerInfoEntity.FullName;
             customerInfoEntity!.BirthDate = customerInfo.BirthDate is not null
                 ? (DateOnly)customerInfo.BirthDate!
                 : customerInfoEntity.BirthDate;
@@ -50,21 +39,21 @@ public class CustomerInfoRepository : ICustomerInfoRepository
         return true;
     }
 
-    public async Task<CustomerInfoEntity?> Get(int customerId)
+    public async Task<CustomerInfoEntity?> Get(int customerId, CancellationToken cancellationToken = default)
     {
-        var customerInfoResponse = await _db.CustomerInfo.FirstOrDefaultAsync(t => t.CustomerId == customerId);
+        var customerInfoResponse = await db.CustomerInfo.FirstOrDefaultAsync(t => t.CustomerId == customerId,cancellationToken);
         return customerInfoResponse ?? null;
     }
 
-    public async Task<bool> Delete(int customerId)
+    public async Task<bool> Delete(int customerId, CancellationToken cancellationToken = default)
     {
         var deleteCustomerInfoResponse =
-            await _db.CustomerInfo.Where(t => t.CustomerId == customerId).ExecuteDeleteAsync();
+            await db.CustomerInfo.Where(t => t.CustomerId == customerId).ExecuteDeleteAsync(cancellationToken);
         return deleteCustomerInfoResponse > 0;
     }
-    public async Task<bool> SaveChanges()
+    public async Task<bool> SaveChanges(CancellationToken cancellationToken = default)
     {
-        var result = await _db.SaveChangesAsync();
+        var result = await db.SaveChangesAsync(cancellationToken);
         return result > 0;
     }
 }

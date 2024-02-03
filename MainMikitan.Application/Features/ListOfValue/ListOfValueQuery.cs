@@ -20,7 +20,6 @@ public class ListOfValueQueryHandler(IListOfValueQueryRepository listOfValueQuer
     public async Task<ResponseModel<ListOfValueModel>> Handle(ListOfValueQuery request,
         CancellationToken cancellationToken)
     {
-        var stopWatch = new Stopwatch(); stopWatch.Start();
         var dictionaries = await listOfValueQueryRepository.GetDictionaryBySectorId(request.Id, cancellationToken);
         if(dictionaries.Count == 0)
             return Fail(ErrorType.Dictionary.NotFoundBySectorId);
@@ -31,7 +30,6 @@ public class ListOfValueQueryHandler(IListOfValueQueryRepository listOfValueQuer
             NameGeo = t.NameGeo
         }).ToList(); 
         var sector = await listOfValueQueryRepository.GetSectorById(request.Id, cancellationToken);
-        stopWatch.Stop(); Console.WriteLine(stopWatch.ElapsedMilliseconds);
         return Success(new ListOfValueModel
         {
             Dictionaries = dictionaryModel,

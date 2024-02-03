@@ -15,22 +15,15 @@ namespace MainMikitan.Application.Features.Customer.Commands {
             _otp = request.Otp;
         }
     }
-    public class RestaurantIntroVerifyOtpCommandHandler : IRequestHandler<RestaurantIntroVerifyOtpCommand, ResponseModel<bool>> {
-        private readonly IOtpLogQueryRepository _otpLogQueryRepository;
-        private readonly IOtpLogCommandRepository _otpLogCommandRepository;
-        private readonly IRestaurantIntroCommandRepository _restaurantIntroCommandRepository;
-
-        public RestaurantIntroVerifyOtpCommandHandler(
-            IOtpLogQueryRepository otpLogQueryRepository,
-            IOtpLogCommandRepository otpLogCommandRepository,
-            IRestaurantIntroCommandRepository restaurantIntroCommandRepository) {
-            _otpLogCommandRepository = otpLogCommandRepository;
-            _otpLogQueryRepository = otpLogQueryRepository;
-            _restaurantIntroCommandRepository = restaurantIntroCommandRepository;
-        }
+    public class RestaurantIntroVerifyOtpCommandHandler(
+        IOtpLogQueryRepository otpLogQueryRepository,
+        IOtpLogCommandRepository otpLogCommandRepository,
+        IRestaurantIntroCommandRepository restaurantIntroCommandRepository)
+        : IRequestHandler<RestaurantIntroVerifyOtpCommand, ResponseModel<bool>>
+    {
         public async Task<ResponseModel<bool>> Handle(RestaurantIntroVerifyOtpCommand model, CancellationToken cancellationToken) {
             var response = new ResponseModel<bool>();
-            var otp = await _otpLogQueryRepository.GetOtpByEmail(model._email, (int)Enums.OtpOperationTypeId.RestaurantIntroRegistration);
+            var otp = await otpLogQueryRepository.GetOtpByEmail(model._email, (int)Enums.OtpOperationTypeId.RestaurantIntroRegistration);
             if (otp == null) {
                 response.ErrorType = ErrorType.Otp.IncorrectEmail;
                 return response;
@@ -47,12 +40,12 @@ namespace MainMikitan.Application.Features.Customer.Commands {
                 response.ErrorType = ErrorType.Otp.NotCorrectOtp;
                 return response;
             }
-            var otpUpdate = await _otpLogCommandRepository.Update(otp.Id, 0, (int)OtpStatusId.Success);
+            var otpUpdate = await otpLogCommandRepository.Update(otp.Id, 0, (int)OtpStatusId.Success);
             if (!otpUpdate|| !otpUpdate) {
                 response.ErrorType = ErrorType.Otp.OtpNotUpdated;
                 return response;
             }
-            var restaurantUpdate = await _restaurantIntroCommandRepository.UpdateStatus(model._email, true, RestaurantOtpVerificationId.Verified);
+            var restaurantUpdate = await restaurantIntroCommandRepository.UpdateStatus(model._email, true, RestaurantOtpVerificationId.Verified);
             if (restaurantUpdate == null || restaurantUpdate == 0) {
                 response.ErrorType = ErrorType.Restaurant.RestaurantNotUpdated;
                 return response;

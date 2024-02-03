@@ -8,8 +8,6 @@ public class CustomerInfoEntity
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
     [Required]
-    public string FullName { get; set; } = null!;
-    [Required]
     public int CustomerId { get; set; }
     [Required]
     public DateOnly BirthDate { get; set; }

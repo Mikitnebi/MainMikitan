@@ -23,18 +23,21 @@ namespace MainMikitan.Database.Features.Common.Otp.Command
             await using var connection = new SqlConnection(_connectionStrings.MainMik);
             model.CreatedAt = DateTime.Now;
             model.StatusId = (int)OtpStatusId.NoneVerified;
-            const string sqlCommand = "INSERT INTO [dbo].[OtpLogIntro] " +
-                                      "([CreatedAt], " +
-                                      "[Otp]," +
-                                      "[MobileNumber], " +
-                                      "[EmailAddress], " +
-                                      "[NumberOfTrials], " +
-                                      "[NumberOfTrialsIsRequired]," +
-                                      "[StatusId]," +
-                                      "[ValidationTime]," +
-                                      "[UserTypeId]) " +
-                                      " OUTPUT INSERTED.Id" +
-                                      " VALUES (@CreatedAt, @Otp, @MobileNumber, @EmailAddress, @NumberOfTrials, @NumberOfTrialsIsRequired, @StatusId, @ValidationTime, @UserTypeId)";
+            const string sqlCommand = $"""
+                                       INSERT INTO [dbo].[OtpLogIntro] 
+                                      ([CreatedAt], 
+                                      [Otp],
+                                      [MobileNumber], 
+                                      [EmailAddress], 
+                                      [NumberOfTrials], 
+                                      [NumberOfTrialsIsRequired],
+                                      [StatusId],
+                                      [ValidationTime],
+                                      [UserTypeId],
+                                      [OperationId]) 
+                                       OUTPUT INSERTED.Id
+                                       VALUES (@CreatedAt, @Otp, @MobileNumber, @EmailAddress, @NumberOfTrials, @NumberOfTrialsIsRequired, @StatusId, @ValidationTime, @UserTypeId, @OperationId)
+                                      """;
             var result = await connection.QuerySingleOrDefaultAsync<int?>(sqlCommand, model);
             return result > 0;
         }

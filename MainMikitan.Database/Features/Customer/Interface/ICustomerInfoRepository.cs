@@ -5,8 +5,8 @@ namespace MainMikitan.Database.Features.Customer.Interface;
 
 public interface ICustomerInfoRepository
 {
-    Task<bool> CreateOrUpdate(CreateOrUpdateCustomerInfoRequest customerInfo, int customerId);
-    Task<CustomerInfoEntity?> Get(int customerId);
-    Task<bool> Delete(int customerId);
-    Task<bool> SaveChanges();
+    Task<bool> CreateOrUpdate(CreateOrUpdateCustomerInfoRequest customerInfo, int customerId, CancellationToken cancellationToken = default);
+    Task<CustomerInfoEntity?> Get(int customerId, CancellationToken cancellationToken = default);
+    Task<bool> Delete(int customerId, CancellationToken cancellationToken = default);
+    Task<bool> SaveChanges(CancellationToken cancellationToken = default);
 }

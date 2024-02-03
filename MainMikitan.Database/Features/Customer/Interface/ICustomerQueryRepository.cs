@@ -4,9 +4,9 @@ namespace MainMikitan.Database.Features.Customer.Interface
 {
     public interface ICustomerQueryRepository
     {
-        Task<CustomerEntity?> GetById(int id);
-        Task<CustomerEntity?> GetByEmail(string email);
-        Task<CustomerEntity?> GetByMobileNumber(string mobileNumber);
-        Task<CustomerEntity?> GetNonVerifiedByEmail(string email);
+        Task<CustomerEntity?> GetById(int id, CancellationToken cancellationToken = default);
+        Task<CustomerEntity?> GetByEmail(string email, CancellationToken cancellationToken = default);
+        Task<CustomerEntity?> GetByMobileNumber(string mobileNumber, CancellationToken cancellationToken = default);
+        Task<CustomerEntity?> GetNonVerifiedByEmail(string email, CancellationToken cancellationToken = default);
     }
 }

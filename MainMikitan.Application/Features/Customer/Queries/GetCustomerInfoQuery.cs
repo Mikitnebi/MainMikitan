@@ -15,6 +15,7 @@ public class GetCustomerInfoQuery(int customerId) : IQuery<GetCustomerInfoRespon
 }
     public class GetCustomerInfoQueryHandler(
         ICustomerInfoRepository customerInfoRepository,
+        ICustomerQueryRepository customerQueryRepository,
         IS3Adapter s3Adapter)
         : ResponseMaker<GetCustomerInfoResponse>, IQueryHandler<GetCustomerInfoQuery, GetCustomerInfoResponse>
     {
@@ -22,17 +23,18 @@ public class GetCustomerInfoQuery(int customerId) : IQuery<GetCustomerInfoRespon
             var customerId = query.CustomerId;
             try
             {
-                var customerInfo = await customerInfoRepository.Get(customerId);
-                if (customerInfo is null)
+                var customerInfo = await customerInfoRepository.Get(customerId, cancellationToken);
+                var customer = await customerQueryRepository.GetById(query.CustomerId, cancellationToken);
+                if (customerInfo is null || customer is null)
                     return Fail(ErrorType.CustomerInfo.NotGetInfo);
                 var customerImageUrlResponse = await s3Adapter.GetCustomerProfileImage(customerId);
 
                 return Success(new GetCustomerInfoResponse
                 {
                     BirthDate = customerInfo.BirthDate,
-                    FullName = customerInfo.FullName,
                     NationalityId = customerInfo.NationalityId,
                     GenderId = customerInfo.GenderId,
+                    FullName = customer.FullName,
                     ImageData = customerImageUrlResponse.Result!
                 });
             } catch (Exception ex)

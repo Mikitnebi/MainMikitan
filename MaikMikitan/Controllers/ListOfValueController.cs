@@ -1,8 +1,6 @@
 using MainMikitan.API.Filters;
-using MainMikitan.Application.Features.Customer.Commands;
 using MainMikitan.Application.Features.ListOfValue;
 using MainMikitan.Domain;
-using MainMikitan.Domain.Requests.Customer;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;

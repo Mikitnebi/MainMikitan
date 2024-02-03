@@ -9,7 +9,6 @@ public class CustomerInfoMap : IEntityTypeConfiguration<CustomerInfoEntity>
     public void Configure(EntityTypeBuilder<CustomerInfoEntity> builder)
     {
         builder.HasKey(b => b.Id);
-        builder.Property(b => b.FullName).IsRequired();
         builder.Property(b => b.CustomerId).IsRequired();
         builder.Property(b => b.BirthDate).IsRequired();
         builder.Property(b => b.GenderId).IsRequired();

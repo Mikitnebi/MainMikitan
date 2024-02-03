@@ -11,41 +11,41 @@ namespace MainMikitan.API.Controllers
     [Authorized(RoleId.Customer)]
     public class CustomerController(IMediator mediator) : MainController(mediator)
     {
-        [HttpPost("CreateOrUpdateInterest")]
+        [HttpPost("UpdateInterest")]
         public async Task<IActionResult> CreateOrUpdateCustomerInterest(FillCustomerInterestRequest request)
         {
             return !ModelState.IsValid ? BadRequest(ModelState) :
                 CheckResponse(await Mediator.Send(new CreateOrUpdateCustomerInterestCommand(request, UserId)));
         }
         
-        [HttpGet("GetInterests")]
+        [HttpGet("Interests")]
         public async Task<IActionResult> GetInterests()
         {
             return !ModelState.IsValid ? BadRequest(ModelState) :
                 CheckResponse(await Mediator.Send(new GetCustomerInterestsQuery(UserId)));
         }
         
-        [HttpPost("CreateOrUpdateInfo")]
+        [HttpPost("UpdateInfo")]
         public async Task<IActionResult> CreateOrUpdateInfo(CreateOrUpdateCustomerInfoRequest request)
         {   return !ModelState.IsValid ? BadRequest(ModelState) :
                 CheckResponse(await Mediator.Send(new CreateOrUpdateCustomerInfoCommand(request, UserId)));
         }
         
-        [HttpGet("GetInfo")]
+        [HttpGet("Info")]
         public async Task<IActionResult> GetInfo()
         {
             return !ModelState.IsValid ? BadRequest(ModelState) :
                 CheckResponse(await Mediator.Send(new GetCustomerInfoQuery(UserId)));
         }
         
-        [HttpPost("AddOrUpdateProfilePhoto")]
+        [HttpPost("UpdateProfilePhoto")]
         public async Task<IActionResult> AddOrUpdateProfilePhoto(IFormFile formFile)
         {
             return !ModelState.IsValid ? BadRequest(ModelState) : 
                 CheckResponse(await Mediator.Send(new AddOrUpdateProfilePhotoCommand(formFile, UserId)));
         }
 
-        [HttpPost("GetProfilePhoto")]
+        [HttpPost("ProfilePhoto")]
         public async Task<IActionResult> GetProfilePhoto()
         {
             return !ModelState.IsValid ? BadRequest(ModelState) :
