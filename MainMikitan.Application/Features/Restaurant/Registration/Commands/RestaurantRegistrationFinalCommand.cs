@@ -8,9 +8,9 @@ using Newtonsoft.Json;
 
 namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
     public class RestaurantRegistrationFinalCommand : IRequest<ResponseModel<bool>> {
-        public RestaurantRegistrationStarterInfoRequest _restaurantRegistrationFinalRequest { get; set; }
+        public RestaurantInfoRequest _restaurantRegistrationFinalRequest { get; set; }
         public int _restaurantId { get; set; }
-        public RestaurantRegistrationFinalCommand(RestaurantRegistrationStarterInfoRequest request, int restaurantId) {
+        public RestaurantRegistrationFinalCommand(RestaurantInfoRequest request, int restaurantId) {
             _restaurantRegistrationFinalRequest = request;
             _restaurantId = restaurantId;
         }

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MainMikitan.API.Controllers;
 
-[Authorized(Enums.RoleId.Restaurant)]
+[Authorized(Enums.RoleId.Manager)]
 public class DishController(IMediator mediator) : MainController(mediator)
 {
     [HttpPost("add-dish-category")]

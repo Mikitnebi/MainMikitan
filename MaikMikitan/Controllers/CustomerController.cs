@@ -6,10 +6,11 @@ using static MainMikitan.Domain.Enums;
 using MainMikitan.API.Filters;
 using MainMikitan.Application.Features.Customer.Queries;
 using MainMikitan.Domain.Requests.Customer.Feature;
+using MainMikitan.Domain;
 
 namespace MainMikitan.API.Controllers
 {
-    [Authorized(RoleId.Customer)]
+    [Authorized(Enums.RoleId.Customer)]
     public class CustomerController(IMediator mediator) : MainController(mediator)
     {
         [HttpPost("UpdateInterest")]

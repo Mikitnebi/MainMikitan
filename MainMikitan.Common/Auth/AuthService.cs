@@ -44,11 +44,25 @@ namespace MainMikitan.InternalServiceAdapter.Auth
             {
                 new Claim(ClaimTypes.NameIdentifier, restaurantAuthModel.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.Role, RoleId.Restaurant.ToString())
+                new Claim(ClaimTypes.Role, RoleId.Manager.ToString())
             };
             var token = GetToken(authClaims);
             response.Result = new AuthTokenResponseModel
             {
+                AccessToken = new JwtSecurityTokenHandler().WriteToken(token)
+            };
+            return response;
+        }
+        public ResponseModel<AuthTokenResponseModel> RestaurantStaffAuth(RestaurantAuthRequestModel restaurantAuthModel) {
+            var response = new ResponseModel<AuthTokenResponseModel>();
+            var authClaims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, restaurantAuthModel.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.Role, RoleId.Staff.ToString())
+            };
+            var token = GetToken(authClaims);
+            response.Result = new AuthTokenResponseModel {
                 AccessToken = new JwtSecurityTokenHandler().WriteToken(token)
             };
             return response;

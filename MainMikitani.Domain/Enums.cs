@@ -22,8 +22,9 @@ namespace MainMikitan.Domain
         {
             Customer = 0,
             Company = 1,
-            Restaurant = 2,
-            Admin = 3
+            Manager = 2,
+            Admin = 3,
+            Staff = 4
         }
         public enum OtpStatusId
         {
@@ -122,6 +123,10 @@ namespace MainMikitan.Domain
             #endregion
             
 
+        }
+
+        public enum RestaurantPermissionId { 
+            Info = 1
         }
 
         public enum ListOfValueType

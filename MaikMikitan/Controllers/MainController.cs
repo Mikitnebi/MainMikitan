@@ -12,6 +12,7 @@ public class MainController(IMediator mediator) : ControllerBase
 {
     protected readonly IMediator Mediator = mediator;
     protected int UserId => User.GetId();
+    protected int RoleId => User.GetRoleId();
 
     protected IActionResult CheckResponse<T> (ResponseModel<T> response) =>
         response.HasError ? BadRequest(response) : Ok(response);

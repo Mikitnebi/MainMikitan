@@ -6,7 +6,7 @@ using static MainMikitan.Domain.Enums;
 
 namespace MainMikitan.Domain.Requests.RestaurantRequests;
 
-public class RestaurantRegistrationStarterInfoRequest
+public class RestaurantInfoRequest
 {
     public double LocationX { get; set; }
     public double LocationY { get; set; }

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace MainMikitan.API.Controllers;
 
 [ApiController]
-[Authorized(Enums.RoleId.Restaurant)]
+[Authorized(Enums.RoleId.Manager)]
 [Route("[controller]")]
 [EnableCors("AllowSpecificOrigin")]
 public class MenuController(IMediator mediator) : MainController(mediator)
