@@ -12,7 +12,7 @@ public class AddTableCommand(AddTableRequest request, int restaurantId) : IComma
     public int RestaurantId { get; } = restaurantId;
 }
 
-public class AddTableCommandHandler(ITableCommandRepository tableCommandRepository)
+public class AddTableCommandHandler(ITableCommandRepository tableCommandRepository, ITableEnvironmentCommandRepository tableEnvironmentCommandRepository)
     : ResponseMaker, ICommandHandler<AddTableCommand>
 {
 
@@ -23,9 +23,7 @@ public class AddTableCommandHandler(ITableCommandRepository tableCommandReposito
         {
             var restaurantId = command.RestaurantId;
             var request = command.Request;
-
-            var tableEnvironmentResponse = new object();
-
+            
             var tableInfoEntity = new TableInfoEntity()
             {
                 RestaurantId = restaurantId,
@@ -34,19 +32,37 @@ public class AddTableCommandHandler(ITableCommandRepository tableCommandReposito
                 MinPlace = request.MinPlace,
                 TableType = request.TableType,
                 XCoordinate = request.XCoordinate,
-                YCoordinate = request.YCoordinate,
-                TableEnvironmentListId =
-                    0 // TODO: აქამდე უნდა შეიქმნას მაგიდის Environment ინფორმაცია და აქ ჩაინსერტდეს Id
+                YCoordinate = request.YCoordinate
             };
 
             var tableAddResponse = await tableCommandRepository.AddTable(tableInfoEntity, cancellationToken);
+            TableEnvironmentEntity tableEnvironmentInfo = new()
+            {
+                TableId = tableAddResponse.Result!.Id
+            };
 
-            return new ResponseModel<bool>();
+            var anyEnvironmentInfoFailedToSave = false;
+            
+            foreach (var environment in request.EnvironmentId)
+            {
+                tableEnvironmentInfo.EnvironmentId = environment;
+                
+                await tableEnvironmentCommandRepository.AddTableEnvironmentInfo(tableEnvironmentInfo, cancellationToken);
+                
+                var res = await tableEnvironmentCommandRepository.SaveChanges();
+                if (!res)
+                {
+                    anyEnvironmentInfoFailedToSave = true;
+                }
+            }
+
+            var result = await tableCommandRepository.SaveChanges();
+
+            return !result || anyEnvironmentInfoFailedToSave ? Fail("TABLE_INFO_OR_ENVIRONMENT_INFO_WAS_NOT_ADDED") : Success();
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.Message);
-            throw;
+            return Unexpected(e);
         }
     }
 }
