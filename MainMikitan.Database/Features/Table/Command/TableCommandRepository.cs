@@ -3,6 +3,7 @@ using MainMikitan.Database.Features.Table.Interface;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Models.Restaurant.TableManagement;
 using MainMikitan.Domain.Templates;
+using Microsoft.EntityFrameworkCore;
 
 namespace MainMikitan.Database.Features.Table.Command;
 
@@ -23,6 +24,28 @@ public class TableCommandRepository(MikDbContext db) : ResponseMaker<TableInfoEn
         catch (Exception e)
         {
             return Unexpected(e);
+        }
+    }
+    
+    public async Task<ResponseModel<bool>> DeleteTable(int tableId, CancellationToken cancellationToken)
+    {
+        try
+        {
+            await db.TableInfo.Where(ti => ti.Id == tableId).ExecuteDeleteAsync(cancellationToken);
+
+
+            return new ResponseModel<bool>()
+            {
+                Result = true
+            };
+        }
+        catch (Exception e)
+        {
+            return new ResponseModel<bool>()
+            {
+                ErrorMessage = e.Message,
+                Result = false
+            };
         }
     }
     

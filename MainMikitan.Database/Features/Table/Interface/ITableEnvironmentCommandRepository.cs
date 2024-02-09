@@ -5,8 +5,7 @@ namespace MainMikitan.Database.Features.Table.Interface;
 
 public interface ITableEnvironmentCommandRepository
 {
-    public Task<ResponseModel<TableEnvironmentEntity>> AddTableEnvironmentInfo(TableEnvironmentEntity request,
-        CancellationToken cancellationToken);
-
+    public Task<ResponseModel<TableEnvironmentEntity>> AddTableEnvironmentInfo(TableEnvironmentEntity request, CancellationToken cancellationToken);
+    public Task<ResponseModel<bool>> DeleteTableEnvironmentInfo(int tableId, CancellationToken cancellationToken);
     public Task<bool> SaveChanges();
 }

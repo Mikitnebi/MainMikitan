@@ -1,5 +1,6 @@
 ﻿using MainMikitan.API.Filters;
 using MainMikitan.Application.Features.Table.Command.Add;
+using MainMikitan.Application.Features.Table.Command.Delete;
 using MainMikitan.Domain;
 using MainMikitan.Domain.Requests.TableRequests;
 using MediatR;
@@ -17,5 +18,14 @@ public class TableController(IMediator mediator) : MainController(mediator)
         return !ModelState.IsValid
             ? BadRequest(ModelState)
             : CheckResponse(await Mediator.Send(new AddTableCommand(request, UserId)));
+    }
+    
+    [Authorized(Enums.RoleId.Manager)]
+    [HttpGet("delete-table")]
+    public async Task<IActionResult> DeleteTable(DeleteTableRequest request)
+    {
+        return !ModelState.IsValid
+            ? BadRequest(ModelState)
+            : CheckResponse(await Mediator.Send(new DeleteTableCommand(request)));
     }
 }
