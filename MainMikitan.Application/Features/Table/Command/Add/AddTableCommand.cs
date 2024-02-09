@@ -19,23 +19,27 @@ public class AddTableCommandHandler(ITableCommandRepository tableCommandReposito
     public async Task<ResponseModel<bool>> Handle(AddTableCommand command,
         CancellationToken cancellationToken)
     {
+        var restaurantId = command.RestaurantId;
+        var request = command.Request;
+        var tableInfoEntity = new TableInfoEntity()
+        {
+            RestaurantId = restaurantId,
+            TableNumber = request.TableNumber,
+            MaxPlace = request.MaxPlace,
+            MinPlace = request.MinPlace,
+            TableType = request.TableType,
+            XCoordinate = request.XCoordinate,
+            YCoordinate = request.YCoordinate
+        };
         try
         {
-            var restaurantId = command.RestaurantId;
-            var request = command.Request;
-            
-            var tableInfoEntity = new TableInfoEntity()
-            {
-                RestaurantId = restaurantId,
-                TableNumber = request.TableNumber,
-                MaxPlace = request.MaxPlace,
-                MinPlace = request.MinPlace,
-                TableType = request.TableType,
-                XCoordinate = request.XCoordinate,
-                YCoordinate = request.YCoordinate
-            };
-
             var tableAddResponse = await tableCommandRepository.AddTable(tableInfoEntity, cancellationToken);
+            var resultTableInfoSave = await tableCommandRepository.SaveChanges();
+            if (!resultTableInfoSave)
+            {
+                return Fail("TABLE_INFO_WAS_NOT_ADDED");
+            }
+            
             TableEnvironmentEntity tableEnvironmentInfo = new()
             {
                 TableId = tableAddResponse.Result!.Id
@@ -48,12 +52,15 @@ public class AddTableCommandHandler(ITableCommandRepository tableCommandReposito
                 await tableEnvironmentCommandRepository.AddTableEnvironmentInfo(tableEnvironmentInfo, cancellationToken);
             }
 
-            var result = await tableCommandRepository.SaveChanges();
+            var result = await tableEnvironmentCommandRepository.SaveChanges();
 
-            return !result ? Fail("TABLE_INFO_OR_ENVIRONMENT_INFO_WAS_NOT_ADDED") : Success();
+            return !result ? Fail("TABLE_ENVIRONMENT_INFO_WAS_NOT_ADDED") : Success();
         }
         catch (Exception e)
         {
+            await tableCommandRepository.DeleteTable(tableInfoEntity.Id, cancellationToken);
+            await tableCommandRepository.SaveChanges();
+            
             return Unexpected(e);
         }
     }
