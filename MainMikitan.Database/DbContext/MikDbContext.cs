@@ -5,6 +5,7 @@ using MainMikitan.Domain.Models.ListOfValue;
 using MainMikitan.Domain.Models.Menu;
 using MainMikitan.Domain.Models.Reservation;
 using MainMikitan.Domain.Models.Restaurant;
+using MainMikitan.Domain.Models.Restaurant.TableManagement;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +38,8 @@ public class MikDbContext : IdentityDbContext
     public DbSet<ReservationEntity> Reservations { get; set; }
     public DbSet<RestaurantBranchingCodeLogEntity> RestaurantBranchingCodeLogs { get; set; }
     public DbSet<SectorEntity> Sector { get; set; }
+    public DbSet<TableEnvironmentEntity> TableEnvironment { get; set; }
+    public DbSet<TableInfoEntity> TableInfo { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -56,6 +59,8 @@ public class MikDbContext : IdentityDbContext
         modelBuilder.ApplyConfiguration(new RestaurantIntroMap());
         modelBuilder.ApplyConfiguration(new RestaurantStaffMap());
         modelBuilder.ApplyConfiguration(new CategoryMap());
+        modelBuilder.ApplyConfiguration(new TableEnvironmentMap());
+        modelBuilder.ApplyConfiguration(new TableInfoMap());
         
         base.OnModelCreating(modelBuilder);
         

@@ -5,26 +5,22 @@ using Microsoft.Extensions.Options;
 
 namespace MainMikitan.Database.Features.Category.Query
 {
-    public class CategoryQueryRepository : ICategoryQueryRepository
+    public class CategoryQueryRepository(IOptions<ConnectionStringsOptions> connectionStrings)
+        : ICategoryQueryRepository
     {
-        private readonly ConnectionStringsOptions _connectionString;
-        public CategoryQueryRepository(IOptions<ConnectionStringsOptions> connectionStrings) 
-        { 
-            _connectionString = connectionStrings.Value;
-        }
+        private readonly ConnectionStringsOptions _connectionString = connectionStrings.Value;
+
         public async Task<List<int>> GetAllActive(List<int> indexes)
         {
-            using var connection = new SqlConnection(_connectionString.MainMik);
+            await using var connection = new SqlConnection(_connectionString.MainMik);
             
-            string sqlCommand = $"SELECT Id FROM [dbo].[Category] WITH (NOLOCK) WHERE Id IN (@indexes) AND [StatusId] = 1";
+            var sqlCommand = $"SELECT Id FROM [dbo].[Category] WITH (NOLOCK) WHERE Id IN (@indexes) AND [StatusId] = 1";
             
             var parameters = new DynamicParameters();
             parameters.Add("indexes",indexes);
             
-            dynamic sqlResult = await connection.QueryAsync<int>(sqlCommand, parameters);
-            sqlResult = sqlResult.ToList();
-
-            return sqlResult;
+            var sqlResult = await connection.QueryAsync<int>(sqlCommand, parameters);
+            return sqlResult.ToList();
         }
     }
 }
