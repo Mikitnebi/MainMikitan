@@ -40,25 +40,17 @@ public class AddTableCommandHandler(ITableCommandRepository tableCommandReposito
             {
                 TableId = tableAddResponse.Result!.Id
             };
-
-            var anyEnvironmentInfoFailedToSave = false;
             
             foreach (var environment in request.EnvironmentId)
             {
                 tableEnvironmentInfo.EnvironmentId = environment;
                 
                 await tableEnvironmentCommandRepository.AddTableEnvironmentInfo(tableEnvironmentInfo, cancellationToken);
-                
-                var res = await tableEnvironmentCommandRepository.SaveChanges();
-                if (!res)
-                {
-                    anyEnvironmentInfoFailedToSave = true;
-                }
             }
 
             var result = await tableCommandRepository.SaveChanges();
 
-            return !result || anyEnvironmentInfoFailedToSave ? Fail("TABLE_INFO_OR_ENVIRONMENT_INFO_WAS_NOT_ADDED") : Success();
+            return !result ? Fail("TABLE_INFO_OR_ENVIRONMENT_INFO_WAS_NOT_ADDED") : Success();
         }
         catch (Exception e)
         {

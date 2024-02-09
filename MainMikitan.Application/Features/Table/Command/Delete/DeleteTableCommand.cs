@@ -20,9 +20,8 @@ public class DeleteTableCommandHandler(ITableCommandRepository tableCommandRepos
         try
         {
             await tableEnvironmentCommandRepository.DeleteTableEnvironmentInfo(command.Request.TableId, cancellationToken);
-            await tableEnvironmentCommandRepository.SaveChanges();
-
             await tableCommandRepository.DeleteTable(command.Request.TableId, cancellationToken);
+            
             await tableCommandRepository.SaveChanges();
 
             return Success();
