@@ -24,6 +24,8 @@ using MainMikitan.Database.Features.ListOfValue.Query;
 using MainMikitan.Database.Features.Reservation.Command;
 using MainMikitan.Database.Features.Reservation.Interfaces;
 using MainMikitan.Database.Features.Restaurant.Interface;
+using MainMikitan.Database.Features.Table.Command;
+using MainMikitan.Database.Features.Table.Interface;
 
 namespace MainMikitan.Database
 {
@@ -71,6 +73,9 @@ namespace MainMikitan.Database
             
             //ListOfValue
             services.AddScoped<IListOfValueQueryRepository, ListOfValueQueryRepository>();
+            
+            //Table
+            services.AddScoped<ITableCommandRepository, TableCommandRepository>();
         }
     }
 }

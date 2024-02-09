@@ -1,5 +1,4 @@
-﻿using MainMikitan.Database.DbContext;
-using MainMikitan.Domain.Models.Commons;
+﻿using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Requests.TableRequests;
 using MainMikitan.Domain.Templates;
 

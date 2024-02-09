@@ -1,11 +1,12 @@
 ﻿using MainMikitan.Database.DbContext;
+using MainMikitan.Database.Features.Table.Interface;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Models.Restaurant.TableManagement;
 using MainMikitan.Domain.Templates;
 
 namespace MainMikitan.Database.Features.Table.Command;
 
-public class TableCommandRepository : ResponseMaker<TableInfoEntity>
+public class TableCommandRepository : ResponseMaker<TableInfoEntity>, ITableCommandRepository
 {
     private readonly MikDbContext _db;
 
