@@ -76,6 +76,7 @@ namespace MainMikitan.Database
             
             //Table
             services.AddScoped<ITableCommandRepository, TableCommandRepository>();
+            services.AddScoped<ITableEnvironmentCommandRepository, TableEnvironmentCommandRepository>();
         }
     }
 }

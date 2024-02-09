@@ -6,17 +6,16 @@ using MainMikitan.Domain.Templates;
 
 namespace MainMikitan.Database.Features.Table.Command;
 
-public class TableCommandRepository(MikDbContext db) : ResponseMaker<TableInfoEntity>, ITableCommandRepository
+public class TableEnvironmentCommandRepository(MikDbContext db) : ResponseMaker<TableEnvironmentEntity>, ITableEnvironmentCommandRepository
 {
-    public async Task<ResponseModel<TableInfoEntity>> AddTable(TableInfoEntity request,
+    public async Task<ResponseModel<TableEnvironmentEntity>> AddTableEnvironmentInfo(TableEnvironmentEntity request,
         CancellationToken cancellationToken)
     {
         try
         {
             request.CreatedAt = DateTime.Now;
             
-            var result = await db.TableInfo.AddAsync(request, cancellationToken);
-
+            var result = await db.TableEnvironment.AddAsync(request, cancellationToken);
 
             return Success(result.Entity);
         }
