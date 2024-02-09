@@ -26,6 +26,7 @@ using MainMikitan.Database.Features.Reservation.Interfaces;
 using MainMikitan.Database.Features.Restaurant.Interface;
 using MainMikitan.Database.Features.Table.Command;
 using MainMikitan.Database.Features.Table.Interface;
+using MainMikitan.Database.Features.Table.Query;
 
 namespace MainMikitan.Database
 {
@@ -77,6 +78,7 @@ namespace MainMikitan.Database
             //Table
             services.AddScoped<ITableCommandRepository, TableCommandRepository>();
             services.AddScoped<ITableEnvironmentCommandRepository, TableEnvironmentCommandRepository>();
+            services.AddScoped<ITableQueryRepository, TableQueryRepository>();
         }
     }
 }

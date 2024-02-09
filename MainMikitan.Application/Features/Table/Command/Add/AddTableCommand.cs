@@ -12,7 +12,9 @@ public class AddTableCommand(AddTableRequest request, int restaurantId) : IComma
     public int RestaurantId { get; } = restaurantId;
 }
 
-public class AddTableCommandHandler(ITableCommandRepository tableCommandRepository, ITableEnvironmentCommandRepository tableEnvironmentCommandRepository)
+public class AddTableCommandHandler(ITableCommandRepository tableCommandRepository, 
+    ITableEnvironmentCommandRepository tableEnvironmentCommandRepository,
+    ITableQueryRepository tableQueryRepository)
     : ResponseMaker, ICommandHandler<AddTableCommand>
 {
 
@@ -33,6 +35,14 @@ public class AddTableCommandHandler(ITableCommandRepository tableCommandReposito
         };
         try
         {
+            var tableNumerationExists =
+                await tableQueryRepository.GetSingleTableByNumeration(request.TableNumber, restaurantId, cancellationToken);
+
+            if (tableNumerationExists.Result is not null)
+            {
+                return Fail("TABLE_WITH_PROVIDED_NUMERATION_EXISTS");
+            }
+            
             var tableAddResponse = await tableCommandRepository.AddTable(tableInfoEntity, cancellationToken);
             var resultTableInfoSave = await tableCommandRepository.SaveChanges();
             if (!resultTableInfoSave)
