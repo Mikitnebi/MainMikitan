@@ -12,7 +12,7 @@ namespace MainMikitan.API.Controllers;
 public class TableController(IMediator mediator) : MainController(mediator)
 {
     [Authorized(Enums.RoleId.Manager)]
-    [HttpGet("add-table")]
+    [HttpPost("add-table")]
     public async Task<IActionResult> AddTable(AddTableRequest request)
     {
         return !ModelState.IsValid
@@ -21,7 +21,7 @@ public class TableController(IMediator mediator) : MainController(mediator)
     }
     
     [Authorized(Enums.RoleId.Manager)]
-    [HttpGet("delete-table")]
+    [HttpPost("delete-table")]
     public async Task<IActionResult> DeleteTable(DeleteTableRequest request)
     {
         return !ModelState.IsValid
