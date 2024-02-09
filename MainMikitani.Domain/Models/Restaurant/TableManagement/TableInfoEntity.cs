@@ -8,6 +8,7 @@ public class TableInfoEntity
     [Required]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
+    public int RestaurantId { get; set; }
     public int TableNumber { get; set; }
     public int MaxPlace { get; set; }
     public int MinPlace { get; set; }

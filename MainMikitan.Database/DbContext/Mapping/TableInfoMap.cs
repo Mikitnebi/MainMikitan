@@ -9,6 +9,7 @@ public class TableInfoMap : IEntityTypeConfiguration<TableInfoEntity>
     public void Configure(EntityTypeBuilder<TableInfoEntity> builder)
     {
         builder.HasKey(b => b.Id);
+        builder.Property(b => b.RestaurantId).IsRequired();
         builder.Property(b => b.TableNumber).IsRequired();
         builder.Property(b => b.MaxPlace).IsRequired();
         builder.Property(b => b.MinPlace).IsRequired();
