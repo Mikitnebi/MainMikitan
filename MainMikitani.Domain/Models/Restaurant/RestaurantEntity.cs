@@ -8,12 +8,22 @@ namespace MainMikitan.Domain.Models.Restaurant
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        
         [Required]
-        public string UserName { get; set; } = null!;
+        [Length(2,50)]
+        public string BusinessNameGeo { get; set; } = null!;
+
+        [Required] [Length(2, 50)] 
+        public string BusinessNameEng { get; set; } = null!;
+        
+        [Required] [Length(2, 50)] 
+        public string OfficialEmail { get; set; } = null!;
+        
         [Required]
-        public string PasswordHash { get; set; } = null!;
+        public bool EmailConfirmation { get; set; } 
+        
         [Required]
+        public int StatusId { get; set; }
         public DateTime CreatedAt { get;set; }
-        public DateTime? UpdatedAt { get;set;}
     }
 }

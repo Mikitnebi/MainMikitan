@@ -9,13 +9,12 @@ public class RestaurantStaffMap : IEntityTypeConfiguration<RestaurantStaffEntity
     public void Configure(EntityTypeBuilder<RestaurantStaffEntity> builder)
     {
         builder.HasKey(b => b.Id);
-        builder.Property(b => b.NameGeo).IsRequired();
-        builder.Property(b => b.NameEng).IsRequired();
-        builder.Property(b => b.RoleId).IsRequired();
+        builder.Property(b => b.FullNameGeo).IsRequired();
+        builder.Property(b => b.FullNameEng).IsRequired();
+        builder.Property(b => b.IsManager).IsRequired();
         builder.Property(b => b.PhoneNumber).IsRequired();
         builder.Property(b => b.Email);
-        builder.Property(b => b.IsConfirmed).IsRequired();
-        builder.Property(b => b.UsernameHash).IsRequired();
+        builder.Property(b => b.UserNameHash).IsRequired();
         builder.Property(b => b.PasswordHash).IsRequired();
         builder.Property(b => b.RestaurantId).IsRequired();
         builder.Property(b => b.IsActive).IsRequired();

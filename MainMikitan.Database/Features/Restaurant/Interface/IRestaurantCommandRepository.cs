@@ -9,6 +9,7 @@ namespace MainMikitan.Database.Features.Restaurant.Interface
 {
     public interface IRestaurantCommandRepository
     {
-        Task<int> Create(RestaurantEntity restaurant);
+        Task<bool> Create(RestaurantEntity restaurant, CancellationToken cancellationToken = default);
+        Task<bool> SaveChanges(CancellationToken cancellationToken = default);
     }
 }

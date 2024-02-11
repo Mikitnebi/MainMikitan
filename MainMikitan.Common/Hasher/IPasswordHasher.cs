@@ -8,7 +8,7 @@ namespace MainMikitan.InternalServiceAdapter.Hasher
 {
     public interface IPasswordHasher 
     {
-        string HashPassword(string password);
+        string Hash(string password);
         bool VerifyPassword(string password, string hashedPassword);
     }
 }

@@ -30,33 +30,40 @@ namespace MainMikitan.API.Controllers;
         }
 
     #region restaurant
-    [HttpPost("Restaurant/Registration")]
-    public async Task<IActionResult> RestaurantRegistration(RestaurantRegistrationIntroRequest request) {
-        return !ModelState.IsValid ? BadRequest(ModelState) :
-                CheckResponse(await Mediator.Send(new RestaurantRegistrationIntroCommand(request)));
+    [HttpPost("RestaurantIntro")]
+    public async Task<IActionResult> RestaurantIntro(RestaurantRegistrationIntroRequest request)
+    {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+        var response = await mediator.Send(new RestaurantRegistrationIntroCommand(request));
+        if (response.HasError) return BadRequest(response);
+        return Ok(response);
     }
 
-    [HttpPost("Restaurant/Registration/VerifyOTP")]
-    public async Task<IActionResult> RestaurantIntroVerifyOtp(GeneralRegistrationVerifyOtpRequest model) {
-        if (ModelState.IsValid) {
-            var result = await Mediator.Send(new RestaurantIntroVerifyOtpCommand(new Domain.Requests.GeneralRequests.GeneralRegistrationVerifyOtpRequest {
-                Email = model.Email,
-                Otp = model.Otp
-            }));
-            if (result.HasError) return BadRequest(result);
-            return Ok(result);
-        }
-        return BadRequest(ModelState);
+    [HttpPost("RestaurantIntro/VerifyOtp/Email")]
+    public async Task<IActionResult> RestaurantIntroVerifyOtpEmail(GeneralRegistrationVerifyOtpRequest model)
+    {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+        var result = await mediator.Send(new RestaurantIntroVerifyOtpCommand(new GeneralRegistrationVerifyOtpRequest
+        {
+            Email = model.Email,
+            Otp = model.Otp
+        }));
+        if (result.HasError) return BadRequest(result);
+        return Ok(result);
     }
-    [HttpPost("Restaurant/Login-Info-Generation")]
-    public async Task<IActionResult> LoginInfoGeneratiron(LoginInfoGeneratironRequest request) {
-        if (ModelState.IsValid) {
-            var result = await Mediator.Send(new LoginInfoGeneratironCommand(request));
-            if (result.HasError) return BadRequest(result);
-            return Ok(result);
-        }
-        return BadRequest(ModelState);
+    [HttpPost("RestaurantIntro/VerifyOtp/Phone")]
+    public async Task<IActionResult> RestaurantIntroVerifyOtpOtp(GeneralRegistrationVerifyOtpRequest model)
+    {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+        var result = await mediator.Send(new RestaurantIntroVerifyOtpCommand(new GeneralRegistrationVerifyOtpRequest
+        {
+            Email = model.Email,
+            Otp = model.Otp
+        }));
+        if (result.HasError) return BadRequest(result);
+        return Ok(result);
     }
+
     #endregion
 
 

@@ -17,11 +17,11 @@ public class RestaurantInfoRequest
 
     //Required to change BusinessTypeSize each time its size changes BY HAND
     [Range(0, BusinessTypeSize, ErrorMessage = ErrorType.WrongBusinessTypeId)]
-    public BusinessType BusinessTypeId { get; set; }
+    public int BusinessTypeId { get; set; }
+    public int PriceTypeId { get; set; }
 
-    public int CoupeQuantity { get; set; }
-    public int TableQuantity { get; set; }
-    public int TerraceQuantity { get; set; }
+    public bool HasCoupe { get; set; }
+    public bool HasTerrace { get; set; }
 
     [Range(0,24, ErrorMessage = ErrorType.WrongHour)]
     public short HallStartHour { get; set; }
@@ -62,10 +62,8 @@ public class RestaurantInfoRequest
 
     [MaxLength(250, ErrorMessage = ErrorType.MoreThanMaxSizeInput), 
         MinLength(50, ErrorMessage = ErrorType.NotEnoughInput)]
-    public string? Description { get; set; }
-
-    [Range(0, 2, ErrorMessage = ErrorType.WrongRestaurantActiveStatusId)]
-    public RestaurantActiveStatus ActiveStatusId { get; set; }
-
-    public bool TwoStepAuth { get; set; }
+    public string? DescriptionGeo { get; set; }
+    [MaxLength(250, ErrorMessage = ErrorType.MoreThanMaxSizeInput), 
+        MinLength(50, ErrorMessage = ErrorType.NotEnoughInput)]
+    public string? DescriptionEng { get; set; }
 }

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using MainMikitan.Application.Services.AutoMapper;
 using MainMikitan.Application.Services.CacheServices;
 using MainMikitan.Application.Services.Otp;
+using MainMikitan.Application.Services.Permission;
 
 namespace MainMikitan.Application
 {
@@ -19,6 +20,7 @@ namespace MainMikitan.Application
         {
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
+            services.AddScoped<IPermissionService, PermissionService>();
             services.AddScoped<ICustomerCacheService, CustomerCacheService>();
             services.AddScoped<IOtpCheckerService, OtpCheckerService>();
             services.AddScoped<IMapperConfig, MapperConfig>();

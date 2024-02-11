@@ -43,7 +43,7 @@ namespace MainMikitan.Database.Features.Customer.Command
             {
                 entity.CreatedAt = DateTime.Now;
                 entity.StatusId = (int)CustomerStatusId.NoneVerified;
-                entity.HashPassWord = passwordHasher.HashPassword(entity.HashPassWord);
+                entity.HashPassWord = passwordHasher.Hash(entity.HashPassWord);
 
                 var sqlCommand = $"""
                                   UPDATE [dbo].[Customers] 
@@ -63,7 +63,7 @@ namespace MainMikitan.Database.Features.Customer.Command
             {
                 entity.CreatedAt = DateTime.Now;
                 entity.StatusId = (int)CustomerStatusId.NoneVerified;
-                entity.HashPassWord = passwordHasher.HashPassword(entity.HashPassWord);
+                entity.HashPassWord = passwordHasher.Hash(entity.HashPassWord);
 
                 var sqlCommand = $"""
                                   INSERT INTO [dbo].[Customers] 
@@ -87,7 +87,7 @@ namespace MainMikitan.Database.Features.Customer.Command
 
         public bool UpdateCustomer(CustomerEntity customer)
         {
-            customer.HashPassWord = passwordHasher.HashPassword(customer.HashPassWord);
+            customer.HashPassWord = passwordHasher.Hash(customer.HashPassWord);
             var updateResponse = mikDbContext.Customers.Update(customer);
             return updateResponse.State == EntityState.Modified ? true : false;
         }

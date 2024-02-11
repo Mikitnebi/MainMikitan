@@ -7,6 +7,6 @@ namespace MainMikitan.InternalServiceAdapter.Auth;
 
 public interface IAuthService 
 {
-    ResponseModel<AuthTokenResponseModel> CustomerAuth(CustomerAuthRequestModel customerAuthModel);
-    ResponseModel<AuthTokenResponseModel> RestaurantAuth(RestaurantAuthRequestModel customerAuthModel);
+    AuthTokenResponseModel CustomerAuth(CustomerAuthRequestModel customerAuthModel);
+    AuthTokenResponseModel StaffAuth(StaffAuthModel staffAuthModel, List<int>? permissions = null);
 }

@@ -40,11 +40,11 @@ namespace MainMikitan.Application.Features.Customer.Commands
                 //if (passComparison != PasswordVerificationResult.Success)
                 if(!passwordHasher.VerifyPassword(password, customer.HashPassWord))
                     return Fail(ErrorType.NotCorrectEmailOrPassword);
-                return authService.CustomerAuth(new CustomerAuthRequestModel
+                return Success(authService.CustomerAuth(new CustomerAuthRequestModel
                 {
                     EmailAdress = email,
                     Id = customer.Id
-                });
+                }));
             }
             catch (Exception ex)
             {

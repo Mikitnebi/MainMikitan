@@ -47,7 +47,7 @@ namespace MainMikitan.Application.Features.Customer.Commands {
             }
             var restaurantUpdate = await restaurantIntroCommandRepository.UpdateStatus(model._email, true, RestaurantOtpVerificationId.Verified);
             if (restaurantUpdate == null || restaurantUpdate == 0) {
-                response.ErrorType = ErrorType.Restaurant.RestaurantNotUpdated;
+                response.ErrorType = ErrorType.Restaurant.NotUpdated;
                 return response;
             }
             response.Result = true;

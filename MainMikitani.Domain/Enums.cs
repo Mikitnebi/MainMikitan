@@ -110,7 +110,7 @@ namespace MainMikitan.Domain
             #region Restaurant
             
             RestaurantRegistrationEmail = 6,
-            RestaurantGenerateAccount = 7,
+            ManagerGenerateAccount = 7,
             RestaurantPasswordReset = 8,
             RestaurantRemindUserName = 9,
             RestaurantStaffChange = 10,
@@ -168,7 +168,14 @@ namespace MainMikitan.Domain
         }
         public record struct Restaurant
         {
-            public const string RestaurantNotUpdated = "RESTAURANT_NOT_UPDATED";
+            public const string NotUpdated = "RESTAURANT_NOT_UPDATED";
+            public const string EmailTypeNotFound = "RESTAURANT_EMAILTYPE_NOT_FOUND";
+        }
+
+        public record struct Staff
+        {
+            public const string NotAdded = "STAFF_NOT_ADDED";
+            public const string IncorrectEmailOrPassword = "INCORRECT_EMAIL_OR_PASSWORD";
         }
 
         public record struct RestaurantEnvironment {

@@ -14,7 +14,7 @@ namespace MainMikitan.InternalServiceAdapter.Hasher
     {
         private readonly SecurityOptions _securityOptions = securityOptions.Value;
 
-        public string HashPassword(string password)
+        public string Hash(string password)
         {
             var key = _securityOptions.Key;
             using var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(key));
@@ -23,15 +23,15 @@ namespace MainMikitan.InternalServiceAdapter.Hasher
             var hashedPasswordBytes = hmac.ComputeHash(passwordBytes);
 
             // Convert the hash bytes to a hexadecimal string representation
-            var hashedPassword = BitConverter.ToString(hashedPasswordBytes).Replace("-", "");
+            var hashed = BitConverter.ToString(hashedPasswordBytes).Replace("-", "");
 
-            return hashedPassword;
+            return hashed;
         }
 
         // Function to verify a password against a hashed password with the same key
         public bool VerifyPassword(string password, string hashedPassword)
         {
-            var newHashedPassword = HashPassword(password);
+            var newHashedPassword = Hash(password);
             var test=newHashedPassword.Equals(hashedPassword, StringComparison.OrdinalIgnoreCase);
             return test;
         }

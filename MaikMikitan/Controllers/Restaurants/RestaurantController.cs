@@ -17,42 +17,14 @@ namespace MainMikitan.API.Controllers.Restaurants
     public class RestaurantController(IMediator mediator) : MainController(mediator)
     {
         #region Registration
-        [HttpPost("registration")]
-        public async Task<IActionResult> RestaurantRegistration(RestaurantRegistrationIntroRequest request)
-        {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            var response = await mediator.Send(new RestaurantRegistrationIntroCommand(request));
-            if (response.HasError) return BadRequest(response);
-            return Ok(response);
-        }
-
-        [HttpPost("intro-email-validation")]
-        public async Task<IActionResult> RestaurantIntroVerifyOtp(GeneralRegistrationVerifyOtpRequest model)
-        {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            var result = await mediator.Send(new RestaurantIntroVerifyOtpCommand(new GeneralRegistrationVerifyOtpRequest
-            {
-                Email = model.Email,
-                Otp = model.Otp
-            }));
-            if (result.HasError) return BadRequest(result);
-            return Ok(result);
-        }
-        [HttpPost("Login-Info-Generation")]
-        public async Task<IActionResult> LoginInfoGeneration(LoginInfoGeneratironRequest request)
-        {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            var result = await mediator.Send(new LoginInfoGeneratironCommand(request));
-            if (result.HasError) return BadRequest(result);
-            return Ok(result);
-        }
+        
 
         [HttpPost("registration/StarterInfo")]
         [Authorized(Enums.RoleId.Manager)]
-        public async Task<IActionResult> RestaurantRegistrationFinal(RestaurantInfoRequest request)
+        public async Task<IActionResult> RestaurantInfo(RestaurantInfoRequest request)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            var response = await mediator.Send(new RestaurantRegistrationFinalCommand(request, User.GetId()));
+            var response = await Mediator.Send(new RestaurantInfoUpdateCommand(request, User.GetId()));
             if (response.HasError) return BadRequest(response);
             return Ok(response);
         }

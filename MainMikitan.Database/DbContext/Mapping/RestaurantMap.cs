@@ -9,8 +9,10 @@ public class RestaurantMap : IEntityTypeConfiguration<RestaurantEntity>
     public void Configure(EntityTypeBuilder<RestaurantEntity> builder)
     {
         builder.HasKey(b => b.Id);
-        builder.Property(b => b.UserName).IsRequired();
-        builder.Property(b => b.PasswordHash).IsRequired();
+        builder.Property(b => b.BusinessNameEng).IsRequired();
+        builder.Property(b => b.BusinessNameGeo).IsRequired();
+        builder.Property(b => b.EmailConfirmation).IsRequired();
+        builder.Property(b => b.OfficialEmail).IsRequired();
         builder.Property(b => b.CreatedAt).IsRequired();
     }
 }

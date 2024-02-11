@@ -1,22 +1,28 @@
-﻿using MainMikitan.Database.Features.Common.Multifunctional.Interface.Repository;
+﻿using MainMikitan.Database.DbContext;
+using MainMikitan.Database.Features.Common.Multifunctional.Interface.Repository;
 using MainMikitan.Database.Features.Restaurant.Interface;
 using MainMikitan.Domain.Models.Restaurant;
 using MainMikitan.Domain.Models.Setting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace MainMikitan.Database.Features.Restaurant.Command
 {
     public class RestaurantCommandRepository(
-        IOptions<ConnectionStringsOptions> connectionString,
-        IMultifunctionalRepository multifunctionalRepository)
+        MikDbContext db
+        )
         : IRestaurantCommandRepository
     {
-        private readonly ConnectionStringsOptions _connectionString = connectionString.Value;
 
-        public async Task<int> Create(RestaurantEntity restaurant)
+        public async Task<bool> Create(RestaurantEntity restaurant, CancellationToken cancellationToken = default)
         {
-            restaurant.CreatedAt = DateTime.Now;
-            return await multifunctionalRepository.AddOrUpdateTableData<RestaurantEntity>(restaurant, "MainMikitan", "dbo", "Restaurant");
+            var createResponse = await db.Restaurant.AddAsync(restaurant, cancellationToken);
+            return createResponse.State == EntityState.Added;
+        }
+
+        public async Task<bool> SaveChanges(CancellationToken cancellationToken = default)
+        {
+            return await db.SaveChangesAsync(cancellationToken) > 0;
         }
     }
 }

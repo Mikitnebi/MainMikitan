@@ -27,6 +27,7 @@ using MainMikitan.Database.Features.Restaurant.Interface;
 using MainMikitan.Database.Features.Table.Command;
 using MainMikitan.Database.Features.Table.Interface;
 using MainMikitan.Database.Features.Table.Query;
+using MainMikitan.Domain.Models.Restaurant;
 
 namespace MainMikitan.Database
 {
@@ -79,6 +80,11 @@ namespace MainMikitan.Database
             services.AddScoped<ITableCommandRepository, TableCommandRepository>();
             services.AddScoped<ITableEnvironmentCommandRepository, TableEnvironmentCommandRepository>();
             services.AddScoped<ITableQueryRepository, TableQueryRepository>();
+            
+            //Staff
+            services.AddScoped<IRestaurantStaffCommandRepository, RestaurantStaffCommandRepository>();
+            services.AddScoped<IRestaurantStaffQueryRepository, RestaurantStaffQueryRepository>();
+            services.AddScoped<IStaffPermissionQueryRepository, StaffPermissionQueryRepository>();
         }
     }
 }

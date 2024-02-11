@@ -3,7 +3,6 @@
 namespace MainMikitan.Domain.Interfaces.Restaurant;
 
 public interface IRestaurantIntroQueryRepository {
-    Task<RestaurantIntroEntity> GetNonVerifiedByEmail(string email);
-    Task<RestaurantIntroEntity> GetVerifiedByEmail(string email);
-    Task<RestaurantEntity> GetByUsername(string username);
+    Task<RestaurantIntroEntity?> GetNonVerifiedByEmail(string email, CancellationToken cancellationToken = default);
+    Task<RestaurantIntroEntity?> GetVerifiedByEmail(string email, CancellationToken cancellationToken = default);
 }

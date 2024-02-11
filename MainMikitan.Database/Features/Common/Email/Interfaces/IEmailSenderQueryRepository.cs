@@ -9,6 +9,6 @@ namespace MainMikitan.Database.Features.Common.Email.Interfaces
 {
     public interface IEmailSenderQueryRepository
     {
-        Task<EmailDictionaryEntity> GetEmailById(int emailId);
+        Task<EmailDictionaryEntity?> GetEmailById(int emailTypeId, CancellationToken cancellationToken = default);
     }
 }

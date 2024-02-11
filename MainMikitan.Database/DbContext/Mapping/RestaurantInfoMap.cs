@@ -14,9 +14,9 @@ public class RestaurantInfoMap : IEntityTypeConfiguration<RestaurantInfoEntity>
         builder.Property(b => b.LocationY).IsRequired();
         builder.Property(b => b.Address).IsRequired();
         builder.Property(b => b.BusinessTypeId).IsRequired();
-        builder.Property(b => b.CoupeQuantity).IsRequired();
-        builder.Property(b => b.TableQuantity).IsRequired();
-        builder.Property(b => b.TerraceQuantity).IsRequired();
+        builder.Property(b => b.HasCoupe).IsRequired();
+        builder.Property(b => b.HasTerrace).IsRequired();
+        builder.Property(b => b.PriceTypeId).IsRequired();
         builder.Property(b => b.HallStartHour).IsRequired();
         builder.Property(b => b.HallEndHour).IsRequired();
         builder.Property(b => b.HallStartMinute).IsRequired();

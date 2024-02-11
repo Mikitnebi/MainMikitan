@@ -15,15 +15,15 @@ namespace MainMikitan.Domain.Models.Restaurant
         [Required]
         public double LocationY { get; set; }
         [Required]
+        public int PriceTypeId { get; set; }
+        [Required]
         public string Address { get; set; } = null!;
         [Required]
         public int BusinessTypeId { get; set; }
         [Required]
-        public int CoupeQuantity { get; set; }
+        public bool HasCoupe { get; set; }
         [Required]
-        public int TableQuantity { get; set; }
-        [Required]
-        public int TerraceQuantity { get; set; }
+        public bool HasTerrace { get; set; }
         [Required]
         public short HallStartHour { get; set; }
         [Required]
@@ -54,10 +54,8 @@ namespace MainMikitan.Domain.Models.Restaurant
         public string? DescriptionEng { get; set; }
         [Required]
         public int ActiveStatusId { get; set; }
-        [Required]
-        public bool TwoStepAuth { get; set; }
-        [Required]
-        public int UpdateUserId { get; set; }
+
+        public int? UpdateUserId { get; set; }
         public DateTime? UpdateAt { get; set; }
         [Required]
         public DateTime CreateAt { get; set; } 

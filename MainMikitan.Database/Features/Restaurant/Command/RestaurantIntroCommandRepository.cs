@@ -38,7 +38,6 @@ namespace MainMikitan.Database.Features.Restaurant.Command {
             using var connection = new SqlConnection(_connectionStrings.MainMik);
             entity.StatusId = (int)RestaurantStatusId.NonVerified;
             entity.CreatedAt = DateTime.Now;
-            entity.RestaurantOtpVerificationId = 0;
             var sqlCommand = "INSERT INTO [dbo].[RestaurantIntro]" +
                 "([StatusId]," +
                 "[EmailAddress]," +

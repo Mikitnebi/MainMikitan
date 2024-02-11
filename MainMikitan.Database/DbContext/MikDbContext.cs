@@ -40,6 +40,7 @@ public class MikDbContext : IdentityDbContext
     public DbSet<SectorEntity> Sector { get; set; }
     public DbSet<TableEnvironmentEntity> TableEnvironment { get; set; }
     public DbSet<TableInfoEntity> TableInfo { get; set; }
+    public DbSet<PermissionEntity> Permission { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -85,13 +86,11 @@ public class MikDbContext : IdentityDbContext
         var restaurant = new RestaurantEntity
         {
             Id = -1,
-            UserName = "restaurant",
             CreatedAt = DateTime.Now
         };
 
         var restaurantEntityHasher = new PasswordHasher<RestaurantEntity>();
         
-        restaurant.PasswordHash = restaurantEntityHasher.HashPassword(restaurant, "pass");
 
         modelBuilder.Entity<RestaurantEntity>().HasData(restaurant);
         

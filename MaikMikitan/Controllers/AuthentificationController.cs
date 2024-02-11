@@ -7,40 +7,18 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MainMikitan.API.Controllers {
-    [ApiController]
-    [Route("[controller]")]
-    [EnableCors("AllowSpecificOrigin")]
-    public class AuthController : ControllerBase {
-        private readonly IMediator _mediator;
-
-        public AuthController(IMediator mediator) {
-            _mediator = mediator;
-        }
-        [HttpPost("customer-login")]
+    public class AuthController(IMediator mediator) : MainController(mediator)
+    {
+        [HttpPost("CustomerLogin")]
         public async Task<IActionResult> CustomerLogin(CustomerLoginRequest request) {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            var response = await _mediator.Send(new CustomerLoginCommand(request));
-            if (response.HasError)
-            {
-                return BadRequest(response);
-            }
-            return Ok(response);
+            return !ModelState.IsValid ? BadRequest(ModelState):
+                CheckResponse(await Mediator.Send(new CustomerLoginCommand(request)));
         }
 
-        [HttpPost("restaurant-login")]
-        public async Task<IActionResult> RestaurantLogin(RestaurantLoginRequest request) {
-            if (ModelState.IsValid) {
-
-                var response = await _mediator.Send(new RestaurantLoginCommand(request));
-                if (response.HasError)
-                {
-                    return BadRequest(response);
-                }
-
-                return Ok(response);
-            }
-
-            return BadRequest(ModelState);
+        [HttpPost("StaffLogin")]
+        public async Task<IActionResult> StaffLogin(StaffLoginRequest request) {
+           return ModelState.IsValid ? BadRequest(ModelState):
+                CheckResponse(await Mediator.Send(new StaffLoginCommand(request)));
         }
     }
 }
