@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MainMikitan.Domain.Models.Restaurant;
 
-public class RestaurantEnvironmentInfoEntity
+public class RestaurantEnvEntity
 {
     [Required]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -23,8 +23,8 @@ public class CreateOrUpdateCustomerInterestCommand : ICommand
 }
 
 public class CreateOrUpdateCustomerInterestCommandHandler(
-    ICategoryQueryRepository categoryQueryRepository,
-    ICustomerInterestRepository customerInterestRepository)
+    ICustomerInterestCommandRepository customerInterestCommandRepository,
+    ICustomerInterestQueryRepository customerInterestQueryRepository)
     : ResponseMaker, ICommandHandler<CreateOrUpdateCustomerInterestCommand>
 {
     public async Task<ResponseModel<bool>> Handle(CreateOrUpdateCustomerInterestCommand request,
@@ -32,18 +32,18 @@ public class CreateOrUpdateCustomerInterestCommandHandler(
     {
         try
         {
-            var customerCurrentInterests = await customerInterestRepository.Get(request.CustomerId, cancellationToken);
+            var customerCurrentInterests = await customerInterestQueryRepository.GetByCustomerId(request.CustomerId, cancellationToken);
             if (customerCurrentInterests.Count != 0)
             {
-                var deleteResponse = await customerInterestRepository.Delete(request.CustomerId, cancellationToken);
+                var deleteResponse = await customerInterestCommandRepository.Delete(request.CustomerId, cancellationToken);
                 if (!deleteResponse)
                     return Fail(ErrorType.CustomerInterest.NotDelete);
             }
 
-            var addResponse = await customerInterestRepository.Add(request.InterestsTypesIds, request.CustomerId, cancellationToken);
+            var addResponse = await customerInterestCommandRepository.Add(request.InterestsTypesIds, request.CustomerId, cancellationToken);
             if (!addResponse)
                 return Fail(ErrorType.CustomerInterest.NotAdd);
-            if (!(await customerInterestRepository.SaveChanges(cancellationToken)))
+            if (!(await customerInterestCommandRepository.SaveChanges(cancellationToken)))
                 return Fail(ErrorType.CustomerInterest.NotDbSave);
             return Success();
         }

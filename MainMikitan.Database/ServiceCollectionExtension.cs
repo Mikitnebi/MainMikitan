@@ -38,8 +38,9 @@ namespace MainMikitan.Database
             //customer
             services.AddScoped<ICustomerQueryRepository, CustomerQueryRepository>();
             services.AddScoped<ICustomerCommandRepository, CustomerCommandRepository>();
-            services.AddScoped<ICustomerInterestRepository, CustomerInterestRepository>();
-            services.AddScoped<ICustomerInfoRepository, CustomerInfoRepository>();
+            services.AddScoped<ICustomerInterestCommandRepository, CustomerInterestCommandCommandRepository>();
+            services.AddScoped<ICustomerInfoCommandRepository, CustomerInfoCommandRepository>();
+            services.AddScoped<ICustomerInfoQueryRepository, CustomerInfoQueryRepository>();
             services.AddScoped<ICustomerInterestQueryRepository, CustomerInterestQueryRepository>();
 
             //email
@@ -55,7 +56,9 @@ namespace MainMikitan.Database
             services.AddScoped<IRestaurantIntroQueryRepository, RestaurantIntroQueryRepository>();
             services.AddScoped<IRestaurantFinalCommandRepository, RestaurantFinalCommandRepository>();
             services.AddScoped<IRestaurantCommandRepository, RestaurantCommandRepository>();
-            services.AddScoped<IRestaurantEnvironmentRepository, RestaurantEnvironmentRepository>();
+            services.AddScoped<IRestaurantEnvCommandRepository, RestaurantEnvCommandRepository>();
+            services.AddScoped<IRestaurantEnvQueryRepository, RestaurantEnvQueryRepository>();
+            services.AddScoped<IRestaurantInfoQueryRepository, RestaurantInfoQueryRepository>();
 
             services.AddScoped<ICategoryQueryRepository, CategoryQueryRepository>();
             

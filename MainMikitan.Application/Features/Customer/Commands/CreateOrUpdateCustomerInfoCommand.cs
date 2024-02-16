@@ -12,7 +12,7 @@ public class CreateOrUpdateCustomerInfoCommand(CreateOrUpdateCustomerInfoRequest
     public int CustomerId { get; } = customerId;
 }
 
-public class CreateOrUpdateCustomerInfoCommandHandler(ICustomerInfoRepository customerInfoRepository)
+public class CreateOrUpdateCustomerInfoCommandHandler(ICustomerInfoCommandRepository customerInfoCommandRepository)
     : ResponseMaker, ICommandHandler<CreateOrUpdateCustomerInfoCommand>
 {
     public async Task<ResponseModel<bool>> Handle(CreateOrUpdateCustomerInfoCommand request,
@@ -24,10 +24,10 @@ public class CreateOrUpdateCustomerInfoCommandHandler(ICustomerInfoRepository cu
             var customerId = request.CustomerId;
             if(DateOnly.FromDateTime(DateTime.Now.AddYears(-18))< customerRequest.BirthDate)
                 return Fail(ErrorType.UserIsNotAdult);
-            var updateRequest = await customerInfoRepository.CreateOrUpdate(customerRequest, customerId, cancellationToken);
+            var updateRequest = await customerInfoCommandRepository.CreateOrUpdate(customerRequest, customerId, cancellationToken);
             if (!updateRequest)
                 return Fail(ErrorType.CustomerInfo.NotCreated);
-            if (await customerInfoRepository.SaveChanges(cancellationToken))
+            if (await customerInfoCommandRepository.SaveChanges(cancellationToken))
                 return Fail(ErrorType.CustomerInfo.NotDbSave);
             return Success();
         }

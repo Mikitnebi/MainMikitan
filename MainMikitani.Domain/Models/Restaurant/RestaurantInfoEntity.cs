@@ -7,58 +7,50 @@ namespace MainMikitan.Domain.Models.Restaurant
     {
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int Id { get; init; }
         [Required]
         public int RestaurantId { get; set; }
         [Required]
-        public double LocationX { get; set; }
+        public double LocationX { get; init; }
         [Required]
-        public double LocationY { get; set; }
+        public double LocationY { get; init; }
         [Required]
-        public int PriceTypeId { get; set; }
+        public int PriceTypeId { get; init; }
         [Required]
-        public string Address { get; set; } = null!;
+        public string Address { get; init; } = null!;
         [Required]
-        public int BusinessTypeId { get; set; }
+        public int RegionId { get; init; }
+        public decimal Rate { get; init; }
+        public int RateNumber { get; init; }
         [Required]
-        public bool HasCoupe { get; set; }
+        public int BusinessTypeId { get; init; }
         [Required]
-        public bool HasTerrace { get; set; }
+        public bool HasCoupe { get; init; }
         [Required]
-        public short HallStartHour { get; set; }
+        public bool HasTerrace { get; init; }
         [Required]
-        public short HallEndHour { get; set; }
+        public TimeOnly HallStartTime { get; init; }
         [Required]
-        public short HallStartMinute { get; set; }
+        public TimeOnly HallEndTime { get; init; }
         [Required]
-        public short HallEndMinute { get; set; }
+        public TimeOnly KitchenStartTime { get; init; }
         [Required]
-        public short KitchenStartHour { get; set; }
+        public TimeOnly KitchenEndTime { get; init; }
         [Required]
-        public short KitchenEndHour { get; set; }
+        public TimeOnly MusicStartTime { get; init; }
         [Required]
-        public short KitchenStartMinute { get; set; }
+        public TimeOnly MusicEndTime { get; init; }
         [Required]
-        public short KitchenEndMinute { get; set; }
+        public bool ForCorporateEvents { get; init; }
+        public string? DescriptionGeo { get; init; }
+        public string? DescriptionEng { get; init; }
         [Required]
-        public short MusicStartHour { get; set; }
-        [Required]
-        public short MusicEndHour { get; set; }
-        [Required]
-        public short MusicStartMinute { get; set; }
-        [Required]
-        public short MusicEndMinute { get; set; }
-        [Required]
-        public bool ForCorporateEvents { get; set; }
-        public string? DescriptionGeo { get; set; }
-        public string? DescriptionEng { get; set; }
-        [Required]
-        public int ActiveStatusId { get; set; }
+        public int ActiveStatusId { get; init; }
 
-        public int? UpdateUserId { get; set; }
-        public DateTime? UpdateAt { get; set; }
+        public int? UpdateUserId { get; init; }
+        public DateTime? UpdatedAt { get; set; }
         [Required]
-        public DateTime CreateAt { get; set; } 
+        public DateTime CreatedAt { get; set; } 
 
     }
 }

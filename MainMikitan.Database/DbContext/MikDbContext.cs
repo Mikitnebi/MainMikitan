@@ -30,7 +30,7 @@ public class MikDbContext : IdentityDbContext
     public DbSet<EmailLogEntity> EmailLog { get; set; }
     public DbSet<OtpLogIntroEntity> OtpLogIntro { get; set; }
     public DbSet<RestaurantEntity> Restaurant { get; set; }
-    public DbSet<RestaurantEnvironmentInfoEntity> RestaurantEnvironmentInfo { get; set; }
+    public DbSet<RestaurantEnvEntity> RestaurantEnvironmentInfo { get; set; }
     public DbSet<RestaurantInfoEntity> RestaurantInfo { get; set; }
     public DbSet<RestaurantIntroEntity> RestaurantIntro { get; set; } 
     public DbSet<RestaurantStaffEntity> RestaurantStaff { get; set; }

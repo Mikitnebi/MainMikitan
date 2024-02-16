@@ -10,6 +10,12 @@ public interface IListOfValueQueryRepository
         CancellationToken cancellationToken = default
     );
 
+    Task<List<DictionaryEntity>> GetDictionariesByIds
+    (
+        List<int> ids,
+        CancellationToken cancellationToken = default
+    );
+
     Task<SectorEntity> GetSectorById
     (
         int id,

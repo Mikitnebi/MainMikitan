@@ -1,46 +1,57 @@
 using System.Data.SqlClient;
 using Dapper;
+using MainMikitan.Database.DbContext;
 using MainMikitan.Database.Features.Common.Multifunctional.Interface.Repository;
 using MainMikitan.Database.Features.Customer.Interface;
+using MainMikitan.Domain.Models.Customer;
 using MainMikitan.Domain.Models.Setting;
 using MainMikitan.Domain.Requests.Customer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace MainMikitan.Database.Features.Customer.Command;
 
-public class CustomerInfoCommandRepository
+public class CustomerInfoCommandRepository(MikDbContext db) : ICustomerInfoCommandRepository
 {
-    private readonly ConnectionStringsOptions _connectionString;
-    private readonly IMultifunctionalRepository _multifunctionalRepository;
-    private readonly ICustomerInfoQueryRepository _customerInfoQueryRepository;
-    public CustomerInfoCommandRepository
-    (IOptions<ConnectionStringsOptions> connectionString, 
-        IMultifunctionalRepository multifunctionalRepository, 
-        ICustomerInfoQueryRepository customerInfoQueryRepository)
+    public async Task<bool> CreateOrUpdate(CreateOrUpdateCustomerInfoRequest customerInfo, int customerId, CancellationToken cancellationToken = default)
     {
-        _multifunctionalRepository = multifunctionalRepository;
-        _customerInfoQueryRepository = customerInfoQueryRepository;
-        _connectionString = connectionString.Value;
+        var customerInfoEntity = await db.CustomerInfo.
+            FirstOrDefaultAsync(t => t.CustomerId == customerId, cancellationToken);
+        if (customerInfoEntity is null)
+        {
+            var result = await db.CustomerInfo.AddAsync(new CustomerInfoEntity
+            {
+                CustomerId = customerId,
+                GenderId = customerInfo.GenderId,
+                NationalityId = customerInfo.NationalityId,
+                BirthDate = (DateOnly)customerInfo.BirthDate!,
+                CreatedAt = DateTime.Now
+            }, cancellationToken);
+            return await SaveChanges(cancellationToken);
+        }
+        else
+        {
+            customerInfoEntity!.GenderId = customerInfo.GenderId != 0 ? customerInfo.GenderId : customerInfoEntity.GenderId;
+            customerInfoEntity!.NationalityId = customerInfo.NationalityId != 0 ? customerInfo.NationalityId : customerInfoEntity.NationalityId;
+            customerInfoEntity!.BirthDate = customerInfo.BirthDate is not null
+                ? (DateOnly)customerInfo.BirthDate!
+                : customerInfoEntity.BirthDate;
+            customerInfoEntity.UpdatedAt = DateTime.Now;
+            return true;
+        }
+        
+        return true;
     }
-
-    // public async Task<int> AddOrUpdateCustomerInfo(FillCustomerInfoRequest request)
-    // {
-    //     using var connection = new SqlConnection(_connectionString.MainMik);
-    //     var customerInfo = await _customerInfoQueryRepository.GetVerifiedFromCustomerInfoById(request.CustomerId);
-    //     if (customerInfo is null)
-    //     {
-    //         return await _multifunctionalRepository.AddOrUpdateTableData(request, "MainMikitan", "dbo", "CustomerInfo");
-    //     }
-    //
-    //
-    //     var updateQuery = "UPDATE [MainMikitan].[dbo].[CustomerInfo] SET FirstName = @FirstName, " +
-    //                       "LastName = @LastName," +
-    //                       "BirthDate = @BirthDate," +
-    //                       "GenderId = @GenderId," +
-    //                       "NationalityId = @NationalityId," +
-    //                       "UpdateAt = @UpdateAt" +
-    //                       "WHERE CustomerId = @CustomerId";
-    //
-    //     return await connection.ExecuteAsync(updateQuery, request);
-    // }
+    
+    public async Task<bool> Delete(int customerId, CancellationToken cancellationToken = default)
+    {
+        var deleteCustomerInfoResponse =
+            await db.CustomerInfo.Where(t => t.CustomerId == customerId).ExecuteDeleteAsync(cancellationToken);
+        return deleteCustomerInfoResponse > 0;
+    }
+    public async Task<bool> SaveChanges(CancellationToken cancellationToken = default)
+    {
+        var result = await db.SaveChangesAsync(cancellationToken);
+        return result > 0;
+    }
 }

@@ -13,7 +13,7 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
     }
 
     public class CreateOrUpdateEnvironmentCommandHandler(
-        IRestaurantEnvironmentRepository restaurantEnvironmentRepository)
+        IRestaurantEnvCommandRepository restaurantEnvCommandRepository)
         : ICommandHandler<CreateOrUpdateEnvironmentCommand>
     {
         public async Task<ResponseModel<bool>> Handle(CreateOrUpdateEnvironmentCommand command, CancellationToken cancellationToken) {
@@ -21,17 +21,17 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
             var restaurantId = command.RestaurantId;
             var response = new ResponseModel<bool>();
             try {
-                var deleteResponse = await restaurantEnvironmentRepository.Delete(restaurantId);
+                var deleteResponse = await restaurantEnvCommandRepository.Delete(restaurantId);
                 if (!deleteResponse) {
                     response.ErrorType = ErrorType.RestaurantEnvironment.NotDeleted;
                     return response;
                 }
-                var addResponse = await restaurantEnvironmentRepository.Add(environmentIds, restaurantId);
+                var addResponse = await restaurantEnvCommandRepository.Add(environmentIds, restaurantId);
                 if (!addResponse) {
                     response.ErrorType = ErrorType.RestaurantEnvironment.NotAdded;
                     return response;
                 }
-                if (!await restaurantEnvironmentRepository.SaveChanges()) {
+                if (!await restaurantEnvCommandRepository.SaveChanges()) {
                     response.ErrorType = ErrorType.RestaurantEnvironment.NotDbSaved;
                     return response;
                 }

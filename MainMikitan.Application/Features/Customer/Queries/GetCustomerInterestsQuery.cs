@@ -11,7 +11,7 @@ public class GetCustomerInterestsQuery(int customerId) : IQuery<GetCustomerInter
         public int CustomerId { get; set; } = customerId;
 }
 
-public class  GetCustomerInterestsQueryHandler(ICustomerInterestRepository customerInterestRepository)
+public class  GetCustomerInterestsQueryHandler(ICustomerInterestQueryRepository customerInterestQueryRepository)
     : ResponseMaker<GetCustomerInterestsResponse>,IQueryHandler<GetCustomerInterestsQuery, GetCustomerInterestsResponse>
 {
     public async Task<ResponseModel<GetCustomerInterestsResponse>> Handle(GetCustomerInterestsQuery query,
@@ -20,7 +20,7 @@ public class  GetCustomerInterestsQueryHandler(ICustomerInterestRepository custo
         var customerId = query.CustomerId;
         try
         {
-            var customerInterests = await customerInterestRepository.Get(customerId);
+            var customerInterests = await customerInterestQueryRepository.GetByCustomerId(customerId, cancellationToken);
             return Success(new GetCustomerInterestsResponse
             {
                 InterestsIds = customerInterests.Select(t => t.InterestId).ToList()

@@ -2,6 +2,6 @@
 
 public class ConnectionStringsOptions
 {
-    public string MainMik { get; set; }
-    public string ExternalServicesLog { get; set; }
+    public string? MainMik { get; set; }
+    public string? ExternalServicesLog { get; set; }
 }

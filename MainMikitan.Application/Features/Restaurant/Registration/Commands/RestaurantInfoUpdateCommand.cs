@@ -24,7 +24,7 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
 
             var json = JsonConvert.SerializeObject(registrationRequest);
             var restaurantStarterInfoJson = JsonConvert.DeserializeObject<RestaurantInfoEntity>(json);
-            restaurantStarterInfoJson!.CreateAt = DateTime.Now;
+            restaurantStarterInfoJson!.CreatedAt = DateTime.Now;
             restaurantStarterInfoJson!.RestaurantId = restaurantId;
             await multifunctionalRepository.AddOrUpdateTableData(restaurantStarterInfoJson!, "MainMikitan", "dbo", "RestaurantInfo");
 

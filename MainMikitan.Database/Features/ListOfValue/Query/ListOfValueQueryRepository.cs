@@ -16,6 +16,15 @@ public class ListOfValueQueryRepository(MikDbContext mikDbContext) :IListOfValue
         return await mikDbContext.Dictionary.Where(t => t.SectorId == sectorId).AsNoTracking().ToListAsync(cancellationToken);
     }
     
+    public async Task<List<DictionaryEntity>> GetDictionariesByIds //გადავრთოთ ქეშზე
+    (
+        List<int> ids,
+        CancellationToken cancellationToken = default
+    )
+    {
+        return await mikDbContext.Dictionary.Where(t => ids.Contains(t.Id)).AsNoTracking().ToListAsync(cancellationToken);
+    }
+    
     public async Task<SectorEntity> GetSectorById
     (
         int id,

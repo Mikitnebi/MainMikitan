@@ -3,5 +3,5 @@ namespace MainMikitan.Database.Features.Customer.Interface;
 
 public interface ICustomerInfoQueryRepository
 {
-    public Task<CustomerInfoEntity?> GetVerifiedFromCustomerInfoById(int customerId);
+    Task<CustomerInfoEntity?> Get(int customerId, CancellationToken cancellationToken = default);
 }

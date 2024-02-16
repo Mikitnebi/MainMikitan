@@ -1,27 +1,20 @@
 using System.Data.SqlClient;
 using Dapper;
+using MainMikitan.Database.DbContext;
 using MainMikitan.Database.Features.Customer.Interface;
 using MainMikitan.Domain.Models.Customer;
 using MainMikitan.Domain.Models.Setting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace MainMikitan.Database.Features.Customer.Query;
 
-public class CustomerInfoQueryRepository : ICustomerInfoQueryRepository
+public class CustomerInfoQueryRepository(MikDbContext db) : ICustomerInfoQueryRepository
 {
-    private readonly ConnectionStringsOptions _connectionString;
-    public CustomerInfoQueryRepository(
-        IOptions<ConnectionStringsOptions> connectionStrings
-    )
-    {
-        _connectionString= connectionStrings.Value;
-    }
     
-    public async Task<CustomerInfoEntity?> GetVerifiedFromCustomerInfoById(int customerId)
+    public async Task<CustomerInfoEntity?> Get(int customerId, CancellationToken cancellationToken = default)
     {
-        using var connection = new SqlConnection(_connectionString.MainMik);
-
-        var sqlCommand = "SELECT * FROM [dbo].[CustomersInfo] WHERE [CustomerId] = @customerId";
-        return await connection.QueryFirstOrDefaultAsync<CustomerInfoEntity>(sqlCommand, new { customerId });
+        var customerInfoResponse = await db.CustomerInfo.FirstOrDefaultAsync(t => t.CustomerId == customerId,cancellationToken);
+        return customerInfoResponse ?? null;
     }
 }

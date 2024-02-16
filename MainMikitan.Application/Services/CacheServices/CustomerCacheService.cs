@@ -7,48 +7,41 @@ using MainMikitan.ExternalServicesAdapter.S3ServiceAdapter;
 
 namespace MainMikitan.Application.Services.CacheServices;
 
-public class CustomerCacheService : ICustomerCacheService
+public class CustomerCacheService(
+    IMemCacheManager memCacheManager,
+    ICustomerInfoQueryRepository customerInfoQueryRepository,
+    ICustomerInterestQueryRepository customerInterestQueryRepository,
+    //ICustomerQueryRepository customerQueryRepository,
+    IS3Adapter s3Adapter) : ICustomerCacheService
 {
-    private readonly IMemCacheManager _memCacheManager;
-    private readonly ICustomerInfoRepository _customerInfoRepository;
-    private readonly ICustomerInterestRepository _customerInterestRepository;
-    private readonly IS3Adapter _s3Adapter;
-    
-    public CustomerCacheService(IMemCacheManager memCacheManager, ICustomerInfoRepository customerInfoRepository, ICustomerQueryRepository customerQueryRepository, ICustomerInterestRepository customerInterestRepository, ICustomerQueryRepository dustomerQueryRepository, IS3Adapter s3Adapter)
-    {
-        _memCacheManager = memCacheManager;
-        _customerInfoRepository = customerInfoRepository;
-        _customerInterestRepository = customerInterestRepository;
-        _s3Adapter = s3Adapter;
-    }
-
     public async Task<CustomerInfoEntity?> GetCustomerInfo(int customerId)
     {
         var cacheKey = CacheKeys.CustomerInfo(customerId);
-        var cacheValue = _memCacheManager.Get<CustomerInfoEntity>(cacheKey);
+        var cacheValue = memCacheManager.Get<CustomerInfoEntity>(cacheKey);
         if (cacheValue is not null) return cacheValue;
-        var imageResponse = await _customerInfoRepository.Get(customerId);
-        _memCacheManager.Set(cacheKey, imageResponse);
+        var imageResponse = await customerInfoQueryRepository.Get(customerId);
+        memCacheManager.Set(cacheKey, imageResponse);
         return imageResponse;
     }
-    
+
     public async Task<List<CustomerInterestEntity>?> GetCustomerInterests(int customerId)
     {
         var cacheKey = CacheKeys.CustomerInterests(customerId);
-        var cacheValue = _memCacheManager.Get<List<CustomerInterestEntity>>(cacheKey);
+        var cacheValue = memCacheManager.Get<List<CustomerInterestEntity>>(cacheKey);
         if (cacheValue is not null) return cacheValue;
-        var interestResponse = await _customerInterestRepository.Get(customerId);
-        _memCacheManager.Set(cacheKey, interestResponse);
+        var interestResponse = await customerInterestQueryRepository.GetByCustomerId(customerId);
+        memCacheManager.Set(cacheKey, interestResponse);
         return interestResponse;
     }
 
     public async Task<GetImageResponse?> GetCustomerProfileImage(int customerId)
     {
         var cacheKey = CacheKeys.CustomerProfileImageUrl(customerId);
-        var cacheValue = _memCacheManager.Get<GetImageResponse>(cacheKey);
+        var cacheValue = memCacheManager.Get<GetImageResponse>(cacheKey);
         if (cacheValue is not null) return cacheValue;
-        var imageResponse = await _s3Adapter.GetCustomerProfileImage(customerId);
-        _memCacheManager.Set(cacheKey, imageResponse.Result);
+        var imageResponse = await s3Adapter.GetCustomerProfileImage(customerId);
+        memCacheManager.Set(cacheKey, imageResponse.Result);
         return imageResponse.Result;
     }
+
 }

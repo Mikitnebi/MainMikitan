@@ -2,6 +2,6 @@
 
 public record AuthTokenResponseModel
 {
-    public string AccessToken { get; set; }
+    public string? AccessToken { get; set; }
     //public string RefreshToke { get; set; }
 }

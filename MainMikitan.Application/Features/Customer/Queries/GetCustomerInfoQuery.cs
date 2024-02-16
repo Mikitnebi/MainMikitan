@@ -14,7 +14,7 @@ public class GetCustomerInfoQuery(int customerId) : IQuery<GetCustomerInfoRespon
         public int CustomerId { get; set; } = customerId;
 }
     public class GetCustomerInfoQueryHandler(
-        ICustomerInfoRepository customerInfoRepository,
+        ICustomerInfoQueryRepository customerInfoQueryRepository,
         ICustomerQueryRepository customerQueryRepository,
         IS3Adapter s3Adapter)
         : ResponseMaker<GetCustomerInfoResponse>, IQueryHandler<GetCustomerInfoQuery, GetCustomerInfoResponse>
@@ -23,7 +23,7 @@ public class GetCustomerInfoQuery(int customerId) : IQuery<GetCustomerInfoRespon
             var customerId = query.CustomerId;
             try
             {
-                var customerInfo = await customerInfoRepository.Get(customerId, cancellationToken);
+                var customerInfo = await customerInfoQueryRepository.Get(customerId, cancellationToken);
                 var customer = await customerQueryRepository.GetById(query.CustomerId, cancellationToken);
                 if (customerInfo is null || customer is null)
                     return Fail(ErrorType.CustomerInfo.NotGetInfo);

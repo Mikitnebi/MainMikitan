@@ -6,7 +6,7 @@ using Org.BouncyCastle.Crypto;
 
 namespace MainMikitan.Database.Features.Customer.Command;
 
-public class CustomerInterestRepository(MikDbContext mikDbContext) : ICustomerInterestRepository
+public class CustomerInterestCommandCommandRepository(MikDbContext mikDbContext) : ICustomerInterestCommandRepository
 {
     public async Task<bool> Delete(int customerId, CancellationToken cancellationToken = default)
     {
@@ -27,11 +27,6 @@ public class CustomerInterestRepository(MikDbContext mikDbContext) : ICustomerIn
             if (result.State != EntityState.Added) return false;
         }
         return true;
-    }
-
-    public async Task<List<CustomerInterestEntity>> Get(int customerId, CancellationToken cancellationToken = default)
-    {
-        return await mikDbContext.CustomerInterest.Where(t => t.CustomerId == customerId).ToListAsync(cancellationToken: cancellationToken);
     }
 
     public async Task<bool> SaveChanges(CancellationToken cancellationToken = default)
