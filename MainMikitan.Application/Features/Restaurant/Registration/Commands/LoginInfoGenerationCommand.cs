@@ -51,7 +51,7 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands
 
             var manager = new RestaurantStaffEntity
             {
-                Email = request.Staff.Email,
+                Email = request.Staff.Email!,
                 FullNameGeo = request.Staff.FullNameGeo,
                 FullNameEng = request.Staff.FullNameEng,
                 PhoneNumber = request.Staff.PhoneNumber,
@@ -60,7 +60,8 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands
                 IsActive = true,
                 PasswordHash = passwordHasher.Hash(generatePassword),
                 UserNameHash = passwordHasher.Hash(generateUserName),
-                RestaurantId = restaurant.Id
+                RestaurantId = restaurant.Id,
+                EmailConfirmation = false
             };
 
             var addStaff = await restaurantStaffCommandRepository.Add(manager, cancellationToken);
@@ -77,7 +78,7 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands
             emailBuilder.AddReplacement("{Password}", generatePassword);
             
             var emailSenderResult = await emailSenderService.SendEmailAsync(
-                request.Restaurant.Email, emailBuilder, 
+                request.Staff.Email!, emailBuilder, 
                 (int)Enums.EmailType.ManagerGenerateAccount);
 
             return !emailSenderResult ? Fail(ErrorType.EmailSender.EmailNotSend) : Success();

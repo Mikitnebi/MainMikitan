@@ -7,22 +7,14 @@ using MainMikitan.Database.Features.Common.Email.Interfaces;
 
 namespace MainMikitan.ExternalServicesAdapter.Email
 {
-    public class EmailSenderService : IEmailSenderService
+    public class EmailSenderService(
+        IOptions<EmailSenderOptions> emailSenderConfig,
+        IEmailLogCommandRepository emailLogCommandRepository,
+        IEmailSenderQueryRepository emailSenderQueryRepository)
+        : IEmailSenderService
     {
-        private readonly EmailSenderOptions _emailSenderConfig;
-        private readonly IEmailLogCommandRepository _emailLogCommandRepository;
-        private readonly IEmailSenderQueryRepository _emailSenderQueryRepository;
+        private readonly EmailSenderOptions _emailSenderConfig = emailSenderConfig.Value;
 
-        public EmailSenderService(
-            IOptions<EmailSenderOptions> emailSenderConfig,
-            IEmailLogCommandRepository emailLogCommandRepository,
-            IEmailSenderQueryRepository emailSenderQueryRepository
-            )
-        {
-            _emailSenderConfig = emailSenderConfig.Value;
-            _emailLogCommandRepository = emailLogCommandRepository;
-            _emailSenderQueryRepository = emailSenderQueryRepository;
-        }
         public async Task<bool> SendEmailAsync(string recipientEmail, EmailBuilder emailBuilder, int emailTypeId, int userId = 0, int userTypeId = 0)
         {
             using (var smtpClient = new SmtpClient(_emailSenderConfig.SmtpServer, _emailSenderConfig.SmtpPort))
@@ -30,7 +22,7 @@ namespace MainMikitan.ExternalServicesAdapter.Email
 
                 smtpClient.EnableSsl = true;
                 smtpClient.Credentials = new NetworkCredential(_emailSenderConfig.SenderEmail, _emailSenderConfig.SenderPassword);
-                var email = await _emailSenderQueryRepository.GetEmailById(emailTypeId);
+                var email = await emailSenderQueryRepository.GetEmailById(emailTypeId);
                 if (email == null)
                 {
                     throw new Exception("ემაილის ტიპი მითითებული აიდით ვერ მოიძებნა");
@@ -56,7 +48,7 @@ namespace MainMikitan.ExternalServicesAdapter.Email
                     WriteIndented = true
                 });
 
-                var log = await _emailLogCommandRepository.Create(recipientEmail, email.Id, userId, userTypeId, data);
+                var log = await emailLogCommandRepository.Create(recipientEmail, email.Id, userId, userTypeId, data);
                 return true;
             }
         }

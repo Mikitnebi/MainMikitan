@@ -13,8 +13,10 @@ namespace MainMikitan.Database.Features.Restaurant.Query {
     {
 
         public async Task<RestaurantIntroEntity?> GetNonVerifiedByEmail(string email, CancellationToken cancellationToken = default) {
-            return await db.RestaurantIntro.FirstOrDefaultAsync(t =>
-                t.EmailAddress == email && t.EmailConfirmation == false, cancellationToken: cancellationToken);
+            return await db.RestaurantIntro.Where(t =>
+                t.EmailAddress == email && t.EmailConfirmation == false)
+                .OrderByDescending(t => t.Id)
+                .FirstOrDefaultAsync(cancellationToken);
         }
 
         public async Task<RestaurantIntroEntity?> GetVerifiedByEmail(string email, CancellationToken cancellationToken = default)

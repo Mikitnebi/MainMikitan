@@ -22,9 +22,10 @@ public class RestaurantStaffEntity
     public string PhoneNumber { get; set; } = null!;
     [Required]
     public bool PhoneConfirmation { get; set; }
-    [Length(5, 50)]
-    public string? Email { get; set; }
-    private bool? EmailConfirmation { get; set; }
+
+    [Length(5, 50)] public string Email { get; set; } = null!;
+    [Required]
+    public bool EmailConfirmation { get; set; }
     [Required]
     public string UserNameHash { get; set; } = null!;
     [Required]

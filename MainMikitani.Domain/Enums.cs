@@ -133,7 +133,10 @@ namespace MainMikitan.Domain
         {
             Kitchen = 1,
             Music = 2,
-            Environment = 3
+            Environment = 3,
+            Citizenship = 4,
+            Ingredients = 5,
+            Region = 6
         }
         //Required to change these each time its Enum's size changes BY HAND
         
@@ -165,6 +168,7 @@ namespace MainMikitan.Domain
         {
             public const string RestaurantNotUpdated = "RESTAURANTINTRO_RESTAURANT_NOT_UPDATED";
             public const string VerifiedRestaurantNotFound = "RESTAURANTINTRO_VERIFIED_RESTAURANT_NOT_FOUND";
+            public const string RestaurantWithThisMailAlreadyExisted = "RESTAURANT_WITH_THIS_MAIL_ALREADY_EXISTED";
         }
         public record struct Restaurant
         {

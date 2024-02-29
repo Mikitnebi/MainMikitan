@@ -7,13 +7,11 @@ using MediatR;
 using static MainMikitan.Domain.Enums;
 
 namespace MainMikitan.Application.Features.Customer.Commands {
-    public class RestaurantIntroVerifyOtpCommand : IRequest<ResponseModel<bool>> {
-        public string _email { get; set; }
-        public string _otp { get; set; }
-        public RestaurantIntroVerifyOtpCommand(GeneralRegistrationVerifyOtpRequest request) {
-            _email = request.Email;
-            _otp = request.Otp;
-        }
+    public class RestaurantIntroVerifyOtpCommand(GeneralRegistrationVerifyOtpRequest request)
+        : IRequest<ResponseModel<bool>>
+    {
+        public string _email { get; set; } = request.Email;
+        public string _otp { get; set; } = request.Otp;
     }
     public class RestaurantIntroVerifyOtpCommandHandler(
         IOtpLogQueryRepository otpLogQueryRepository,
@@ -40,7 +38,7 @@ namespace MainMikitan.Application.Features.Customer.Commands {
                 response.ErrorType = ErrorType.Otp.NotCorrectOtp;
                 return response;
             }
-            var otpUpdate = await otpLogCommandRepository.Update(otp.Id, 0, (int)OtpStatusId.Success);
+            var otpUpdate = await otpLogCommandRepository.Update(otp.Id, 0, (int)OtpStatusId.Success, cancellationToken);
             if (!otpUpdate|| !otpUpdate) {
                 response.ErrorType = ErrorType.Otp.OtpNotUpdated;
                 return response;

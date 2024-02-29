@@ -11,9 +11,7 @@ public class AdminRestaurantController(IMediator mediator) : MainController(medi
     [HttpPost("LoginInfoGeneration")]
     public async Task<IActionResult> LoginInfoGeneration(
         LoginInfoGenerationRequest request,
-        CancellationToken cancellationToken = default)
-    {
-        return !ModelState.IsValid ? BadRequest(ModelState) 
+        CancellationToken cancellationToken = default) =>
+         !ModelState.IsValid ? BadRequest(ModelState) 
             : CheckResponse(await Mediator.Send(new LoginInfoGenerationCommand(request.Restaurant, request.Manager), cancellationToken));
-    }
 }

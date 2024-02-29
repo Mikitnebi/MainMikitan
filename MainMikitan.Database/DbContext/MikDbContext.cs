@@ -80,7 +80,7 @@ public class MikDbContext : IdentityDbContext
         };
         
         customer.HashPassWord = customerEntityHasher.HashPassword(customer, "pass");
-        
+        /*
         modelBuilder.Entity<CustomerEntity>().HasData(customer);
 
         var restaurant = new RestaurantEntity
@@ -93,6 +93,7 @@ public class MikDbContext : IdentityDbContext
         
 
         modelBuilder.Entity<RestaurantEntity>().HasData(restaurant);
+        */
         
         base.OnModelCreating(modelBuilder);
     }
