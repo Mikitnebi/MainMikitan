@@ -21,7 +21,6 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Azure;
 using MainMikitan.Domain.Templates;
-using ErrorType = MainMikitan.Domain.ErrorType;
 
 namespace MainMikitan.ExternalServicesAdapter.S3ServiceAdapter
 {
@@ -210,7 +209,7 @@ namespace MainMikitan.ExternalServicesAdapter.S3ServiceAdapter
             if (response.HttpStatusCode == System.Net.HttpStatusCode.OK) return SuccessResponse<T>(response);
             var jsonRequestModel = JsonSerializer.Serialize(request);
             var jsonResponseModel = JsonSerializer.Serialize(response);
-            return FailResponse<T>(ErrorType.S3.UnexpectedException,
+            return FailResponse<T>(ErrorResponseType.S3.UnexpectedException,
                 $"Error In S3 : {nameof(request)} : Request : {jsonRequestModel} : Response : {jsonResponseModel}");
         }
         private async Task<ResponseModel<GetImageResponse>> GetImage(string baseKey, bool restaurantDish = false)
@@ -225,7 +224,7 @@ namespace MainMikitan.ExternalServicesAdapter.S3ServiceAdapter
             var imageResponse = responseForList.S3Objects.FirstOrDefault();
             if (imageResponse == null)
                 return FailResponse<GetImageResponse>(
-                    ErrorType.S3.ImageNotFound,
+                    ErrorResponseType.S3.ImageNotFound,
                     $"Error In S3 : (BaseKey : {baseKey}, Restaurant Dish : {restaurantDish})");
             var imageUrl = _s3Client.GetPreSignedURL(new GetPreSignedUrlRequest()
             {
@@ -244,7 +243,7 @@ namespace MainMikitan.ExternalServicesAdapter.S3ServiceAdapter
                 
             if (indexOfDrop == -1 || indexOfHipHen == -1 || indexOfHipHen <= indexOfDrop)
                 return FailResponse<GetImageResponse>(
-                    ErrorType.S3.ImageNotFound,
+                    ErrorResponseType.S3.ImageNotFound,
                     $"Error In S3 : (BaseKey : {baseKey}, Restaurant Dish : {restaurantDish})");
             var dishIdString = key.Substring(indexOfDrop + 1, indexOfHipHen - indexOfDrop - 1);
 
@@ -267,7 +266,7 @@ namespace MainMikitan.ExternalServicesAdapter.S3ServiceAdapter
             // TODO : ამასაც ვუშველოთ
             if (imageResponse == null) 
                 return FailResponse<GetImagesResponse>(
-                    ErrorType.S3.ImageNotFound,
+                    ErrorResponseType.S3.ImageNotFound,
                     $"Error In S3 : (BaseKey : {baseKey}, Restaurant Dish : {restaurantDish})");
             var imagesData = imageResponse.Select<S3Object,GetImageResponse>(o =>
             {

@@ -1,4 +1,5 @@
-﻿using MainMikitan.API.Filters;
+﻿using System.IO.Enumeration;
+using MainMikitan.API.Filters;
 using MainMikitan.Application.Features.Customer.Commands;
 using MainMikitan.Application.Features.Restaurant.Info;
 using MainMikitan.Domain;
@@ -14,7 +15,8 @@ namespace MainMikitan.API.Controllers.Restaurants {
         [HttpPost("UpdateInfo")]
         public async Task<IActionResult> CreateOrUpdateInfo(RestaurantInfoRequest model, CancellationToken cancellationToken = default) {
             return !ModelState.IsValid ? BadRequest(ModelState) :
-                CheckResponse(await Mediator.Send(new CreateOrUpdateInfoCommand(model, UserId, RoleId, (int)RestaurantPermissionId.Info), cancellationToken));
+                CheckResponse(await Mediator.Send(new CreateOrUpdateInfoCommand(model, UserId, RoleId, RestaurantId,
+                    new []{(int)RestaurantPermissionId.Info}), cancellationToken));
 
         }
 

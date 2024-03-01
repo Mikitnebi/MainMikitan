@@ -29,13 +29,13 @@ public class CustomerPasswordResetCommandHandler(
         {
             var customer = await customerQueryRepository.GetById(request.CustomerId, cancellationToken);
             if (customer is null)
-                return Fail(ErrorType.Customer.NotFound);
+                return Fail(ErrorResponseType.Customer.NotFound);
             var emailBuilder = new EmailSenderService.EmailBuilder();
             var otp = OtpGenerator.OtpGenerate();
             emailBuilder.AddReplacement("{OTP}", otp);
             var emailSenderResult =
                 await emailSenderService.SendEmailAsync(customer.EmailAddress, emailBuilder, (int)Enums.EmailType.CustomerPasswordResetEmail);
-            if(!emailSenderResult) return Fail(ErrorType.EmailSender.EmailNotSend);
+            if(!emailSenderResult) return Fail(ErrorResponseType.EmailSender.EmailNotSend);
             var otpLogResult = await otpLogCommandRepository.Create(new Domain.Models.Common.OtpLogIntroEntity
             {
                 EmailAddress = customer.EmailAddress,
@@ -46,7 +46,7 @@ public class CustomerPasswordResetCommandHandler(
                 OperationId = (int)Enums.OtpOperationTypeId.CustomerPasswordReset
             }, cancellationToken);
             return !otpLogResult 
-                ? Fail(ErrorType.OtpLog.OtpLogNotCreated) 
+                ? Fail(ErrorResponseType.OtpLog.OtpLogNotCreated) 
                 : Success();
         }
         catch (Exception ex)

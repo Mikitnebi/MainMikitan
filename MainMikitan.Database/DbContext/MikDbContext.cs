@@ -14,11 +14,8 @@ namespace MainMikitan.Database.DbContext;
 
 public class MikDbContext : IdentityDbContext
 {
-    public MikDbContext(DbContextOptions<MikDbContext> option) : base(option)
-    {
-        
-    }
-    
+    public MikDbContext(DbContextOptions<MikDbContext> option) : base(option) { }
+
     public DbSet<CategoryDishEntity> CategoryDish { get; set; }
     public DbSet<CustomerInfoEntity> CustomerInfo { get; set; }
     public DbSet<CustomerInterestEntity> CustomerInterest { get; set; }

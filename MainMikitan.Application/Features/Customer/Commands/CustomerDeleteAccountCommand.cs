@@ -32,16 +32,16 @@ public class CustomerDeleteAccountCommandHandler(
             var hasAnyReservation =
                 await reservationCommandRepository.HasAnyActiveReservationByCustomerId(request.CustomerUserId);
             if (hasAnyReservation)
-                return Fail(ErrorType.Reservation.CustomerHasReservation);
+                return Fail(ErrorResponseType.Reservation.CustomerHasReservation);
             var customer = await customerQueryRepository.GetById(request.CustomerUserId);
             if (customer is null)
-                return Fail(ErrorType.Customer.NotFound);
+                return Fail(ErrorResponseType.Customer.NotFound);
             var emailBuilder = new EmailSenderService.EmailBuilder();
             var otp = OtpGenerator.OtpGenerate();
             emailBuilder.AddReplacement("{OTP}", otp);
             var emailSenderResult =
                 await emailSenderService.SendEmailAsync(customer.EmailAddress, emailBuilder, (int)Enums.EmailType.CustomerAccountDelete);
-            if(!emailSenderResult) return Fail(ErrorType.EmailSender.EmailNotSend);
+            if(!emailSenderResult) return Fail(ErrorResponseType.EmailSender.EmailNotSend);
             var otpLogResult = await otpLogCommandRepository.Create(new Domain.Models.Common.OtpLogIntroEntity
             {
                 EmailAddress = customer.EmailAddress,
@@ -52,7 +52,7 @@ public class CustomerDeleteAccountCommandHandler(
                 OperationId = (int)Enums.OtpOperationTypeId.CustomerDeleteAccount
             });
             return !otpLogResult 
-                ? Fail(ErrorType.OtpLog.OtpLogNotCreated) 
+                ? Fail(ErrorResponseType.OtpLog.OtpLogNotCreated) 
                 : Success();
         }
         catch (Exception ex)

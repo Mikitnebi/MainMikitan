@@ -32,14 +32,14 @@ namespace MainMikitan.Application.Features.Customer.Commands
                 var password = command.Password;
                 var customer = await customerQueryRepository.GetByEmail(email);
                 if (customer is null)
-                    return Fail(ErrorType.NotCorrectEmailOrPassword);
+                    return Fail(ErrorResponseType.NotCorrectEmailOrPassword);
                 if(customer.StatusId == (int)Enums.CustomerStatusId.TemporaryDeleted)
-                    return Fail(ErrorType.Customer.AccountIsTemporaryDeleted);
+                    return Fail(ErrorResponseType.Customer.AccountIsTemporaryDeleted);
                 //var hasher = new PasswordHasher<CustomerEntity>();
                 //var passComparison = hasher.VerifyHashedPassword(customer, customer.HashPassWord, password);
                 //if (passComparison != PasswordVerificationResult.Success)
                 if(!passwordHasher.VerifyPassword(password, customer.HashPassWord))
-                    return Fail(ErrorType.NotCorrectEmailOrPassword);
+                    return Fail(ErrorResponseType.NotCorrectEmailOrPassword);
                 return Success(authService.CustomerAuth(new CustomerAuthRequestModel
                 {
                     EmailAdress = email,

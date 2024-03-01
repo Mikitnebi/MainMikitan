@@ -5,11 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MainMikitan.Database.Features.Restaurant.Query;
 
-public class RestaurantStaffQueryRepository(MikDbContext db) : IRestaurantStaffQueryRepository
+public class RestaurantStaffQueryRepository(MikDbContext mikDbContext) : IRestaurantStaffQueryRepository
 {
     public async Task<RestaurantStaffEntity?> GetActive(string hashUserName, string hashPassword, CancellationToken cancellationToken = default)
     {
-        return await db.RestaurantStaff.FirstOrDefaultAsync(
-            t => t.PasswordHash == hashPassword && t.UserNameHash == hashUserName && t.IsActive == true, cancellationToken);
+        return await mikDbContext.RestaurantStaff
+            .Where(t => t.PasswordHash == hashPassword && t.UserNameHash == hashUserName && t.IsActive)
+            .FirstOrDefaultAsync(cancellationToken);
     }
 }

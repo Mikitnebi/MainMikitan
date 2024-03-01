@@ -37,14 +37,14 @@ public class CreateOrUpdateCustomerInterestCommandHandler(
             {
                 var deleteResponse = await customerInterestCommandRepository.Delete(request.CustomerId, cancellationToken);
                 if (!deleteResponse)
-                    return Fail(ErrorType.CustomerInterest.NotDelete);
+                    return Fail(ErrorResponseType.CustomerInterest.NotDelete);
             }
 
             var addResponse = await customerInterestCommandRepository.Add(request.InterestsTypesIds, request.CustomerId, cancellationToken);
             if (!addResponse)
-                return Fail(ErrorType.CustomerInterest.NotAdd);
+                return Fail(ErrorResponseType.CustomerInterest.NotAdd);
             if (!(await customerInterestCommandRepository.SaveChanges(cancellationToken)))
-                return Fail(ErrorType.CustomerInterest.NotDbSave);
+                return Fail(ErrorResponseType.CustomerInterest.NotDbSave);
             return Success();
         }
         catch (Exception ex)

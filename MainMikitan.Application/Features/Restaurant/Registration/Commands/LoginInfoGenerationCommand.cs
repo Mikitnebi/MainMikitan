@@ -30,7 +30,7 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands
         {
             var getRestaurantIntro = await restaurantIntroQueryRepository.GetVerifiedByEmail(request.Restaurant.Email, cancellationToken);
             if(getRestaurantIntro == null) 
-                return Fail(ErrorType.RestaurantIntro.VerifiedRestaurantNotFound);
+                return Fail(ErrorResponseType.RestaurantIntro.VerifiedRestaurantNotFound);
             
             var generateUserName = UtilHelper.GenerateUserName();
             var generatePassword = UtilHelper.GeneratePassword();
@@ -47,7 +47,7 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands
             var addRestaurant = await restaurantCommandRepository.Create(restaurant, cancellationToken);
             var saveRestaurant = await restaurantCommandRepository.SaveChanges(cancellationToken);
             if(!addRestaurant || !saveRestaurant)
-                return Fail(ErrorType.Restaurant.NotUpdated);
+                return Fail(ErrorResponseType.Restaurant.NotUpdated);
 
             var manager = new RestaurantStaffEntity
             {
@@ -67,11 +67,11 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands
             var addStaff = await restaurantStaffCommandRepository.Add(manager, cancellationToken);
             var saveStaff = await restaurantStaffCommandRepository.SaveChanges(cancellationToken);
             if(!addStaff || !saveStaff)
-                return Fail(ErrorType.Staff.NotAdded);
+                return Fail(ErrorResponseType.Staff.NotAdded);
             
             var sendEmail = await emailSenderQueryRepository.GetEmailById((int)Enums.EmailType.ManagerGenerateAccount, cancellationToken);
             if (sendEmail == null)
-                return Fail(ErrorType.Restaurant.EmailTypeNotFound);
+                return Fail(ErrorResponseType.Restaurant.EmailTypeNotFound);
             
             var emailBuilder = new EmailSenderService.EmailBuilder();
             emailBuilder.AddReplacement("{Username}", generateUserName);
@@ -81,7 +81,7 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands
                 request.Staff.Email!, emailBuilder, 
                 (int)Enums.EmailType.ManagerGenerateAccount);
 
-            return !emailSenderResult ? Fail(ErrorType.EmailSender.EmailNotSend) : Success();
+            return !emailSenderResult ? Fail(ErrorResponseType.EmailSender.EmailNotSend) : Success();
         }
     }
 }

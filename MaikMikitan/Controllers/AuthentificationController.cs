@@ -17,7 +17,7 @@ namespace MainMikitan.API.Controllers {
 
         [HttpPost("StaffLogin")]
         public async Task<IActionResult> StaffLogin(StaffLoginRequest request) {
-           return ModelState.IsValid ? BadRequest(ModelState):
+           return !ModelState.IsValid ? BadRequest(ModelState):
                 CheckResponse(await Mediator.Send(new StaffLoginCommand(request)));
         }
     }

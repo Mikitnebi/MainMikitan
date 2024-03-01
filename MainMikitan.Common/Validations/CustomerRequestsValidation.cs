@@ -18,23 +18,23 @@ namespace MainMikitan.InternalServiceAdapter.Validations
             var response = new ResponseModel<bool>();
             if (model.RequiredOptions == false && (model.MobileNumber == null || model.MobileNumber.Length != 9 || model.MobileNumber[0] != '5'))
             {
-                response.ErrorType = ErrorType.NotCorrectMobileNumberType;
+                response.ErrorType = ErrorResponseType.InCorrectMobileNumberType;
                 return response;
             }
             if (model.RequiredOptions && (model.Email == null || model.Email.Length < 5))
             {
-                response.ErrorType = ErrorType.NotCorrectEmailAddressType;
+                response.ErrorType = ErrorResponseType.NotCorrectEmailAddressType;
                 return response;
             }
             if(!model.AdultnessConfirmation)
             {
-                response.ErrorType = ErrorType.UserIsNotAdult;
+                response.ErrorType = ErrorResponseType.UserIsNotAdult;
                 return response;
             }
             var passwordCheckResult = PasswordCheck(model.Password);
             if((short)passwordCheckResult < 3)
             {
-                response.ErrorType = ErrorType.NotCorrectPasswordType;
+                response.ErrorType = ErrorResponseType.NotCorrectPasswordType;
                 response.ErrorMessage = passwordCheckResult.ToString();
                 return response;
             }

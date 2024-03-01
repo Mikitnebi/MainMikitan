@@ -20,7 +20,6 @@ public class MapperConfig : IMapperConfig
         var similarProperties = GetSimilarProperties(fromProperties, toProperties);
         return SetValues(from, to, similarProperties);
     }
-
     private List<PropertyInfo>? GetProperties<T>(T data)
     {
         return data?

@@ -25,13 +25,13 @@ public class CustomerDeleteAccountVerifyOtpCommandHandler(
         {
             var customer = await customerQueryRepository.GetById(request.CustomerId);
             if (customer is null)
-                return Fail(ErrorType.Customer.NotFound);
+                return Fail(ErrorResponseType.Customer.NotFound);
             var checkOtp = await otpCheckerService.CheckOtp(request.Otp, customer.EmailAddress, (int) Enums.OtpOperationTypeId.CustomerDeleteAccount);
             if (!checkOtp.Result) return checkOtp;
             customer.StatusId = (int)Enums.CustomerStatusId.TemporaryDeleted;
             var updateCustomer = await customerCommandRepository.CreateOrUpdate(customer);
             return !updateCustomer
-                ? Fail(ErrorType.Customer.NotUpdated) 
+                ? Fail(ErrorResponseType.Customer.NotUpdated) 
                 : Success();
         }
         catch (Exception ex)

@@ -16,7 +16,7 @@ public class ResponseMaker<T>
         return new ResponseModel<T>
         {
             ErrorMessage = ex.Message,
-            ErrorType = ErrorType.UnExpectedException
+            ErrorType = ErrorResponseType.UnExpectedException
         };
     }
     
@@ -39,7 +39,7 @@ public class ResponseMaker
         return new ResponseModel<bool>
         {
             ErrorMessage = ex.Message,
-            ErrorType = ErrorType.UnExpectedException
+            ErrorType = ErrorResponseType.UnExpectedException
         };
     }
     protected ResponseModel<bool> Success()

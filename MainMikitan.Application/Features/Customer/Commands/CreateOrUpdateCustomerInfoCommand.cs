@@ -23,12 +23,12 @@ public class CreateOrUpdateCustomerInfoCommandHandler(ICustomerInfoCommandReposi
             var customerRequest = request.CustomerRequest;
             var customerId = request.CustomerId;
             if(DateOnly.FromDateTime(DateTime.Now.AddYears(-18))< customerRequest.BirthDate)
-                return Fail(ErrorType.UserIsNotAdult);
+                return Fail(ErrorResponseType.UserIsNotAdult);
             var updateRequest = await customerInfoCommandRepository.CreateOrUpdate(customerRequest, customerId, cancellationToken);
             if (!updateRequest)
-                return Fail(ErrorType.CustomerInfo.NotCreated);
+                return Fail(ErrorResponseType.CustomerInfo.NotCreated);
             if (await customerInfoCommandRepository.SaveChanges(cancellationToken))
-                return Fail(ErrorType.CustomerInfo.NotDbSave);
+                return Fail(ErrorResponseType.CustomerInfo.NotDbSave);
             return Success();
         }
         catch (Exception ex)

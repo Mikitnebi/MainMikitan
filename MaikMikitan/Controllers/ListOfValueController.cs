@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 
 namespace MainMikitan.API.Controllers;
-[Authorized(Enums.RoleId.Customer)]
+//[Authorized(Enums.RoleId.Customer)]
 [OutputCache(Duration = 60)]
 public class ListOfValueController(IMediator mediator) : MainController(mediator)
 {

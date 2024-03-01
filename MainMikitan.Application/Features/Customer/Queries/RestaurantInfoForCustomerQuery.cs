@@ -1,3 +1,4 @@
+
 using MainMikitan.Domain.Templates;
 
 namespace MainMikitan.Application.Features.Customer.Queries;

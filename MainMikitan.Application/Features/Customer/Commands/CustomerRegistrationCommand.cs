@@ -42,14 +42,14 @@ namespace MainMikitan.Application.Features.Customer.Commands {
                 {
                     var emailValidation = await customerQueryRepository.GetByEmail(email);
                     if (emailValidation != null)
-                        return Fail(ErrorType.AlreadyUsedEmail);
+                        return Fail(ErrorResponseType.AlreadyUsedEmail);
                     //var mobileNumberValidation = await customerQueryRepository.GetByMobileNumber(registrationRequest.MobileNumber!);
                     var emailBuilder = new EmailBuilder();
                     var otp = OtpGenerator.OtpGenerate();
                     emailBuilder.AddReplacement("{OTP}", otp);
                     var emailSenderResult = await emailSenderService.SendEmailAsync(email, emailBuilder, (int)EmailType.CustomerRegistrationEmail);
                     if (!emailSenderResult)
-                        return Fail(ErrorType.EmailSender.EmailNotSend);
+                        return Fail(ErrorResponseType.EmailSender.EmailNotSend);
                     var otpLogResult = await otpLogCommandRepository.Create(new Domain.Models.Common.OtpLogIntroEntity
                     {
                         EmailAddress = email,
@@ -60,7 +60,7 @@ namespace MainMikitan.Application.Features.Customer.Commands {
                         OperationId = (int)Enums.OtpOperationTypeId.CustomerRegistration
                     });
                     if (!otpLogResult)
-                        return Fail(ErrorType.OtpLog.OtpLogNotCreated);
+                        return Fail(ErrorResponseType.OtpLog.OtpLogNotCreated);
                     var customerEntity = new CustomerEntity
                     {
                         EmailAddress = email,
@@ -70,7 +70,7 @@ namespace MainMikitan.Application.Features.Customer.Commands {
                     };
                     var createCustomerResult = await customerCommandRepository.CreateOrUpdate(customerEntity);
                     if (!createCustomerResult)
-                        return Fail(ErrorType.Customer.NotUpdated);
+                        return Fail(ErrorResponseType.Customer.NotUpdated);
                 }
                 return Success();
             } catch (Exception ex) {

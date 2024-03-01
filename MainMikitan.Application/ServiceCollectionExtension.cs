@@ -20,6 +20,7 @@ namespace MainMikitan.Application
         public static void AddMainMikitanApplication(this IServiceCollection services)
         {
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+            services.AddAutoMapper(typeof(ServiceCollectionExtension));
 
             services.AddScoped<IPermissionService, PermissionService>();
             services.AddScoped<ICustomerCacheService, CustomerCacheService>();

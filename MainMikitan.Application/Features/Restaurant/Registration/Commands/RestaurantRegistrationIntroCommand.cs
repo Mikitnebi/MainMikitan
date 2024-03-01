@@ -42,7 +42,7 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
                 var existedRestaurant =
                     await restaurantIntroQueryRepository.GetVerifiedByEmail(email, cancellationToken);
                 if (existedRestaurant is not null)
-                    return Fail(ErrorType.RestaurantIntro.RestaurantWithThisMailAlreadyExisted);
+                    return Fail(ErrorResponseType.RestaurantIntro.RestaurantWithThisMailAlreadyExisted);
                 var emailBuilder = new EmailBuilder();
                 var otp = OtpGenerator.OtpGenerate();
                 emailBuilder.AddReplacement("{OTP}", otp);

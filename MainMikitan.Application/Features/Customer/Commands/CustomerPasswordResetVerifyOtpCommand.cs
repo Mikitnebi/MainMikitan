@@ -29,17 +29,17 @@ public class CustomerPasswordResetVerifyOtpCommandHandler(
         {
             var passwordCheckResult = CustomerRequestsValidation.PasswordCheck(request.Password);
             if ((short)passwordCheckResult < 2)
-                return Fail(ErrorType.NotCorrectPasswordType);
+                return Fail(ErrorResponseType.NotCorrectPasswordType);
             var customer = await customerQueryRepository.GetById(request.CustomerId, cancellationToken);
             if (customer is null)
-                return Fail(ErrorType.Customer.NotFound);
+                return Fail(ErrorResponseType.Customer.NotFound);
             var checkOtp = await otpCheckerService.CheckOtp(request.Otp, customer.EmailAddress, (int)Enums.OtpOperationTypeId.CustomerPasswordReset, cancellationToken);
             if (!checkOtp.Result) return checkOtp;
             customer.HashPassWord = request.Password;
             var updateCustomer = customerCommandRepository.UpdateCustomer(customer);
             
             return !(await customerCommandRepository.SaveChanges(cancellationToken))
-                ? Fail(ErrorType.Customer.NotUpdated) 
+                ? Fail(ErrorResponseType.Customer.NotUpdated) 
                 : Success();
         }
         catch (Exception ex)

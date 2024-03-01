@@ -23,20 +23,20 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
             try {
                 var deleteResponse = await restaurantEnvCommandRepository.Delete(restaurantId);
                 if (!deleteResponse) {
-                    response.ErrorType = ErrorType.RestaurantEnvironment.NotDeleted;
+                    response.ErrorType = ErrorResponseType.RestaurantEnvironment.NotDeleted;
                     return response;
                 }
                 var addResponse = await restaurantEnvCommandRepository.Add(environmentIds, restaurantId);
                 if (!addResponse) {
-                    response.ErrorType = ErrorType.RestaurantEnvironment.NotAdded;
+                    response.ErrorType = ErrorResponseType.RestaurantEnvironment.NotAdded;
                     return response;
                 }
                 if (!await restaurantEnvCommandRepository.SaveChanges()) {
-                    response.ErrorType = ErrorType.RestaurantEnvironment.NotDbSaved;
+                    response.ErrorType = ErrorResponseType.RestaurantEnvironment.NotDbSaved;
                     return response;
                 }
             } catch (Exception ex) {
-                response.ErrorType = ErrorType.UnExpectedException;
+                response.ErrorType = ErrorResponseType.UnExpectedException;
                 response.ErrorMessage = ex.Message;
                 return response;
             }

@@ -14,6 +14,7 @@ public class MainController(IMediator mediator) : ControllerBase
     protected readonly IMediator Mediator = mediator;
     protected int UserId => User.GetId();
     protected int RoleId => User.GetRoleId();
+    protected int RestaurantId => User.GetRestaurantId();
 
     protected string IpAddress
     {

@@ -22,14 +22,14 @@ namespace MainMikitan.InternalServicesAdapter.Validations
         public static bool ValidateImage(IFormFile file)
         {
             if (file == null)
-                throw new MainMikitanException($"{ErrorType.S3.FileIsEmpty} : {file?.FileName}");
+                throw new MainMikitanException($"{ErrorResponseType.S3.FileIsEmpty} : {file?.FileName}");
             long maxSizeInKB = 200;
             long fileSizeInKB = file.Length / 1024;
             if (fileSizeInKB > maxSizeInKB)
-                throw new MainMikitanException($"{ErrorType.S3.FileSizeIsMore200Kb} :  {file?.FileName}");
+                throw new MainMikitanException($"{ErrorResponseType.S3.FileSizeIsMore200Kb} :  {file?.FileName}");
             string[] allowedImageContentTypes = { "image/jpeg", "image/png", "image/bmp" };
             if (!allowedImageContentTypes.Contains(file.ContentType.ToLower()))
-                throw new MainMikitanException($"{ErrorType.S3.FileTypeIsNotImage} : {file?.FileName}");
+                throw new MainMikitanException($"{ErrorResponseType.S3.FileTypeIsNotImage} : {file?.FileName}");
             return true;
         }
     }

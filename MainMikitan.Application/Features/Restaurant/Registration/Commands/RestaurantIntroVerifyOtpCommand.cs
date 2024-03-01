@@ -23,29 +23,29 @@ namespace MainMikitan.Application.Features.Customer.Commands {
             var response = new ResponseModel<bool>();
             var otp = await otpLogQueryRepository.GetOtpByEmail(model._email, (int)Enums.OtpOperationTypeId.RestaurantIntroRegistration);
             if (otp == null) {
-                response.ErrorType = ErrorType.Otp.IncorrectEmail;
+                response.ErrorType = ErrorResponseType.Otp.IncorrectEmail;
                 return response;
             }
             if (otp.StatusId == (int)OtpStatusId.Success) {
-                response.ErrorType = ErrorType.Otp.AlreadyUsedOtp;
+                response.ErrorType = ErrorResponseType.Otp.AlreadyUsedOtp;
                 return response;
             }
             if (DateTime.Now > otp.CreatedAt.AddMinutes(otp.ValidationTime) || otp.StatusId == (int)OtpStatusId.NotValid) {
-                response.ErrorType = ErrorType.Otp.NotValidOtp;
+                response.ErrorType = ErrorResponseType.Otp.NotValidOtp;
                 return response;
             }
             if (otp.Otp != model._otp) {
-                response.ErrorType = ErrorType.Otp.NotCorrectOtp;
+                response.ErrorType = ErrorResponseType.Otp.NotCorrectOtp;
                 return response;
             }
             var otpUpdate = await otpLogCommandRepository.Update(otp.Id, 0, (int)OtpStatusId.Success, cancellationToken);
             if (!otpUpdate|| !otpUpdate) {
-                response.ErrorType = ErrorType.Otp.OtpNotUpdated;
+                response.ErrorType = ErrorResponseType.Otp.OtpNotUpdated;
                 return response;
             }
             var restaurantUpdate = await restaurantIntroCommandRepository.UpdateStatus(model._email, true, RestaurantOtpVerificationId.Verified);
             if (restaurantUpdate == null || restaurantUpdate == 0) {
-                response.ErrorType = ErrorType.Restaurant.NotUpdated;
+                response.ErrorType = ErrorResponseType.Restaurant.NotUpdated;
                 return response;
             }
             response.Result = true;

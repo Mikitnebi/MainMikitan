@@ -28,6 +28,6 @@ public class MakeBranchRestaurantCommandHandler(
                 NumberOfTrials = 3, 
                 ParentRestaurantId = request.RestaurantId
             });
-        return addResponse > 0 ? Success(generateCode) : Fail(ErrorType.Restaurant.NotUpdated);
+        return addResponse > 0 ? Success(generateCode) : Fail(ErrorResponseType.Restaurant.NotUpdated);
     }
 }

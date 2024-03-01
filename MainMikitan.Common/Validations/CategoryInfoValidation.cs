@@ -15,13 +15,13 @@ namespace MainMikitan.InternalServicesAdapter.Validations
             var response = new ResponseModel<bool>();
             if (ids.Count() > allActiveIds.Count())
             {
-                response.ErrorType = ErrorType.BadCategoryIdRequest;
+                response.ErrorType = ErrorResponseType.BadCategoryIdRequest;
             }
 
             response.Result = ids.SequenceEqual(allActiveIds);
             if (!response.Result)
             {
-                response.ErrorType = ErrorType.BadCategoryIdRequest;
+                response.ErrorType = ErrorResponseType.BadCategoryIdRequest;
             }
             return response;
         }

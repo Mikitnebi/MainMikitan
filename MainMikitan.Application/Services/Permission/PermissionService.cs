@@ -1,4 +1,5 @@
 using MainMikitan.Database.Features.Restaurant.Interface;
+using MainMikitan.Domain;
 using MainMikitan.Domain.Models.Restaurant;
 
 namespace MainMikitan.Application.Services.Permission;
@@ -6,8 +7,9 @@ namespace MainMikitan.Application.Services.Permission;
 public class PermissionService(IStaffPermissionQueryRepository staffPermissionQueryRepository)
     : IPermissionService
 {
-    public async Task<bool> Check(int staffId, IEnumerable<int> permissionsList, CancellationToken cancellationToken = default)
+    public async Task<bool> Check(int staffId, IEnumerable<int> permissionsList, int? roleId = null, CancellationToken cancellationToken = default)
     {
+        if (roleId.HasValue && roleId == (int)Enums.RoleId.Manager) return true;
         var staffPermission = await staffPermissionQueryRepository.GetPermissionByStaffId(staffId, cancellationToken);
         return permissionsList.Any(permission => staffPermission.Any(t => t.PermissionId == permission));
     }

@@ -22,7 +22,7 @@ public class ListOfValueQueryHandler(IListOfValueQueryRepository listOfValueQuer
     {
         var dictionaries = await listOfValueQueryRepository.GetDictionaryBySectorId(request.Id, cancellationToken);
         if(dictionaries.Count == 0)
-            return Fail(ErrorType.Dictionary.NotFoundBySectorId);
+            return Fail(ErrorResponseType.Dictionary.NotFoundBySectorId);
         var dictionaryModel = dictionaries.Select(t => new DictionaryModel
         {
             Id = t.Id,

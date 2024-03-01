@@ -39,34 +39,34 @@ namespace MainMikitan.Application.Features.Customer.Commands
             var otp = await _otpLogQueryRepository.GetOtpByEmail(model._email, (int) Enums.OtpOperationTypeId.CustomerRegistration);
             if (otp is null) 
             {
-                response.ErrorType = ErrorType.Otp.IncorrectEmail;
+                response.ErrorType = ErrorResponseType.Otp.IncorrectEmail;
                 return response;
             }
             if(otp.StatusId == (int)OtpStatusId.Success)
             {
-                response.ErrorType = ErrorType.Otp.AlreadyUsedOtp;
+                response.ErrorType = ErrorResponseType.Otp.AlreadyUsedOtp;
                 return response;
             }
             if(DateTime.Now > otp.CreatedAt.AddMinutes(otp.ValidationTime) || otp.StatusId == (int) OtpStatusId.NotValid)
             {
-                response.ErrorType = ErrorType.Otp.NotValidOtp;
+                response.ErrorType = ErrorResponseType.Otp.NotValidOtp;
                 return response;
             }
             if(otp.Otp != model._otp)
             {
-                response.ErrorType = ErrorType.Otp.NotCorrectOtp;
+                response.ErrorType = ErrorResponseType.Otp.NotCorrectOtp;
                 return response;
             }
             var otpUpdate = await _otpLogCommandRepository.Update(otp.Id, 0, (int)OtpStatusId.Success);
             if(!otpUpdate) 
             {
-                response.ErrorType = ErrorType.Otp.OtpNotUpdated;
+                response.ErrorType = ErrorResponseType.Otp.OtpNotUpdated;
                 return response;
             }
             var customerUpdate = await _customerCommandRepository.UpdateStatus(model._email, true, CustomerStatusId.FullyVerified);
             if (!customerUpdate)
             {
-                response.ErrorType = ErrorType.Customer.NotUpdated;
+                response.ErrorType = ErrorResponseType.Customer.NotUpdated;
                 return response;
             }
             response.Result = true;

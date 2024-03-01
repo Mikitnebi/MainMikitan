@@ -9,5 +9,5 @@ public interface IRestaurantInfoQueryRepository
         int? isActiveInSomeHour = null, int? isActiveKitchenInSomeHour = null, int? isActiveMusicInSomeHour = null,
         int? priceTypeId = null, int? rate = null, CancellationToken cancellationToken = default);
 
-    Task<RestaurantInfoEntity> GetById(int restaurantId, CancellationToken cancellationToken = default);
+    Task<RestaurantInfoEntity> GetByRestaurantId(int restaurantId, CancellationToken cancellationToken = default);
 }

@@ -7,7 +7,7 @@ namespace MainMikitan.Domain.Models.Restaurant
     {
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; init; }
+        public int Id { get; set; }
         [Required]
         public int RestaurantId { get; set; }
         [Required]
@@ -47,7 +47,7 @@ namespace MainMikitan.Domain.Models.Restaurant
         [Required]
         public int ActiveStatusId { get; init; }
 
-        public int? UpdateUserId { get; init; }
+        public int? UpdateUserId { get; set; }
         public DateTime? UpdatedAt { get; set; }
         [Required]
         public DateTime CreatedAt { get; set; } 

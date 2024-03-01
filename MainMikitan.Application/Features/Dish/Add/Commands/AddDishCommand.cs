@@ -56,7 +56,7 @@ public class AddDishHandler : ICommandHandler<AddDishCommand>
             }
             catch (MainMikitanException ex)
             {
-                response.ErrorType = ErrorType.S3.ImageNotCreatedOrUpdated;
+                response.ErrorType = ErrorResponseType.S3.ImageNotCreatedOrUpdated;
                 response.ErrorMessage = ex.Message;
                 return response;
             } 

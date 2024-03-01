@@ -147,7 +147,7 @@ namespace MainMikitan.Domain
 
         
     }
-    public record struct ErrorType
+    public record struct ErrorResponseType
     {
         public record struct Dictionary
         {
@@ -180,6 +180,7 @@ namespace MainMikitan.Domain
         {
             public const string NotAdded = "STAFF_NOT_ADDED";
             public const string IncorrectEmailOrPassword = "INCORRECT_EMAIL_OR_PASSWORD";
+            public const string StaffForbiddenPermission = "STAFF_FORBIDDEN_PERMISSION";
         }
 
         public record struct RestaurantEnvironment {
@@ -235,10 +236,16 @@ namespace MainMikitan.Domain
         {
             public const string CustomerHasReservation = "CUSTOMER_HAS_RESERVATION";
         }
+        public record struct RestaurantInfo
+        {
+            public const string ErrorUpdate = "RESTAURANT_INFO_ERROR_UPDATE";
+            public const string ErrorSaveChanges = "RESTAURANT_INFO_ERROR_SAVE_CHANGES";
+            public const string ErrorCreate = "RESTAURANT_INFO_ERROR_CREATE";
+        }
 
         public const string CustomerCategoryNotUpdated = "CUSTOMER_CATEGORY_NOT_UPDATED";
 
-        public const string NotCorrectMobileNumberType = "NOT_CORRECT_MOBILE_NUMBER_TYPE";
+        public const string InCorrectMobileNumberType = "INCORRECT_MOBILE_NUMBER_TYPE";
         public const string NotCorrectPasswordType = "NOT_CORRECT_PASSWORD_TYPE";
         public const string NotCorrectGenderIdType = "NOT_CORRECT_GENDERID_TYPE";
         public const string UserIsNotAdult = "USER_IS_NOT_ADULT";
@@ -269,7 +276,7 @@ namespace MainMikitan.Domain
         public const string WrongHour = "WRONG_HOUR";
         public const string WrongMinute = "WRONG_MINUTE";
 
-        
+
     }
     
 

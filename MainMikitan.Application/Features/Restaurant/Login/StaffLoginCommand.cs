@@ -33,24 +33,31 @@ public class StaffLoginCommandCommandHandler(
     public async Task<ResponseModel<AuthTokenResponseModel>> Handle(StaffLoginCommand command,
         CancellationToken cancellationToken)
     {
-        var hashPassword = passwordHasher.Hash(command.Request.Password);
-        var hashUserName = passwordHasher.Hash(command.Request.Username);
-        var staff = await restaurantStaffQueryRepository.GetActive(hashUserName, hashPassword, cancellationToken);
-        if (staff is null)
-            return Fail(ErrorType.Staff.IncorrectEmailOrPassword);
-        return staff.IsManager
-            ? Success(authService.StaffAuth(new StaffAuthModel
-            {
-                StaffId = staff!.Id,
-                RestaurantId = staff!.RestaurantId,
-                IsManager = staff!.IsManager,
-            }))
-            : Success(authService.StaffAuth(new StaffAuthModel
-            {
-                StaffId = staff!.Id,
-                RestaurantId = staff!.RestaurantId,
-                IsManager = staff!.IsManager,
-                Permissions = await permissionService.GetByStaffId(staff.Id, cancellationToken)
-            }));
+        try
+        {
+            var hashPassword = passwordHasher.Hash(command.Request.Password);
+            var hashUserName = passwordHasher.Hash(command.Request.Username);
+            var staff = await restaurantStaffQueryRepository.GetActive(hashUserName, hashPassword, cancellationToken);
+            if (staff is null)
+                return Fail(ErrorResponseType.Staff.IncorrectEmailOrPassword);
+            return staff.IsManager
+                ? Success(authService.StaffAuth(new StaffAuthModel
+                {
+                    StaffId = staff!.Id,
+                    RestaurantId = staff!.RestaurantId,
+                    IsManager = staff!.IsManager,
+                }))
+                : Success(authService.StaffAuth(new StaffAuthModel
+                {
+                    StaffId = staff!.Id,
+                    RestaurantId = staff!.RestaurantId,
+                    IsManager = staff!.IsManager,
+                    Permissions = await permissionService.GetByStaffId(staff.Id, cancellationToken)
+                }));
+        }
+        catch (Exception ex)
+        {
+            return Unexpected(ex);
+        }
     }
 }

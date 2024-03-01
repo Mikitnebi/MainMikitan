@@ -15,6 +15,10 @@ namespace MainMikitan.API.Extentions
             int.TryParse(claimsPrincipal.FindFirstValue(ClaimTypes.Role), out var id);
             return id;
         }
+        public static int GetRestaurantId(this ClaimsPrincipal claimsPrincipal) {
+            int.TryParse(claimsPrincipal.FindFirstValue(ClaimTypes.GivenName), out var id);
+            return id;
+        }
 
     }
 }

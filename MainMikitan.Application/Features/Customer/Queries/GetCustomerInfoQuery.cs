@@ -26,7 +26,7 @@ public class GetCustomerInfoQuery(int customerId) : IQuery<GetCustomerInfoRespon
                 var customerInfo = await customerInfoQueryRepository.Get(customerId, cancellationToken);
                 var customer = await customerQueryRepository.GetById(query.CustomerId, cancellationToken);
                 if (customerInfo is null || customer is null)
-                    return Fail(ErrorType.CustomerInfo.NotGetInfo);
+                    return Fail(ErrorResponseType.CustomerInfo.NotGetInfo);
 
                 return Success(new GetCustomerInfoResponse
                 {
