@@ -41,14 +41,14 @@ public class CreateOrUpdateEventDetailsCommandHandler(IRestaurantEventCommandRep
             return Fail(ErrorResponseType.EventDetails.ErrorEventNotFound);
         }
 
-        if (string.IsNullOrEmpty(eventDetailsData.Name) || string.IsNullOrEmpty(eventDetailsData.Description))
+        if ((string.IsNullOrEmpty(eventDetailsData.NameGeo) || string.IsNullOrEmpty(eventDetailsData.NameEng)) || (string.IsNullOrEmpty(eventDetailsData.DescriptionGeo) || string.IsNullOrEmpty(eventDetailsData.DescriptionEng)))
         {
             return Fail(ErrorResponseType.EventDetails.ErrorEventNameAndDescription);
         }
         
         var eventEntity = mapper.Map<EventDetailsEntity>(eventDetailsData);
         
-        if (!eventDetailsData.TakeManagersRegistrationAddress && string.IsNullOrEmpty(eventDetailsData.EventAddress))
+        if (!eventDetailsData.TakeManagersRegistrationAddress && (string.IsNullOrEmpty(eventDetailsData.EventAddressGeo) || string.IsNullOrEmpty(eventDetailsData.EventAddressEng)))
         {
             return Fail(ErrorResponseType.EventDetails.ErrorEventAddress);
         }
@@ -61,7 +61,8 @@ public class CreateOrUpdateEventDetailsCommandHandler(IRestaurantEventCommandRep
                 return Fail(ErrorResponseType.RestaurantInfo.ErrorRestaurantNotFound);
             }
             
-            eventEntity.EventAddress = restaurantInfo.Address;
+            eventEntity.EventAddressGeo = restaurantInfo.Address;
+            eventEntity.EventAddressEng = restaurantInfo.AddressEng;
         }
 
         if (eventDetailsData.HasMusician && string.IsNullOrEmpty(eventDetailsData.Musician))

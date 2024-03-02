@@ -10,12 +10,15 @@ public class EventDetailsMap : IEntityTypeConfiguration<EventDetailsEntity>
     {
         builder.HasKey(b => b.Id);
         builder.Property(b => b.EventId);
-        builder.Property(b => b.Name);
-        builder.Property(b => b.Description);
+        builder.Property(b => b.NameGeo);
+        builder.Property(b => b.NameEng);
+        builder.Property(b => b.DescriptionGeo);
+        builder.Property(b => b.DescriptionEng);
         builder.Property(b => b.MaxAttendances);
         builder.Property(b => b.NeedsRegistration);
         builder.Property(b => b.TakeManagersRegistrationAddress);
-        builder.Property(b => b.EventAddress);
+        builder.Property(b => b.EventAddressGeo);
+        builder.Property(b => b.EventAddressEng);
         builder.Property(b => b.Price);
         builder.Property(b => b.HasMusician);
         builder.Property(b => b.Musician);
