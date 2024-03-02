@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MainMikitan.Application.Services.AutoMapper;
 using MainMikitan.Database.Features.Restaurant.Interface;
+using MainMikitan.Domain;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Models.Events;
 using MainMikitan.Domain.Requests.RestaurantRequests.Event;
@@ -31,6 +32,6 @@ public class CreateOrUpdateEventCommandHandler(IRestaurantEventCommandRepository
         var commandResponse = await eventCommandRepository.CreateOrUpdateEvent(eventEntity);
         var result = await eventCommandRepository.SaveChangesAsync();
 
-        return result > 0 ? Success() : Fail("ივენთის შექმნა ვერ მოხერხდა");
+        return result > 0 ? Success() : Fail(ErrorResponseType.Event.ErrorCreate);
     }
 }

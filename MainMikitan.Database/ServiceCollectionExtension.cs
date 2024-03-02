@@ -90,6 +90,7 @@ namespace MainMikitan.Database
             
             //Events
             services.AddScoped<IRestaurantEventCommandRepository, RestaurantEventCommandRepository>();
+            services.AddScoped<IRestaurantEventRepository, RestaurantEventRepository>();
         }
     }
 }

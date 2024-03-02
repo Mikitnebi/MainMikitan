@@ -126,7 +126,8 @@ namespace MainMikitan.Domain
         }
 
         public enum RestaurantPermissionId { 
-            Info = 1
+            Info = 1,
+            Event = 2
         }
 
         public enum ListOfValueType
@@ -241,8 +242,25 @@ namespace MainMikitan.Domain
             public const string ErrorUpdate = "RESTAURANT_INFO_ERROR_UPDATE";
             public const string ErrorSaveChanges = "RESTAURANT_INFO_ERROR_SAVE_CHANGES";
             public const string ErrorCreate = "RESTAURANT_INFO_ERROR_CREATE";
+            public const string ErrorRestaurantNotFound = "RESTAURANT_BY_ID_NOT_FOUND";
         }
-
+        
+        public record struct EventDetails
+        {
+            public const string ErrorEventNotFound = "EVENT_NOT_FOUND_BY_ID";
+            public const string ErrorEventNameAndDescription = "INCORRECT_EVENT_NAME_OR_DESCRIPTION";
+            public const string ErrorEventAddress = "EVENT_ADDRESS_NEEDED";
+            public const string ErrorMusiciansNotProvided = "EVENT_MUSICIANS_NOT_PROVIDED";
+            public const string ErrorPresenterNotProvided = "EVENT_PRESENTER_NOT_PROVIDED";
+            public const string ErrorDancerNotProvided = "EVENT_DANCER_NOT_PROVIDED";
+            public const string ErrorCreate = "EVENT_DETAILS_ERROR_CREATE";
+        }
+        
+        public record struct Event
+        {
+            public const string ErrorCreate = "EVENT_ERROR_CREATE";
+        }
+        
         public const string CustomerCategoryNotUpdated = "CUSTOMER_CATEGORY_ERROR_UPDATED";
 
         public const string InCorrectMobileNumberType = "INCORRECT_MOBILE_NUMBER_TYPE";

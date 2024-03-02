@@ -26,5 +26,8 @@ public class MappingProfile : Profile
         
         CreateMap<CreateOrUpdateEventRequest, EventEntity>();
         CreateMap<EventEntity, CreateOrUpdateEventRequest>();
+        
+        CreateMap<CreateOrUpdateEventDetailsRequest, EventDetailsEntity>();
+        CreateMap<EventDetailsEntity, CreateOrUpdateEventDetailsRequest>();
     }
 }
