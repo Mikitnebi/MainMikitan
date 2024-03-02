@@ -19,7 +19,7 @@ public class CreateOrUpdateEventCommandHandler(IRestaurantEventCommandRepository
     IMapper mapper) 
     : ResponseMaker, ICommandHandler<CreateOrUpdateEventCommand, bool>
 {
-    public Task<ResponseModel<bool>> Handle(CreateOrUpdateEventCommand request,
+    public async Task<ResponseModel<bool>> Handle(CreateOrUpdateEventCommand request,
         CancellationToken cancellationToken)
     {
         var eventData = request.EventData;
@@ -28,8 +28,9 @@ public class CreateOrUpdateEventCommandHandler(IRestaurantEventCommandRepository
         eventEntity.RestaurantId = request.RestaurantId;
         eventEntity.CreationDate = DateTime.Now;
         
-        var commandResponse = eventCommandRepository.CreateOrUpdateEvent(eventEntity);
+        var commandResponse = await eventCommandRepository.CreateOrUpdateEvent(eventEntity);
+        var result = await eventCommandRepository.SaveChangesAsync();
 
-        return Task.FromResult(commandResponse ? Success() : Fail("ივენთის შექმნა ვერ მოხერხდა"));
+        return result > 0 ? Success() : Fail("ივენთის შექმნა ვერ მოხერხდა");
     }
 }

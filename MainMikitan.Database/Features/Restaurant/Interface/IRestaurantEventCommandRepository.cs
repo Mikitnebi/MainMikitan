@@ -4,6 +4,7 @@ namespace MainMikitan.Database.Features.Restaurant.Interface;
 
 public interface IRestaurantEventCommandRepository
 {
-    public bool CreateOrUpdateEvent(EventEntity eventData);
-    public bool CreateOrUpdateEventDetails(EventDetailsEntity eventDetails);
+    public Task<bool> CreateOrUpdateEvent(EventEntity eventData);
+    public Task<bool> CreateOrUpdateEventDetails(EventDetailsEntity eventDetails);
+    public Task<int> SaveChangesAsync();
 }
