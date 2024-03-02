@@ -10,13 +10,12 @@ using MainMikitan.Domain.Templates;
 
 namespace MainMikitan.Application.Features.Restaurant.Events.Command;
 
-public class CreateOrUpdateEventCommand(int restaurantId, CreateOrUpdateEventRequest eventData, IEnumerable<int> permissionIds, string userRole, CancellationToken cancellationToken) : ICommand<bool>
+public class CreateOrUpdateEventCommand(int restaurantId, CreateOrUpdateEventRequest eventData, IEnumerable<int> permissionIds, string userRole) : ICommand<bool>
 {
     public IEnumerable<int> PermissionIds { get; set; } = permissionIds;
     public string UserRole { get; set; } = userRole;
     public int RestaurantId { get; set; } = restaurantId;
     public CreateOrUpdateEventRequest EventData { get; set; } = eventData;
-    public CancellationToken CancellationToken { get; set; } = cancellationToken;
 }
 
 public class CreateOrUpdateEventCommandHandler(IRestaurantEventCommandRepository eventCommandRepository,

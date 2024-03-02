@@ -15,7 +15,7 @@ public class EventController(IMediator mediator) : MainController(mediator)
     [HttpPost("CreateOrUpdate/Event")]
     public async Task<IActionResult> CreateOrUpdateInfo(CreateOrUpdateEventRequest request, CancellationToken cancellationToken = default) {
         return !ModelState.IsValid ? BadRequest(ModelState) :
-            CheckResponse(await Mediator.Send(new CreateOrUpdateEventCommand(RestaurantId, request, new []{ (int)Enums.RestaurantPermissionId.Event }, UserRole!, cancellationToken), cancellationToken));
+            CheckResponse(await Mediator.Send(new CreateOrUpdateEventCommand(RestaurantId, request, new []{ (int)Enums.RestaurantPermissionId.Event }, UserRole!), cancellationToken));
     }
     
     [HttpPost("CreateOrUpdate/EventDetails")]
