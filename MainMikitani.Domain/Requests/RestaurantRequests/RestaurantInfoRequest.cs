@@ -8,62 +8,45 @@ namespace MainMikitan.Domain.Requests.RestaurantRequests;
 
 public class RestaurantInfoRequest
 {
-    public double LocationX { get; set; }
-    public double LocationY { get; set; }
+    public decimal LocationX { get; set; }
+    public decimal LocationY { get; set; }
 
     [MaxLength(40,ErrorMessage = ErrorResponseType.MoreThanMaxSizeInput),
         MinLength(5, ErrorMessage = ErrorResponseType.NotEnoughInput)]
     public string Address { get; set; } = null!;
+    
+    [MaxLength(40,ErrorMessage = ErrorResponseType.MoreThanMaxSizeInput),
+     MinLength(5, ErrorMessage = ErrorResponseType.NotEnoughInput)]
+    public string AddressEng { get; set; } = null!;
 
     //Required to change BusinessTypeSize each time its size changes BY HAND
     [Range(0, BusinessTypeSize, ErrorMessage = ErrorResponseType.WrongBusinessTypeId)]
     public int BusinessTypeId { get; set; }
     public int PriceTypeId { get; set; }
+    public int RegionId { get; set; }
 
     public bool HasCoupe { get; set; }
     public bool HasTerrace { get; set; }
 
-    [Range(0,24, ErrorMessage = ErrorResponseType.WrongHour)]
-    public short HallStartHour { get; set; }
-
-    [Range(0, 24, ErrorMessage = ErrorResponseType.WrongHour)]
-    public short HallEndHour { get; set; }
-
-    [Range(0, 59, ErrorMessage = ErrorResponseType.WrongMinute)]
-    public short HallStartMinute { get; set; }
-
-    [Range(0, 59, ErrorMessage = ErrorResponseType.WrongMinute)]
-    public short HallEndMinute { get; set; }
-
-    [Range(0, 24, ErrorMessage = ErrorResponseType.WrongHour)]
-    public short KitchenStartHour { get; set; }
-
-    [Range(0, 24, ErrorMessage = ErrorResponseType.WrongHour)]
-    public short KitchenEndHour { get; set; }
-
-    [Range(0, 59, ErrorMessage = ErrorResponseType.WrongMinute)]
-    public short KitchenStartMinute { get; set; }
-
-    [Range(0, 59, ErrorMessage = ErrorResponseType.WrongMinute)]
-    public short KitchenEndMinute { get; set; }
-
-    [Range(0, 24, ErrorMessage = ErrorResponseType.WrongHour)]
-    public short MusicStartHour { get; set; }
-
-    [Range(0, 24, ErrorMessage = ErrorResponseType.WrongHour)]
-    public short MusicEndHour { get; set; }
-
-    [Range(0, 59, ErrorMessage = ErrorResponseType.WrongMinute)]
-    public short MusicStartMinute { get; set; }
-
-    [Range(0, 59, ErrorMessage = ErrorResponseType.WrongMinute)]
-    public short MusicEndMinute { get; set; }
+    [Required]
+    public TimeOnly HallStartTime { get; init; }
+    [Required]
+    public TimeOnly HallEndTime { get; init; }
+    [Required]
+    public TimeOnly KitchenStartTime { get; init; }
+    [Required]
+    public TimeOnly KitchenEndTime { get; init; }
+    [Required]
+    public TimeOnly MusicStartTime { get; init; }
+    [Required]
+    public TimeOnly MusicEndTime { get; init; }
+    public int ActiveStatusId { get; set; }
     public bool ForCorporateEvents { get; set; }
-
+    
     [MaxLength(250, ErrorMessage = ErrorResponseType.MoreThanMaxSizeInput), 
-        MinLength(50, ErrorMessage = ErrorResponseType.NotEnoughInput)]
+        MinLength(10, ErrorMessage = ErrorResponseType.NotEnoughInput)]
     public string? DescriptionGeo { get; set; }
     [MaxLength(250, ErrorMessage = ErrorResponseType.MoreThanMaxSizeInput), 
-        MinLength(50, ErrorMessage = ErrorResponseType.NotEnoughInput)]
+        MinLength(10, ErrorMessage = ErrorResponseType.NotEnoughInput)]
     public string? DescriptionEng { get; set; }
 }

@@ -18,16 +18,23 @@ public class MakeBranchRestaurantCommandHandler(
 {
     public async Task<ResponseModel<string>> Handle(MakeBranchRestaurantCommand request, CancellationToken cancellationToken)
     {
-        var generateCode = UtilHelper.GenerateCode();
-        var addResponse = await restaurantBranchingCodeLogRepository.Create(
-            new RestaurantBranchingCodeLogEntity
-            {
-                Code = generateCode,
-                CreatedAt = DateTime.Now, 
-                ValidateTime = 3, 
-                NumberOfTrials = 3, 
-                ParentRestaurantId = request.RestaurantId
-            });
-        return addResponse > 0 ? Success(generateCode) : Fail(ErrorResponseType.Restaurant.NotUpdated);
+        try
+        {
+            var generateCode = UtilHelper.GenerateCode();
+            var addResponse = await restaurantBranchingCodeLogRepository.Create(
+                new RestaurantBranchingCodeLogEntity
+                {
+                    Code = generateCode,
+                    CreatedAt = DateTime.Now,
+                    ValidateTime = 3,
+                    NumberOfTrials = 3,
+                    ParentRestaurantId = request.RestaurantId
+                });
+            return addResponse > 0 ? Success(generateCode) : Fail(ErrorResponseType.Restaurant.NotUpdated);
+        }
+        catch (Exception ex)
+        {
+            return Unexpected(ex);
+        }
     }
 }

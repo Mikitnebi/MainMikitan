@@ -42,8 +42,10 @@ public class RestaurantInfoQueryRepository(MikDbContext db) : IRestaurantInfoQue
         return await query.ToListAsync(cancellationToken);
     }
 
-    public async Task<RestaurantInfoEntity> GetByRestaurantId(int restaurantId, CancellationToken cancellationToken = default)
+    public async Task<RestaurantInfoEntity?> GetByRestaurantId(int restaurantId, CancellationToken cancellationToken = default)
     {
-        return await db.RestaurantInfo.Where(t => t.RestaurantId == restaurantId).FirstAsync(cancellationToken);
+        return await db.RestaurantInfo
+            .Where(t => t.RestaurantId == restaurantId)
+            .FirstOrDefaultAsync(cancellationToken);
     }
 }

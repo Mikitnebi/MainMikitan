@@ -1,4 +1,5 @@
-﻿using MainMikitan.Database.Features.Table.Interface;
+﻿using AutoMapper;
+using MainMikitan.Database.Features.Table.Interface;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Models.Restaurant.TableManagement;
 using MainMikitan.Domain.Requests.TableRequests;
@@ -14,7 +15,8 @@ public class AddTableCommand(AddTableRequest request, int restaurantId) : IComma
 
 public class AddTableCommandHandler(ITableCommandRepository tableCommandRepository, 
     ITableEnvironmentCommandRepository tableEnvironmentCommandRepository,
-    ITableQueryRepository tableQueryRepository)
+    ITableQueryRepository tableQueryRepository,
+    IMapper mapper)
     : ResponseMaker, ICommandHandler<AddTableCommand>
 {
 
@@ -23,39 +25,27 @@ public class AddTableCommandHandler(ITableCommandRepository tableCommandReposito
     {
         var restaurantId = command.RestaurantId;
         var request = command.Request;
-        var tableInfoEntity = new TableInfoEntity()
-        {
-            RestaurantId = restaurantId,
-            TableNumber = request.TableNumber,
-            MaxPlace = request.MaxPlace,
-            MinPlace = request.MinPlace,
-            TableType = request.TableType,
-            XCoordinate = request.XCoordinate,
-            YCoordinate = request.YCoordinate
-        };
+        var tableInfoEntity = mapper.Map<TableInfoEntity>(request);
+        tableInfoEntity.RestaurantId = restaurantId;
         try
         {
             var tableNumerationExists =
                 await tableQueryRepository.GetSingleTableByNumeration(request.TableNumber, restaurantId, cancellationToken);
 
             if (tableNumerationExists.Result is not null)
-            {
                 return Fail("TABLE_WITH_PROVIDED_NUMERATION_EXISTS");
-            }
             
             var tableAddResponse = await tableCommandRepository.AddTable(tableInfoEntity, cancellationToken);
             var resultTableInfoSave = await tableCommandRepository.SaveChanges();
             if (!resultTableInfoSave)
-            {
                 return Fail("TABLE_INFO_WAS_NOT_ADDED");
-            }
             
             TableEnvironmentEntity tableEnvironmentInfo = new()
             {
                 TableId = tableAddResponse.Result!.Id
             };
             
-            foreach (var environment in request.EnvironmentId)
+            foreach (var environment in request.EnvironmentIds)
             {
                 tableEnvironmentInfo.EnvironmentId = environment;
                 
@@ -70,7 +60,6 @@ public class AddTableCommandHandler(ITableCommandRepository tableCommandReposito
         {
             await tableCommandRepository.DeleteTable(tableInfoEntity.Id, cancellationToken);
             await tableCommandRepository.SaveChanges();
-            
             return Unexpected(e);
         }
     }

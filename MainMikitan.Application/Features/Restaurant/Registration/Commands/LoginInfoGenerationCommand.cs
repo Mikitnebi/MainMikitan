@@ -56,6 +56,7 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands
                 FullNameEng = request.Staff.FullNameEng,
                 PhoneNumber = request.Staff.PhoneNumber,
                 CreatedAt = DateTime.Now,
+                CreateUserId = -1,
                 IsManager = true,
                 IsActive = true,
                 PasswordHash = passwordHasher.Hash(generatePassword),

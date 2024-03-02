@@ -34,6 +34,7 @@ namespace MainMikitan.Database.Features.Restaurant.Command {
                          IsActive = true
                      }))
             {
+                
                 var result = await mikDbContext.RestaurantEnvironmentInfo.AddAsync(restaurantEnvironmentEntity, cancellationToken);
                 if (result.State != EntityState.Added) return false;
             }

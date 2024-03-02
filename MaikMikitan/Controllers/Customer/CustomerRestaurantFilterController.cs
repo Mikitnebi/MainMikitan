@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace MainMikitan.API.Controllers;
 
 [Authorized(Enums.RoleId.Customer)]
-public class FilterController(IMediator mediator) : MainController(mediator)
+public class CustomerRestaurantFilterController(IMediator mediator) : MainController(mediator)
 {
     [HttpGet("RestaurantByDefault")]
     public async Task<IActionResult> GetRestaurantByDefault(int page, int size, CancellationToken cancellationToken = default)

@@ -13,6 +13,7 @@ public class RestaurantInfoMap : IEntityTypeConfiguration<RestaurantInfoEntity>
         builder.Property(b => b.LocationX).IsRequired();
         builder.Property(b => b.LocationY).IsRequired();
         builder.Property(b => b.Address).IsRequired();
+        builder.Property(b => b.AddressEng).IsRequired();
         builder.Property(b => b.BusinessTypeId).IsRequired();
         builder.Property(b => b.HasCoupe).IsRequired();
         builder.Property(b => b.HasTerrace).IsRequired();

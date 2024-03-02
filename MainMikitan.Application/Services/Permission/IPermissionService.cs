@@ -4,7 +4,7 @@ namespace MainMikitan.Application.Services.Permission;
 
 public interface IPermissionService
 {
-    Task<bool> Check(int staffId, IEnumerable<int> permissionsList, int? roleId = null,
+    Task<bool> Check(int staffId, IEnumerable<int> permissionsList, string userRole,
         CancellationToken cancellationToken = default);
     Task<List<int>> GetByStaffId(int staffId, CancellationToken cancellationToken = default);
 }

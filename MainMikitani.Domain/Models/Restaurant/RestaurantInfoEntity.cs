@@ -11,46 +11,47 @@ namespace MainMikitan.Domain.Models.Restaurant
         [Required]
         public int RestaurantId { get; set; }
         [Required]
-        public double LocationX { get; init; }
+        public decimal LocationX { get; set; }
         [Required]
-        public double LocationY { get; init; }
+        public decimal LocationY { get; set; }
         [Required]
-        public int PriceTypeId { get; init; }
+        public int PriceTypeId { get; set; }
         [Required]
-        public string Address { get; init; } = null!;
+        public string Address { get; set; } = null!;
+
+        [Required] public string AddressEng { get; set; } = null!;
         [Required]
-        public int RegionId { get; init; }
-        public decimal Rate { get; init; }
-        public int RateNumber { get; init; }
+        public int RegionId { get; set; }
+        public decimal Rate { get; set; }
+        public int RateNumber { get; set; }
         [Required]
-        public int BusinessTypeId { get; init; }
+        public int BusinessTypeId { get; set; }
         [Required]
-        public bool HasCoupe { get; init; }
+        public bool HasCoupe { get; set; }
         [Required]
-        public bool HasTerrace { get; init; }
+        public bool HasTerrace { get; set; }
         [Required]
-        public TimeOnly HallStartTime { get; init; }
+        public TimeOnly HallStartTime { get; set; }
         [Required]
-        public TimeOnly HallEndTime { get; init; }
+        public TimeOnly HallEndTime { get; set; }
         [Required]
-        public TimeOnly KitchenStartTime { get; init; }
+        public TimeOnly KitchenStartTime { get; set; }
         [Required]
-        public TimeOnly KitchenEndTime { get; init; }
+        public TimeOnly KitchenEndTime { get; set; }
         [Required]
-        public TimeOnly MusicStartTime { get; init; }
+        public TimeOnly MusicStartTime { get; set; }
         [Required]
-        public TimeOnly MusicEndTime { get; init; }
+        public TimeOnly MusicEndTime { get; set; }
         [Required]
-        public bool ForCorporateEvents { get; init; }
-        public string? DescriptionGeo { get; init; }
-        public string? DescriptionEng { get; init; }
+        public bool ForCorporateEvents { get; set; }
+        public string? DescriptionGeo { get; set; }
+        public string? DescriptionEng { get; set; }
         [Required]
-        public int ActiveStatusId { get; init; }
+        public int ActiveStatusId { get; set; }
 
         public int? UpdateUserId { get; set; }
         public DateTime? UpdatedAt { get; set; }
         [Required]
-        public DateTime CreatedAt { get; set; } 
-
+        public DateTime CreatedAt { get; set; }
     }
 }
