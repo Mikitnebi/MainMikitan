@@ -8,5 +8,4 @@ namespace MainMikitan.API.Controllers;
 [Authorized(Enums.RoleId.Customer)]
 public class CustomerReservation(IMediator mediator) : MainController(mediator)
 {
-    //[HttpPost("")]
 }
