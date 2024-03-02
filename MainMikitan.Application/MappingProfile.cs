@@ -6,6 +6,7 @@ using MainMikitan.Domain.Models.Restaurant.TableManagement;
 using MainMikitan.Domain.Requests.RestaurantRequests;
 using MainMikitan.Domain.Requests.RestaurantRequests.Event;
 using MainMikitan.Domain.Requests.TableRequests;
+using MainMikitan.Domain.Responses.Event;
 using MainMikitan.Domain.Responses.Filter;
 using MainMikitan.Domain.Responses.RestaurantResponses;
 
@@ -29,5 +30,10 @@ public class MappingProfile : Profile
         
         CreateMap<CreateOrUpdateEventDetailsRequest, EventDetailsEntity>();
         CreateMap<EventDetailsEntity, CreateOrUpdateEventDetailsRequest>();
+
+        CreateMap<EventEntity, GetEventInfoResponse>();
+        CreateMap<GetEventInfoResponse, EventEntity>();
+        CreateMap<EventDetailsEntity, GetEventInfoResponse>();
+        CreateMap<GetEventInfoResponse, EventDetailsEntity>();
     }
 }
