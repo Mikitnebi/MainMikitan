@@ -1,6 +1,7 @@
 using MainMikitan.Database.DbContext.Mapping;
 using MainMikitan.Domain.Models.Common;
 using MainMikitan.Domain.Models.Customer;
+using MainMikitan.Domain.Models.Events;
 using MainMikitan.Domain.Models.ListOfValue;
 using MainMikitan.Domain.Models.Menu;
 using MainMikitan.Domain.Models.Reservation;
@@ -38,6 +39,8 @@ public class MikDbContext : IdentityDbContext
     public DbSet<TableEnvironmentEntity> TableEnvironment { get; set; }
     public DbSet<TableInfoEntity> TableInfo { get; set; }
     public DbSet<PermissionEntity> Permission { get; set; }
+    public DbSet<EventEntity> Event { get; set; }
+    public DbSet<EventDetailsEntity> EventDetails { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -59,6 +62,8 @@ public class MikDbContext : IdentityDbContext
         modelBuilder.ApplyConfiguration(new CategoryMap());
         modelBuilder.ApplyConfiguration(new TableEnvironmentMap());
         modelBuilder.ApplyConfiguration(new TableInfoMap());
+        modelBuilder.ApplyConfiguration(new EventMap());
+        modelBuilder.ApplyConfiguration(new EventDetailsMap());
         
         base.OnModelCreating(modelBuilder);
     }

@@ -87,6 +87,9 @@ namespace MainMikitan.Database
             services.AddScoped<IRestaurantStaffCommandRepository, RestaurantStaffCommandRepository>();
             services.AddScoped<IRestaurantStaffQueryRepository, RestaurantStaffQueryRepository>();
             services.AddScoped<IStaffPermissionQueryRepository, StaffPermissionQueryRepository>();
+            
+            //Events
+            services.AddScoped<IRestaurantEventCommandRepository, RestaurantEventCommandRepository>();
         }
     }
 }
