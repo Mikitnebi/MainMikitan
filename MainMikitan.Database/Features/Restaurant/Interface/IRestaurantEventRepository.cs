@@ -5,5 +5,5 @@ namespace MainMikitan.Database.Features.Restaurant.Interface;
 public interface IRestaurantEventRepository
 {
     public Task<EventEntity?> GetEventById(int eventId);
-    public Task<EventEntity?> GetEventRestaurantIdByEventId(int eventId);
+    public Task<EventEntity?> GetEventRestaurantIdByEventId(int restaurantId);
 }

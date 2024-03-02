@@ -12,8 +12,8 @@ public class RestaurantEventRepository(MikDbContext mikDbContext) : IRestaurantE
         return await mikDbContext.Event.FirstOrDefaultAsync(e => e.Id == eventId);
     }
     
-    public async Task<EventEntity?> GetEventRestaurantIdByEventId(int eventId)
+    public async Task<EventEntity?> GetEventRestaurantIdByEventId(int restaurantId)
     {
-        return await mikDbContext.Event.FirstOrDefaultAsync(e => e.RestaurantId == eventId);
+        return await mikDbContext.Event.FirstOrDefaultAsync(e => e.RestaurantId == restaurantId);
     }
 }
