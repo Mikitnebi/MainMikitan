@@ -1,4 +1,5 @@
-﻿using MainMikitan.Application.Services.AutoMapper;
+﻿using AutoMapper;
+using MainMikitan.Application.Services.AutoMapper;
 using MainMikitan.Database.Features.Restaurant.Interface;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Models.Events;
@@ -15,7 +16,7 @@ public class CreateOrUpdateEventCommand(int restaurantId, CreateOrUpdateEventReq
 }
 
 public class CreateOrUpdateEventCommandHandler(IRestaurantEventCommandRepository eventCommandRepository,
-    IMapperConfig mapperConfig) 
+    IMapper mapper) 
     : ResponseMaker, ICommandHandler<CreateOrUpdateEventCommand, bool>
 {
     public Task<ResponseModel<bool>> Handle(CreateOrUpdateEventCommand request,
@@ -23,18 +24,12 @@ public class CreateOrUpdateEventCommandHandler(IRestaurantEventCommandRepository
     {
         var eventData = request.EventData;
         
-        var eventEntity = new EventEntity();
-        eventEntity = mapperConfig.Map(eventData, eventEntity);
+        var eventEntity = mapper.Map<EventEntity>(eventData);
         eventEntity.RestaurantId = request.RestaurantId;
         eventEntity.CreationDate = DateTime.Now;
         
         var commandResponse = eventCommandRepository.CreateOrUpdateEvent(eventEntity);
 
-        if (commandResponse)
-        {
-            return Task.FromResult(Success());
-        }
-
-        return Task.FromResult(Fail("ივენთის შექმნა ვერ მოხერხდა"));
+        return Task.FromResult(commandResponse ? Success() : Fail("ივენთის შექმნა ვერ მოხერხდა"));
     }
 }

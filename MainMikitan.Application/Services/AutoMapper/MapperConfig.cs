@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Reflection;
+using AutoMapper.Internal;
+using FluentEmail.Core;
 
 namespace MainMikitan.Application.Services.AutoMapper;
 
@@ -9,8 +11,8 @@ public class MapperConfig : IMapperConfig
         where TFrom : class 
         where TTo : class
     {
-        var fromType = from.GetType();
-        var toType = to.GetType();
+        var fromType = typeof(TFrom);
+        var toType = typeof(TTo);
         
         var fromProperties = GetProperties(fromType);
         var toProperties = GetProperties(toType);
@@ -20,26 +22,22 @@ public class MapperConfig : IMapperConfig
         var similarProperties = GetSimilarProperties(fromProperties, toProperties);
         return SetValues(from, to, similarProperties);
     }
-    private List<PropertyInfo>? GetProperties<T>(T data)
+    private List<PropertyInfo>? GetProperties(Type data)
     {
-        return data?
-            .GetType()
-            .GetProperties()
+        return data.GetProperties()
             .ToList();
     }
 
     private List<PropertyInfo> GetSimilarProperties(List<PropertyInfo> firstComparable, List<PropertyInfo> secondComparable)
     {
-        var similarities = firstComparable.Count > secondComparable.Count ? 
-            firstComparable.Intersect(secondComparable).ToList()
-            : secondComparable.Intersect(firstComparable).ToList();
-        
-        return similarities; 
+        return firstComparable.Count > secondComparable.Count ? 
+            (from firstProperty in firstComparable from secondProperty in secondComparable where firstProperty.Name == secondProperty.Name && firstProperty.GetType() == secondProperty.GetType() select firstProperty).ToList() : 
+            (from secondProperty in secondComparable from firstProperty in firstComparable where firstProperty.Name == secondProperty.Name && firstProperty.GetType() == secondProperty.GetType() select firstProperty).ToList();
     }
 
     private TTo SetValues<TFrom, TTo>(TFrom from, TTo to, List<PropertyInfo> similarProperties)
     {
-        var fromProperties = GetProperties(from?.GetType());
+        var fromProperties = GetProperties(typeof(TFrom));
 
         if (fromProperties == null) return to;
         var intersectProperties = fromProperties.Intersect(similarProperties).ToList();

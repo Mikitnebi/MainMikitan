@@ -1,8 +1,10 @@
 using AutoMapper;
 using MainMikitan.Domain;
+using MainMikitan.Domain.Models.Events;
 using MainMikitan.Domain.Models.Restaurant;
 using MainMikitan.Domain.Models.Restaurant.TableManagement;
 using MainMikitan.Domain.Requests.RestaurantRequests;
+using MainMikitan.Domain.Requests.RestaurantRequests.Event;
 using MainMikitan.Domain.Requests.TableRequests;
 using MainMikitan.Domain.Responses.Filter;
 using MainMikitan.Domain.Responses.RestaurantResponses;
@@ -21,5 +23,8 @@ public class MappingProfile : Profile
 
         CreateMap<TableInfoEntity, AddTableRequest>();
         CreateMap<AddTableRequest, TableInfoEntity>();
+        
+        CreateMap<CreateOrUpdateEventRequest, EventEntity>();
+        CreateMap<EventEntity, CreateOrUpdateEventRequest>();
     }
 }

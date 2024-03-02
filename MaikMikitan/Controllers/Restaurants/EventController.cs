@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace MainMikitan.API.Controllers.Restaurants;
 
 [Authorized(Enums.RoleId.Manager)]
-[Route("[controller]")]
-public class EventCreationController(IMediator mediator) : MainController(mediator)
+[Route("Event")]
+public class EventController(IMediator mediator) : MainController(mediator)
 {
     [HttpPost("CreateOrUpdate/Event")]
     public async Task<IActionResult> CreateOrUpdateInfo(CreateOrUpdateEventRequest request, CancellationToken cancellationToken = default) {
