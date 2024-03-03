@@ -18,12 +18,10 @@ namespace MainMikitan.Domain.Models.Restaurant
         public int PriceTypeId { get; set; }
         [Required]
         public string Address { get; set; } = null!;
-
-        [Required] public string AddressEng { get; set; } = null!;
-        [Required]
+        [Required] 
+        public string AddressEng { get; set; } = null!;
+        [Required] 
         public int RegionId { get; set; }
-        public decimal Rate { get; set; }
-        public int RateNumber { get; set; }
         [Required]
         public int BusinessTypeId { get; set; }
         [Required]
@@ -46,6 +44,8 @@ namespace MainMikitan.Domain.Models.Restaurant
         public bool ForCorporateEvents { get; set; }
         public string? DescriptionGeo { get; set; }
         public string? DescriptionEng { get; set; }
+        public decimal Rate { get; set; }
+        public int RateNumber { get; set; }
         [Required]
         public int ActiveStatusId { get; set; }
 

@@ -31,6 +31,7 @@
   <ItemGroup>
     <Folder Include="Features\Category\Command\" />
     <Folder Include="Features\ListOfValue\Command\" />
+    <Folder Include="Features\Reservation\Dapper\Command\" />
   </ItemGroup>
 
   <ItemGroup>

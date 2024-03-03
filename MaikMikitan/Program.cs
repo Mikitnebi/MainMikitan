@@ -29,7 +29,7 @@ var jwtOptions = builder.Configuration.GetSection(nameof(JwtOptions)).Get<JwtOpt
 
 builder.Services.AddCors(options => {
     options.AddPolicy("AllowSpecificOrigin", builder => {
-        builder.WithOrigins("http://127.0.0.1:5173", "http://127.0.0.1:5174")
+        builder.WithOrigins("http://127.0.0.1:5173", "http://127.0.0.1:5174", "http://213.200.15.25:5173", "http://213.200.15.25:5174")
                .AllowAnyMethod()
                .AllowAnyHeader();
     });
