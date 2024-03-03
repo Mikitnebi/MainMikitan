@@ -69,7 +69,7 @@ namespace MainMikitan.Database
             services.AddScoped<IDishCommandRepository, DishCommandRepository>();
             
             //Reservation
-            services.AddScoped<IReservationCommandRepository, ReservationCommandRepository>();
+            services.AddScoped<IReservationQueryRepository, ReservationQueryRepository>();
             
             //menu
             services.AddScoped<IGetMenuRepository, GetMenuRepository>();

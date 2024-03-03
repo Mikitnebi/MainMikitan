@@ -16,10 +16,12 @@ public record ReservationEntity
     public int TableId  { get; set; }
     public long ReservedManuId { get; set; }
     [Required]
-    public DateTime Date { get; set; }
+    public DateOnly Date { get; set; }
+    [Required]
+    public TimeOnly Time { get; set; }
     [Required]
     public DateTime CreatedAt { get; set; }
     public string? Comment { get; set; }
     public bool IsCanceled { get; set; }
-    public bool IsCompleted => Date > DateTime.Now && !IsCanceled;
+    public bool IsCompleted => new DateTime(Date, Time) > DateTime.Now && !IsCanceled;
 }

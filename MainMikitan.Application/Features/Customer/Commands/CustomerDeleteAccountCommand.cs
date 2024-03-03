@@ -21,7 +21,7 @@ public class CustomerDeleteAccountCommandHandler(
     IOtpLogCommandRepository otpLogCommandRepository,
     IOptions<OtpOptions> otpOptions,
     ICustomerQueryRepository customerQueryRepository,
-    IReservationCommandRepository reservationCommandRepository)
+    IReservationQueryRepository reservationQueryRepository)
     : ResponseMaker, ICommandHandler<CustomerDeleteAccountCommand>
 {
     public async Task<ResponseModel<bool>> Handle(CustomerDeleteAccountCommand request,
@@ -30,7 +30,7 @@ public class CustomerDeleteAccountCommandHandler(
         try
         {
             var hasAnyReservation =
-                await reservationCommandRepository.HasAnyActiveReservationByCustomerId(request.CustomerUserId);
+                await reservationQueryRepository.HasAnyActiveReservationByCustomerId(request.CustomerUserId);
             if (hasAnyReservation)
                 return Fail(ErrorResponseType.Reservation.CustomerHasReservation);
             var customer = await customerQueryRepository.GetById(request.CustomerUserId);

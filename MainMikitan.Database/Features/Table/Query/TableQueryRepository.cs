@@ -25,6 +25,11 @@ public class TableQueryRepository(MikDbContext db) : ResponseMaker<TableInfoEnti
             return Unexpected(e);
         }
     }
+
+    public async Task<List<TableInfoEntity>> GetAllTable(CancellationToken cancellationToken = default)
+    {
+        return await db.TableInfo.ToListAsync(cancellationToken);
+    }
     
     public async Task<bool> SaveChanges() 
     {
