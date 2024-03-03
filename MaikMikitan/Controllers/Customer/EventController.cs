@@ -11,7 +11,7 @@ namespace MainMikitan.API.Controllers;
 [Route("Customer-Event")]
 public class EventController(IMediator mediator) : MainController(mediator)
 {
-    [HttpGet("Get/AllEvent")]
+    [HttpGet("Get/AllEvent/{page:int}/{size:int}")]
     public async Task<IActionResult> GetEventInfo(int page, int size, CancellationToken cancellationToken = default) {
         return !ModelState.IsValid ? BadRequest(ModelState) :
             CheckResponse(await Mediator.Send(new GetCustomerEventQuery(page, size), cancellationToken));
