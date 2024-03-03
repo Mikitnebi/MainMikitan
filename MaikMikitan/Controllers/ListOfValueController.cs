@@ -10,31 +10,31 @@ namespace MainMikitan.API.Controllers;
 [OutputCache(Duration = 60)]
 public class ListOfValueController(IMediator mediator) : MainController(mediator)
 {
-    [HttpPost("kitchen-types")]
+    [HttpGet("kitchen-types")]
     public async Task<IActionResult> GetKitchenTypes(CancellationToken cancellationToken = default) =>
         !ModelState.IsValid ? BadRequest(ModelState) :
             CheckResponse(await Mediator.Send(new ListOfValueQuery((int)Enums.ListOfValueType.Kitchen),cancellationToken));
-    [HttpPost("music-types")]
+    [HttpGet("music-types")]
     public async Task<IActionResult> GetMusicTypes(CancellationToken cancellationToken = default) =>
         !ModelState.IsValid ? BadRequest(ModelState) :
             CheckResponse(await Mediator.Send(new ListOfValueQuery((int)Enums.ListOfValueType.Music),cancellationToken));
         
-    [HttpPost("environment-types")]
+    [HttpGet("environment-types")]
     public async Task<IActionResult> GetEnvironmentTypes(CancellationToken cancellationToken = default) =>
         !ModelState.IsValid ? BadRequest(ModelState) :
             CheckResponse(await Mediator.Send(new ListOfValueQuery((int)Enums.ListOfValueType.Environment),cancellationToken));
     
-    [HttpPost("region-types")]
+    [HttpGet("region-types")]
     public async Task<IActionResult> GetRegionTypes(CancellationToken cancellationToken = default) =>
         !ModelState.IsValid ? BadRequest(ModelState) :
             CheckResponse(await Mediator.Send(new ListOfValueQuery((int)Enums.ListOfValueType.Region),cancellationToken));
     
-    [HttpPost("citizenship-types")]
+    [HttpGet("citizenship-types")]
     public async Task<IActionResult> GetNationalityTypes(CancellationToken cancellationToken = default) =>
         !ModelState.IsValid ? BadRequest(ModelState) :
             CheckResponse(await Mediator.Send(new ListOfValueQuery((int)Enums.ListOfValueType.Citizenship),cancellationToken));
     
-    [HttpPost("ingredients-types")]
+    [HttpGet("ingredients-types")]
     public async Task<IActionResult> GetIngredientsTypes(CancellationToken cancellationToken = default) =>
         !ModelState.IsValid ? BadRequest(ModelState) :
             CheckResponse(await Mediator.Send(new ListOfValueQuery((int)Enums.ListOfValueType.Ingredients),cancellationToken));
