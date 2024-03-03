@@ -5,6 +5,7 @@ using MainMikitan.Domain.Models.Customer;
 using MainMikitan.Domain.Models.Events;
 using MainMikitan.Domain.Models.ListOfValue;
 using MainMikitan.Domain.Models.Menu;
+using MainMikitan.Domain.Models.Rating;
 using MainMikitan.Domain.Models.Reservation;
 using MainMikitan.Domain.Models.Restaurant;
 using MainMikitan.Domain.Models.Restaurant.TableManagement;
@@ -43,7 +44,9 @@ public class MikDbContext : IdentityDbContext
     public DbSet<EventEntity> Event { get; set; }
     public DbSet<EventDetailsEntity> EventDetails { get; set; }
     public DbSet<RestaurantCommentEntity> RestaurantComments { get; set; }
-    
+    public DbSet<RestaurantRatingEntity> RestaurantRating { get; set; }
+    public DbSet<CustomerRatingEntity> CustomerRating { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new CategoryDishMap());
@@ -68,6 +71,8 @@ public class MikDbContext : IdentityDbContext
         modelBuilder.ApplyConfiguration(new EventDetailsMap());
         modelBuilder.ApplyConfiguration(new ReservationMap());
         modelBuilder.ApplyConfiguration(new RestaurantCommentMap());
+        modelBuilder.ApplyConfiguration(new RestaurantRatingMap());
+        modelBuilder.ApplyConfiguration(new CustomerRatingMap());
         
         base.OnModelCreating(modelBuilder);
     }

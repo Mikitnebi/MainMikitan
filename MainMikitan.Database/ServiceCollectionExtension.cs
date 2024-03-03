@@ -24,6 +24,9 @@ using MainMikitan.Database.Features.Dish.Command;
 using MainMikitan.Database.Features.Dish.Interface;
 using MainMikitan.Database.Features.ListOfValue.Intefaces;
 using MainMikitan.Database.Features.ListOfValue.Query;
+using MainMikitan.Database.Features.Rating.Command;
+using MainMikitan.Database.Features.Rating.Interface;
+using MainMikitan.Database.Features.Rating.Query;
 using MainMikitan.Database.Features.Reservation.Command;
 using MainMikitan.Database.Features.Reservation.Interfaces;
 using MainMikitan.Database.Features.Restaurant.Interface;
@@ -97,6 +100,12 @@ namespace MainMikitan.Database
             //Comments
             services.AddScoped<IRestaurantCommentCommandRepository, RestaurantCommentCommandRepository>();
             services.AddScoped<IRestaurantCommentRepository, RestaurantCommentRepository>();
+            
+            //Rating
+            services.AddScoped<IRestaurantRatingCommandRepository, RestaurantRatingCommandRepository>();
+            services.AddScoped<IRestaurantRatingRepository, RestaurantRatingRepository>();
+            services.AddScoped<ICustomerRatingCommandRepository, CustomerRatingCommandRepository>();
+            services.AddScoped<ICustomerRatingRepository, CustomerRatingRepository>();
         }
     }
 }

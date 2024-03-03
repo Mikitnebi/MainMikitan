@@ -266,6 +266,11 @@ namespace MainMikitan.Domain
             public const string CommentSaveFail = "COMMENT_SAVE_ERROR";
         }
         
+        public record struct Rating
+        {
+            public const string RatingSaveFail = "RATING_SAVE_ERROR";
+        }
+        
         public const string CustomerCategoryNotUpdated = "CUSTOMER_CATEGORY_ERROR_UPDATED";
 
         public const string InCorrectMobileNumberType = "INCORRECT_MOBILE_NUMBER_TYPE";
