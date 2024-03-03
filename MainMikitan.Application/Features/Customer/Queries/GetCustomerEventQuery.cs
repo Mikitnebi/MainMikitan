@@ -1,34 +1,33 @@
-﻿using MainMikitan.Database.Features.Restaurant.Interface;
+﻿using AutoMapper;
+using MainMikitan.Database.Features.Customer.Interface;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Responses.Event;
 using MainMikitan.Domain.Templates;
 using Microsoft.IdentityModel.Tokens;
-using IMapper = AutoMapper.IMapper;
 
-namespace MainMikitan.Application.Features.Restaurant.Events.Query;
+namespace MainMikitan.Application.Features.Customer.Queries;
 
-public class GetEventInfoQuery(int restaurantId) : IQuery<List<GetEventInfoResponse>>
+public class GetCustomerEventQuery(int page, int size) : IQuery<List<GetEventInfoResponse>>
 {
-    public int RestaurantId { get; set; } = restaurantId;
+    public int Page { get; set; } = page;
+    public int Size { get; set; } = size;
 }
 
-public class GetEventInfoQueryHandler(IRestaurantEventRepository eventRepository,
+public class GetCustomerEventQueryHandler(ICustomerEventRepository eventRepository,
     IMapper mapper) : ResponseMaker<List<GetEventInfoResponse>>,
-    IQueryHandler<GetEventInfoQuery, List<GetEventInfoResponse>>
+    IQueryHandler<GetCustomerEventQuery, List<GetEventInfoResponse>>
 {
-    public async Task<ResponseModel<List<GetEventInfoResponse>>> Handle(GetEventInfoQuery query,
+    public async Task<ResponseModel<List<GetEventInfoResponse>>> Handle(GetCustomerEventQuery query,
         CancellationToken cancellationToken)
     {
-        var restaurantId = query.RestaurantId;
         var response = new List<GetEventInfoResponse>();
-
-        var eventData = await eventRepository.GetEventsByRestaurantId(restaurantId);
-        if (eventData.IsNullOrEmpty())
+        var events = await eventRepository.GetEvents(cancellationToken);
+        if (events.IsNullOrEmpty())
         {
             return Success([]);
         }
 
-        var activeEventData = eventData!.Where(ed => ed.EndDate < DateTime.Now).OrderBy(ed => ed.StartDate);
+        var activeEventData = events!.Where(ed => ed.EndDate < DateTime.Now).OrderBy(ed => ed.StartDate);
 
         for (var i = 0; i < activeEventData.Count(); i++)
         {
@@ -45,6 +44,6 @@ public class GetEventInfoQueryHandler(IRestaurantEventRepository eventRepository
             response.Add(eventEntity);
         }
 
-        return Success(response);
+        return Success(response.Skip((query.Page - 1) * query.Size).Take(query.Size).ToList());
     }
 }
