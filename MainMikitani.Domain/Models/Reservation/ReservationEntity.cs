@@ -22,6 +22,11 @@ public record ReservationEntity
     [Required]
     public DateTime CreatedAt { get; set; }
     public string? Comment { get; set; }
+    public bool GuestArrived { get; set; }
     public bool IsCanceled { get; set; }
-    public bool IsCompleted => new DateTime(Date, Time) > DateTime.Now && !IsCanceled;
+    public bool IsCompleted
+    {
+        get => IsCompleted;
+        set => IsCompleted = new DateTime(Date, Time) > DateTime.Now && !IsCanceled;
+    }
 }

@@ -64,6 +64,7 @@ public class MikDbContext : IdentityDbContext
         modelBuilder.ApplyConfiguration(new TableInfoMap());
         modelBuilder.ApplyConfiguration(new EventMap());
         modelBuilder.ApplyConfiguration(new EventDetailsMap());
+        modelBuilder.ApplyConfiguration(new ReservationMap());
         
         base.OnModelCreating(modelBuilder);
     }
