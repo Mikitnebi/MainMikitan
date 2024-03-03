@@ -14,6 +14,7 @@ using MainMikitan.Database.Features.Restaurant.Query;
 using MainMikitan.Database.Features.Category.Query;
 using MainMikitan.Database.Features.Comment.Command;
 using MainMikitan.Database.Features.Comment.Interface;
+using MainMikitan.Database.Features.Comment.Query;
 using MainMikitan.Database.Features.Common.Multifunctional.Interface.Query;
 using MainMikitan.Database.Features.Common.Multifunctional.Interface.Repository;
 using MainMikitan.Database.Features.Common.Multifunctional.Query;
@@ -95,6 +96,7 @@ namespace MainMikitan.Database
             
             //Comments
             services.AddScoped<IRestaurantCommentCommandRepository, RestaurantCommentCommandRepository>();
+            services.AddScoped<IRestaurantCommentRepository, RestaurantCommentRepository>();
         }
     }
 }

@@ -30,7 +30,6 @@
 
   <ItemGroup>
     <Folder Include="Features\Category\Command\" />
-    <Folder Include="Features\Comment\Query\" />
     <Folder Include="Features\ListOfValue\Command\" />
   </ItemGroup>
 
