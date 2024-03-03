@@ -27,13 +27,7 @@ builder.Services.Configure<JwtOptions>(options => builder.Configuration.GetSecti
 
 var jwtOptions = builder.Configuration.GetSection(nameof(JwtOptions)).Get<JwtOptions>();
 
-builder.Services.AddCors(options => {
-    options.AddPolicy("AllowSpecificOrigin", builder => {
-        builder.WithOrigins("http://127.0.0.1:5173", "http://127.0.0.1:5174", "http://213.200.15.25:5173", "http://213.200.15.25:5174")
-               .AllowAnyMethod()
-               .AllowAnyHeader();
-    });
-});
+builder.Services.AddCors(sa => sa.AddDefaultPolicy((p => p.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod())));
 
 
 builder.Services.AddAuthentication(options =>
@@ -113,7 +107,10 @@ builder.Services.AddAWSService<IAmazonS3>(new AWSOptions
     Region = RegionEndpoint.EUCentral1, // Replace with your AWS region
 });
 var app = builder.Build();
-
+app.UseCors(x =>
+    x.WithOrigins([
+        "http://127.0.0.1:5173", "http://127.0.0.1:5174", "http://213.200.15.25:5173", "http://213.200.15.25:5174"
+    ]).AllowCredentials().AllowAnyMethod().AllowAnyHeader());
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
 {

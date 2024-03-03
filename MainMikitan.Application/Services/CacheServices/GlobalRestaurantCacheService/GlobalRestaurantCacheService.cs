@@ -1,42 +1,49 @@
 using MainMikitan.Database.Features.Reservation.Dapper.Interface;
 using MainMikitan.Database.Features.Reservation.Interfaces;
+using MainMikitan.Database.Features.Restaurant.Interface;
 using MainMikitan.Database.Features.Table.Interface;
 using MainMikitan.Domain.Models.Restaurant.TableManagement;
 
 namespace MainMikitan.Application.Services.CacheServices.GlobalRestaurantCacheService;
 
 public class GlobalRestaurantCacheService
-(
-    ITableQueryRepository tableQueryRepository,
+{/*
+    ITableDapperQueryRepository tableDapperQueryRepository,
     ITableDapperEnvironmentQueryRepository tableDapperEnvironmentQuery,
-    IReservationQueryRepository reservationQueryRepository
+    IReservationDapperQueryRepository reservationDapperQueryRepository,
+    //IRestauranActivationDapperQueryRepository restauranActivationDapperQueryRepository
     ) : IGlobalRestaurantCacheService
 {
     public static Dictionary<int, TableModel> Tables = new Dictionary<int, TableModel>(20);
     public static Dictionary<DateOnly,
-        Dictionary<int,
-            Dictionary<int,
-                List<SemTable>>>> RestaurantReservationSystem { get; set; } =
-        new Dictionary<DateOnly, Dictionary<int, Dictionary<int, List<SemTable>>>>(21);
-    
+        Dictionary<int, Dictionary<int, int>>> RestaurantReservationSystem { get; set; } =
+        new Dictionary<DateOnly, Dictionary<int, Dictionary<int, int>>>(21);
+
     public async Task<bool> Initilize()
     {
         await InitializeTables();
         var currentDateTime = DateTime.Now;
-        var activeReservations = await reservationQueryRepository.GetActiveReservation();
-        
+        //var activeReservations = await reservationDapperQueryRepository.GetActiveReservation();
+
         for (var i = 0; i <= 14; i++)
         {
             currentDateTime = currentDateTime.AddDays(i);
             var currentDateTimeOnly = DateOnly.FromDateTime(currentDateTime);
-            RestaurantReservationSystem.Add(currentDateTimeOnly, new Dictionary<int, Dictionary<int, List<SemTable>>>(20));
+            RestaurantReservationSystem.Add(currentDateTimeOnly, new Dictionary<int, Dictionary<int, int>>(20));
         }
         return true;
     }
 
+    public async Task InitializeAllActiveRestaurant()
+    {
+       // var allActiveRestaurant = await restauranActivationDapperQueryRepository.GetAllInAcitiveOnlyIdsByDateOnly();
+      //  var
+       // for(int i = 0 ; i < allActiveRestaurant.Count; i++)
+
+    }
     private async Task InitializeTables()
     {
-        var allRestaurantAllTables = await tableQueryRepository.GetAllTable();
+        var allRestaurantAllTables = await tableDapperQueryRepository.GetAllTable();
         var allEnvironmentAllTables = await tableDapperEnvironmentQuery.GetAllEnvironment();
         for (var i = 0; i < allRestaurantAllTables.Count; i++)
         {
@@ -74,18 +81,9 @@ public class GlobalRestaurantCacheService
         allRestaurantAllTables = null;
         allEnvironmentAllTables = null;
         return;
-    }
+    }*/
 }
 
-
-
-
-
-public class SemTable
-{
-    public int TableId { get; set; }
-    public SemaphoreSlim TableLock= new SemaphoreSlim(1, 1);
-}
 
 public class TableModel
 { 
@@ -94,4 +92,9 @@ public class TableModel
     public int MaxPlace { get; init; }
     public int MinPlace { get; init; }
     public List<int>? TableEnvironmentIds { get; set; }
+    public bool IsBusyNow { get; set; }
+
+    public List<TimeOnly>? ArrivingTimes { get; set; }
+    public DateTime LockDate { get; set; }
+    public SemaphoreSlim TableLock= new SemaphoreSlim(1, 1); 
 }

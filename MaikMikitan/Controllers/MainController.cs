@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace MainMikitan.API.Controllers;
 [ApiController]
 [Route("[controller]")]
-[EnableCors("AllowSpecificOrigin")]
 public class MainController(IMediator mediator) : ControllerBase
 {
     protected readonly IMediator Mediator = mediator;
