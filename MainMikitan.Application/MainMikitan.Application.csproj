@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Comment\Queries\" />
     <Folder Include="Features\Restaurant\Registration\Queries\" />
     <Folder Include="Models\" />
   </ItemGroup>

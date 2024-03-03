@@ -1,4 +1,5 @@
 using MainMikitan.Database.DbContext.Mapping;
+using MainMikitan.Domain.Models.Comments;
 using MainMikitan.Domain.Models.Common;
 using MainMikitan.Domain.Models.Customer;
 using MainMikitan.Domain.Models.Events;
@@ -41,6 +42,7 @@ public class MikDbContext : IdentityDbContext
     public DbSet<PermissionEntity> Permission { get; set; }
     public DbSet<EventEntity> Event { get; set; }
     public DbSet<EventDetailsEntity> EventDetails { get; set; }
+    public DbSet<RestaurantCommentEntity> RestaurantComments { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -65,6 +67,7 @@ public class MikDbContext : IdentityDbContext
         modelBuilder.ApplyConfiguration(new EventMap());
         modelBuilder.ApplyConfiguration(new EventDetailsMap());
         modelBuilder.ApplyConfiguration(new ReservationMap());
+        modelBuilder.ApplyConfiguration(new RestaurantCommentMap());
         
         base.OnModelCreating(modelBuilder);
     }
