@@ -33,6 +33,9 @@ using MainMikitan.Database.Features.Restaurant.Interface;
 using MainMikitan.Database.Features.Table.Command;
 using MainMikitan.Database.Features.Table.Interface;
 using MainMikitan.Database.Features.Table.Query;
+using MainMikitan.Database.Features.LegalEntity.Command;
+using MainMikitan.Database.Features.LegalEntity.Interface;
+using MainMikitan.Database.Features.LegalEntity.Query;
 
 namespace MainMikitan.Database
 {
@@ -106,6 +109,9 @@ namespace MainMikitan.Database
             services.AddScoped<IRestaurantRatingRepository, RestaurantRatingRepository>();
             services.AddScoped<ICustomerRatingCommandRepository, CustomerRatingCommandRepository>();
             services.AddScoped<ICustomerRatingRepository, CustomerRatingRepository>();
+
+            services.AddScoped<ILegalEntityIntroCommandRepository, LegalEntityIntroCommandRepository>();
+            services.AddScoped<ILegalEntityIntroQueryRepository, LegalEntityIntroQueryRepository>();
         }
     }
 }

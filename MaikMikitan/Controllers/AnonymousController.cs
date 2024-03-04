@@ -1,7 +1,10 @@
 using MainMikitan.Application.Features.Customer.Commands;
+using MainMikitan.Application.Features.LegalEntity;
+using MainMikitan.Application.Features.LegalEntity.Commands;
 using MainMikitan.Application.Features.Restaurant.Registration.Commands;
 using MainMikitan.Domain.Requests;
 using MainMikitan.Domain.Requests.GeneralRequests;
+using MainMikitan.Domain.Requests.LegalEntityRequests;
 using MainMikitan.Domain.Requests.RestaurantRequests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -64,6 +67,24 @@ namespace MainMikitan.API.Controllers;
         return Ok(result);
     }
 
+    #endregion
+
+
+    #region LegalEntity
+
+    [HttpPost("LegalEntity/Registration")]
+    public async Task<IActionResult> LegalEntityIntroRegistration(LegalEntityIntroRegistrationRequest model) {
+        return !ModelState.IsValid ? BadRequest(ModelState) :
+                CheckResponse(await Mediator.Send(new LegalEntityIntroRegistrationCommand(model)));
+    }
+
+    [HttpPost("LegalEntityIntro/VerifyOtp/Email")]
+    public async Task<IActionResult> LegalEntityIntroVerifyOtp(GeneralRegistrationVerifyOtpRequest model) {
+        return !ModelState.IsValid ? BadRequest(ModelState) : 
+            CheckResponse(await Mediator.Send
+            (new LegalEntityIntroVerifyOtpCommand(new GeneralRegistrationVerifyOtpRequest{ Email = model.Email, Otp = model.Otp})));
+    }
+    
     #endregion
 
 

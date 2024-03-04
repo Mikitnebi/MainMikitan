@@ -48,8 +48,8 @@ namespace MainMikitan.Domain
         {
             CustomerIntro = 0,
             Customer = 1,
-            CompanyIntro = 2,
-            Company = 3,
+            LegalEntityIntro = 2,
+            LegalEntity = 3,
             RestaurantIntro = 4, 
             Restaurant = 5
         }
@@ -59,7 +59,8 @@ namespace MainMikitan.Domain
             CustomerDeleteAccount = 0,
             CustomerPasswordReset = 1,
             CustomerRegistration = 2,
-            RestaurantIntroRegistration = 3
+            RestaurantIntroRegistration = 3 ,
+            LegalEntityIntroRegistration = 4
         }
         public enum GenderId
         {
@@ -78,6 +79,18 @@ namespace MainMikitan.Domain
             NonVerified = 0,
             Verified = 1
         }
+
+        public enum LegalEntityStatusId
+        {
+            NonVerified = 0,
+            Verified = 1
+        }
+
+        public enum LegalEntityOtpVerificationId { 
+            NonVerified = 0,
+            Verified = 1
+        }
+
         public enum BusinessType {
             Cafe,
             Bar,
@@ -114,12 +127,14 @@ namespace MainMikitan.Domain
             RestaurantPasswordReset = 8,
             RestaurantRemindUserName = 9,
             RestaurantStaffChange = 10,
-            RestaurantInfoChange = 11
+            RestaurantInfoChange = 11,
             
             #endregion
             
-            #region Company
-             // TODO:
+            #region LegalEntity
+
+            LegalEntityRegistrationEmail = 12
+            
             #endregion
             
 
@@ -170,6 +185,7 @@ namespace MainMikitan.Domain
             public const string RestaurantNotUpdated = "RESTAURANTINTRO_RESTAURANT_ERROR_UPDATED";
             public const string VerifiedRestaurantNotFound = "RESTAURANTINTRO_VERIFIED_RESTAURANT_ERROR_FOUND";
             public const string RestaurantWithThisMailAlreadyExisted = "RESTAURANT_WITH_THIS_MAIL_ALREADY_EXISTED";
+            public const string RestaurantNotAdded = "COULD_NOT_REGISTER_RESTAURANT_INTRO";
         }
         public record struct Restaurant
         {
@@ -269,6 +285,11 @@ namespace MainMikitan.Domain
         public record struct Rating
         {
             public const string RatingSaveFail = "RATING_SAVE_ERROR";
+        }
+
+        public record struct LegalEntity {
+            public const string LegalEntityAlreadyExists = "SUCH_LEGAL_ENTITY_ALREADY_EXISTS";
+            public const string CouldNotCreateLegalEntity = "COULD_NOT_REGISTER_LEGAL_ENTITY_INTO";
         }
         
         public const string CustomerCategoryNotUpdated = "CUSTOMER_CATEGORY_ERROR_UPDATED";

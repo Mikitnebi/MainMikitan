@@ -7,6 +7,9 @@ using MainMikitan.Application.Services.Otp;
 using MainMikitan.Application.Services.Permission;
 using MainMikitan.Database.Features.Customer.Interface;
 using MainMikitan.Database.Features.Customer.Query;
+using MainMikitan.Database.Features.LegalEntity.Interface;
+using MainMikitan.Database.Features.LegalEntity.Query;
+using MainMikitan.Database.Features.LegalEntity.Command;
 
 namespace MainMikitan.Application
 {

@@ -1,6 +1,7 @@
 using MainMikitan.Database.DbContext.Mapping;
 using MainMikitan.Domain.Models.Comments;
 using MainMikitan.Domain.Models.Common;
+using MainMikitan.Domain.Models.Company;
 using MainMikitan.Domain.Models.Customer;
 using MainMikitan.Domain.Models.Events;
 using MainMikitan.Domain.Models.ListOfValue;
@@ -46,6 +47,7 @@ public class MikDbContext : IdentityDbContext
     public DbSet<RestaurantCommentEntity> RestaurantComments { get; set; }
     public DbSet<RestaurantRatingEntity> RestaurantRating { get; set; }
     public DbSet<CustomerRatingEntity> CustomerRating { get; set; }
+    public DbSet<LegalEntityIntroEntity> LegalEntityIntro { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -73,6 +75,7 @@ public class MikDbContext : IdentityDbContext
         modelBuilder.ApplyConfiguration(new RestaurantCommentMap());
         modelBuilder.ApplyConfiguration(new RestaurantRatingMap());
         modelBuilder.ApplyConfiguration(new CustomerRatingMap());
+        modelBuilder.ApplyConfiguration(new LegalEntityIntroMap());
         
         base.OnModelCreating(modelBuilder);
     }

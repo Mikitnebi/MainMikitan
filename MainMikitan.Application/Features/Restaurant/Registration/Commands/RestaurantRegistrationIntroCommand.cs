@@ -66,6 +66,7 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands {
                     EmailConfirmation = false
                 }, cancellationToken);
                 var saveResponse = await restaurantIntroCommandRepository.SaveChanges(cancellationToken);
+                if (!saveResponse) return Fail(ErrorResponseType.RestaurantIntro.RestaurantNotAdded);
                 return Success();
             } catch (Exception ex)
             {

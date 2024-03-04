@@ -8,7 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Company\" />
     <Folder Include="Models\MultifunctionalQuery\" />
     <Folder Include="Requests\RestaurantRequests\Info\" />
   </ItemGroup>
