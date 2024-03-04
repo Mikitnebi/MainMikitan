@@ -13,6 +13,7 @@ public class TableInfoEntity
     public int MaxPlace { get; set; }
     public int MinPlace { get; set; }
     public int TableType { get; set; }
+    public int FloorNumber { get; set; }
     public decimal XCoordinate { get; set; }
     public decimal YCoordinate { get; set; }
     public DateTime CreatedAt { get; set; }
