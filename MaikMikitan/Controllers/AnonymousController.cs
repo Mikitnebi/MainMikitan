@@ -73,16 +73,16 @@ namespace MainMikitan.API.Controllers;
     #region LegalEntity
 
     [HttpPost("LegalEntity/Registration")]
-    public async Task<IActionResult> LegalEntityIntroRegistration(LegalEntityIntroRegistrationRequest model) {
+    public async Task<IActionResult> LegalEntityIntroRegistration(LegalEntityIntroRegistrationRequest model, CancellationToken cancellationToken = default) {
         return !ModelState.IsValid ? BadRequest(ModelState) :
-                CheckResponse(await Mediator.Send(new LegalEntityIntroRegistrationCommand(model)));
+                CheckResponse(await Mediator.Send(new LegalEntityIntroRegistrationCommand(model), cancellationToken));
     }
 
     [HttpPost("LegalEntityIntro/VerifyOtp/Email")]
-    public async Task<IActionResult> LegalEntityIntroVerifyOtp(GeneralRegistrationVerifyOtpRequest model) {
+    public async Task<IActionResult> LegalEntityIntroVerifyOtp(GeneralRegistrationVerifyOtpRequest model, CancellationToken cancellationToken = default) {
         return !ModelState.IsValid ? BadRequest(ModelState) : 
             CheckResponse(await Mediator.Send
-            (new LegalEntityIntroVerifyOtpCommand(new GeneralRegistrationVerifyOtpRequest{ Email = model.Email, Otp = model.Otp})));
+            (new LegalEntityIntroVerifyOtpCommand(new GeneralRegistrationVerifyOtpRequest{ Email = model.Email, Otp = model.Otp}), cancellationToken));
     }
     
     #endregion

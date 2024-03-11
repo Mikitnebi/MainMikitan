@@ -14,6 +14,7 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands
 {
     public class LoginInfoGenerationCommand(RestaurantRegistrationRequest restaurant, RestaurantStaffRegistrationRequest staff) : ICommand
     {
+
         public readonly RestaurantRegistrationRequest Restaurant = restaurant;
         public readonly RestaurantStaffRegistrationRequest Staff = staff;
     }
@@ -62,7 +63,7 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands
                 PasswordHash = passwordHasher.Hash(generatePassword),
                 UserNameHash = passwordHasher.Hash(generateUserName),
                 RestaurantId = restaurant.Id,
-                EmailConfirmation = false
+                EmailConfirmation = false                  //amis validacia ??
             };
 
             var addStaff = await restaurantStaffCommandRepository.Add(manager, cancellationToken);
@@ -70,7 +71,12 @@ namespace MainMikitan.Application.Features.Restaurant.Registration.Commands
             if(!addStaff || !saveStaff)
                 return Fail(ErrorResponseType.Staff.NotAdded);
             
-            var sendEmail = await emailSenderQueryRepository.GetEmailById((int)Enums.EmailType.ManagerGenerateAccount, cancellationToken);
+            var sendEmail = await emailSenderQueryRepository.GetEmailById((int)Enums.EmailType.ManagerGenerateAccount, cancellationToken); 
+            /////////
+            /////// AQ RAGAC AGERIA ASHKARAD (RATO? EG VALIDACIA ISEDAC WERIA EMAILSENDERSERVICESHI, rame dazoge?)
+            ///     
+            ///
+            ///
             if (sendEmail == null)
                 return Fail(ErrorResponseType.Restaurant.EmailTypeNotFound);
             

@@ -108,9 +108,7 @@ builder.Services.AddAWSService<IAmazonS3>(new AWSOptions
 });
 var app = builder.Build();
 app.UseCors(x =>
-    x.WithOrigins([
-        "http://127.0.0.1:5173", "http://127.0.0.1:5174", "http://213.200.15.25:5173", "http://213.200.15.25:5174", "http://192.168.100.62:5173"
-    ]).AllowCredentials().AllowAnyMethod().AllowAnyHeader());
+    x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
 {
@@ -118,7 +116,7 @@ app.UseCors(x =>
     app.UseSwaggerUI();
 }
 
-app.UseCors("AllowSpecificOrigin");
+app.UseCors("AllowAnyOrigin");
 
 app.UseHttpsRedirection();
 

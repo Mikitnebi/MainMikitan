@@ -38,13 +38,14 @@ namespace MainMikitan.Application.Features.LegalEntity.Commands
                 var email = request.IntroRequest.EmailAddress;
                 var existingLegalEntity = await legalEntityIntroQueryRepository.GetVerifiedByEmail(email, cancellationToken);
                 if (existingLegalEntity != null) {
-                    return Fail(ErrorResponseType.LegalEntity.LegalEntityAlreadyExists);
+                    return Fail(ErrorResponseType.LegalEntityIntro.LEWithThisEmailAlreadyExists);
                 }
 
                 var emailBuilder = new EmailBuilder();
                 var otp = OtpGenerator.OtpGenerate();
                 emailBuilder.AddReplacement("{OTP}", otp);
                 //Email must be created in db
+                //emailSenderQueryRepository
                 var emailSenderResult = await emailSenderService.SendEmailAsync(email, emailBuilder, (int)EmailType.LegalEntityRegistrationEmail);
                 var otpLogResult = await otpLogCommandRepository.Create(new Domain.Models.Common.OtpLogIntroEntity
                 {
@@ -57,7 +58,7 @@ namespace MainMikitan.Application.Features.LegalEntity.Commands
                 }, cancellationToken);
                 var introRegistrationRequest = await legalEntityIntroCommandRepository.Create(request.IntroRequest, cancellationToken);
                 if (!introRegistrationRequest) {
-                    Fail(ErrorResponseType.LegalEntity.CouldNotCreateLegalEntity);
+                    return Fail(ErrorResponseType.LegalEntityIntro.CouldNotCreateLegalEntityIntro);
                 }
                 return Success();
             }

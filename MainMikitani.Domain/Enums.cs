@@ -83,7 +83,13 @@ namespace MainMikitan.Domain
         public enum LegalEntityStatusId
         {
             NonVerified = 0,
-            Verified = 1
+            Verified = 1,
+            Blocked = 2,
+            Paused = 3,
+            OnlyEmailVerified = 4,
+            OnlyMobileVerified = 5,
+            TemporaryDeleted = 6,
+            Deleted = 7
         }
 
         public enum LegalEntityOtpVerificationId { 
@@ -133,7 +139,8 @@ namespace MainMikitan.Domain
             
             #region LegalEntity
 
-            LegalEntityRegistrationEmail = 12
+            LegalEntityRegistrationEmail = 12,
+            LegalEntityGenerateAccount = 13
             
             #endregion
             
@@ -287,9 +294,16 @@ namespace MainMikitan.Domain
             public const string RatingSaveFail = "RATING_SAVE_ERROR";
         }
 
+        public record struct LegalEntityIntro {
+            public const string LEWithThisEmailAlreadyExists = "SUCH_LEGAL_ENTITY_WITH_SUCH_EMAIL_ALREADY_EXISTS";
+            public const string VerifiedLegalEntityNotFound = "NOT_SUCH_LEGAL_ENTITY_IS_VERIFIED";
+            public const string CouldNotCreateLegalEntityIntro = "COULD_NOT_REGISTER_LEGAL_ENTITY_INTRO";
+        }
+
         public record struct LegalEntity {
             public const string LegalEntityAlreadyExists = "SUCH_LEGAL_ENTITY_ALREADY_EXISTS";
-            public const string CouldNotCreateLegalEntity = "COULD_NOT_REGISTER_LEGAL_ENTITY_INTO";
+            public const string CouldNotCreateLegalEntity = "COULD_NOT_REGISTER_LEGAL_ENTITY";
+            public const string EmailTypeNotFound = "LEGAL_ENTITY_EMAIL_TYPE_ERROR_FOUND";
         }
         
         public const string CustomerCategoryNotUpdated = "CUSTOMER_CATEGORY_ERROR_UPDATED";

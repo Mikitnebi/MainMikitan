@@ -48,6 +48,7 @@ public class MikDbContext : IdentityDbContext
     public DbSet<RestaurantRatingEntity> RestaurantRating { get; set; }
     public DbSet<CustomerRatingEntity> CustomerRating { get; set; }
     public DbSet<LegalEntityIntroEntity> LegalEntityIntro { get; set; }
+    public DbSet<LegalEntityEntity> LegalEntity { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -76,6 +77,8 @@ public class MikDbContext : IdentityDbContext
         modelBuilder.ApplyConfiguration(new RestaurantRatingMap());
         modelBuilder.ApplyConfiguration(new CustomerRatingMap());
         modelBuilder.ApplyConfiguration(new LegalEntityIntroMap());
+        modelBuilder.ApplyConfiguration(new LegalEntityMap());
+        
         
         base.OnModelCreating(modelBuilder);
     }
