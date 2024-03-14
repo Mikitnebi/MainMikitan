@@ -1,38 +1,36 @@
+using MainMikitan.Application.Services.Permission;
 using MainMikitan.Database.Features.Dish.Interface;
+using MainMikitan.Domain;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Requests;
 using MainMikitan.Domain.Templates;
 
 namespace MainMikitan.Application.Features.Dish.Add.Commands;
 
-public class AddDishInfoCommand : ICommand
+public class AddDishInfoCommand(List<AddDishInfoRequest> request, int restaurantId, IEnumerable<int> permissionIds, string userRole, int userId) : ICommand
 {
-    public List<AddDishInfoRequest> Request { get; }
-
-    public AddDishInfoCommand(List<AddDishInfoRequest> request)
-    {
-        Request = request;
-    }
+    public List<AddDishInfoRequest> Request { get; } = request;
+    public int RestaurantId { get; } = restaurantId;
+    public IEnumerable<int> PermissionIds { get; } = permissionIds;
+    public string UserRole { get; } = userRole;
+    public int StaffId { get; } = userId;
 }
 
-public class AddDishInfoHandler : ICommandHandler<AddDishInfoCommand>
+public class AddDishInfoHandler(IDishCommandRepository dishCommandRepository, IPermissionService permissionService) : ResponseMaker<bool>, ICommandHandler<AddDishInfoCommand>
 {
-    private readonly IDishCommandRepository _dishCommandRepository;
-    
-    public AddDishInfoHandler(IDishCommandRepository dishCommandRepository)
-    {
-        _dishCommandRepository = dishCommandRepository;
-        
-    }
     
     public async Task<ResponseModel<bool>> Handle(AddDishInfoCommand request,
         CancellationToken cancellationToken)
     {
+        if (!await permissionService.Check(request.StaffId, request.PermissionIds, request.UserRole,
+                cancellationToken, request.RestaurantId, 1))
+            return Fail(ErrorResponseType.Staff.StaffForbiddenPermission);
+        
         var response = new ResponseModel<bool>();
         
         foreach (var dishInfo in request.Request)
         {
-            var addResponse = await _dishCommandRepository.AddDishInfo(dishInfo);
+            var addResponse = await dishCommandRepository.AddDishInfo(dishInfo);
             if (addResponse >= 1) continue;
             response.ErrorMessage = "TODO: შესაქმნელია Error Type";
             response.Result = false;
@@ -40,7 +38,7 @@ public class AddDishInfoHandler : ICommandHandler<AddDishInfoCommand>
             return response;
         }
         
-        response.Result = await _dishCommandRepository.SaveDishChanges();
+        response.Result = await dishCommandRepository.SaveDishChanges();
 
         return response;
     }

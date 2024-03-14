@@ -19,6 +19,6 @@ public class MenuController(IMediator mediator) : MainController(mediator)
     {
         return !ModelState.IsValid
             ? BadRequest(ModelState)
-            : CheckResponse(await Mediator.Send(new GetMenuCommand(UserId)));
+            : CheckResponse(await Mediator.Send(new GetMenuCommand(RestaurantId, UserId, UserRole!, new []{ (int)Enums.RestaurantPermissionId.Menu })));
     }
 }

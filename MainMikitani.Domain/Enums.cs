@@ -127,7 +127,9 @@ namespace MainMikitan.Domain
 
         public enum RestaurantPermissionId { 
             Info = 1,
-            Event = 2
+            Event = 2,
+            Dish = 3,
+            Menu = 4
         }
 
         public enum ListOfValueType

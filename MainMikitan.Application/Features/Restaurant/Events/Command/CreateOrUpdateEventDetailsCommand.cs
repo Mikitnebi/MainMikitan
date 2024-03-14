@@ -10,10 +10,11 @@ using MainMikitan.Domain.Templates;
 namespace MainMikitan.Application.Features.Restaurant.Events.Command;
 
 
-public class CreateOrUpdateEventDetailsCommand(CreateOrUpdateEventDetailsRequest eventData, int restaurantId, IEnumerable<int> permissionIds, string userRole, CancellationToken cancellationToken) : ICommand<bool>
+public class CreateOrUpdateEventDetailsCommand(CreateOrUpdateEventDetailsRequest eventData, int restaurantId, int userId, IEnumerable<int> permissionIds, string userRole, CancellationToken cancellationToken) : ICommand<bool>
 {
     public IEnumerable<int> PermissionIds { get; set; } = permissionIds;
     public string UserRole { get; set; } = userRole;
+    public int StaffId { get; set; } = userId;
     public int RestaurantId { get; set; } = restaurantId;
     public CreateOrUpdateEventDetailsRequest EventData { get; set; } = eventData;
     public CancellationToken CancellationToken { get; set; } = cancellationToken;
@@ -29,8 +30,8 @@ public class CreateOrUpdateEventDetailsCommandHandler(IRestaurantEventCommandRep
     public async Task<ResponseModel<bool>> Handle(CreateOrUpdateEventDetailsCommand request,
         CancellationToken cancellationToken)
     {
-        if (!await permissionService.Check(request.RestaurantId, request.PermissionIds, request.UserRole,
-            cancellationToken))
+        if (!await permissionService.Check(request.StaffId, request.PermissionIds, request.UserRole,
+            cancellationToken, request.RestaurantId, 3))
             return Fail(ErrorResponseType.Staff.StaffForbiddenPermission);
         
         var eventDetailsData = request.EventData;
