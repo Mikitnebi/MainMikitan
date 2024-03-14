@@ -16,5 +16,7 @@ public class TableInfoEntity
     public int FloorNumber { get; set; }
     public decimal XCoordinate { get; set; }
     public decimal YCoordinate { get; set; }
+    public float Width { get; set; }
+    public float Height { get; set; }
     public DateTime CreatedAt { get; set; }
 }

@@ -7,9 +7,9 @@ using MainMikitan.Domain.Templates;
 
 namespace MainMikitan.Application.Features.Table.Command.Add;
 
-public class AddTableCommand(AddTableRequest request, int restaurantId) : ICommand
+public class AddTableCommand(List<AddTableRequest> request, int restaurantId) : ICommand
 {
-    public AddTableRequest Request { get; } = request;
+    public List<AddTableRequest> Request { get; } = request;
     public int RestaurantId { get; } = restaurantId;
 }
 
@@ -24,41 +24,50 @@ public class AddTableCommandHandler(ITableCommandRepository tableCommandReposito
         CancellationToken cancellationToken)
     {
         var restaurantId = command.RestaurantId;
-        var request = command.Request;
-        var tableInfoEntity = mapper.Map<TableInfoEntity>(request);
-        tableInfoEntity.RestaurantId = restaurantId;
+        var addTableRequests = command.Request;
+        var tableInfoEntities = mapper.Map<List<TableInfoEntity>>(addTableRequests);
+        foreach (var table in tableInfoEntities)
+        {
+            table.RestaurantId = restaurantId;
+        }
         try
         {
-            var tableNumerationExists =
-                await tableQueryRepository.GetSingleTableByNumeration(request.TableNumber, restaurantId, cancellationToken);
+            foreach (var tableEntity in tableInfoEntities)
+            {
+                var tableNumerationExists =
+                    await tableQueryRepository.GetSingleTableByNumeration(tableEntity.TableNumber, restaurantId, cancellationToken);
 
-            if (tableNumerationExists.Result is not null)
-                return Fail("TABLE_WITH_PROVIDED_NUMERATION_EXISTS");
-            
-            var tableAddResponse = await tableCommandRepository.AddTable(tableInfoEntity, cancellationToken);
-            var resultTableInfoSave = await tableCommandRepository.SaveChanges();
-            if (!resultTableInfoSave)
-                return Fail("TABLE_INFO_WAS_NOT_ADDED");
-            
-            TableEnvironmentEntity tableEnvironmentInfo = new()
-            {
-                TableId = tableAddResponse.Result!.Id
-            };
-            
-            foreach (var environment in request.EnvironmentIds)
-            {
-                tableEnvironmentInfo.EnvironmentId = environment;
+                if (tableNumerationExists.Result is not null)
+                    return Fail("TABLE_WITH_PROVIDED_NUMERATION_EXISTS");
                 
-                await tableEnvironmentCommandRepository.AddTableEnvironmentInfo(tableEnvironmentInfo, cancellationToken);
+                var tableAddResponse = await tableCommandRepository.AddTable(tableEntity, cancellationToken);
+                var resultTableInfoSave = await tableCommandRepository.SaveChanges();
+                if (!resultTableInfoSave)
+                    return Fail("TABLE_INFO_WAS_NOT_ADDED");
+                
+                TableEnvironmentEntity tableEnvironmentInfo = new()
+                {
+                    TableId = tableAddResponse.Result!.Id
+                };
+            
+                foreach (var environment in addTableRequests.FirstOrDefault( r => r.TableNumber == tableEntity.TableNumber)!.EnvironmentIds)
+                {
+                    tableEnvironmentInfo.EnvironmentId = environment;
+                
+                    await tableEnvironmentCommandRepository.AddTableEnvironmentInfo(tableEnvironmentInfo, cancellationToken);
+                }
             }
-
+            
             var result = await tableEnvironmentCommandRepository.SaveChanges();
 
             return !result ? Fail("TABLE_ENVIRONMENT_INFO_WAS_NOT_ADDED") : Success();
         }
         catch (Exception e)
         {
-            await tableCommandRepository.DeleteTable(tableInfoEntity.Id, cancellationToken);
+            foreach (var tableInfo in tableInfoEntities)
+            {
+                await tableCommandRepository.DeleteTable(tableInfo.Id, cancellationToken);
+            }
             await tableCommandRepository.SaveChanges();
             return Unexpected(e);
         }

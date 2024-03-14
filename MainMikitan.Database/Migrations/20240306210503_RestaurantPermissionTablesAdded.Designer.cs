@@ -4,6 +4,7 @@ using MainMikitan.Database.DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MainMikitan.Database.Migrations
 {
     [DbContext(typeof(MikDbContext))]
-    partial class MikDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240306210503_RestaurantPermissionTablesAdded")]
+    partial class RestaurantPermissionTablesAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1069,9 +1072,6 @@ namespace MainMikitan.Database.Migrations
                     b.Property<int>("FloorNumber")
                         .HasColumnType("int");
 
-                    b.Property<float>("Height")
-                        .HasColumnType("real");
-
                     b.Property<int>("MaxPlace")
                         .HasColumnType("int");
 
@@ -1086,9 +1086,6 @@ namespace MainMikitan.Database.Migrations
 
                     b.Property<int>("TableType")
                         .HasColumnType("int");
-
-                    b.Property<float>("Width")
-                        .HasColumnType("real");
 
                     b.Property<decimal>("XCoordinate")
                         .HasColumnType("decimal(18,2)");

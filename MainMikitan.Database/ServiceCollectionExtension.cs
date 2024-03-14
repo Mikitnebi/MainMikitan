@@ -106,6 +106,9 @@ namespace MainMikitan.Database
             services.AddScoped<IRestaurantRatingRepository, RestaurantRatingRepository>();
             services.AddScoped<ICustomerRatingCommandRepository, CustomerRatingCommandRepository>();
             services.AddScoped<ICustomerRatingRepository, CustomerRatingRepository>();
+            
+            //Restaurant Subscription
+            services.AddScoped<IRestaurantSubscriptionRepository, RestaurantSubscriptionRepository>();
         }
     }
 }

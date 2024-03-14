@@ -16,6 +16,7 @@ using Amazon.Extensions.NETCore.Setup;
 using Amazon.Runtime;
 using Amazon;
 using AutoMapper;
+using MainMikitan.API.Middleware;
 using MainMikitan.Cache;
 using MainMikitan.Database.DbContext;
 using MainMikitan.InternalServicesAdapter;

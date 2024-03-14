@@ -13,11 +13,11 @@ public class TableController(IMediator mediator) : MainController(mediator)
 {
     [Authorized(Enums.RoleId.Manager)]
     [HttpPost("add-table")]
-    public async Task<IActionResult> AddTable(AddTableRequest request)
+    public async Task<IActionResult> AddTable(List<AddTableRequest> request)
     {
         return !ModelState.IsValid
             ? BadRequest(ModelState)
-            : CheckResponse(await Mediator.Send(new AddTableCommand(request, UserId)));
+            : CheckResponse(await Mediator.Send(new AddTableCommand(request, RestaurantId)));
     }
     
     [Authorized(Enums.RoleId.Manager)]

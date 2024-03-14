@@ -2,6 +2,7 @@
 using System.Reflection;
 using MainMikitan.Application.Services.AutoMapper;
 using MainMikitan.Application.Services.CacheServices;
+using MainMikitan.Application.Services.CacheServices.RestaurantCacheService;
 using MainMikitan.Application.Services.Filter;
 using MainMikitan.Application.Services.Otp;
 using MainMikitan.Application.Services.Permission;
@@ -19,6 +20,7 @@ namespace MainMikitan.Application
 
             services.AddScoped<IPermissionService, PermissionService>();
             services.AddScoped<ICustomerCacheService, CustomerCacheService>();
+            services.AddScoped<IRestaurantCacheService, RestaurantCacheService>();
             services.AddScoped<IOtpCheckerService, OtpCheckerService>();
             services.AddScoped<IFilterService, FilterService>();
             services.AddScoped<IMapperConfig, MapperConfig>();
