@@ -1,6 +1,6 @@
 namespace MainMikitan.Database.Features.Reservation.Dapper.Interface;
 
-public interface IRestauranInfoDapperQueryRepository
+public interface IRestaurantInfoDapperQueryRepository
 {
     
 }

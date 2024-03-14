@@ -28,6 +28,8 @@ using MainMikitan.Database.Features.Rating.Command;
 using MainMikitan.Database.Features.Rating.Interface;
 using MainMikitan.Database.Features.Rating.Query;
 using MainMikitan.Database.Features.Reservation.Command;
+using MainMikitan.Database.Features.Reservation.Dapper.Interface;
+using MainMikitan.Database.Features.Reservation.Dapper.Query;
 using MainMikitan.Database.Features.Reservation.Interfaces;
 using MainMikitan.Database.Features.Restaurant.Interface;
 using MainMikitan.Database.Features.Table.Command;
@@ -40,6 +42,11 @@ namespace MainMikitan.Database
     {
         public static void AddMainMikitanDatabase(this IServiceCollection services)
         {
+            //Dapper
+            services
+                .AddScoped<IRestaurantDeActivationDapperQueryRepository, RestaurantDeActivationDapperQueryRepository>();
+            services.AddScoped<IReservationDapperQueryRepository, ReservationDapperQueryRepository>();
+            services.AddScoped<ITableDapperQueryRepository, TableDapperQueryRepository>();
             //customer
             services.AddScoped<ICustomerQueryRepository, CustomerQueryRepository>();
             services.AddScoped<ICustomerCommandRepository, CustomerCommandRepository>();

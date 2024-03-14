@@ -18,7 +18,8 @@ public class AddTableCommand(List<AddTableRequest> request, int restaurantId, in
     public string UserRole { get; } = userRole;
 }
 
-public class AddTableCommandHandler(ITableCommandRepository tableCommandRepository, 
+public class AddTableCommandHandler(
+    ITableCommandRepository tableCommandRepository, 
     ITableEnvironmentCommandRepository tableEnvironmentCommandRepository,
     ITableQueryRepository tableQueryRepository,
     IPermissionService permissionService,

@@ -1,8 +1,8 @@
 using MainMikitan.Domain.Models.Restaurant.TableManagement;
 
-namespace MainMikitan.Database.Features.Reservation.Dapper.Interface;
+namespace MainMikitan.Database.Features.Restaurant.Interface;
 
-public interface ITableDapperQueryRepository
+public interface IRestaurantRepository
 {
     Task<List<TableInfoEntity>?> GetAllActiveTable(CancellationToken cancellationToken = default);
 }
