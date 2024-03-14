@@ -17,7 +17,7 @@ public class TableController(IMediator mediator) : MainController(mediator)
     {
         return !ModelState.IsValid
             ? BadRequest(ModelState)
-            : CheckResponse(await Mediator.Send(new AddTableCommand(request, RestaurantId)));
+            : CheckResponse(await Mediator.Send(new AddTableCommand(request, RestaurantId, UserId, UserRole!, new []{ (int)Enums.RestaurantPermissionId.Menu })));
     }
     
     [Authorized(Enums.RoleId.Manager)]
@@ -26,6 +26,6 @@ public class TableController(IMediator mediator) : MainController(mediator)
     {
         return !ModelState.IsValid
             ? BadRequest(ModelState)
-            : CheckResponse(await Mediator.Send(new DeleteTableCommand(request)));
+            : CheckResponse(await Mediator.Send(new DeleteTableCommand(request, RestaurantId, UserId, UserRole!, new []{ (int)Enums.RestaurantPermissionId.Menu })));
     }
 }
