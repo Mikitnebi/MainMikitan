@@ -26,8 +26,6 @@ public class MappingProfile : Profile
         CreateMap<RestaurantInfoModel, RestaurantInfoEntity>();
         CreateMap<RestaurantInfoEntity, RestaurantInfoModel>();
 
-        // CreateMap<List<TableInfoEntity>, List<AddTableRequest>>();
-        // CreateMap<List<AddTableRequest>, List<TableInfoEntity>>();
         CreateMap<TableInfoEntity, AddTableRequest>();
         CreateMap<AddTableRequest, TableInfoEntity>();
         
