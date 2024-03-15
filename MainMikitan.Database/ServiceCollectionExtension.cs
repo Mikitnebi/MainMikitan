@@ -118,8 +118,10 @@ namespace MainMikitan.Database
             services.AddScoped<ICustomerRatingCommandRepository, CustomerRatingCommandRepository>();
             services.AddScoped<ICustomerRatingRepository, CustomerRatingRepository>();
 
+            //LegalEntity
             services.AddScoped<ILegalEntityIntroCommandRepository, LegalEntityIntroCommandRepository>();
             services.AddScoped<ILegalEntityIntroQueryRepository, LegalEntityIntroQueryRepository>();
+            services.AddScoped<ILegalEntityCommandRepository, LegalEntityCommandRepository>();
             
             //Restaurant Subscription
             services.AddScoped<IRestaurantSubscriptionRepository, RestaurantSubscriptionRepository>();
