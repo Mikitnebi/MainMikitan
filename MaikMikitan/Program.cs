@@ -17,6 +17,7 @@ using Amazon.Runtime;
 using Amazon;
 using AutoMapper;
 using MainMikitan.API.Middleware;
+using MainMikitan.Application.Hubs;
 using MainMikitan.Cache;
 using MainMikitan.Database.DbContext;
 using MainMikitan.InternalServicesAdapter;
@@ -92,6 +93,8 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
+builder.Services.AddLocalization();
+builder.Services.AddSignalR();
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtOptions"));
 builder.Services.Configure<ConnectionStringsOptions>(builder.Configuration.GetSection("ConnectionStringsOptions"));
 builder.Services.Configure<EmailSenderOptions>(builder.Configuration.GetSection("EmailSenderOptions"));
@@ -113,7 +116,7 @@ app.UseCors(x =>
         "http://127.0.0.1:5173", "http://127.0.0.1:5174", "http://213.200.15.25:5173", "http://213.200.15.25:5174"
     ]).AllowCredentials().AllowAnyMethod().AllowAnyHeader());
 // Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
     app.UseSwagger(); 
     app.UseSwaggerUI();
@@ -122,9 +125,13 @@ app.UseCors(x =>
 app.UseCors("AllowSpecificOrigin");
 
 app.UseHttpsRedirection();
+app.UseRouting();
 
-app.UseAuthorization();
 
 app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<SystemHub>("/systemHub");
+});
 
 app.Run();

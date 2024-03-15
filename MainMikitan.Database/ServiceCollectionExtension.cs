@@ -43,6 +43,7 @@ namespace MainMikitan.Database
         public static void AddMainMikitanDatabase(this IServiceCollection services)
         {
             //Dapper
+            services.AddScoped<ITableDapperEnvironmentQueryRepository, TableDapperEnvironmentQueryRepository> ();
             services
                 .AddScoped<IRestaurantDeActivationDapperQueryRepository, RestaurantDeActivationDapperQueryRepository>();
             services.AddScoped<IReservationDapperQueryRepository, ReservationDapperQueryRepository>();

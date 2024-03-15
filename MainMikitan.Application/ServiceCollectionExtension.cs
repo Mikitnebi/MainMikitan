@@ -2,6 +2,7 @@
 using System.Reflection;
 using MainMikitan.Application.Services.AutoMapper;
 using MainMikitan.Application.Services.CacheServices;
+using MainMikitan.Application.Services.CacheServices.GlobalRestaurantCacheService;
 using MainMikitan.Application.Services.CacheServices.RestaurantCacheService;
 using MainMikitan.Application.Services.Filter;
 using MainMikitan.Application.Services.Otp;
@@ -18,6 +19,7 @@ namespace MainMikitan.Application
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
             services.AddAutoMapper(typeof(ServiceCollectionExtension));
 
+            services.AddScoped<IGlobalRestaurantCacheService, GlobalRestaurantCacheService>();
             services.AddScoped<IPermissionService, PermissionService>();
             services.AddScoped<ICustomerCacheService, CustomerCacheService>();
             services.AddScoped<IRestaurantCacheService, RestaurantCacheService>();
