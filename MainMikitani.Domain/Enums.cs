@@ -127,7 +127,9 @@ namespace MainMikitan.Domain
 
         public enum RestaurantPermissionId { 
             Info = 1,
-            Event = 2
+            Event = 2,
+            Dish = 3,
+            Menu = 4
         }
 
         public enum ListOfValueType
@@ -139,12 +141,35 @@ namespace MainMikitan.Domain
             Ingredients = 5,
             Region = 6
         }
+        
+        public enum RestaurantSubscriptionTypes { 
+            Starter = 1,
+            Basic = 2,
+            Gold = 3,
+            Premium = 4,
+            FreeTrial = 5
+        }
+        
+        public enum RestaurantSubscriptionPermissionTypes { 
+            TableManagement = 1,
+            Statistics = 2,
+            Reservation = 3,
+            Distribution = 4,
+            SaleCreation = 5,
+            EMenu = 6,
+            UserRating = 7,
+            EPay = 8,
+            StaffManagement = 9,
+            SuggestionSystem = 10,
+            MikitanSuggests = 11
+        }
+        
         //Required to change these each time its Enum's size changes BY HAND
         
         public const int BusinessTypeSize = 11;
 
         
-        //
+        
 
         
     }

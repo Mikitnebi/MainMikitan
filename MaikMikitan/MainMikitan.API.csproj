@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="MidleWearHandler\" />
+    <Folder Include="MiddlewareHandler\" />
   </ItemGroup>
 
   <ItemGroup>

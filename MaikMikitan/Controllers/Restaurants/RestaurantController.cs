@@ -4,7 +4,6 @@ using MainMikitan.Application.Features.Restaurant.Environment.Query;
 using MainMikitan.Application.Features.Restaurant.Info;
 using MainMikitan.Application.Features.Restaurant.Info.Query;
 using MainMikitan.Application.Features.Restaurant.ParentChild.Command;
-using MainMikitan.Application.Features.Restaurant.Registration.Commands;
 using MainMikitan.Domain;
 using MainMikitan.Domain.Requests.RestaurantRequests;
 using MediatR;

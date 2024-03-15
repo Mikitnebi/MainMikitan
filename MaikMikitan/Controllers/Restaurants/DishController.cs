@@ -17,7 +17,7 @@ public class DishController(IMediator mediator) : MainController(mediator)
     public async Task<IActionResult> AddCategoryDish(List<AddCategoryDishRequest> request)
     {
         if (!ModelState.IsValid) return Ok();
-        var response = await Mediator.Send(new AddCategoryDishCommand(request));
+        var response = await Mediator.Send(new AddCategoryDishCommand(request, new []{ (int)Enums.RestaurantPermissionId.Dish }, UserRole!, UserId, RestaurantId));
         if (response.HasError) return BadRequest(response);
         
         return Ok(response);
@@ -27,7 +27,7 @@ public class DishController(IMediator mediator) : MainController(mediator)
     public async Task<IActionResult> AddDish(List<AddDishRequest> request)
     {
         if (!ModelState.IsValid) return Ok();
-        var response = await Mediator.Send(new AddDishCommand(request, UserId));
+        var response = await Mediator.Send(new AddDishCommand(request, RestaurantId, UserId, new []{ (int)Enums.RestaurantPermissionId.Dish }, UserRole!));
         if (response.HasError) return BadRequest(response);
         
         return Ok(response);
@@ -37,7 +37,7 @@ public class DishController(IMediator mediator) : MainController(mediator)
     public async Task<IActionResult> AddDishInfo(List<AddDishInfoRequest> request)
     {
         if (!ModelState.IsValid) return Ok();
-        var response = await Mediator.Send(new AddDishInfoCommand(request));
+        var response = await Mediator.Send(new AddDishInfoCommand(request, RestaurantId, new []{ (int)Enums.RestaurantPermissionId.Dish }, UserRole!, UserId));
         if (response.HasError) return BadRequest(response);
         
         return Ok(response);
@@ -48,7 +48,7 @@ public class DishController(IMediator mediator) : MainController(mediator)
     {
         if (!ModelState.IsValid) return Ok();
         request.IsDeletedStatus = false;
-        var response = await Mediator.Send(new DeleteDishCommand(request));
+        var response = await Mediator.Send(new DeleteDishCommand(request, RestaurantId, UserId, UserRole!, new []{ (int)Enums.RestaurantPermissionId.Dish }));
         if (response.HasError) return BadRequest(response);
         
         return Ok(response);
@@ -59,7 +59,7 @@ public class DishController(IMediator mediator) : MainController(mediator)
     {
         if (!ModelState.IsValid) return Ok();
         request.IsDeletedStatus = true;
-        var response = await Mediator.Send(new DeleteDishCommand(request));
+        var response = await Mediator.Send(new DeleteDishCommand(request, RestaurantId, UserId, UserRole!, new []{ (int)Enums.RestaurantPermissionId.Dish }));
         if (response.HasError) return BadRequest(response);
         
         return Ok(response);
@@ -70,7 +70,7 @@ public class DishController(IMediator mediator) : MainController(mediator)
     {
         if (!ModelState.IsValid) return Ok();
         request.IsActiveStatus = true;
-        var response = await Mediator.Send(new UpdateDishStatusCommand(request, UserId));
+        var response = await Mediator.Send(new UpdateDishStatusCommand(request, UserId, RestaurantId, UserRole!, new []{ (int)Enums.RestaurantPermissionId.Dish }));
         if (response.HasError) return BadRequest(response);
         
         return Ok(response);
@@ -81,7 +81,7 @@ public class DishController(IMediator mediator) : MainController(mediator)
     {
         if (!ModelState.IsValid) return Ok();
         request.IsActiveStatus = false;
-        var response = await Mediator.Send(new UpdateDishStatusCommand(request, UserId));
+        var response = await Mediator.Send(new UpdateDishStatusCommand(request, UserId, RestaurantId, UserRole!, new []{ (int)Enums.RestaurantPermissionId.Dish }));
         if (response.HasError) return BadRequest(response);
         
         return Ok(response);
@@ -91,7 +91,7 @@ public class DishController(IMediator mediator) : MainController(mediator)
     public async Task<IActionResult> UpdateDishInfo(UpdateDishInfoRequest request)
     {
         if (!ModelState.IsValid) return Ok();
-        var response = await Mediator.Send(new UpdateDishInfoCommand(request, UserId));
+        var response = await Mediator.Send(new UpdateDishInfoCommand(request, UserId, RestaurantId, UserRole!, new []{ (int)Enums.RestaurantPermissionId.Dish }));
         if (response.HasError) return BadRequest(response);
         
         return Ok(response);
@@ -101,7 +101,7 @@ public class DishController(IMediator mediator) : MainController(mediator)
     public async Task<IActionResult> VerifyDish(VerifyDishRequest request)
     {
         if (!ModelState.IsValid) return Ok();
-        var response = await Mediator.Send(new VerifyDishCommand(request));
+        var response = await Mediator.Send(new VerifyDishCommand(request, RestaurantId, UserId, UserRole!, new []{ (int)Enums.RestaurantPermissionId.Dish }));
         if (response.HasError) return BadRequest(response);
         
         return Ok(response);
@@ -111,7 +111,7 @@ public class DishController(IMediator mediator) : MainController(mediator)
     public async Task<IActionResult> GetRestaurantMenu()
     {
         if (!ModelState.IsValid) return Ok();
-        var response = await Mediator.Send(new GetAllDishesCommand(UserId));
+        var response = await Mediator.Send(new GetAllDishesCommand(RestaurantId, UserId, UserRole!, new []{ (int)Enums.RestaurantPermissionId.Dish }));
         if (response.HasError) return BadRequest(response);
         
         return Ok(response);

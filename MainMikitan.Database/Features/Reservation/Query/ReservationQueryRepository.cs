@@ -13,7 +13,7 @@ public class ReservationQueryRepository(MikDbContext db) : IReservationQueryRepo
             .Where(t => t.UserId == customerId)
             .Where(r => r.IsCompany == false)
             .Where(y => y.IsCanceled == false)
-            .Where(c => new DateTime(c.Date, c.Time) > DateTime.Now)
+            .Where(c => c.DateAt > DateTime.Now)
             .ToListAsync(cancellationToken: cancellationToken);
     }
     
@@ -22,7 +22,7 @@ public class ReservationQueryRepository(MikDbContext db) : IReservationQueryRepo
         return await db.Reservations
             .Where(r => r.IsCompany == false)
             .Where(y => y.IsCanceled == false)
-            .Where(c => new DateTime(c.Date, c.Time) > DateTime.Now)
+            .Where(c => c.DateAt  > DateTime.Now)
             .ToListAsync(cancellationToken: cancellationToken);
     }
 
@@ -33,6 +33,6 @@ public class ReservationQueryRepository(MikDbContext db) : IReservationQueryRepo
                 => t.UserId == customerId 
                 && t.IsCompany == false 
                 && t.IsCanceled == false 
-                && new DateTime(t.Date, t.Time) > DateTime.Now, cancellationToken: cancellationToken);
+                && t.DateAt  > DateTime.Now, cancellationToken: cancellationToken);
     }
 }

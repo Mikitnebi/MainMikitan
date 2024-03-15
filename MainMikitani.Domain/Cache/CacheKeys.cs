@@ -13,5 +13,6 @@ public record CacheKeys
     public static string RestaurantProfileImageUrl(int id) => $"restaurant-{id}-profile-image-url";
     public static string RestaurantEnvironmentImageUrls(int id) => $"restaurant-{id}-environment-image-url";
     public static string RestaurantEnvironment(int id) => $"restaurant-{id}-environment";
+    public static string RestaurantSubscription(int restaurantId) => $"restaurant-{restaurantId}-subscription";
     #endregion
 }

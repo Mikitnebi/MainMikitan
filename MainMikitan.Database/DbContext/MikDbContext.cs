@@ -46,6 +46,9 @@ public class MikDbContext : IdentityDbContext
     public DbSet<RestaurantCommentEntity> RestaurantComments { get; set; }
     public DbSet<RestaurantRatingEntity> RestaurantRating { get; set; }
     public DbSet<CustomerRatingEntity> CustomerRating { get; set; }
+    public DbSet<RestaurantSubscriptionsEntity> RestaurantSubscriptions { get; set; }
+    public DbSet<RestaurantSubscriptionAndPermissionMapEntity> RestaurantSubscriptionAndPermissionMap { get; set; }
+    public DbSet<RestaurantSubscriptionTypeEntity> RestaurantSubscriptionType { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
