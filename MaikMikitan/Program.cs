@@ -116,7 +116,7 @@ app.UseCors(x =>
         "http://127.0.0.1:5173", "http://127.0.0.1:5174", "http://213.200.15.25:5173", "http://213.200.15.25:5174"
     ]).AllowCredentials().AllowAnyMethod().AllowAnyHeader());
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+//if (app.Environment.IsDevelopment())
 {
     app.UseSwagger(); 
     app.UseSwaggerUI();
