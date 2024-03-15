@@ -16,6 +16,8 @@ using Amazon.Extensions.NETCore.Setup;
 using Amazon.Runtime;
 using Amazon;
 using AutoMapper;
+using MainMikitan.API.Middleware;
+using MainMikitan.Application.Hubs;
 using MainMikitan.Cache;
 using MainMikitan.Database.DbContext;
 using MainMikitan.InternalServicesAdapter;
@@ -91,6 +93,8 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
+builder.Services.AddLocalization();
+builder.Services.AddSignalR();
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtOptions"));
 builder.Services.Configure<ConnectionStringsOptions>(builder.Configuration.GetSection("ConnectionStringsOptions"));
 builder.Services.Configure<EmailSenderOptions>(builder.Configuration.GetSection("EmailSenderOptions"));
@@ -119,9 +123,13 @@ app.UseCors(x =>
 app.UseCors("AllowAnyOrigin");
 
 app.UseHttpsRedirection();
+app.UseRouting();
 
-app.UseAuthorization();
 
 app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<SystemHub>("/systemHub");
+});
 
 app.Run();

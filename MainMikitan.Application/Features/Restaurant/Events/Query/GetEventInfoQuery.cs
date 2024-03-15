@@ -1,4 +1,6 @@
-﻿using MainMikitan.Database.Features.Restaurant.Interface;
+﻿using MainMikitan.Application.Services.Permission;
+using MainMikitan.Database.Features.Restaurant.Interface;
+using MainMikitan.Domain;
 using MainMikitan.Domain.Models.Commons;
 using MainMikitan.Domain.Responses.Event;
 using MainMikitan.Domain.Templates;
@@ -7,18 +9,26 @@ using IMapper = AutoMapper.IMapper;
 
 namespace MainMikitan.Application.Features.Restaurant.Events.Query;
 
-public class GetEventInfoQuery(int restaurantId) : IQuery<List<GetEventInfoResponse>>
+public class GetEventInfoQuery(int restaurantId, int userId, IEnumerable<int> permissionIds, string userRole) : IQuery<List<GetEventInfoResponse>>
 {
+    public IEnumerable<int> PermissionIds { get; set; } = permissionIds;
+    public string UserRole { get; set; } = userRole;
+    public int StaffId { get; set; } = userId;
     public int RestaurantId { get; set; } = restaurantId;
 }
 
 public class GetEventInfoQueryHandler(IRestaurantEventRepository eventRepository,
+    IPermissionService permissionService,
     IMapper mapper) : ResponseMaker<List<GetEventInfoResponse>>,
     IQueryHandler<GetEventInfoQuery, List<GetEventInfoResponse>>
 {
     public async Task<ResponseModel<List<GetEventInfoResponse>>> Handle(GetEventInfoQuery query,
         CancellationToken cancellationToken)
     {
+        if (!await permissionService.Check(query.StaffId, query.PermissionIds, query.UserRole,
+                cancellationToken, query.RestaurantId, 3))
+            return Fail(ErrorResponseType.Staff.StaffForbiddenPermission);
+        
         var restaurantId = query.RestaurantId;
         var response = new List<GetEventInfoResponse>();
 

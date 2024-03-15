@@ -16,6 +16,9 @@ public class TableInfoMap : IEntityTypeConfiguration<TableInfoEntity>
         builder.Property(b => b.TableType).IsRequired();
         builder.Property(b => b.XCoordinate).IsRequired();
         builder.Property(b => b.YCoordinate).IsRequired();
+        builder.Property(b => b.FloorNumber).IsRequired();
+        builder.Property(b => b.Width).IsRequired();
+        builder.Property(b => b.Height).IsRequired();
         builder.Property(b => b.CreatedAt).IsRequired();
     }
 }

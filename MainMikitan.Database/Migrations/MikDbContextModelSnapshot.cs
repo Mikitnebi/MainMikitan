@@ -961,6 +961,78 @@ namespace MainMikitan.Database.Migrations
                     b.ToTable("RestaurantStaff");
                 });
 
+            modelBuilder.Entity("MainMikitan.Domain.Models.Restaurant.RestaurantSubscriptionAndPermissionMapEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PermissionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubscriptionTypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RestaurantSubscriptionAndPermissionMap");
+                });
+
+            modelBuilder.Entity("MainMikitan.Domain.Models.Restaurant.RestaurantSubscriptionTypeEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PermissionListId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubscriptionTypeName")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RestaurantSubscriptionType");
+                });
+
+            modelBuilder.Entity("MainMikitan.Domain.Models.Restaurant.RestaurantSubscriptionsEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RestaurantId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RestaurantSubscriptionTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("SubscriptionActivationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("SubscriptionDeactivationDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RestaurantSubscriptions");
+                });
+
             modelBuilder.Entity("MainMikitan.Domain.Models.Restaurant.TableManagement.TableEnvironmentEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -994,6 +1066,12 @@ namespace MainMikitan.Database.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("FloorNumber")
+                        .HasColumnType("int");
+
+                    b.Property<float>("Height")
+                        .HasColumnType("real");
+
                     b.Property<int>("MaxPlace")
                         .HasColumnType("int");
 
@@ -1008,6 +1086,9 @@ namespace MainMikitan.Database.Migrations
 
                     b.Property<int>("TableType")
                         .HasColumnType("int");
+
+                    b.Property<float>("Width")
+                        .HasColumnType("real");
 
                     b.Property<decimal>("XCoordinate")
                         .HasColumnType("decimal(18,2)");

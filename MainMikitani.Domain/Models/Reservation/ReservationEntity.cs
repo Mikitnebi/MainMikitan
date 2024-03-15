@@ -10,15 +10,14 @@ public record ReservationEntity
     [Required]
     public int UserId { get; set; }
     [Required]
+    public int GuestAmount { get; set; }
+    [Required]
     public int RestaurantId { get; set; }
     public bool IsCompany { get; set; }
     public decimal Value { get; set; }
     public int TableId  { get; set; }
     public long ReservedManuId { get; set; }
-    [Required]
-    public DateOnly Date { get; set; }
-    [Required]
-    public TimeOnly Time { get; set; }
+    public DateTime DateAt { get; set; }
     [Required]
     public DateTime CreatedAt { get; set; }
     public string? Comment { get; set; }
@@ -27,6 +26,6 @@ public record ReservationEntity
     public bool IsCompleted
     {
         get => IsCompleted;
-        set => IsCompleted = new DateTime(Date, Time) > DateTime.Now && !IsCanceled;
+        set => IsCompleted = DateAt > DateTime.Now && !IsCanceled;
     }
 }

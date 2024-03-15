@@ -46,8 +46,6 @@ namespace MainMikitan.Domain.Models.Restaurant
         public string? DescriptionEng { get; set; }
         public decimal Rate { get; set; }
         public int RateNumber { get; set; }
-        [Required]
-        public int ActiveStatusId { get; set; }
 
         public int? UpdateUserId { get; set; }
         public DateTime? UpdatedAt { get; set; }

@@ -1,3 +1,4 @@
+using MainMikitan.Application.Services.Permission;
 using MainMikitan.Database.Features.Dish.Interface;
 using MainMikitan.Domain;
 using MainMikitan.Domain.Models.Commons;
@@ -5,53 +6,46 @@ using MainMikitan.Domain.Requests;
 using MainMikitan.Domain.Templates;
 using MainMikitan.ExternalServicesAdapter.S3ServiceAdapter;
 using MainMikitan.InternalServiceAdapterService.Exceptions;
-using MediatR;
 
 namespace MainMikitan.Application.Features.Dish.Add.Commands;
 
-public class AddDishCommand : ICommand
+public class AddDishCommand(List<AddDishRequest> request, int restaurantId, int userId, IEnumerable<int> permissionIds, string userRole) : ICommand
 {
-    public List<AddDishRequest> Request { get; } 
-    public int RestaurantId { get; }
-    
-    public AddDishCommand(List<AddDishRequest> request, int restaurantId)
-    {
-        Request = request;
-        RestaurantId = restaurantId;
-    }
+    public List<AddDishRequest> Request { get; } = request;
+    public int RestaurantId { get; } = restaurantId;
+    public IEnumerable<int> PermissionIds { get; } = permissionIds;
+    public string UserRole { get; } = userRole;
+    public int StaffId { get; } = userId;
 }
 
-public class AddDishHandler : ICommandHandler<AddDishCommand>
+public class AddDishHandler(IDishCommandRepository dishCommandRepository,
+    IPermissionService permissionService,
+    IS3Adapter s3Adapter) : ResponseMaker<bool>, ICommandHandler<AddDishCommand>
 {
-    private readonly IDishCommandRepository _dishCommandRepository;
-    private readonly IS3Adapter _s3Adapter;
-    
-    public AddDishHandler(IDishCommandRepository dishCommandRepository, 
-        IS3Adapter s3Adapter)
-    {
-        _dishCommandRepository = dishCommandRepository;
-        _s3Adapter = s3Adapter;
-    }
 
     public async Task<ResponseModel<bool>> Handle(AddDishCommand request, CancellationToken cancellationToken)
     {
+        if (!await permissionService.Check(request.StaffId, request.PermissionIds, request.UserRole,
+                cancellationToken, request.RestaurantId, 1))
+            return Fail(ErrorResponseType.Staff.StaffForbiddenPermission);
+        
         ResponseModel<bool> response = new ();
         Dictionary<int, AddDishRequest> dishInfo = new ();
 
         foreach (var dish in request.Request)
         {
-            var dishId = await _dishCommandRepository.AddDish(dish);
+            var dishId = await dishCommandRepository.AddDish(dish);
             
             dishInfo[dishId] = dish;
         }
         
-        response.Result = await _dishCommandRepository.SaveDishChanges();
+        response.Result = await dishCommandRepository.SaveDishChanges();
 
         foreach (var dishId in dishInfo.Keys.Where(dish => dishInfo[dish].DishPhoto != null))
         {
             try
             {
-                var addImageResponse = await _s3Adapter.AddOrUpdateDishImage(dishInfo[dishId].DishPhoto!, request.RestaurantId, dishInfo[dishId].CategoryDishId,
+                var addImageResponse = await s3Adapter.AddOrUpdateDishImage(dishInfo[dishId].DishPhoto!, request.RestaurantId, dishInfo[dishId].CategoryDishId,
                     dishId);
             }
             catch (MainMikitanException ex)

@@ -48,5 +48,8 @@ public class MappingProfile : Profile
         
         CreateMap<SaveRestaurantRatingRequest, RestaurantRatingEntity>();
         CreateMap<RestaurantRatingEntity, SaveRestaurantRatingRequest>();
+
+        CreateMap<RestaurantSubscriptionInfoEntity, RestaurantSubscriptionsEntity>();
+        CreateMap<RestaurantSubscriptionsEntity, RestaurantSubscriptionInfoEntity>();
     }
 }

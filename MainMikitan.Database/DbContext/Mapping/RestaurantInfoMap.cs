@@ -27,7 +27,6 @@ public class RestaurantInfoMap : IEntityTypeConfiguration<RestaurantInfoEntity>
         builder.Property(b => b.ForCorporateEvents).IsRequired();
         builder.Property(b => b.DescriptionGeo);
         builder.Property(b => b.DescriptionEng);
-        builder.Property(b => b.ActiveStatusId).IsRequired();
         builder.Property(b => b.UpdateUserId).IsRequired();
         builder.Property(b => b.UpdatedAt);
         builder.Property(b => b.CreatedAt).IsRequired();

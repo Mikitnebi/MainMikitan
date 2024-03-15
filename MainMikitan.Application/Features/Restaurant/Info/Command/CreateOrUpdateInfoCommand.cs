@@ -58,7 +58,6 @@ namespace MainMikitan.Application.Features.Restaurant.Info {
                     restaurantInfo.ForCorporateEvents = command.RestaurantInfoRequest.ForCorporateEvents;
                     restaurantInfo.DescriptionGeo = command.RestaurantInfoRequest.DescriptionGeo;
                     restaurantInfo.DescriptionEng = command.RestaurantInfoRequest.DescriptionEng;
-                    restaurantInfo.ActiveStatusId = command.RestaurantInfoRequest.ActiveStatusId;
                     restaurantInfo.UpdateUserId = command.UserId;
                     var updateResponse = restaurantInfoCommandRepository.Update(restaurantInfo);
                     if (!updateResponse) return Fail(ErrorResponseType.RestaurantInfo.ErrorUpdate);
