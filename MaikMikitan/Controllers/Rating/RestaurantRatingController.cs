@@ -13,7 +13,7 @@ namespace MainMikitan.API.Controllers.Rating;
 public class RestaurantRatingController(IMediator mediator) : MainController(mediator)
 {
     [HttpPost("Save")]
-    public async Task<IActionResult> GetEventInfo(SaveCustomerRatingRequest request, CancellationToken cancellationToken = default) {
+    public async Task<IActionResult> SaveCustomerRating(SaveCustomerRatingRequest request, CancellationToken cancellationToken = default) {
         return !ModelState.IsValid ? BadRequest(ModelState) :
             CheckResponse(await Mediator.Send(new SaveCustomerRatingCommand(RestaurantId, UserId, request), cancellationToken));
     }
