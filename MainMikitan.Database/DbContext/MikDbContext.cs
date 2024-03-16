@@ -4,7 +4,7 @@ using MainMikitan.Domain.Models.Common;
 using MainMikitan.Domain.Models.Customer;
 using MainMikitan.Domain.Models.Events;
 using MainMikitan.Domain.Models.ListOfValue;
-using MainMikitan.Domain.Models.Log;
+using MainMikitan.Domain.Models.Logger;
 using MainMikitan.Domain.Models.Menu;
 using MainMikitan.Domain.Models.Rating;
 using MainMikitan.Domain.Models.Reservation;

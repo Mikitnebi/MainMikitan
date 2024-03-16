@@ -1,4 +1,4 @@
-﻿using MainMikitan.Domain.Models.Log;
+﻿using MainMikitan.Domain.Models.Logger;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

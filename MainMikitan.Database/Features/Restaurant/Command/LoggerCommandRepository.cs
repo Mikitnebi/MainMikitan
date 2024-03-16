@@ -1,6 +1,6 @@
 ﻿using MainMikitan.Database.DbContext;
 using MainMikitan.Database.Features.Restaurant.Interface;
-using MainMikitan.Domain.Models.Log;
+using MainMikitan.Domain.Models.Logger;
 
 namespace MainMikitan.Database.Features.Restaurant.Command;
 
