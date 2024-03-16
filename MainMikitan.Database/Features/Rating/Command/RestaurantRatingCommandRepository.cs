@@ -10,6 +10,11 @@ public class RestaurantRatingCommandRepository(MikDbContext db) : IRestaurantRat
     {
         await db.RestaurantRating.AddAsync(ratingEntity);
     }
+    
+    public async Task SaveReservationRatings(ReservationRatingsEntity reservationRatings)
+    {
+        await db.ReservationRatings.AddAsync(reservationRatings);
+    }
 
     public async Task<bool> SaveChangesAsync()
     {

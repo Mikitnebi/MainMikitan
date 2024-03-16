@@ -51,5 +51,8 @@ public class MappingProfile : Profile
 
         CreateMap<RestaurantSubscriptionInfoEntity, RestaurantSubscriptionsEntity>();
         CreateMap<RestaurantSubscriptionsEntity, RestaurantSubscriptionInfoEntity>();
+
+        CreateMap<SaveRestaurantRatingRequest, ReservationRatingsEntity>();
+        CreateMap<ReservationRatingsEntity, SaveRestaurantRatingRequest>();
     }
 }
