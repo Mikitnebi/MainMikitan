@@ -125,6 +125,7 @@ app.UseCors(x =>
 
 app.UseCors("AllowSpecificOrigin");
 
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.UseHttpsRedirection();
 app.UseRouting();
 
