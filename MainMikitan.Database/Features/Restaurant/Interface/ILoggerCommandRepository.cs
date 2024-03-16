@@ -2,6 +2,6 @@
 
 public interface ILoggerCommandRepository
 {
-    public Task AddLogInDb(Exception exception, string methodName);
+    public Task AddLogInDb(Exception exception, string methodName, string request, string response);
     public Task AddLog(string data, string apiName);
 }

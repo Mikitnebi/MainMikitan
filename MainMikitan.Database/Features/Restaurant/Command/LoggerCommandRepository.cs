@@ -6,10 +6,12 @@ namespace MainMikitan.Database.Features.Restaurant.Command;
 
 public class LoggerCommandRepository(MikDbContext dbContext) : ILoggerCommandRepository
 {
-    public async Task AddLogInDb(Exception exception, string methodName)
+    public async Task AddLogInDb(Exception exception, string methodName, string request, string response)
     {
         var loggerEntity = new LoggerEntity()
         {
+            Request = request,
+            Response = response,
             MethodName = methodName,
             Exception = exception.Message,
             StackTrace = exception.StackTrace,

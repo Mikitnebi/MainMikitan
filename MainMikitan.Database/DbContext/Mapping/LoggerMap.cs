@@ -9,6 +9,8 @@ public class LoggerMap : IEntityTypeConfiguration<LoggerEntity>
     public void Configure(EntityTypeBuilder<LoggerEntity> builder)
     {
         builder.HasKey(b => b.Id);
+        builder.Property(b => b.Request).IsRequired();
+        builder.Property(b => b.Response).IsRequired();
         builder.Property(b => b.MethodName).IsRequired();
         builder.Property(b => b.Exception);
         builder.Property(b => b.StackTrace);
