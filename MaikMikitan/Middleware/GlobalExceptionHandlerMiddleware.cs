@@ -17,8 +17,18 @@ public class GlobalExceptionHandlerMiddleware(RequestDelegate next, IServiceScop
         {
             var scope = serviceScopeFactory.CreateScope();
             var logger = scope.ServiceProvider.GetService<ILoggerCommandRepository>();
-            var request = JsonConvert.SerializeObject(httpContext.Request);
-            var response = JsonConvert.SerializeObject(httpContext.Response);
+            var request = string.Empty;
+            var response = string.Empty;
+            try
+            {
+                request = JsonConvert.SerializeObject(httpContext.Request);
+                response = JsonConvert.SerializeObject(httpContext.Response);
+            }
+            catch (Exception e)
+            {
+                // ignored
+            }
+
             await logger!.AddLogInDb(ex, ex.Source!, request, response);
             var error = new { message = ex.Message };
             var errorJson = JsonConvert.SerializeObject(error);
