@@ -13,22 +13,22 @@ namespace MainMikitan.API.Controllers.Rating;
 public class RestaurantRatingController(IMediator mediator) : MainController(mediator)
 {
     [HttpPost("Save")]
-    public async Task<IActionResult> GetEventInfo(SaveCustomerRatingRequest request, CancellationToken cancellationToken = default) {
+    public async Task<IActionResult> SaveCustomerRating(SaveCustomerRatingRequest request, CancellationToken cancellationToken = default) {
         return !ModelState.IsValid ? BadRequest(ModelState) :
-            CheckResponse(await Mediator.Send(new SaveCustomerRatingCommand(RestaurantId, UserId, request), cancellationToken));
+            CheckResponse(await Mediator.Send(new SaveCustomerRatingCommand(RestaurantId, UserId, request, UserRole!, new []{ (int)Enums.RestaurantPermissionId.Rating }), cancellationToken));
     }
     
-    [HttpGet("Get/{restaurantId:int}")]
-    public async Task<IActionResult> GetRestaurantRating(int restaurantId, CancellationToken cancellationToken = default)
+    [HttpGet("Get/{customerId:int}")]
+    public async Task<IActionResult> GetCustomerRating(int customerId, CancellationToken cancellationToken = default)
     {
         return !ModelState.IsValid ? BadRequest(ModelState) :
-            CheckResponse(await Mediator.Send(new GetRestaurantRatingQuery(restaurantId), cancellationToken));
+            CheckResponse(await Mediator.Send(new GetCustomerRatingQuery(customerId, RestaurantId, UserId, UserRole!, new []{ (int)Enums.RestaurantPermissionId.Rating }), cancellationToken));
     }
     
-    [HttpGet("GetAllRestaurantRatings")]
-    public async Task<IActionResult> GetAllRestaurantsRatings(CancellationToken cancellationToken = default)
+    [HttpGet("GetAllCustomersRatings")]
+    public async Task<IActionResult> GetAllCustomersRatings(CancellationToken cancellationToken = default)
     {
         return !ModelState.IsValid ? BadRequest(ModelState) :
-            CheckResponse(await Mediator.Send(new GetAllRestaurantsRatingQuery(), cancellationToken));
+            CheckResponse(await Mediator.Send(new GetAllCustomersRatingsQuery(RestaurantId, UserId, UserRole!, new []{ (int)Enums.RestaurantPermissionId.Rating }), cancellationToken));
     }
 }

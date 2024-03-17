@@ -107,7 +107,7 @@ builder.Services.AddMainMikitanExternalService();
 builder.Services.AddMainMikitanApplication();
 builder.Services.AddAWSService<IAmazonS3>(new AWSOptions
 {
-    Credentials = new BasicAWSCredentials("AKIASI7N5JDUHAB7VXEZ", "Rq3/D+4o1+bLCcgMnlKD+DVUIog9W02mi2LbKj3s"),
+    Credentials = new BasicAWSCredentials("AKIATCKARM5DD6JCJSHT", "zBcgxSwwNAwBfCxba4JTnOO5Ti3/pC0hrREhtPnk"),
     Region = RegionEndpoint.EUCentral1, // Replace with your AWS region
 });
 var app = builder.Build();
@@ -118,12 +118,14 @@ app.UseCors(x =>
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
 {
+    
     app.UseSwagger(); 
     app.UseSwaggerUI();
 }
 
 app.UseCors("AllowSpecificOrigin");
 
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.UseHttpsRedirection();
 app.UseRouting();
 

@@ -129,7 +129,8 @@ namespace MainMikitan.Domain
             Info = 1,
             Event = 2,
             Dish = 3,
-            Menu = 4
+            Menu = 4,
+            Rating = 5
         }
 
         public enum ListOfValueType

@@ -9,9 +9,9 @@ using MainMikitan.Domain.Templates;
 using MainMikitan.ExternalServicesAdapter.S3ServiceAdapter;
 using Microsoft.EntityFrameworkCore;
 
-namespace MainMikitan.Application.Features.Restaurant.Get;
+namespace MainMikitan.Application.Features.Restaurant.Menu;
 
-public class GetMenuCommand(int restaurantId, int userId, string userRole, IEnumerable<int> permissionIds) : IQuery<List<GetMenuResponse>>
+public class GetMenuQuery(int restaurantId, int userId, string userRole, IEnumerable<int> permissionIds) : IQuery<List<GetMenuResponse>>
 {
     public int UserId { get; } = userId;
     public int RestaurantId { get; } = restaurantId;
@@ -23,9 +23,9 @@ public class GetMenuHandler(IGetMenuRepository getMenuRepository,
     IMapperConfig mapperConfig, 
     IS3Adapter s3Adapter, 
     IDishCommandRepository dishCommandRepository,
-    IPermissionService permissionService) : ResponseMaker<List<GetMenuResponse>>, IQueryHandler<GetMenuCommand, List<GetMenuResponse>>
+    IPermissionService permissionService) : ResponseMaker<List<GetMenuResponse>>, IQueryHandler<GetMenuQuery, List<GetMenuResponse>>
 {
-    public async Task<ResponseModel<List<GetMenuResponse>>> Handle(GetMenuCommand request,
+    public async Task<ResponseModel<List<GetMenuResponse>>> Handle(GetMenuQuery request,
         CancellationToken cancellationToken)
     {
         if (!await permissionService.Check(request.UserId, request.PermissionIds, request.UserRole,

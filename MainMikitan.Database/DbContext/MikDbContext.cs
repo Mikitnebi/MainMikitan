@@ -4,6 +4,7 @@ using MainMikitan.Domain.Models.Common;
 using MainMikitan.Domain.Models.Customer;
 using MainMikitan.Domain.Models.Events;
 using MainMikitan.Domain.Models.ListOfValue;
+using MainMikitan.Domain.Models.Logger;
 using MainMikitan.Domain.Models.Menu;
 using MainMikitan.Domain.Models.Rating;
 using MainMikitan.Domain.Models.Reservation;
@@ -49,6 +50,8 @@ public class MikDbContext : IdentityDbContext
     public DbSet<RestaurantSubscriptionsEntity> RestaurantSubscriptions { get; set; }
     public DbSet<RestaurantSubscriptionAndPermissionMapEntity> RestaurantSubscriptionAndPermissionMap { get; set; }
     public DbSet<RestaurantSubscriptionTypeEntity> RestaurantSubscriptionType { get; set; }
+    public DbSet<LoggerEntity> Logger { get; set; }
+    public DbSet<ReservationRatingsEntity> ReservationRatings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -76,6 +79,7 @@ public class MikDbContext : IdentityDbContext
         modelBuilder.ApplyConfiguration(new RestaurantCommentMap());
         modelBuilder.ApplyConfiguration(new RestaurantRatingMap());
         modelBuilder.ApplyConfiguration(new CustomerRatingMap());
+        modelBuilder.ApplyConfiguration(new ReservationRatingsMap());
         
         base.OnModelCreating(modelBuilder);
     }

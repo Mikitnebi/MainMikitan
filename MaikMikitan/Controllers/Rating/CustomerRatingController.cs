@@ -18,18 +18,18 @@ public class CustomerRatingController(IMediator mediator) : MainController(media
         return !ModelState.IsValid ? BadRequest(ModelState) :
             CheckResponse(await Mediator.Send(new SaveRestaurantRatingCommand(UserId, request), cancellationToken));
     }
-
-    [HttpGet("Get/{customerId:int}")]
-    public async Task<IActionResult> GetCustomerRating(int customerId, CancellationToken cancellationToken = default)
+    
+    [HttpGet("Get/{restaurantId:int}")]
+    public async Task<IActionResult> GetRestaurantRating(int restaurantId, CancellationToken cancellationToken = default)
     {
         return !ModelState.IsValid ? BadRequest(ModelState) :
-            CheckResponse(await Mediator.Send(new GetCustomerRatingQuery(customerId), cancellationToken));
+            CheckResponse(await Mediator.Send(new GetRestaurantRatingQuery(restaurantId), cancellationToken));
     }
     
-    [HttpGet("GetAllCustomersRatings")]
-    public async Task<IActionResult> GetAllCustomersRatings(CancellationToken cancellationToken = default)
+    [HttpGet("GetAllRestaurantRatings")]
+    public async Task<IActionResult> GetAllRestaurantsRatings(CancellationToken cancellationToken = default)
     {
         return !ModelState.IsValid ? BadRequest(ModelState) :
-            CheckResponse(await Mediator.Send(new GetAllCustomersRatingsQuery(), cancellationToken));
+            CheckResponse(await Mediator.Send(new GetAllRestaurantsRatingQuery(), cancellationToken));
     }
 }
