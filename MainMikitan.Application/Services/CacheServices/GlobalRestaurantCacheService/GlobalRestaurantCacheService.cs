@@ -17,7 +17,7 @@ public class GlobalRestaurantCacheService
     IRestaurantDeActivationDapperQueryRepository restaurantDeActivationDapperQueryRepository
     ) : IGlobalRestaurantCacheService
 {
-    private static readonly Dictionary<int, TableModel> TableModels = new Dictionary<int, TableModel>(20);
+    /*private static readonly Dictionary<int, TableModel> TableModels = new Dictionary<int, TableModel>(20);
 
     private static readonly Dictionary<int, List<Tuple<DateTime, DateTime>>> RestaurantDeActivationTime =
         new Dictionary<int, List<Tuple<DateTime, DateTime>>>(20);
@@ -132,7 +132,7 @@ public class GlobalRestaurantCacheService
         allRestaurantAllTables = null;
         allEnvironmentAllTables = null;
         return;
-    }
+    }*/
 }
 
 public class TableModel
