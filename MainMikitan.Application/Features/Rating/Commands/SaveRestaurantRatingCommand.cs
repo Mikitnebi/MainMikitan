@@ -20,9 +20,15 @@ public class SaveRestaurantRatingCommandHandler(IRestaurantRatingCommandReposito
 {
     public async Task<ResponseModel<bool>> Handle(SaveRestaurantRatingCommand command,CancellationToken cancellationToken)
     {
+        var reservationRatingEntity = mapper.Map<ReservationRatingsEntity>(command.Request);
+        reservationRatingEntity.UserId = command.UserId;
+        reservationRatingEntity.CreatedAt = DateTime.Now;
+        await restaurantRatingCommandRepository.SaveReservationRatings(reservationRatingEntity);
+        
         var restaurantRatingEntity = mapper.Map<RestaurantRatingEntity>(command.Request);
         restaurantRatingEntity.UserId = command.UserId;
         restaurantRatingEntity.CreatedAt = DateTime.Now;
+        restaurantRatingEntity.Rating = command.Request.OverallRatingRestaurant;
         
         await restaurantRatingCommandRepository.SaveRating(restaurantRatingEntity);
         return await restaurantRatingCommandRepository.SaveChangesAsync() ? Success() : Fail(ErrorResponseType.Rating.RatingSaveFail);

@@ -17,12 +17,12 @@ public class GlobalRestaurantCacheService
     IRestaurantDeActivationDapperQueryRepository restaurantDeActivationDapperQueryRepository
     ) : IGlobalRestaurantCacheService
 {
-    /*private static readonly Dictionary<int, TableModel> TableModels = new Dictionary<int, TableModel>(20);
+    public static readonly Dictionary<int, TableModel> TableModels = new Dictionary<int, TableModel>(20);
 
-    private static readonly Dictionary<int, List<Tuple<DateTime, DateTime>>> RestaurantDeActivationTime =
+    public static readonly Dictionary<int, List<Tuple<DateTime, DateTime>>> RestaurantDeActivationTime =
         new Dictionary<int, List<Tuple<DateTime, DateTime>>>(20);
 
-    private static Dictionary<DateOnly,
+    public static Dictionary<DateOnly,
         Dictionary<int, Dictionary<int, List<TableLockModel>>>> RestaurantReservationSystem { get; set; } =
         new Dictionary<DateOnly, Dictionary<int, Dictionary<int, List<TableLockModel>>>>(20);
     
@@ -75,7 +75,7 @@ public class GlobalRestaurantCacheService
         return true;
     }
 
-    private async Task InitializeDeActiveRestaurant()
+    public async Task InitializeDeActiveRestaurant()
     {
         List<RestaurantDeActivationEntity> restaurantDeActivationTimes = await restaurantDeActivationDapperQueryRepository.GetAll();
         for (var i = 0; i < restaurantDeActivationTimes.Count; i++)
@@ -92,7 +92,7 @@ public class GlobalRestaurantCacheService
                 RestaurantDeActivationTime[item.RestaurantId].Add(new Tuple<DateTime, DateTime>(item.StartAt, item.EndAt));
         }
     }
-    private async Task InitializeTables()
+    public async Task InitializeTables()
     {
         var allRestaurantAllTables = await tableDapperQueryRepository.GetAllActiveTable();
         var allEnvironmentAllTables = await tableDapperEnvironmentQuery.GetAllEnvironment();
@@ -132,7 +132,7 @@ public class GlobalRestaurantCacheService
         allRestaurantAllTables = null;
         allEnvironmentAllTables = null;
         return;
-    }*/
+    }
 }
 
 public class TableModel

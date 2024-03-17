@@ -125,6 +125,9 @@ namespace MainMikitan.Database
             
             //Restaurant Subscription
             services.AddScoped<IRestaurantSubscriptionRepository, RestaurantSubscriptionRepository>();
+            
+            //Logger
+            services.AddScoped<ILoggerCommandRepository, LoggerCommandRepository>();
         }
     }
 }
