@@ -132,7 +132,7 @@ public class GlobalRestaurantCacheService
         allRestaurantAllTables = null;
         allEnvironmentAllTables = null;
         return;
-    }
+    }*/
 }
 
 public class TableModel
