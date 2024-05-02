@@ -129,7 +129,7 @@ app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.UseHttpsRedirection();
 app.UseRouting();
 
-
+app.UseAuthorization();
 app.MapControllers();
 app.UseEndpoints(endpoints =>
 {
