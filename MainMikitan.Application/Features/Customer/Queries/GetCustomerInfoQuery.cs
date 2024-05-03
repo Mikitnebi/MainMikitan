@@ -28,15 +28,15 @@ public class GetCustomerInfoQuery(int customerId) : IQuery<CustomerInfoResponse>
                 if (customer is null)
                     return Fail(ErrorResponseType.CustomerInfo.NotGetInfo);
                 var imageUrl = await s3Adapter.GetCustomerProfileImage(customerId);
-                return Success(new CustomerInfoResponse
-                {
-                    BirthDate = customerInfo?.BirthDate,
-                    NationalityId = customerInfo.NationalityId,
-                    GenderId = customerInfo.GenderId,
-                    FullName = customer.FullName,
-                    Email = customer.EmailAddress,
-                    ProfileImageUrl = imageUrl.Result?.Url
-                });
+            return Success(new CustomerInfoResponse
+            {
+                BirthDate = customerInfo?.BirthDate,
+                NationalityId = customerInfo.NationalityId,
+                GenderId = customerInfo.GenderId,
+                FullName = customer.FullName,
+                Email = customer.EmailAddress,
+                ProfileImageUrl = imageUrl.Result is null ? null : imageUrl.Result.Url,
+            }); 
             } catch (Exception ex)
             {
                 return Unexpected(ex);

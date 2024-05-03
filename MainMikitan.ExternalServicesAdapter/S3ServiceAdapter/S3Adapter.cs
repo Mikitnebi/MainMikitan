@@ -31,7 +31,7 @@ namespace MainMikitan.ExternalServicesAdapter.S3ServiceAdapter
         public S3Adapter(IAmazonS3 s3Client)
         {
             _s3Client = s3Client;
-            _bucketName = "samikitno";
+            _bucketName = "mikitanbucket";
         }
         public async Task<bool> CreateBucket()
         {
