@@ -28,18 +28,12 @@ public class RestaurantInfoRequest
     public bool HasCoupe { get; set; }
     public bool HasTerrace { get; set; }
 
-    [Required]
-    public TimeOnly HallStartTime { get; init; }
-    [Required]
-    public TimeOnly HallEndTime { get; init; }
-    [Required]
-    public TimeOnly KitchenStartTime { get; init; }
-    [Required]
-    public TimeOnly KitchenEndTime { get; init; }
-    [Required]
-    public TimeOnly MusicStartTime { get; init; }
-    [Required]
-    public TimeOnly MusicEndTime { get; init; }
+    public TimeOnly? HallStartTime { get; init; }
+    public TimeOnly? HallEndTime { get; init; }
+    public TimeOnly? KitchenStartTime { get; init; }
+    public TimeOnly? KitchenEndTime { get; init; }
+    public TimeOnly? MusicStartTime { get; init; }
+    public TimeOnly? MusicEndTime { get; init; }
     public int ActiveStatusId { get; set; }
     public bool ForCorporateEvents { get; set; }
     

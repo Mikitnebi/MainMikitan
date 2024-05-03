@@ -29,17 +29,17 @@ namespace MainMikitan.Domain.Models.Restaurant
         [Required]
         public bool HasTerrace { get; set; }
         [Required]
-        public TimeOnly HallStartTime { get; set; }
+        public TimeOnly? HallStartTime { get; set; }
         [Required]
-        public TimeOnly HallEndTime { get; set; }
+        public TimeOnly? HallEndTime { get; set; }
         [Required]
-        public TimeOnly KitchenStartTime { get; set; }
+        public TimeOnly? KitchenStartTime { get; set; }
         [Required]
-        public TimeOnly KitchenEndTime { get; set; }
+        public TimeOnly? KitchenEndTime { get; set; }
         [Required]
-        public TimeOnly MusicStartTime { get; set; }
+        public TimeOnly? MusicStartTime { get; set; }
         [Required]
-        public TimeOnly MusicEndTime { get; set; }
+        public TimeOnly? MusicEndTime { get; set; }
         [Required]
         public bool ForCorporateEvents { get; set; }
         public string? DescriptionGeo { get; set; }
