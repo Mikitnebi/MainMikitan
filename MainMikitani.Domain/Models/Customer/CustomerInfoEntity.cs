@@ -9,11 +9,8 @@ public class CustomerInfoEntity
     public int Id { get; set; }
     [Required]
     public int CustomerId { get; set; }
-    [Required]
     public DateOnly BirthDate { get; set; }
-    [Required]
     public int GenderId { get; set; }
-    [Required]
     public int NationalityId { get; set; }
     public DateTime? UpdatedAt { get; set; }
     [Required]

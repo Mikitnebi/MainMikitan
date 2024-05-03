@@ -1,4 +1,5 @@
-﻿using MainMikitan.API.Filters;
+﻿using Amazon.Runtime.Internal.Util;
+using MainMikitan.API.Filters;
 using MainMikitan.Application.Features.Restaurant.Environment.Command;
 using MainMikitan.Application.Features.Restaurant.Environment.Query;
 using MainMikitan.Application.Features.Restaurant.Info;
@@ -8,6 +9,8 @@ using MainMikitan.Domain;
 using MainMikitan.Domain.Requests.RestaurantRequests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using NPOI.OpenXmlFormats.Dml;
+using System.Runtime.CompilerServices;
 
 namespace MainMikitan.API.Controllers.Restaurants
 { 
@@ -18,7 +21,7 @@ namespace MainMikitan.API.Controllers.Restaurants
         public async Task<IActionResult> CreateOrUpdateInfo(RestaurantInfoRequest model, CancellationToken cancellationToken = default) {
             return !ModelState.IsValid ? BadRequest(ModelState) :
                 CheckResponse(await Mediator.Send(new CreateOrUpdateInfoCommand(model, UserId, UserRole!, RestaurantId,
-                    new []{(int)Enums.RestaurantPermissionId.Info}), cancellationToken));
+                    [(int)Enums.RestaurantPermissionId.Info]), cancellationToken));
 
         }
         [Authorized(Enums.RoleId.Manager, Enums.RoleId.Staff)]
@@ -26,7 +29,7 @@ namespace MainMikitan.API.Controllers.Restaurants
         public async Task<IActionResult> ViewInfo(CancellationToken cancellationToken = default) {
             return !ModelState.IsValid ? BadRequest(ModelState) :
                 CheckResponse(await Mediator.Send(new ViewInfoQuery(UserId, UserRole!, RestaurantId,
-                    new []{(int)Enums.RestaurantPermissionId.Info}), cancellationToken));
+                    [(int)Enums.RestaurantPermissionId.Info]), cancellationToken));
         }
         
         [HttpPost("CreateOrUpdate/Environment")]
@@ -34,8 +37,14 @@ namespace MainMikitan.API.Controllers.Restaurants
             CancellationToken cancellationToken = default) {
             return !ModelState.IsValid ? BadRequest(ModelState) :
                 CheckResponse(await Mediator.Send(new CreateOrUpdateEnvironmentCommand(model, UserId, UserRole!, 
-                    RestaurantId, new []{(int)Enums.RestaurantPermissionId.Info}), cancellationToken));
+                    RestaurantId, [(int)Enums.RestaurantPermissionId.Info]), cancellationToken));
 
+        }
+        [HttpPost("CreateOrUpdate/Environment/Images")]
+        public async Task<IActionResult> CreateOrUpdateEnvironmentImages(List<IFormFile> models, CancellationToken cancellationToken = default)
+        {
+            return !ModelState.IsValid ? BadRequest(ModelState) :
+                CheckResponse(await Mediator.Send(new CreateOrUpdateEnvironmentImagesCommand(models, UserId, UserRole!, RestaurantId, [(int)Enums.RestaurantPermissionId.Info]), cancellationToken));
         }
         
         [HttpPost("View/Environment")]

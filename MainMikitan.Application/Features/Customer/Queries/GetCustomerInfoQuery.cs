@@ -9,7 +9,7 @@ using MainMikitan.InternalServiceAdapterService.Exceptions;
 
 namespace MainMikitan.Application.Features.Customer.Queries;
 
-public class GetCustomerInfoQuery(int customerId) : IQuery<GetCustomerInfoResponse>
+public class GetCustomerInfoQuery(int customerId) : IQuery<CustomerInfoResponse>
 {
         public int CustomerId { get; set; } = customerId;
 }
@@ -17,23 +17,25 @@ public class GetCustomerInfoQuery(int customerId) : IQuery<GetCustomerInfoRespon
         ICustomerInfoQueryRepository customerInfoQueryRepository,
         ICustomerQueryRepository customerQueryRepository,
         IS3Adapter s3Adapter)
-        : ResponseMaker<GetCustomerInfoResponse>, IQueryHandler<GetCustomerInfoQuery, GetCustomerInfoResponse>
+        : ResponseMaker<CustomerInfoResponse>, IQueryHandler<GetCustomerInfoQuery, CustomerInfoResponse>
     {
-        public async Task<ResponseModel<GetCustomerInfoResponse>> Handle(GetCustomerInfoQuery query, CancellationToken cancellationToken) {
+        public async Task<ResponseModel<CustomerInfoResponse>> Handle(GetCustomerInfoQuery query, CancellationToken cancellationToken) {
             var customerId = query.CustomerId;
             try
             {
                 var customerInfo = await customerInfoQueryRepository.Get(customerId, cancellationToken);
                 var customer = await customerQueryRepository.GetById(query.CustomerId, cancellationToken);
-                if (customerInfo is null || customer is null)
+                if (customer is null)
                     return Fail(ErrorResponseType.CustomerInfo.NotGetInfo);
-
-                return Success(new GetCustomerInfoResponse
+                var imageUrl = await s3Adapter.GetCustomerProfileImage(customerId);
+                return Success(new CustomerInfoResponse
                 {
-                    BirthDate = customerInfo.BirthDate,
+                    BirthDate = customerInfo?.BirthDate,
                     NationalityId = customerInfo.NationalityId,
                     GenderId = customerInfo.GenderId,
-                    FullName = customer.FullName
+                    FullName = customer.FullName,
+                    Email = customer.EmailAddress,
+                    ProfileImageUrl = imageUrl.Result?.Url
                 });
             } catch (Exception ex)
             {
