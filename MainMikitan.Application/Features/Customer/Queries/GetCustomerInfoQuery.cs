@@ -31,8 +31,8 @@ public class GetCustomerInfoQuery(int customerId) : IQuery<CustomerInfoResponse>
             return Success(new CustomerInfoResponse
             {
                 BirthDate = customerInfo?.BirthDate,
-                NationalityId = customerInfo.NationalityId,
-                GenderId = customerInfo.GenderId,
+                NationalityId = customerInfo is null ? null : customerInfo.NationalityId,
+                GenderId = customerInfo is null ? null : customerInfo.GenderId,
                 FullName = customer.FullName,
                 Email = customer.EmailAddress,
                 ProfileImageUrl = imageUrl.Result is null ? null : imageUrl.Result.Url,
